@@ -1,14 +1,8 @@
 <?php
 
 namespace dateXFondoPlugin;
-print_r("Sono qui dentro");
-use mysqli;
 $input = filter_input_array(INPUT_POST);
-echo "<pre>";
-print_r($input);
-echo "</pre>";
 $conn = new Connection();
-print_r("Sono dopo la connection");
 $mysqli = $conn->connect();
 
 if ($input['action'] == 'edit') {
