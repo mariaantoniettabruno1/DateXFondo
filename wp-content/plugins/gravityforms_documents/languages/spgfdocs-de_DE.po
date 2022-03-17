@@ -1,0 +1,271 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Gravity Forms - MySQL Connect\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-07-23 11:00+0200\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Ralf Fuhrmann <admin@specialpress.net>\n"
+"Language-Team: Ralf Fuhrmann <admin@specialpress.de>\n"
+"Language: de_DE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: _e;__;esc_html__\n"
+"X-Poedit-Basepath: .\n"
+"X-Generator: Poedit 3.0\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: class.gravityforms_documents.php:486 class.gravityforms_documents.php:520
+#: gravityforms_documents/class.gravityforms_documents.php:486
+#: gravityforms_documents/class.gravityforms_documents.php:520
+msgid "Feed Name"
+msgstr ""
+
+#: class.gravityforms_documents.php:487
+#: gravityforms_documents/class.gravityforms_documents.php:487
+msgid "Template File"
+msgstr "Template Datei"
+
+#: class.gravityforms_documents.php:515
+#: gravityforms_documents/class.gravityforms_documents.php:515
+msgid "Default Document Fields"
+msgstr "Standard Dokumenten Felder"
+
+#: class.gravityforms_documents.php:524
+#: gravityforms_documents/class.gravityforms_documents.php:524
+msgid "Enter a name for the feed"
+msgstr "Trage einen Namen für den Feed ein"
+
+#: class.gravityforms_documents.php:529
+#: gravityforms_documents/class.gravityforms_documents.php:529
+msgid "Template Filename"
+msgstr "Template Datei"
+
+#: class.gravityforms_documents.php:531
+#: gravityforms_documents/class.gravityforms_documents.php:531
+msgid "Enter the name and path of your uploaded Template file"
+msgstr "Trage den Namen und das Verzeichnis der Template-Datei ein"
+
+#: class.gravityforms_documents.php:538
+#: gravityforms_documents/class.gravityforms_documents.php:538
+msgid "Document Filename"
+msgstr "Dokumenten Dateiname"
+
+#: class.gravityforms_documents.php:540
+#: gravityforms_documents/class.gravityforms_documents.php:540
+msgid ""
+"Enter the name of the output Document file without the '.docx'. You can use "
+"Merge-Tags. Leave the field empty to use an SHA1-Coded String"
+msgstr ""
+"Trage den Namen ein, den das generierte Dokument erhalten soll, jedoch ohne "
+"die Dateiendung '.docx'. Du kannst Merge-Tags verwenden. Lass das Feld leer "
+"um automatisch einen Dateinamen mit einer eindeutigen ID zu erhalten."
+
+#: class.gravityforms_documents.php:546
+#: gravityforms_documents/class.gravityforms_documents.php:546
+msgid "Generate Files"
+msgstr "Dateien erzeugen"
+
+#: class.gravityforms_documents.php:548
+#: gravityforms_documents/class.gravityforms_documents.php:548
+msgid "Please select wich files should be generated"
+msgstr "Wähle aus welche Dateien erzeugt werden sollen"
+
+#: class.gravityforms_documents.php:552
+#: gravityforms_documents/class.gravityforms_documents.php:552
+msgid "Generate DOCX File"
+msgstr "Erzeuge DOCX Datei"
+
+#: class.gravityforms_documents.php:558
+#: gravityforms_documents/class.gravityforms_documents.php:558
+msgid "Generate HTML File"
+msgstr "Erzeuge HTML Datei"
+
+#: class.gravityforms_documents.php:568
+#: gravityforms_documents/class.gravityforms_documents.php:568
+msgid "Feed Condition"
+msgstr ""
+
+#: class.gravityforms_documents.php:570
+#: gravityforms_documents/class.gravityforms_documents.php:570
+msgid "Enable Conditional Logic"
+msgstr "Conditional Logic aktivieren"
+
+#: class.gravityforms_documents.php:571
+#: gravityforms_documents/class.gravityforms_documents.php:571
+msgid "Process this feed if"
+msgstr "Führe diesen Feed aus, wenn"
+
+#: class.gravityforms_documents.php:581 class.gravityforms_documents.php:586
+#: gravityforms_documents/class.gravityforms_documents.php:581
+#: gravityforms_documents/class.gravityforms_documents.php:586
+msgid "Template Fields"
+msgstr "Template Felder"
+
+#: class.gravityforms_documents.php:588
+#: gravityforms_documents/class.gravityforms_documents.php:588
+msgid "Add the Template Fields you need to map to your Form Fields"
+msgstr "Füge die gewünschten Template Felder hinzu"
+
+#: class.gravityforms_documents.php:764
+#: gravityforms_documents/class.gravityforms_documents.php:764
+msgid "DOCX|URL: "
+msgstr ""
+
+#: class.gravityforms_documents.php:765
+#: gravityforms_documents/class.gravityforms_documents.php:765
+msgid "DOCX|FILE: "
+msgstr ""
+
+#: class.gravityforms_documents.php:772
+#: gravityforms_documents/class.gravityforms_documents.php:772
+msgid "HTML|URL: "
+msgstr ""
+
+#: class.gravityforms_documents.php:773
+#: gravityforms_documents/class.gravityforms_documents.php:773
+msgid "HTML|FILE: "
+msgstr ""
+
+#: class.gravityforms_documents.php:929
+#: gravityforms_documents/class.gravityforms_documents.php:929
+msgid "Add a DOCX Document to the Notification"
+msgstr "Füge die DOCX Datei der Benachrichtigung hinzu"
+
+#: class.gravityforms_documents.php:940
+#: gravityforms_documents/class.gravityforms_documents.php:940
+msgid "Add a HTML Document to the Notification"
+msgstr "Füge die HTML Datei der Benachrichtigung hinzu"
+
+#: class.gravityforms_documents.php:947
+#: gravityforms_documents/class.gravityforms_documents.php:947
+msgid "Gravity Forms Documents"
+msgstr ""
+
+#: class.gravityforms_documents.php:954
+#: gravityforms_documents/class.gravityforms_documents.php:954
+msgid "Add Documents to the Notification"
+msgstr "Füge der Benachrichtigung Dateien hinzu"
+
+#~ msgid "Attach"
+#~ msgstr "Anhängen"
+
+#~ msgid "Change"
+#~ msgstr "Bearbeiten"
+
+#~ msgid "Delete"
+#~ msgstr "Löschen"
+
+#~ msgid "No form found"
+#~ msgstr "Kein Formular gefunden"
+
+#~ msgid "You must be an admin to view this list."
+#~ msgstr ""
+#~ "Um diese Liste sehen zu können must Du als Administrator angemeldet sein."
+
+#~ msgid "You must be logged in to view this list."
+#~ msgstr "Um diese Liste sehen zu können must Du angemeldet sein."
+
+#~ msgid "There are no fields to display"
+#~ msgstr "Keine Felder zum anzeigen gefunden"
+
+#~ msgid "Addnew"
+#~ msgstr "Hinzufügen"
+
+#~ msgid "Gravitylist Order"
+#~ msgstr "Gravitylist Reihenfolge"
+
+#~ msgid "everyone"
+#~ msgstr "jeden"
+
+#~ msgid "logged in"
+#~ msgstr "angemeldet"
+
+#~ msgid "entry creator"
+#~ msgstr "Eintrags Eigentümer"
+
+#~ msgid "only to the admin"
+#~ msgstr "nur für den Administrator"
+
+#~ msgid "Show records to "
+#~ msgstr "Datensätze sichtbar für"
+
+#~ msgid "To wich users to entries should be displayed"
+#~ msgstr "Für welche Anwender sollen die Datensätze sichtbar sein "
+
+#~ msgid "Enable Paging "
+#~ msgstr "Seitenansicht aktivieren"
+
+#~ msgid "Enable the Paging-Mode at the DataTable"
+#~ msgstr "Aktiviert die Seitenansicht der Daten-Tabelle"
+
+#~ msgid "Enable the Ordering-Mode at the DataTable"
+#~ msgstr "Aktiviert die Sortierung der Daten-Tabelle"
+
+#~ msgid "Enable Searching"
+#~ msgstr "Suchfunktion aktiviert"
+
+#~ msgid "Enable the Search-Box at the DataTable"
+#~ msgstr "Aktiviert die Suchfunktion der Daten-Tabelle"
+
+#~ msgid "Preferred Data Source"
+#~ msgstr "Bevorzugte Datenherkunft"
+
+#~ msgid "Wich Data-Source do you prefer to build the list."
+#~ msgstr "Bitte wähle Deine bevorzugte Herkunft der Daten."
+
+#~ msgid "all"
+#~ msgstr "alle"
+
+#~ msgid "SAP User Connect Settings"
+#~ msgstr "SAP User Connect Einstellungen"
+
+#~ msgid "Connect Settings"
+#~ msgstr "Verbindungs Parameter"
+
+#~ msgid "Plugin Settings"
+#~ msgstr "Plugin Einstellungen"
+
+#~ msgid "Only SAP-Users could register"
+#~ msgstr "Nur SAP-Benutzer dürfen sich Registrieren"
+
+#~ msgid "Only SAP-Users could login"
+#~ msgstr "Nur SAP-Benutzer dürfen sich Anmelden"
+
+#~ msgid "Exclude Users"
+#~ msgstr "Benutzer ausschliessen"
+
+#~ msgid ""
+#~ "Add the Usernames that should not be checked against SAP(e.g. the ADMIN). "
+#~ "Seperate the usernames with a comma"
+#~ msgstr ""
+#~ "Tragen Sie hier die Benutzernamen ein, die beim Anmelden NICHT gegen SAP "
+#~ "geprüft werden sollen (z.b. der Wordpress Admin). Bitte trennen Sie die "
+#~ "Benutzernamen mit einem Komma."
+
+#~ msgid "Please Note !<br />Your username will be checked against SAP."
+#~ msgstr "Achtung !<br />Der Benutzername wird gegen SAP geprüft."
+
+#~ msgid ""
+#~ "Username <strong>%s</strong> doesn't exist in SAP. <br />Please use your "
+#~ "SAP Username to Register."
+#~ msgstr ""
+#~ "Benutzername <strong>%s</strong> existiert nicht in SAP. <br />Bitte "
+#~ "verwenden Sie Ihren SAP-Benutzernamen zur Registrierung."
+
+#~ msgid ""
+#~ "Username <strong>%s</strong> doesn't exist in SAP. <br />Please use your "
+#~ "SAP Username to Login."
+#~ msgstr ""
+#~ "Benutzername <strong>%s</strong> existiert nicht in SAP. <br />Bitte "
+#~ "verwenden Sie Ihren SAP-Benutzernamen zur Anmeldung"
+
+#~ msgid "Determine Details for an User"
+#~ msgstr "Zeigt Details zum Benutzer an"
+
+#~ msgid "Not a SAP User"
+#~ msgstr "Kein SAP Benutzer"
+
+#~ msgid "Title:"
+#~ msgstr "Titel:"

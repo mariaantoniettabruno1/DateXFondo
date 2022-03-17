@@ -1,0 +1,50 @@
+@page {
+    size: auto;
+    odd-footer-name: html_Page_number;
+    even-footer-name: html_Page_number;
+}
+
+@page {
+    odd-header-name: html_Form_title;
+}
+
+@page :first {
+    odd-header-name: html_Form_title_first;
+}
+
+table.sheet0 {
+    border-collapse: collapse;
+    max-width: 100%;
+}
+
+table.sheet0 th, table.sheet0 td {
+    font-family: sans-serif;
+    font-size: 13px;
+    line-height: 16px;
+    color: #333;
+    border: 1px solid #e3e3e3 !important;
+}
+
+table.sheet0 tr.row0 th, table.sheet0 tr.row0 td {
+    vertical-align: top;
+    font-weight: bold;
+}
+
+table.sheet0 th, table.sheet0 td {
+    padding: 5px 3px;
+    font-weight: normal;
+}
+
+.page-title {
+    font-family: sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1.35rem;
+}
+
+.page-number {
+    font-family: sans-serif;
+    color: #666666;
+    text-align: center;
+    font-size: 12px;
+}

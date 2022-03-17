@@ -1,0 +1,9 @@
+.zb-el-zuReviewRatings {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+.rating-points, 
+.star-rating { margin-right: 8px; }

@@ -1,0 +1,363 @@
+# Copyright (C) 2021 GravityView
+# This file is distributed under the GPLv2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Math by GravityView 2.0.2\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/gravityview-math\n"
+"POT-Creation-Date: 2016-08-23 22:42:09+00:00\n"
+"PO-Revision-Date: 2016-08-23 22:39+0000\n"
+"Language-Team: Romanian (Romania) (https://www.transifex.com/katzwebservices/teams/18775/ro_RO/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ro_RO\n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
+"X-Generator: grunt-wp-i18n 0.5.4\n"
+"X-Poedit-Basepath: ../\n"
+"X-Poedit-Bookmarks: \n"
+"X-Poedit-Country: United States\n"
+"X-Poedit-KeywordsList: __;_e;_x:1,2c;_ex:1,2c;_n:1,2;_nx:1,2,4c;_n_noop:1,2;_nx_noop:1,2,3c;esc_attr__;esc_html__;esc_attr_e;esc_html_e;esc_attr_x:1,2c;esc_html_x:1,2c;\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Textdomain-Support: yes\n"
+
+#: gravityview-math.php:98
+msgid ""
+"%s requires PHP Version %s or newer. Please ask your host to upgrade your "
+"server's PHP."
+msgstr ""
+
+#: includes/class-gravityview-math-gfaddon.php:80
+msgid "Default Entry Value"
+msgstr ""
+
+#: includes/class-gravityview-math-gfaddon.php:80
+msgid ""
+"Choose a default value shown when an calculations are impossible because an "
+"entry value is empty. Calculations with empty fields are skipped by default."
+msgstr ""
+
+#: includes/class-gravityview-math-gravityforms.php:85
+msgid "Formula before parsing"
+msgstr ""
+
+#: includes/class-gravityview-math-gravityforms.php:107
+#: includes/class-gravityview-math-gravityforms.php:278
+msgid "No ID provided"
+msgstr ""
+
+#: includes/class-gravityview-math-gravityforms.php:131
+msgid "Formula after parsing"
+msgstr ""
+
+#: includes/class-gravityview-math-gravityforms.php:179
+msgid "Field not valid for calculation"
+msgstr ""
+
+#: includes/class-gravityview-math-gravityforms.php:197
+#: includes/class-gravityview-math-gravityforms.php:418
+#: includes/class-gravityview-math-gravityforms.php:821
+msgid "A field in the calculation did not contain a value"
+msgstr ""
+
+#: includes/class-gravityview-math-gravityforms.php:633
+#: includes/class-gravityview-math-gravityforms.php:695
+msgid "No View was found"
+msgstr ""
+
+#: includes/class-gravityview-math-gravityforms.php:643
+#: includes/class-gravityview-math-gravityforms.php:748
+msgid "The following View does not currently contain any entries"
+msgstr ""
+
+#: includes/class-gravityview-math-gravityforms.php:666
+msgid "None of the visible entries passed the filter condition"
+msgstr ""
+
+#: includes/class-gravityview-math-report.php:292
+msgid ""
+"You can only see this message because you are logged in and have "
+"permissions."
+msgstr ""
+
+#: includes/class-gravityview-math-report.php:303
+msgid "* Results may not be accurate."
+msgstr ""
+
+#: includes/class-gravityview-math-report.php:314
+msgid "** No Results Currently Available."
+msgstr ""
+
+#: includes/class-gravityview-math-report.php:472
+msgid "in entries"
+msgstr ""
+
+#: includes/class-gravityview-math-report.php:473
+msgid "The supplied default value was used"
+msgstr ""
+
+#: includes/class-gravityview-math-report.php:518
+msgid "formula"
+msgstr ""
+
+#: includes/class-gravityview-math-report.php:518
+msgid "content"
+msgstr ""
+
+#: includes/class-gravityview-math-report.php:522
+msgid "%s scope requires an ID to process the formula."
+msgstr ""
+
+#: includes/class-gravityview-math-report.php:678
+msgid "(Additional info)"
+msgstr ""
+
+#: includes/class-gravityview-math-report.php:871
+msgid "Math by GravityView Notice"
+msgstr ""
+
+#: includes/class-gravityview-math-shortcode.php:293
+msgid "The [gv_math] formula was empty"
+msgstr ""
+
+#: includes/class-gravityview-math-shortcode.php:349
+#: lib/EDD_SL_Plugin_Updater.php:396
+msgid "Error"
+msgstr ""
+
+#: includes/class-gravityview-math-table-footer-calculation.php:117
+msgid "Calculation Row Background"
+msgstr ""
+
+#: includes/class-gravityview-math-table-footer-calculation.php:178
+msgid "Average Score"
+msgstr ""
+
+#: includes/class-gravityview-math-table-footer-calculation.php:232
+msgid "Add field calculations to the table footer?"
+msgstr ""
+
+#: includes/class-gravityview-math-table-footer-calculation.php:237
+msgid "Label"
+msgstr ""
+
+#: includes/class-gravityview-math-table-footer-calculation.php:238
+msgid "Wrap output in custom text. Use {result} to insert calculation result."
+msgstr ""
+
+#: includes/class-gravityview-math-table-footer-calculation.php:247
+msgid "Format Duration"
+msgstr ""
+
+#: includes/class-gravityview-math-table-footer-calculation.php:249
+msgid "00:00:00"
+msgstr ""
+
+#: includes/class-gravityview-math-table-footer-calculation.php:250
+msgid "0 hours, 0 minutes, 0 seconds"
+msgstr ""
+
+#: includes/class-gravityview-math-table-footer-calculation.php:258
+msgid "Decimals"
+msgstr ""
+
+#: includes/class-gravityview-math-table-footer-calculation.php:259
+msgid "Precision of the number of decimal places."
+msgstr ""
+
+#: includes/class-gravityview-math-table-footer-calculation.php:266
+msgid "Calculation Source:"
+msgstr ""
+
+#: includes/class-gravityview-math-table-footer-calculation.php:267
+msgid ""
+"Choose between all View entries, visible View entries or all form entries."
+msgstr ""
+
+#: includes/class-gravityview-math-table-footer-calculation.php:277
+msgid "Calculation Type:"
+msgstr ""
+
+#: includes/class-gravityview-math-table-footer-calculation.php:280
+msgid "Custom"
+msgstr ""
+
+#: includes/class-gravityview-math-table-footer-calculation.php:286
+msgid "Custom Calculation"
+msgstr ""
+
+#: includes/class-gravityview-math-table-footer-calculation.php:287
+msgid "Enter custom %sMath shortcode%s."
+msgstr ""
+
+#: includes/class-gravityview-math-table-footer-calculation.php:287
+msgid "Click the arrow icon next to the content area to add %sMerge Tags%s."
+msgstr ""
+
+#: includes/class-gravityview-math-table-footer-calculation.php:697
+msgid "This field has calculations being displayed in the table footer."
+msgstr ""
+
+#: lib/EDD_SL_Plugin_Updater.php:201
+msgid ""
+"There is a new version of %1$s available. %2$sView version %3$s details%4$s."
+msgstr ""
+
+#: lib/EDD_SL_Plugin_Updater.php:209
+msgid ""
+"There is a new version of %1$s available. %2$sView version %3$s details%4$s "
+"or %5$supdate now%6$s."
+msgstr ""
+
+#: lib/EDD_SL_Plugin_Updater.php:396
+msgid "You do not have permission to install plugin updates"
+msgstr ""
+
+#: lib/class-gravityview-extension.php:359
+msgid "Could not activate the %s Extension; GravityView is not active."
+msgstr ""
+
+#: lib/class-gravityview-extension.php:363
+msgid "The %s Extension requires GravityView Version %s or newer."
+msgstr ""
+
+#: lib/class-gravityview-extension.php:367
+msgid ""
+"The %s Extension requires PHP Version %s or newer. Please ask your host to "
+"upgrade your server's PHP."
+msgstr ""
+
+#: lib/class-gravityview-extension.php:371
+msgid ""
+"The %s Extension is not compatible with this version of GravityView. Please "
+"update the Extension to the latest version."
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://gravityview.co"
+msgstr ""
+
+#: includes/class-gravityview-math-table-footer-calculation.php:48
+msgctxt "Duration with hours and minutes"
+msgid "Duration (MM:SS)"
+msgstr ""
+
+#: includes/class-gravityview-math-table-footer-calculation.php:49
+msgctxt "Duration with hours, minutes, and seconds"
+msgid "Duration (HH:MM:SS)"
+msgstr ""
+
+#: includes/class-gravityview-math-table-footer-calculation.php:159
+msgctxt "Lowest value"
+msgid "Lowest"
+msgstr ""
+
+#: includes/class-gravityview-math-table-footer-calculation.php:160
+msgctxt "Highest value"
+msgid "Highest"
+msgstr ""
+
+#: includes/class-gravityview-math-table-footer-calculation.php:161
+msgctxt "Average value"
+msgid "Average"
+msgstr ""
+
+#: includes/class-gravityview-math-table-footer-calculation.php:162
+msgctxt "Fastest duration"
+msgid "Slowest"
+msgstr ""
+
+#: includes/class-gravityview-math-table-footer-calculation.php:163
+msgctxt "Slowest duration"
+msgid "Fastest"
+msgstr ""
+
+#: includes/class-gravityview-math-table-footer-calculation.php:164
+msgctxt "Count of all values"
+msgid "Count (All)"
+msgstr ""
+
+#: includes/class-gravityview-math-table-footer-calculation.php:165
+msgctxt "Count of all empty values"
+msgid "Count (With Values)"
+msgstr ""
+
+#: includes/class-gravityview-math-table-footer-calculation.php:166
+msgctxt "Count of all non-empty values"
+msgid "Count (Without Values)"
+msgstr ""
+
+#: includes/class-gravityview-math-table-footer-calculation.php:167
+msgctxt "Sum of all values"
+msgid "Sum"
+msgstr ""
+
+#: includes/class-gravityview-math-table-footer-calculation.php:168
+msgctxt "Count checked options"
+msgid "Count (Checked)"
+msgstr ""
+
+#: includes/class-gravityview-math-table-footer-calculation.php:169
+msgctxt "Count unchecked options"
+msgid "Count (Unchecked)"
+msgstr ""
+
+#: includes/class-gravityview-math-table-footer-calculation.php:170
+msgctxt "Count selected options"
+msgid "Count (Selected)"
+msgstr ""
+
+#: includes/class-gravityview-math-table-footer-calculation.php:171
+msgctxt "Count unselected options"
+msgid "Count (Unselected)"
+msgstr ""
+
+#: includes/class-gravityview-math-table-footer-calculation.php:172
+msgctxt "Count number of consents"
+msgid "Count (Consented)"
+msgstr ""
+
+#: includes/class-gravityview-math-table-footer-calculation.php:173
+msgctxt "Count number of unconsented options"
+msgid "Count (Unconsented)"
+msgstr ""
+
+#: includes/class-gravityview-math-table-footer-calculation.php:174
+msgctxt "Number of people who passed the quiz"
+msgid "Passed"
+msgstr ""
+
+#: includes/class-gravityview-math-table-footer-calculation.php:175
+msgctxt "Number of people who failed the quiz"
+msgid "Failed"
+msgstr ""
+
+#: includes/class-gravityview-math-table-footer-calculation.php:176
+msgctxt "% of people who passed the quiz"
+msgid "% Passed"
+msgstr ""
+
+#: includes/class-gravityview-math-table-footer-calculation.php:177
+msgctxt "% of people who failed the quiz"
+msgid "% Failed"
+msgstr ""
+
+#: includes/class-gravityview-math-table-footer-calculation.php:240
+msgctxt "Placeholder value for label of the footer calculation row"
+msgid "Sum: {result}"
+msgstr ""
+
+#: includes/class-gravityview-math-table-footer-calculation.php:269
+msgctxt "Use all View entries as a calculation source"
+msgid "View (All)"
+msgstr ""
+
+#: includes/class-gravityview-math-table-footer-calculation.php:270
+msgctxt "Use visible View entries as a calculation source"
+msgid "View (Visible)"
+msgstr ""
+
+#: includes/class-gravityview-math-table-footer-calculation.php:271
+msgctxt "Use all form entries as a calculation source"
+msgid "Form (All)"
+msgstr ""

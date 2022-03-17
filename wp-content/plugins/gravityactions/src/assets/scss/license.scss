@@ -1,0 +1,60 @@
+#tab_gk-gravityactions {
+  .gaddon-setting-choice-visual label > span {
+    -webkit-filter: none;
+    -moz-filter: none;
+    filter: none;
+    min-width: 85px;
+    padding: 0;
+  }
+
+  .gv-edd-message {
+    min-height: 20px;
+    padding: 8px 19px;
+    margin: 10px 0 !important;
+    border: 1px solid;
+    border-radius: 4px;
+    position: relative;
+    display: block !important;
+    background-color: #eee;
+    border-color: #ccc;
+    color: #666;
+  }
+
+  .gv-edd-message.valid {
+    background-color: #c4ee91;
+    border-color: #71af5d;
+    color: #4d7615;
+  }
+
+  .gv-edd-message.error, .gv-edd-message.invalid, .gv-edd-message.failed {
+    background-color: #fba1a3;
+    border-color: #b84f5b;
+    color: #981225;
+  }
+
+  .gv-edd-message.site_inactive, .gv-edd-message.deactivated {
+    background-color: #fbeba4;
+    border-color: #d7c281;
+    color: #958234;
+  }
+
+  .gv-edd-message.pending {
+    background-color: #d3e4f4;
+    border-color: #a9b6c2;
+    color: #5c80a1;
+  }
+
+  .gv-edd-message p:first-child {
+    margin: 0;
+    padding: 2px;
+  }
+
+  .inline.hide:empty {
+    display: none !important;
+  }
+
+  .hide {
+    height: 500px !important;
+    display: none !important;
+  }
+}

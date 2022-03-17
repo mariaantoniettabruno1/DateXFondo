@@ -1,0 +1,7 @@
+.zb-el-zuCompare .compare {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	line-height: 1;
+}

@@ -1,0 +1,760 @@
+# Copyright (C) 2021 GravityView
+# This file is distributed under the GPL2.
+msgid ""
+msgstr ""
+"Project-Id-Version: GravityExport 1.0.5\n"
+"Report-Msgid-Bugs-To: https://gravityview.co/support/\n"
+"POT-Creation-Date: 2021-10-25 23:50:41+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2021-MO-DA HO:MI+ZONE\n"
+"Last-Translator: GravityView <support@gravityview.co>\n"
+"Language-Team: GravityView <support@gravityview.co>\n"
+"Language: en_US\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Country: United States\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: "
+"__;_e;_x:1,2c;_ex:1,2c;_n:1,2;_nx:1,2,4c;_n_noop:1,2;_nx_noop:1,2,3c;esc_"
+"attr__;esc_html__;esc_attr_e;esc_html_e;esc_attr_x:1,2c;esc_html_x:1,2c;\n"
+"X-Poedit-Basepath: ../\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-Bookmarks: \n"
+"X-Textdomain-Support: yes\n"
+"X-Generator: grunt-wp-i18n 1.0.3\n"
+
+#: add-ons/filters/src/Action/Reset.php:53
+#: add-ons/filters/src/Addon/FiltersFeedAddon.php:357
+msgid "There was an error generating the URL: %s"
+msgstr ""
+
+#: add-ons/filters/src/Action/Reset.php:68
+msgid "The download URL has been reset."
+msgstr ""
+
+#: add-ons/filters/src/Addon/FiltersFeedAddon.php:234
+#: add-ons/save/src/Addon/SaveAddon.php:250
+msgid "General Settings"
+msgstr ""
+
+#: add-ons/filters/src/Addon/FiltersFeedAddon.php:238
+msgid "Feed Title"
+msgstr ""
+
+#: add-ons/filters/src/Addon/FiltersFeedAddon.php:242
+msgid "Will also be used as the export file name."
+msgstr ""
+
+#: add-ons/filters/src/Addon/FiltersFeedAddon.php:253
+msgid "Instant Download ⚡️"
+msgstr ""
+
+#: add-ons/filters/src/Addon/FiltersFeedAddon.php:255
+msgid ""
+"Download an export based on the settings configured below. Settings must be "
+"saved before they are applied to the downloaded file."
+msgstr ""
+
+#: add-ons/filters/src/Addon/FiltersFeedAddon.php:262
+msgid "Date Range"
+msgstr ""
+
+#: add-ons/filters/src/Addon/FiltersFeedAddon.php:266
+msgid ""
+"Setting a range will limit the export to entries submitted during that date "
+"range. If no range is set, all entries will be exported."
+msgstr ""
+
+#: add-ons/filters/src/Addon/FiltersFeedAddon.php:269
+msgid "Start Date"
+msgstr ""
+
+#: add-ons/filters/src/Addon/FiltersFeedAddon.php:271
+msgid "End Date"
+msgstr ""
+
+#: add-ons/filters/src/Addon/FiltersFeedAddon.php:294
+#: add-ons/filters/src/Addon/FiltersFeedAddon.php:598
+msgid "Download"
+msgstr ""
+
+#: add-ons/filters/src/Addon/FiltersFeedAddon.php:308
+msgid "The download URL will not work until you [url]activate this feed[/url]."
+msgstr ""
+
+#: add-ons/filters/src/Addon/FiltersFeedAddon.php:319
+msgid "Download Settings"
+msgstr ""
+
+#: add-ons/filters/src/Addon/FiltersFeedAddon.php:323
+msgid "Download URL"
+msgstr ""
+
+#: add-ons/filters/src/Addon/FiltersFeedAddon.php:336
+msgid "Copied!"
+msgstr ""
+
+#: add-ons/filters/src/Addon/FiltersFeedAddon.php:338
+msgid "Copy URL to Clipboard"
+msgstr ""
+
+#: add-ons/filters/src/Addon/FiltersFeedAddon.php:345
+msgid "Regenerate URL"
+msgstr ""
+
+#: add-ons/filters/src/Addon/FiltersFeedAddon.php:346
+msgid "You are about to reset the URL for this form. This can't be undone."
+msgstr ""
+
+#: add-ons/filters/src/Addon/FiltersFeedAddon.php:365
+#: add-ons/save/src/Addon/SaveAddon.php:203
+#: add-ons/save/src/Addon/SaveAddon.php:269
+msgid "Custom Filename"
+msgstr ""
+
+#: add-ons/filters/src/Addon/FiltersFeedAddon.php:369
+msgid ""
+"Most non-alphanumeric characters will be replaced with hyphens. Leave empty "
+"for default (for example: %s)."
+msgstr ""
+
+#: add-ons/filters/src/Addon/FiltersFeedAddon.php:377
+#: add-ons/save/src/Addon/SaveAddon.php:321
+msgid "File Extension"
+msgstr ""
+
+#: add-ons/filters/src/Addon/FiltersFeedAddon.php:392
+msgid "Field Settings"
+msgstr ""
+
+#: add-ons/filters/src/Addon/FiltersFeedAddon.php:397
+msgid "Order By"
+msgstr ""
+
+#: add-ons/filters/src/Addon/FiltersFeedAddon.php:408
+msgid "Ascending"
+msgstr ""
+
+#: add-ons/filters/src/Addon/FiltersFeedAddon.php:409
+msgid "Descending"
+msgstr ""
+
+#: add-ons/filters/src/Addon/FiltersFeedAddon.php:417
+msgid "Column Position"
+msgstr ""
+
+#: add-ons/filters/src/Addon/FiltersFeedAddon.php:422
+msgid "Top (Normal)"
+msgstr ""
+
+#: add-ons/filters/src/Addon/FiltersFeedAddon.php:427
+msgid "Left (Transposed)"
+msgstr ""
+
+#: add-ons/filters/src/Addon/FiltersFeedAddon.php:440
+#: add-ons/save/src/Addon/SaveAddon.php:356
+msgid "Filter Settings"
+msgstr ""
+
+#: add-ons/filters/src/Addon/FiltersFeedAddon.php:446
+#: add-ons/save/src/Addon/SaveAddon.php:361
+msgid "Conditional Logic"
+msgstr ""
+
+#: add-ons/filters/src/Addon/FiltersFeedAddon.php:464
+#: src/Addon/GravityExportAddon.php:253
+msgid "Update Settings"
+msgstr ""
+
+#: add-ons/filters/src/Addon/FiltersFeedAddon.php:544
+msgid "Disabled Fields"
+msgstr ""
+
+#: add-ons/filters/src/Addon/FiltersFeedAddon.php:566
+msgid "Enabled Fields"
+msgstr ""
+
+#: add-ons/filters/src/Addon/FiltersFeedAddon.php:597
+#: add-ons/save/src/Addon/SaveAddon.php:388
+#: add-ons/save/src/Addon/SaveAddonVariables.php:74
+msgid "Title"
+msgstr ""
+
+#: add-ons/filters/src/Addon/FiltersFeedAddon.php:632
+msgid "Activate feed to enable download links."
+msgstr ""
+
+#: add-ons/filters/src/Addon/FiltersFeedAddon.php:986
+msgid "URL has been copied to your clipboard."
+msgstr ""
+
+#: add-ons/multi-row/src/Plugin.php:62
+msgid "Enable multi-row splitting"
+msgstr ""
+
+#: add-ons/multi-row/src/Plugin.php:67
+msgid "Yes, split fields with multiple values into multiple rows"
+msgstr ""
+
+#: add-ons/pdf-renderer/src/Plugin.php:157
+msgid "PDF Export Settings"
+msgstr ""
+
+#: add-ons/pdf-renderer/src/Plugin.php:161
+msgid "Page Orientation"
+msgstr ""
+
+#: add-ons/pdf-renderer/src/Plugin.php:167
+msgid "Landscape"
+msgstr ""
+
+#: add-ons/pdf-renderer/src/Plugin.php:172
+msgid "Portrait"
+msgstr ""
+
+#: add-ons/pdf-renderer/src/Plugin.php:179
+msgid "Page Size"
+msgstr ""
+
+#: add-ons/pdf-renderer/src/Plugin.php:185
+msgid "Letter"
+msgstr ""
+
+#: add-ons/pdf-renderer/src/Plugin.php:190
+msgid "A4"
+msgstr ""
+
+#: add-ons/pdf-renderer/src/Plugin.php:197
+msgid "Show Title"
+msgstr ""
+
+#: add-ons/pdf-renderer/src/Plugin.php:202
+msgid "No title"
+msgstr ""
+
+#: add-ons/pdf-renderer/src/Plugin.php:207
+msgid "On first page"
+msgstr ""
+
+#: add-ons/pdf-renderer/src/Plugin.php:212
+msgid "On all pages"
+msgstr ""
+
+#: add-ons/pdf-renderer/src/Plugin.php:217
+msgid "On every other page (double sided printing)"
+msgstr ""
+
+#: add-ons/pdf-renderer/src/Plugin.php:224
+msgid "Show Page Number"
+msgstr ""
+
+#: add-ons/pdf-renderer/src/Plugin.php:228
+msgid "Yes, show page numbers"
+msgstr ""
+
+#: add-ons/save/src/Addon/SaveAddon.php:232
+msgid "Files will not be saved until you [url]enable the download[/url]."
+msgstr ""
+
+#: add-ons/save/src/Addon/SaveAddon.php:239
+msgid "Files will not be saved until you [url]activate this feed[/url]."
+msgstr ""
+
+#: add-ons/save/src/Addon/SaveAddon.php:257
+msgid "File Settings"
+msgstr ""
+
+#: add-ons/save/src/Addon/SaveAddon.php:261
+msgid "Filename Format"
+msgstr ""
+
+#: add-ons/save/src/Addon/SaveAddon.php:273
+msgid ""
+"Enter a custom filename for the export. If a file exists with the same "
+"name, it will be overwritten. Use Merge Tags to generate unique filenames. "
+"Leave empty to use the default filename.\n"
+"\n"
+"The following replacements are also available: %s\n"
+"\n"
+"Filenames will be sanitized using the %s function. Most non-alphanumeric "
+"characters will be replaced with hyphens."
+msgstr ""
+
+#: add-ons/save/src/Addon/SaveAddon.php:280
+msgid "Date in ISO-8601 format (YYYY-MM-DD HH:MM:SS)"
+msgstr ""
+
+#: add-ons/save/src/Addon/SaveAddon.php:281
+msgid "Server timestamp"
+msgstr ""
+
+#: add-ons/save/src/Addon/SaveAddon.php:282
+msgid "A full numeric representation of a year, 4 digits"
+msgstr ""
+
+#: add-ons/save/src/Addon/SaveAddon.php:283
+msgid "A two digit representation of a year"
+msgstr ""
+
+#: add-ons/save/src/Addon/SaveAddon.php:284
+msgid "Numeric representation of a month, with leading zeros"
+msgstr ""
+
+#: add-ons/save/src/Addon/SaveAddon.php:285
+msgid "A full numeric representation of a month, such as January or March"
+msgstr ""
+
+#: add-ons/save/src/Addon/SaveAddon.php:286
+msgid "Day of the month, 2 digits with leading zeros"
+msgstr ""
+
+#: add-ons/save/src/Addon/SaveAddon.php:289
+#: add-ons/save/src/Service/ConnectionManagerService.php:213
+#: add-ons/save/src/Service/ConnectionManagerService.php:215
+msgid "This link opens in a new window."
+msgstr ""
+
+#: add-ons/save/src/Addon/SaveAddon.php:339
+msgid "Storage Type"
+msgstr ""
+
+#: add-ons/save/src/Addon/SaveAddon.php:342
+#: add-ons/save/src/Addon/SaveAddonVariables.php:75
+msgid "Type"
+msgstr ""
+
+#: add-ons/save/src/Addon/SaveAddon.php:345
+msgid "Select the type of storage you wish to add."
+msgstr ""
+
+#: add-ons/save/src/Addon/SaveAddon.php:395
+msgid "Export Type"
+msgstr ""
+
+#: add-ons/save/src/Addon/SaveAddon.php:400
+msgid ""
+"Only entries that meet [url]this feed's Filter Settings[/url] will be "
+"included in the file."
+msgstr ""
+
+#: add-ons/save/src/Addon/SaveAddon.php:437
+msgid "Configure %s in Gravity Forms Settings"
+msgstr ""
+
+#: add-ons/save/src/Addon/SaveAddon.php:473
+msgid "Test Connection"
+msgstr ""
+
+#: add-ons/save/src/Addon/SaveAddon.php:599
+msgid "All Entries"
+msgstr ""
+
+#: add-ons/save/src/Addon/SaveAddon.php:600
+msgid "Single Entry"
+msgstr ""
+
+#: add-ons/save/src/Addon/SaveAddon.php:774
+msgid "We could not perform the connection test due to a network or server error."
+msgstr ""
+
+#: add-ons/save/src/Addon/SaveAddon.php:822
+msgid "Your connection is properly configured."
+msgstr ""
+
+#: add-ons/save/src/Addon/SaveAddonVariables.php:76
+msgid "Contains"
+msgstr ""
+
+#: add-ons/save/src/Service/ConnectionManagerService.php:187
+msgid "Connection service is not defined."
+msgstr ""
+
+#: add-ons/save/src/Service/ConnectionManagerService.php:203
+msgid ""
+"Unable to connect or log in. Please ensure that the host/port and your "
+"username/password are correct."
+msgstr ""
+
+#: add-ons/save/src/Service/ConnectionManagerService.php:211
+msgid ""
+"The [settings_url]Dropbox token[/settings_url] has expired. [docs_url]Learn "
+"how to re-generate the token[/docs_url]. Note: When regenerating the token, "
+"the recommended setting for the \"Access token expiration\" setting is \"No "
+"expiration\"."
+msgstr ""
+
+#: add-ons/save/src/Service/ConnectionManagerService.php:221
+msgid "An error has occurred when trying to list folder contents. %s"
+msgstr ""
+
+#: add-ons/save/src/Service/ConnectionManagerService.php:246
+msgid ""
+"Unable to save file. Please ensure that the destination folder exists and "
+"that you have write permissions."
+msgstr ""
+
+#: add-ons/save/src/Service/ConnectionManagerService.php:251
+msgid "Unknown error has occurred when trying to save file. %s"
+msgstr ""
+
+#: add-ons/save/src/Service/ConnectionManagerService.php:260
+msgid "Unable to delete file. Please ensure that you have the correct permissions."
+msgstr ""
+
+#: add-ons/save/src/Service/ConnectionManagerService.php:265
+msgid "Unknown error has occurred when trying to delete file. %s"
+msgstr ""
+
+#: add-ons/save/src/ServiceProvider/ServiceProvider.php:67
+msgid ""
+"[url]Please generate and define[/url] authentication keys and salts to "
+"secure your passwords."
+msgstr ""
+
+#: add-ons/save/src/StorageType/Dropbox.php:58
+msgid "Dropbox Access Token"
+msgstr ""
+
+#: add-ons/save/src/StorageType/Dropbox.php:63
+msgid ""
+"Holds the \"Generated access token\" for your Dropbox app. This value will "
+"be encrypted when saved."
+msgstr ""
+
+#: add-ons/save/src/StorageType/Dropbox.php:65
+msgid "A token can be generated in the %sApp Console%s."
+msgstr ""
+
+#: add-ons/save/src/StorageType/Dropbox.php:68
+msgid "Your Dropbox authorization token."
+msgstr ""
+
+#: add-ons/save/src/StorageType/Dropbox.php:99
+msgid "Modify Dropbox Token"
+msgstr ""
+
+#: add-ons/save/src/StorageType/Dropbox.php:151
+msgid "Your Dropbox access token is invalid."
+msgstr ""
+
+#: add-ons/save/src/StorageType/Dropbox.php:162
+msgid "An error occurred when validating the Dropbox access token."
+msgstr ""
+
+#: add-ons/save/src/StorageType/Dropbox.php:258
+msgid "Set the path to write the file to."
+msgstr ""
+
+#: add-ons/save/src/StorageType/Dropbox.php:259
+msgid ""
+"If the GravityExport Dropbox app has full access to Dropbox, the path is "
+"relative to the root folder ('/'). Otherwise, it is relative to folder "
+"created specifically for your app (e.g., '/Apps/GravityExport/')."
+msgstr ""
+
+#: add-ons/save/src/StorageType/Dropbox.php:260
+msgid "Defaults to the Dropbox Apps directory root."
+msgstr ""
+
+#: add-ons/save/src/StorageType/FTP.php:181
+msgid "Host URL"
+msgstr ""
+
+#: add-ons/save/src/StorageType/FTP.php:184
+msgid "Port"
+msgstr ""
+
+#: add-ons/save/src/StorageType/FTP.php:193
+msgid "SSL"
+msgstr ""
+
+#: add-ons/save/src/StorageType/FTP.php:196
+msgid "Connect through Secure Sockets Layer (SSL)."
+msgstr ""
+
+#: add-ons/save/src/StorageType/FTP.php:211
+msgid "Username"
+msgstr ""
+
+#: add-ons/save/src/StorageType/FTP.php:214
+msgid "FTP Username"
+msgstr ""
+
+#: add-ons/save/src/StorageType/FTP.php:217
+msgid "Path to Private Key"
+msgstr ""
+
+#: add-ons/save/src/StorageType/FTP.php:220
+msgid "Path to private key on this server"
+msgstr ""
+
+#: add-ons/save/src/StorageType/FTP.php:224
+#: add-ons/save/src/StorageType/FTP.php:229
+msgid "Private Key Passphrase"
+msgstr ""
+
+#: add-ons/save/src/StorageType/FTP.php:228
+msgid "The passphrase will be stored encrypted."
+msgstr ""
+
+#: add-ons/save/src/StorageType/FTP.php:243
+msgid "Password"
+msgstr ""
+
+#: add-ons/save/src/StorageType/FTP.php:247
+msgid "The password will be stored encrypted."
+msgstr ""
+
+#: add-ons/save/src/StorageType/FTP.php:248
+msgid "FTP Password"
+msgstr ""
+
+#: add-ons/save/src/StorageType/FTP.php:261
+msgid "Remote Path"
+msgstr ""
+
+#: add-ons/save/src/StorageType/FTP.php:264
+msgid "Path where the file will be saved. The path should be absolute."
+msgstr ""
+
+#: add-ons/save/src/StorageType/FTP.php:265
+msgid "/path/to/directory"
+msgstr ""
+
+#: add-ons/save/src/StorageType/Local.php:82
+msgid "Local Path"
+msgstr ""
+
+#: gravityexport.php:53
+msgid "GravityExport requires PHP [version] or newer."
+msgstr ""
+
+#: gravityexport.php:71
+msgid "GravityExport is missing some core files. Please re-install the plugin."
+msgstr ""
+
+#: gravityexport.php:94
+msgid ""
+"GravityExport requires an activated installation of [url]GravityExport "
+"Lite[/url]."
+msgstr ""
+
+#: gravityexport.php:112
+msgid ""
+"GravityExport requires [url]GravityExport Lite[/url] version [version] or "
+"newer."
+msgstr ""
+
+#: gravityexport.php:145
+msgid ""
+"GravityExport failed to initialize: [error]. Please re-install the plugin "
+"or [url]contact support[/url]."
+msgstr ""
+
+#: src/License/EDDPluginUpdater.php:251
+msgid "There is a new version of %1$s available. %2$sView version %3$s details%4$s."
+msgstr ""
+
+#: src/License/EDDPluginUpdater.php:259
+msgid ""
+"There is a new version of %1$s available. %2$sView version %3$s details%4$s "
+"or %5$supdate now%6$s."
+msgstr ""
+
+#: src/License/EDDPluginUpdater.php:506
+msgid "You do not have permission to install plugin updates"
+msgstr ""
+
+#: src/License/EDDPluginUpdater.php:506
+msgid "Error"
+msgstr ""
+
+#: src/License/GravityExportLicense.php:121
+msgid "Support License Key"
+msgstr ""
+
+#: src/License/GravityExportLicense.php:122
+msgid ""
+"Enter the license key that was sent to you on purchase. This enables plugin "
+"updates &amp; support."
+msgstr ""
+
+#: src/License/GravityExportLicense.php:202
+#: src/License/GravityExportLicense.php:482
+msgid "Activate License"
+msgstr ""
+
+#: src/License/GravityExportLicense.php:203
+#: src/License/GravityExportLicense.php:217
+#: src/License/GravityExportLicense.php:481
+msgid "Verifying license&hellip;"
+msgstr ""
+
+#: src/License/GravityExportLicense.php:209
+#: src/License/GravityExportLicense.php:483
+msgid "Deactivate License"
+msgstr ""
+
+#: src/License/GravityExportLicense.php:210
+msgid "Deactivating license&hellip;"
+msgstr ""
+
+#: src/License/GravityExportLicense.php:216
+msgid "Check License"
+msgstr ""
+
+#: src/License/GravityExportLicense.php:468
+msgid "Status"
+msgstr ""
+
+#: src/License/GravityExportLicense.php:469
+msgid "There was an error processing the request."
+msgstr ""
+
+#: src/License/GravityExportLicense.php:470
+msgid ""
+"Could not deactivate the license. The license key you attempted to "
+"deactivate may not be active or valid."
+msgstr ""
+
+#: src/License/GravityExportLicense.php:471
+#: src/License/GravityExportLicense.php:472
+msgid "The license key is valid, but it has not been activated for this site."
+msgstr ""
+
+#: src/License/GravityExportLicense.php:473
+msgid "Invalid: this license has reached its activation limit."
+msgstr ""
+
+#: src/License/GravityExportLicense.php:474
+msgid "The license has been deactivated."
+msgstr ""
+
+#: src/License/GravityExportLicense.php:475
+msgid "The license key is valid and active."
+msgstr ""
+
+#: src/License/GravityExportLicense.php:476
+msgid "The license key entered is invalid."
+msgstr ""
+
+#: src/License/GravityExportLicense.php:477
+msgid "The license key was not defined."
+msgstr ""
+
+#: src/License/GravityExportLicense.php:478
+msgid "This license key has been revoked."
+msgstr ""
+
+#: src/License/GravityExportLicense.php:479
+msgid "This license key does not have access to this plugin."
+msgstr ""
+
+#: src/License/GravityExportLicense.php:480
+msgid ""
+"This license key has expired. %sRenew your license on the GravityView "
+"website%s"
+msgstr ""
+
+#: src/License/GravityExportLicense.php:484
+msgid "Verify License"
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "GravityView"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://gravityview.co"
+msgstr ""
+
+#: add-ons/filters/src/Addon/FiltersFeedAddon.php:267
+msgctxt "Date input field placeholder"
+msgid "YYYY-MM-DD"
+msgstr ""
+
+#: add-ons/save/src/Addon/SaveAddon.php:183
+#: add-ons/save/src/Addon/SaveAddon.php:193
+msgctxt "%s is replaced by the filename structure"
+msgid "Default Format: %s"
+msgstr ""
+
+#: add-ons/save/src/Addon/SaveAddon.php:188
+msgctxt "%s is replaced by the filename structure"
+msgid "Form ID and Date: %s"
+msgstr ""
+
+#: add-ons/save/src/Addon/SaveAddon.php:198
+msgctxt "%s is replaced by the filename structure"
+msgid "Form ID and Entry ID: %s"
+msgstr ""
+
+#: add-ons/save/src/Addon/SaveAddon.php:465
+msgctxt "The name of the type of storage (eg: Dropbox, FTP, Local)"
+msgid "%s Configuration"
+msgstr ""
+
+#: add-ons/save/src/Service/ConnectionManagerService.php:197
+msgctxt "\"%s\" is replaced by the key path"
+msgid ""
+"Unable to load private key. Please ensure that the key (%s) exists and that "
+"the passphrase, if applicable, is correct."
+msgstr ""
+
+#: add-ons/save/src/StorageType/Dropbox.php:254
+msgctxt "File location path"
+msgid "Path"
+msgstr ""
+
+#: add-ons/save/src/StorageType/FTP.php:149
+msgctxt "Storage method"
+msgid "FTP Storage"
+msgstr ""
+
+#: add-ons/save/src/StorageType/Local.php:54
+msgctxt "Storage method"
+msgid "Local Storage"
+msgstr ""
+
+#: add-ons/save/src/StorageType/FTP.php:178
+msgctxt "FTP server"
+msgid "Address"
+msgstr ""
+
+#: add-ons/save/src/StorageType/FTP.php:199
+msgctxt "Choice selection"
+msgid "FTP (Insecure)"
+msgstr ""
+
+#: add-ons/save/src/StorageType/FTP.php:200
+msgctxt "Choice selection"
+msgid "FTP + SSL"
+msgstr ""
+
+#: add-ons/save/src/StorageType/FTP.php:201
+msgctxt "Choice selection"
+msgid "SFTP"
+msgstr ""
+
+#: add-ons/save/src/StorageType/FlySystemStorageType.php:289
+msgctxt "Choice selection"
+msgid "No"
+msgstr ""
+
+#: add-ons/save/src/StorageType/FlySystemStorageType.php:290
+msgctxt "Choice selection"
+msgid "Yes"
+msgstr ""
+
+#: add-ons/save/src/StorageType/FTP.php:205
+msgctxt "FTP mode"
+msgid "Passive (PASV)"
+msgstr ""
+
+#: add-ons/save/src/StorageType/Local.php:86
+msgctxt "%s is replaced with storage path."
+msgid ""
+"The absolute path on the server where the files will be saved. Leave blank "
+"to use the default."
+msgstr ""

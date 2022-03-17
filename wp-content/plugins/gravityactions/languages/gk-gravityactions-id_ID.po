@@ -1,0 +1,236 @@
+# Copyright (C) 2021 GravityView
+# This file is distributed under the GPL-2.0+.
+msgid ""
+msgstr ""
+"Project-Id-Version: GravityActions 1.0.0\n"
+"Report-Msgid-Bugs-To: https://gravityview.co/support/\n"
+"POT-Creation-Date: 2021-09-29 23:58:44+00:00\n"
+"PO-Revision-Date: 2021-09-29 23:57+0000\n"
+"Language-Team: Indonesian (Indonesia) (https://www.transifex.com/katzwebservices/teams/18775/id_ID/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: id_ID\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: grunt-wp-i18n 1.0.3\n"
+"X-Poedit-Basepath: ../\n"
+"X-Poedit-Bookmarks: \n"
+"X-Poedit-Country: United States\n"
+"X-Poedit-KeywordsList: __;_e;_x:1,2c;_ex:1,2c;_n:1,2;_nx:1,2,4c;_n_noop:1,2;_nx_noop:1,2,3c;esc_attr__;esc_html__;esc_attr_e;esc_html_e;esc_attr_x:1,2c;esc_html_x:1,2c;\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Textdomain-Support: yes\n"
+
+#: src/GravityActions/Actions/EditAction.php:69
+msgid "Bulk Edit Entries"
+msgstr ""
+
+#: src/GravityActions/Admin.php:84
+msgid "Modal Error"
+msgstr ""
+
+#: src/GravityActions/Admin.php:97
+msgid "Invalid nonce passed to the modal loading."
+msgstr ""
+
+#: src/GravityActions/Admin.php:103
+msgid "Invalid Modal view requested."
+msgstr ""
+
+#: src/GravityActions/Admin.php:109
+msgid "The Form ID passed to the rendering of the modal was invalid or empty."
+msgstr ""
+
+#: src/admin-views/edit/field-row.php:39
+#: src/admin-views/edit/fields/complex/default.php:41
+msgid "Leaving blank will empty field."
+msgstr ""
+
+#: src/admin-views/edit/modal-subtitle.php:6
+msgid "Form: "
+msgstr ""
+
+#: src/admin-views/edit/modal-subtitle.php:13
+msgid "%1$s entry selected"
+msgid_plural "%1$s entries selected"
+msgstr[0] ""
+
+#: src/admin-views/edit/step-1.php:36
+msgid "Select fields to edit"
+msgstr ""
+
+#: src/admin-views/edit/step-1.php:40
+msgid "Let’s select some fields from these entries to edit."
+msgstr ""
+
+#: src/admin-views/edit/step-1.php:45
+msgid "What are these fields?"
+msgstr ""
+
+#: src/admin-views/edit/step-1.php:54
+msgid "Available Field (%1$s)"
+msgid_plural "Available Fields (%1$s)"
+msgstr[0] ""
+
+#: src/admin-views/edit/step-1.php:60 src/admin-views/edit/step-1.php:65
+msgid "None selected"
+msgstr ""
+
+#: src/admin-views/edit/step-1.php:61 src/admin-views/edit/step-1.php:67
+msgid "One selected"
+msgstr ""
+
+#: src/admin-views/edit/step-1.php:62
+msgid "%s selected"
+msgstr ""
+
+#: src/admin-views/edit/step-1.php:69
+msgid "%1$d selected"
+msgstr ""
+
+#: src/admin-views/edit/step-1.php:75
+msgid "Search Fields..."
+msgstr ""
+
+#: src/admin-views/edit/step-1.php:77
+msgid "Search"
+msgstr ""
+
+#: src/admin-views/edit/step-1.php:128
+#: src/admin-views/edit/step-complete.php:17
+#: src/admin-views/edit/step-processing.php:19
+#: src/admin-views/modal/error.php:20
+msgid "Close"
+msgstr ""
+
+#: src/admin-views/edit/step-1.php:129
+msgid "Next"
+msgstr ""
+
+#: src/admin-views/edit/step-2.php:16
+msgid "Review changes to %1$d field"
+msgid_plural "Review changes to %1$d fields"
+msgstr[0] ""
+
+#: src/admin-views/edit/step-2.php:28 src/admin-views/edit/step-3.php:28
+msgid "Back"
+msgstr ""
+
+#: src/admin-views/edit/step-2.php:58
+msgid "Field"
+msgstr ""
+
+#: src/admin-views/edit/step-2.php:59
+msgid "Change to"
+msgstr ""
+
+#: src/admin-views/edit/step-2.php:78
+msgid "Edit field values"
+msgstr ""
+
+#: src/admin-views/edit/step-2.php:82
+msgid ""
+"Great, looks like you’ve selected your fields.<br/>Let’s edit them with your"
+" updated content."
+msgstr ""
+
+#: src/admin-views/edit/step-2.php:86 src/admin-views/edit/step-3.php:69
+msgid "Help"
+msgstr ""
+
+#: src/admin-views/edit/step-2.php:87
+msgid "What will happen to my old field data?"
+msgstr ""
+
+#: src/admin-views/edit/step-3.php:18
+msgid "Update Entries"
+msgstr ""
+
+#: src/admin-views/edit/step-3.php:61
+msgid "Review bulk edit changes"
+msgstr ""
+
+#: src/admin-views/edit/step-3.php:65
+msgid ""
+"Almost Done, we just need you to confirm<br/>your changes before we finalize"
+" them."
+msgstr ""
+
+#: src/admin-views/edit/step-3.php:70
+msgid "What happens after I submit my changes?"
+msgstr ""
+
+#: src/admin-views/edit/step-3.php:79
+msgid "Change Summary"
+msgstr ""
+
+#: src/admin-views/edit/step-3.php:82
+msgid "Let's take one last look at the changes you made."
+msgstr ""
+
+#: src/admin-views/edit/step-3.php:87
+msgid "Form: %1$s"
+msgstr ""
+
+#: src/admin-views/edit/step-3.php:92
+msgid "Entries icon"
+msgstr ""
+
+#: src/admin-views/edit/step-3.php:99
+msgid "Entry updated"
+msgid_plural "Entries updated"
+msgstr[0] ""
+
+#: src/admin-views/edit/step-3.php:107
+msgid "Field icon"
+msgstr ""
+
+#: src/admin-views/edit/step-3.php:114
+msgid "Field updated"
+msgid_plural "Fields updated"
+msgstr[0] ""
+
+#: src/admin-views/edit/step-3.php:123
+msgid "Alert icon"
+msgstr ""
+
+#: src/admin-views/edit/step-3.php:125
+msgid ""
+"These changes are permanent. It’s highly recommended you back up your site "
+"before continuing."
+msgstr ""
+
+#: src/admin-views/edit/step-complete.php:23
+msgid "Close Editor"
+msgstr ""
+
+#: src/admin-views/edit/step-complete.php:62
+msgid "Entry successfully updated!"
+msgid_plural "Entries successfully updated!"
+msgstr[0] ""
+
+#: src/admin-views/edit/step-complete.php:67
+msgid "Great work, %1$s entry was successfully updated."
+msgid_plural "Great work, %1$s entries were successfully updated."
+msgstr[0] ""
+
+#: src/admin-views/edit/step-processing.php:29
+msgid "Cancel"
+msgstr ""
+
+#: src/admin-views/edit/step-processing.php:59
+msgid "Processing your updates..."
+msgstr ""
+
+#: src/admin-views/edit/step-processing.php:63
+msgid ""
+"We're working hard on making those changes.<br/>Should only take a minute"
+msgstr ""
+
+#: src/functions/variables.php:135
+msgid "Invalid use, type must be one of INPUT_* family."
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://gravityview.com/"
+msgstr ""
