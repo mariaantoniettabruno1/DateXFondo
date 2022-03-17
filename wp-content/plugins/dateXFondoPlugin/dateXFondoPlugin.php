@@ -14,6 +14,7 @@ require_once(plugin_dir_path(__FILE__) . 'table/CustomTable.php');
 require_once(plugin_dir_path(__FILE__) . 'table/ShortCodeCustomTable.php');
 require_once(plugin_dir_path(__FILE__) . 'table/live_edit.php');
 
+
 /**
  * Aggiungo librerie javascript a wordpress
  */
@@ -37,7 +38,28 @@ function shortcodes_init()
     add_shortcode('post_custom_table', 'call_custom_table');
 }
 
+
 function call_custom_table()
 {
     \dateXFondoPlugin\ShortCodeCustomTable::visualize_custom_table();
+
 }
+
+function create_endpoint_datefondo()
+{
+
+    register_rest_route('datexfondoplugin/v1', 'table/edit', array(
+        'methods' => 'POST',
+        'callback' => 'esegui_modifica_campi'
+    ));
+
+
+}
+function esegui_modifica_campi($params){
+    return \dateXFondoPlugin\modifica_campi($params);
+}
+
+add_action('rest_api_init', 'create_endpoint_datefondo');
+
+
+

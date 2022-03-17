@@ -42,6 +42,7 @@ define( 'DB_CHARSET', 'utf8mb4' );
 /** Il tipo di Collazione del Database. Da non modificare se non si ha idea di cosa sia. */
 define('DB_COLLATE', '');
 
+define('DB_PORT','3306');
 /**#@+
  * Chiavi Univoche di Autenticazione e di Salatura.
  *
@@ -92,7 +93,7 @@ $table_prefix = 'wp_';
  *
  * @link https://wordpress.org/support/article/debugging-in-wordpress/
  */
-define('WP_DEBUG', false);
+define('WP_DEBUG', true);
 
 /* Finito, interrompere le modifiche! Buon blogging. */
 

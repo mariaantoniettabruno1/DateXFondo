@@ -28,4 +28,5 @@ class CustomTable
         mysqli_close($mysqli);
         return $entries;
     }
+
 }

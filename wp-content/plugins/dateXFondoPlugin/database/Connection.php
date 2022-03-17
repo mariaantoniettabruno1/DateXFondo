@@ -18,7 +18,7 @@ class Connection
         $this->url = DB_HOST . ":" . DB_PORT . "/";
         $this->username = DB_USER;
         $this->password = DB_PASSWORD;
-        $this->dbname = c1DATEXFONDO;
+        $this->dbname = DB_NAME;
     }
 
     function connect()
@@ -29,6 +29,10 @@ class Connection
             die("Connection failed: " . $conn->connect_error);
         }
         return $conn;
+    }
+    public static function create_connection(){
+        echo DB_HOST."<br>";
+        return new Connection();
     }
 
 

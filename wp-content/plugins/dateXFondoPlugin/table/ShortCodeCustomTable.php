@@ -123,7 +123,7 @@ class ShortCodeCustomTable
                                 [6, 'descrizione_campo'],[7, 'sottotitolo_campo'],[8, 'valore'],[9, 'valore_anno_precedente'],[10, 'nota']]
                         },
                         hideIdentifier: true,
-                        url: '/date/wp-content/plugins/dateXFondoPlugin/table/live_edit.php'
+                        url: 'https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/edit'
 
                     });
                 });
