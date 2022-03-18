@@ -12,6 +12,7 @@ require_once(plugin_dir_path(__FILE__) . 'common.php');
 require_once(plugin_dir_path(__FILE__) . 'database/Connection.php');
 require_once(plugin_dir_path(__FILE__) . 'table/CustomTable.php');
 require_once(plugin_dir_path(__FILE__) . 'table/ShortCodeCustomTable.php');
+require_once(plugin_dir_path(__FILE__) . 'table/ShortCodeTable.php');
 require_once(plugin_dir_path(__FILE__) . 'table/live_edit.php');
 
 
@@ -36,12 +37,19 @@ add_action('init', 'shortcodes_init');
 function shortcodes_init()
 {
     add_shortcode('post_custom_table', 'call_custom_table');
+    add_shortcode('post_table', 'call_table');
 }
 
 
 function call_custom_table()
 {
     \dateXFondoPlugin\ShortCodeCustomTable::visualize_custom_table();
+
+}
+
+function call_table()
+{
+    \dateXFondoPlugin\ShortCodeTable::visualize_table();
 
 }
 
