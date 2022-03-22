@@ -17,88 +17,102 @@ class ShortCodeCustomTable
         <script type="text/javascript" src="https://unpkg.com/jquery-tabledit@1.0.0/jquery.tabledit.js"></script>
         <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+              integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
+              crossorigin="anonymous">
 
     </head>
     <body>
 
     <h2>TABELLA</h2>
+    <div class="table-responsive">
 
-    <table id="data_table" class="table table-striped">
-        <thead>
-        <tr>
-            <th>ID</th>
-
-            <th>Fondo</th>
-
-            <th>Ente</th>
-
-            <th>Anno</th>
-
-            <th>ID Campo</th>
-
-            <th>Label Campo</th>
-
-            <th>Descrizione Campo</th>
-
-            <th>Sottotitolo Campo</th>
-
-            <th>Valore</th>
-
-            <th>Valore Anno Precedente</th>
-
-            <th>Nota</th>
-        </tr>
-        </thead>
-        <tbody>
-        <?php
-        $year = date("Y");
-
-        $years = new CustomTable();
-
-        $entries = $years->getAllEntries($year);
-
-        foreach ($entries as $entry) {
-            ?>
+        <table id="data_table" class="table table-striped table-bordered">
+            <thead>
             <tr>
-                <td><?php echo $entry [0]; ?></td>
-                <td><?php echo $entry [1]; ?></td>
-                <td><?php echo $entry [2]; ?></td>
-                <td><?php echo $entry [3]; ?></td>
-                <td><?php echo $entry [4]; ?></td>
-                <td><?php echo $entry [5]; ?></td>
-                <td><?php echo $entry [6]; ?></td>
-                <td><?php echo $entry [7]; ?></td>
-                <td><?php echo $entry [8]; ?></td>
-                <td><?php echo $entry [9]; ?></td>
-                <td><?php echo $entry [10]; ?></td>
-            </tr>
-        <?php } ?>
-        </tbody>
-    </table>
-    </body>
+                <th>ID</th>
 
+                <th>Fondo</th>
+
+                <th>Ente</th>
+
+                <th>Anno</th>
+
+                <th>ID Campo</th>
+
+                <th>Label Campo</th>
+
+                <th>Descrizione Campo</th>
+
+                <th>Sottotitolo Campo</th>
+
+                <th>Valore</th>
+
+                <th>Valore Anno Precedente</th>
+
+                <th>Nota</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php
+            $year = date("Y");
+
+            $years = new CustomTable();
+            $readOnly = $years->isReadOnly($year);
+
+            $entries = $years->getAllEntries($year);
+
+            foreach ($entries as $entry) {
+                ?>
+                <tr class="id_della_row">
+                    <td><?php echo $entry [0]; ?></td>
+                    <td><?php echo $entry [1]; ?></td>
+                    <td><?php echo $entry [2]; ?></td>
+                    <td><?php echo $entry [3]; ?></td>
+                    <td><?php echo $entry [4]; ?></td>
+                    <td><?php echo $entry [5]; ?></td>
+                    <td><?php echo $entry [6]; ?></td>
+                    <td><?php echo $entry [7]; ?></td>
+                    <td><?php echo $entry [8]; ?></td>
+                    <td><?php echo $entry [9]; ?></td>
+                    <td><?php echo $entry [10]; ?></td>
+                </tr>
+            <?php } ?>
+            </tbody>
+        </table>
+    </div>
+    </body>
+    <form method="post">
+        <input type="submit" name="button1"
+               class="button" value="Blocca la Modifica"/>
+        <input type="submit" name="button2"
+               class="button" value="Duplica la Tabella" />
+    </form>
     <script>
 
         $(document).ready(function () {
 
             $('#data_table').Tabledit({
-
-                deleteButton: false,
+                hideIdentifier: true,
                 editButton: false,
+                deleteButton: false,
                 columns: {
                     identifier: [0, 'id'],
+                    <?php if(!$readOnly):if(array_key_exists('button1', $_POST)) $years->getTableNotEditable($year);
+                   ?>
                     editable: [[8, 'valore'], [10, 'nota']]
+                    <?php endif;?>
                 },
-                hideIdentifier: true,
-                url: 'https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/edit'
 
+                url: 'https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/edit',
             });
         });
 
-
-
+    </script>
         <?php
-
+        if(array_key_exists('button2', $_POST)){
+            $years->duplicateTable($year);
+        }
 
     }
 

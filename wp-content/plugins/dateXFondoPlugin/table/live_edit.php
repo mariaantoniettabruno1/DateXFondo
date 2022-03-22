@@ -11,7 +11,9 @@ function modifica_campi($request)
 
     $conn = new Connection();
     $mysqli = $conn->connect();
-
+    echo "<pre>";
+    print_r($input);
+    echo "</pre>";
 
     if (isset($input['action']) && $input['action'] == 'edit') {
      if (isset($input['valore'])) {
