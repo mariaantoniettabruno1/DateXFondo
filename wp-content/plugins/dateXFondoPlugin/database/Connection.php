@@ -13,6 +13,16 @@ class Connection
     private $password;
     private $dbname;
 
+    /**
+     * @return string
+     */
+    public function getDbname(): string
+    {
+        return $this->dbname;
+    }
+
+
+
     public function __construct()
     {
         $this->url = DB_HOST . ":" . DB_PORT . "/";

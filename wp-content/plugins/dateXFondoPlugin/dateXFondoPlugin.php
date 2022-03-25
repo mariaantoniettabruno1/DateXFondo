@@ -13,8 +13,8 @@ require_once(plugin_dir_path(__FILE__) . 'database/Connection.php');
 require_once(plugin_dir_path(__FILE__) . 'table/CustomTable.php');
 require_once(plugin_dir_path(__FILE__) . 'table/ShortCodeCustomTable.php');
 require_once(plugin_dir_path(__FILE__) . 'table/ShortCodeTable.php');
-require_once(plugin_dir_path(__FILE__) . 'table/CreateTable.php');
-require_once(plugin_dir_path(__FILE__) . 'table/ShortCodeCreateTable.php');
+require_once(plugin_dir_path(__FILE__) . 'fondo/CreateFondo.php');
+require_once(plugin_dir_path(__FILE__) . 'fondo/ShortCodeCreateFondo.php');
 require_once(plugin_dir_path(__FILE__) . 'table/live_edit.php');
 
 
@@ -40,7 +40,7 @@ function shortcodes_init()
 {
     add_shortcode('post_custom_table', 'call_custom_table');
     add_shortcode('post_table', 'call_table');
-    add_shortcode('post_create_table', 'create_table');
+    add_shortcode('post_create_fondo', 'create_new_fondo');
 }
 
 
@@ -55,9 +55,9 @@ function call_table()
     \dateXFondoPlugin\ShortCodeTable::visualize_table();
 
 }
-function create_table()
+function create_new_fondo()
 {
-    \dateXFondoPlugin\ShortCodeCreateTable::create_table();
+    \dateXFondoPlugin\ShortCodeCreateFondo::create_fondo();
 
 }
 
@@ -76,6 +76,5 @@ function esegui_modifica_campi($params){
 }
 
 add_action('rest_api_init', 'create_endpoint_datefondo');
-
 
 
