@@ -2,6 +2,8 @@
 
 namespace dateXFondoPlugin;
 
+use mysqli;
+
 class CreateFondo
 
 {
@@ -27,6 +29,11 @@ class CreateFondo
     private $data_delibera_indirizzo_anno_corrente;
     private $ufficiale;
     private $nome_soggetto_deliberante;
+
+    public function __construct()
+    {
+
+    }
 
     /**
      * @return mixed
@@ -380,21 +387,76 @@ class CreateFondo
         $this->ufficiale = $ufficiale;
     }
 
-    public static function checkIfTableExist($tablename_fondo)
+    public function checkIfTableExist($tablename_fondo)
     {
-
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $exists = mysqli_query("select 1 from ciao");
-
-        if($exists !== FALSE)
-        {
-            echo("This table exists");
-        }else{
-            echo("This table doesn't exist");
-        }
+        $val = mysqli_query("select 1 from $tablename_fondo LIMIT 1");
         mysqli_close($mysqli);
-        return ;
+        return $val;
+
+    }
+
+    public function createNewTableFondo($tablename_fondo)
+    {
+        $conn = new Connection();
+        $mysqli = $conn->connect();
+        $sql = "CREATE TABLE $tablename_fondo(
+        id INT(2)  PRIMARY KEY, 
+        titolo_fondo VARCHAR(255) NOT NULL,
+        anno VARCHAR(255) NOT NULL,
+        ente VARCHAR(255) NOT NULL,
+        descrizione VARCHAR(255),
+        fondo_di_riferimento VARCHAR(255),
+        data_libera_approvazione_bilancio VARCHAR(255),
+        numero_delibera_approvazione_PEG VARCHAR(255),
+        numero_delibera_approvazione_PEG_e_performance VARCHAR(255),
+        numero_delibera_approvazione_razionalizzazione VARCHAR(255),
+        numero_delibera_costituzione_fondo VARCHAR(255),
+        numero_delibera_indirizzo_costituzione_contrattazione VARCHAR(255),
+        principio_riduzione_spesa_personale VARCHAR(255),
+        modello_di_riferimento VARCHAR(255),
+        numero_delibera_approvazione_bilancio VARCHAR(255),
+        responsabile VARCHAR(255),
+        data_delibera_di_approvazione VARCHAR(255),
+        data_delibera_di_nomina VARCHAR(255),
+        data_delibera VARCHAR(255),
+        data_delibera_di_costituzione VARCHAR(255),
+        data_delibera_di_indirizzo_costituzione_anno_corrente VARCHAR(255),
+        ufficiale VARCHAR(255)
+        )";
+        if ($mysqli->query($sql) === TRUE) {
+
+        } else {
+            $mysqli->error;
+        }
+        $sql = "ALTER TABLE $tablename_fondo
+MODIFY id INT NOT NULL AUTO_INCREMENT";
+        $mysqli->query($sql);
+
+
+        mysqli_close($mysqli);
+    }
+
+    public function insertDataFondo($tablename_fondo)
+    {
+        $conn = new Connection();
+        $mysqli = $conn->connect();
+        $stmt = "INSERT INTO $tablename_fondo (titolo_fondo, anno, ente,descrizione,fondo_di_riferimento,
+                   data_libera_approvazione_bilancio,numero_delibera_approvazione_PEG,numero_delibera_approvazione_PEG_e_performance,
+                   numero_delibera_approvazione_razionalizzazione,numero_delibera_costituzione_fondo,
+                   numero_delibera_indirizzo_costituzione_contrattazione,principio_riduzione_spesa_personale,modello_di_riferimento,
+                   numero_delibera_approvazione_bilancio,responsabile, data_delibera_di_approvazione,data_delibera_di_nomina,
+                   data_delibera,data_delibera_di_costituzione,data_delibera_di_indirizzo_costituzione_anno_corrente,ufficiale) VALUES (?, ?, ?, ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        $stmt = $mysqli->prepare($stmt);
+        $stmt->bind_param("sisssssssssssssssssss", $this->titolo_fondo, $this->anno, $this->ente, $this->descrizione, $this->fondo_di_riferimento,
+            $this->data_libera_approvazione_bilancio, $this->numero_delibera_approvazione_PEG, $this->numero_delibera_approvazione_PEG_e_performance, $this->numero_delibera_approvazione_razionalizzazione,
+            $this->numero_delibera_costituzione_fondo, $this->numero_delibera_indirizzo_costituzione_contrattazione, $this->principio_riduzione_spesa_personale, $this->modello_di_riferimento,
+            $this->numero_delibera_approvazione_bilancio, $this->responsabile, $this->data_delibera_di_approvazione, $this->data_delibera_di_nomina, $this->data_delibera,
+            $this->data_delibera_di_costituzione, $this->data_delibera_indirizzo_anno_corrente, $this->ufficiale);
+        $res = $stmt->execute();
+
+        mysqli_close($mysqli);
 
     }
 

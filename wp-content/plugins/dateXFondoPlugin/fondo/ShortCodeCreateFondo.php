@@ -6,12 +6,11 @@ use GFAPI;
 
 class ShortCodeCreateFondo
 {
-    public static function create_fondo(){
+    public static function create_fondo()
+    {
         $lastEntry = GFAPI::get_entries(7);
-        echo "<pre>";
-        print_r($lastEntry);
-        echo "</pre>";
-        if(!empty($lastEntry[0])){
+
+        if (!empty($lastEntry[0])) {
             $lastEntry = GFAPI::get_entries(7)[0];
             $new_fondo = new CreateFondo();
             $new_fondo->setTitoloFondo($lastEntry[1]);
@@ -35,20 +34,23 @@ class ShortCodeCreateFondo
             $new_fondo->setNumeroDeliberaIndirizzoCostituzioneContrattazione($lastEntry[20]);
             $new_fondo->setDataDeliberaIndirizzoAnnoCorrente($lastEntry[21]);
             $new_fondo->setPrincipioRiduzioneSpesaPersonale($lastEntry[22]);
-            $new_fondo->setUfficiale($lastEntry['is_approved']);
-            $tablename_fondo = 'DATE_entry_new_fondo_'. $new_fondo->getTitoloFondo();
-            $temp = $new_fondo->checkIfTableExist($tablename_fondo);
-            if($temp){
-                //$new_fondo->inserDataFondo($tablename_fondo);
-            }
-            /*else{
-                $tablename_fondo = $new_fondo->createNewTableFondo($tablename_fondo);
-                $new_fondo->insertDataFondo($tablename_fondo);
-            }*/
+            $new_fondo->setUfficiale($lastEntry[22]);
+            $tablename_fondo = 'DATE_entry_new_fondo_' . $new_fondo->getTitoloFondo();
+            $tablename_fondo = str_replace(' ', '_', $tablename_fondo);
 
+          $temp = $new_fondo->checkIfTableExist($tablename_fondo);
+          if ($temp) {
+              $new_fondo->insertDataFondo($tablename_fondo);
+          } else {
+               $new_fondo->createNewTableFondo($tablename_fondo);
+              $new_fondo->insertDataFondo($tablename_fondo);
+          }
+
+
+       }
+
+            return '';
         }
 
-        return '';
-    }
 
 }
