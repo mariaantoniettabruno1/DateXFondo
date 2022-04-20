@@ -1,6 +1,6 @@
 <?php
 
-class MappatureCommon
+class DateXFondoCommon
 {
     //Returns the url of the plugin's root folder
     public static function get_base_url()
