@@ -60,20 +60,26 @@ function call_table()
     \dateXFondoPlugin\ShortCodeTable::visualize_table();
 
 }
+
 function create_new_fondo()
 {
     \dateXFondoPlugin\ShortCodeCreateFondo::create_fondo();
 
-}function visualize_old_template()
+}
+
+function visualize_old_template()
 {
     \dateXFondoPlugin\ShortCodeDuplicateOldTemplate::visualize_old_template();
 
-}function duplicate_old_template()
+}
+
+function duplicate_old_template()
 {
     \dateXFondoPlugin\ShortCodeDuplicateOldTemplate::duplicate_old_template();
 
 }
 
+//route ed endpoint per far funzionare la modifica campi della table contenente i dati dell'anno corrente
 function create_endpoint_datefondo()
 {
 
@@ -84,10 +90,32 @@ function create_endpoint_datefondo()
 
 
 }
-function esegui_modifica_campi($params){
+
+function esegui_modifica_campi($params)
+{
     return \dateXFondoPlugin\modifica_campi($params);
 }
 
 add_action('rest_api_init', 'create_endpoint_datefondo');
+
+
+//route ed endpoint per far funzionare la modifica campi del table template che viene duplicato in fase di creazione di un nuovo fondo
+function create_endpoint_datefondo_nuovo()
+{
+
+    register_rest_route('datexfondoplugin/v1', 'table/edit', array(
+        'methods' => 'POST',
+        'callback' => 'esegui_modifica_campi_nuovo_template'
+    ));
+
+
+}
+
+function esegui_modifica_campi_nuovo_template($params)
+{
+    return \dateXFondoPlugin\modifica_campi_nuovo_template($params);
+}
+
+add_action('rest_api_init', 'create_endpoint_datefondo_nuovo');
 
 
