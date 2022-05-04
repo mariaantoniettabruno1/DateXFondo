@@ -63,6 +63,21 @@ function modifica_campi_nuovo_template($request)
         $mysqli->close();
 
     }
+    function caricamento_campi($request)
+    {
+
+        $conn = new Connection();
+        $mysqli = $conn->connect();
+        $titolo_fondo = $_POST["JSONIn"]["fondo"];
+        $ente = $_POST["JSONIn"]["ente"];
+        $anno = $_POST["JSONIn"]["anno"];
+        $sql = "INSERT INTO DATE_entry_chivasso (fondo,ente,anno) VALUES(?,?,?)";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("sss", $titolo_fondo, $ente,$anno);
+        $res = $stmt->execute();
+        $mysqli->close();
+
+    }
 }
 
 

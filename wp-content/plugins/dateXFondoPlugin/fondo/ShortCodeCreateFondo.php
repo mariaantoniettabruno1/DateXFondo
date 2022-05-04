@@ -38,19 +38,75 @@ class ShortCodeCreateFondo
             $tablename_fondo = 'DATE_entry_new_fondo_' . $new_fondo->getTitoloFondo();
             $tablename_fondo = str_replace(' ', '_', $tablename_fondo);
 
-          $temp = $new_fondo->checkIfTableExist($tablename_fondo);
-          if ($temp) {
-              $new_fondo->insertDataFondo($tablename_fondo);
-          } else {
-               $new_fondo->createNewTableFondo($tablename_fondo);
-              $new_fondo->insertDataFondo($tablename_fondo);
-          }
+            $temp = $new_fondo->checkIfTableExist($tablename_fondo);
+            if ($temp) {
+                $new_fondo->insertDataFondo($tablename_fondo);
+            } else {
+                $new_fondo->createNewTableFondo($tablename_fondo);
+                $new_fondo->insertDataFondo($tablename_fondo);
+            }
 
 
-       }
-
-            return '';
         }
+        ?>
+        <!DOCTYPE html>
+
+        <html lang="en">
+
+        <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+            <!-- Bootstrap CSS -->
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+                  integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+                  crossorigin="anonymous">
+        </head>
+        <body>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+                integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+                crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+                integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+                crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+                integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+                crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <div>
+            <button id="button_id" type="button" class="btn btn-primary">Duplica Template Precedente</button>
+        </div>
+        </body>
+        <script>
+            $("#button_id").click(function () {
+                $.ajax({
+                    type: "POST",
+                    url: "https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/new",
+                    data: {
+                        <?php
+                        $myObj = ["fondo" => $new_fondo->getTitoloFondo(), "ente" => $new_fondo->getEnte(), "anno" => $new_fondo->getAnno()];
+                        ?>
+                        "JSONIn":<?php echo json_encode($myObj);?>
+                    },
+                    success: function() {
+                        successmessage = 'Data was succesfully captured';
+                        alert(successmessage);
+                    },
+                    error: function() {
+                        successmessage = 'Error';
+                        alert(successmessage);
+                    },
+
+                });
+            });
+        </script>
+        </html>
+
+        <?php
+        return '';
+
+    }
+
 
 
 }

@@ -99,23 +99,39 @@ function esegui_modifica_campi($params)
 add_action('rest_api_init', 'create_endpoint_datefondo');
 
 
-//route ed endpoint per far funzionare la modifica campi del table template che viene duplicato in fase di creazione di un nuovo fondo
-function create_endpoint_datefondo_nuovo()
+////route ed endpoint per far funzionare la modifica campi del table template che viene duplicato in fase di creazione di un nuovo fondo
+//function create_endpoint_datefondo_nuovo()
+//{
+//
+//    register_rest_route('datexfondoplugin/v1', 'table/editnewfondo', array(
+//        'methods' => 'POST',
+//        'callback' => 'esegui_modifica_campi_nuovo_template'
+//    ));
+//
+//
+//}
+//
+//function esegui_modifica_campi_nuovo_template($params)
+//{
+//    return \dateXFondoPlugin\modifica_campi_nuovo_template($params);
+//}
+
+//add_action('rest_api_init', 'create_endpoint_datefondo_nuovo');
+function create_endpoint_datefondo_caricamento()
 {
 
-    register_rest_route('datexfondoplugin/v1', 'table/edit', array(
+    register_rest_route('datexfondoplugin/v1', 'table/new', array(
         'methods' => 'POST',
-        'callback' => 'esegui_modifica_campi_nuovo_template'
+        'callback' => 'esegui_caricamento_campi'
     ));
 
 
 }
 
-function esegui_modifica_campi_nuovo_template($params)
+function esegui_caricamento_campi($params)
 {
-    return \dateXFondoPlugin\modifica_campi_nuovo_template($params);
+    return \dateXFondoPlugin\caricamento_campi($params);
 }
 
-add_action('rest_api_init', 'create_endpoint_datefondo_nuovo');
-
+add_action('rest_api_init', 'create_endpoint_datefondo_caricamento');
 
