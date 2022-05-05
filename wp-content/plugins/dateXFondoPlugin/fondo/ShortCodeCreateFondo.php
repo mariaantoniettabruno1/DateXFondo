@@ -89,11 +89,12 @@ class ShortCodeCreateFondo
                         "JSONIn":<?php echo json_encode($myObj);?>
                     },
                     success: function() {
-                        successmessage = 'Data was succesfully captured';
+                        successmessage = 'I dati sono stati caricati correttamente';
                         alert(successmessage);
+                        location.href = "https://demo.mg3.srl/date/duplicazione-template-anno-precedente/";
                     },
                     error: function() {
-                        successmessage = 'Error';
+                        successmessage = 'Errore: caricamento dati non riuscito';
                         alert(successmessage);
                     },
 

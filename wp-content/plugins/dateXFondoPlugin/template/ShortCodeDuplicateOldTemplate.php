@@ -70,12 +70,11 @@ class ShortCodeDuplicateOldTemplate
                     $anno = $entry_gforms[0][25];
                 }
                 $old_template = new DuplicateOldTemplate();
-                $old_data = $old_template->getOldData("Comune di Chivasso");
-
+                $old_data = $old_template->getCurrentData($ente, $anno, $fondo);
                 foreach ($old_data as $entry) {
                     ?>
                     <tr class="id_della_row">
-                        <td></td>
+                        <td><?php echo $entry[0]; ?></td>
                         <td><?php echo $fondo; ?></td>
                         <td><?php echo $ente; ?></td>
                         <td><?php echo $anno; ?></td>
@@ -83,13 +82,13 @@ class ShortCodeDuplicateOldTemplate
                         <td><?php echo $entry[5]; ?></td>
                         <td><?php echo $entry[6]; ?></td>
                         <td><?php echo $entry[7]; ?></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td><?php echo $entry[8]; ?></td>
+                        <td><?php echo $entry[9]; ?></td>
+                        <td><?php echo $entry[10]; ?></td>
                         <td>
                             <div class="radio">
-                                <label><input type="radio"  value="" checked> Si</label>
-                                <label><input type="radio" > No</label>
+                                <label><input type="radio" name=<?php echo $entry[0]; ?> checked> Si</label>
+                                <label><input type="radio" name=<?php echo $entry[0]; ?> onclick="disabledRow(<?php echo $entry[0]; ?>)">No</label>
                             </div>
                         </td>
                     </tr>
@@ -98,8 +97,6 @@ class ShortCodeDuplicateOldTemplate
 
                 }
                 ?>
-
-
                 </tbody>
             </table>
             <div style="display:none;">
@@ -115,11 +112,12 @@ class ShortCodeDuplicateOldTemplate
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td></td>
-                        <td><div class="radio">
+                        <td>
+                            <div class="radio">
                                 <label><input type="radio" value="" checked> Si</label>
                                 <label><input type="radio"> No</label>
-                            </div></td>
+                            </div>
+                        </td>
                     </tr>
                 </table>
             </div>
@@ -129,6 +127,7 @@ class ShortCodeDuplicateOldTemplate
         </div>
         </body>
         <script>
+
             $(document).ready(function () {
 
                 $('#data_table').Tabledit({
@@ -142,19 +141,8 @@ class ShortCodeDuplicateOldTemplate
 
                     url: 'https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/edit',
                 });
-                $('#sample_table').Tabledit({
-                    hideIdentifier: true,
-                    editButton: false,
-                    deleteButton: false,
-                    columns: {
-                        identifier: [0, 'id'],
-                        editable: [[1,'fondo'],[2,'ente'],[3,'anno'],[4,'id campo'],[5,'label campo'],[6,'descrizione campo'],[7,'sottotitolo campo'],
-                            [8, 'valore'], [9, 'valore anno precedente'], [10, 'nota']]
-                    },
-
-                    url: 'https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/edit',
-                });
             });
+
             jQuery(document).delegate('a.add-record', 'click', function (e) {
                 e.preventDefault();
                 var content = jQuery('#sample_table  tr'),
@@ -165,8 +153,43 @@ class ShortCodeDuplicateOldTemplate
                 element.find('.delete-record').attr('data-id', size);
                 element.appendTo('#tbl_posts_body');
                 element.find('.sn').html(size);
+                $.ajax({
+                    type: "POST",
+                    url: "https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/newrow",
+                    data: {   <?php
+                        $myObj = ["fondo" => $fondo, "ente" => $ente, "anno" => $anno];
+                        ?>
+                        "JSONIn":<?php echo json_encode($myObj);?>},
+                    success: function () {
+                        successmessage = 'Riga creata correttamente';
+                        alert(successmessage);
+                        location.href = "https://demo.mg3.srl/date/duplicazione-template-anno-precedente/"
+                    },
+                    error: function () {
+                        successmessage = 'Errore: creazione riga non riuscita';
+                        alert(successmessage);
+                    }
+                });
+
             });
 
+            function disabledRow(id) {
+                $.ajax({
+                    type: "POST",
+                    url: "https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/deleterow",
+                    data: {  id: id
+                        },
+                    success: function () {
+                        successmessage = 'Riga cancellata correttamente';
+                        alert(successmessage);
+                        location.href = "https://demo.mg3.srl/date/duplicazione-template-anno-precedente/"
+                    },
+                    error: function () {
+                        successmessage = 'Errore: cancellazione riga non riuscita';
+                        alert(successmessage);
+                    }
+                });
+            }
         </script>
         </html>
 
