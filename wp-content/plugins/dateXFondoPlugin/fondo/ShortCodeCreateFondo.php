@@ -101,6 +101,11 @@ class ShortCodeCreateFondo
                 });
             });
         </script>
+    <style>
+        #button_id{
+
+        }
+    </style>
         </html>
 
         <?php

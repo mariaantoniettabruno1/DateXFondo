@@ -93,30 +93,34 @@ function create_endpoint_datefondo()
 
 function esegui_modifica_campi($params)
 {
-    return \dateXFondoPlugin\modifica_campi($params);
+    \dateXFondoPlugin\modifica_campi($params);
+    $data = ['params'=>$params,'message'=>'Bello DateXFondo'];
+    $response = new WP_REST_Response($data);
+    $response->set_status(200);
+    return $response;
 }
 
 add_action('rest_api_init', 'create_endpoint_datefondo');
 
 
-////route ed endpoint per far funzionare la modifica campi del table template che viene duplicato in fase di creazione di un nuovo fondo
-//function create_endpoint_datefondo_nuovo()
-//{
+//route ed endpoint per far funzionare la modifica campi del table template che viene duplicato in fase di creazione di un nuovo fondo
+function create_endpoint_datefondo_nuovo()
+{
 
-//    register_rest_route('datexfondoplugin/v1', 'table/editnewfondo', array(
-//        'methods' => 'POST',
-//        'callback' => 'esegui_modifica_campi_nuovo_template'
-//    ));
+    register_rest_route('datexfondoplugin/v1', 'table/editnewfondo', array(
+        'methods' => 'POST',
+        'callback' => 'esegui_modifica_campi_nuovo_template'
+    ));
 
 
-//}
+}
 
-//function esegui_modifica_campi_nuovo_template($params)
-//{
-//    return \dateXFondoPlugin\modifica_campi_nuovo_template($params);
-//}
+function esegui_modifica_campi_nuovo_template($params)
+{
+    return \dateXFondoPlugin\modifica_campi_nuovo_template($params);
+}
 
-//add_action('rest_api_init', 'create_endpoint_datefondo_nuovo');
+add_action('rest_api_init', 'create_endpoint_datefondo_nuovo');
 
 function create_endpoint_datefondo_creazione_riga()
 {
@@ -131,7 +135,11 @@ function create_endpoint_datefondo_creazione_riga()
 
 function esegui_creazione_riga($params)
 {
-    return \dateXFondoPlugin\creazione_nuova_riga($params);
+    $insert_id = \dateXFondoPlugin\creazione_nuova_riga($params);
+    $data = ['id'=>$insert_id,'message'=>'Bello DateXFondo'];
+    $response = new WP_REST_Response($data);
+    $response->set_status(201);
+    return $response;
 }
 
 add_action('rest_api_init', 'create_endpoint_datefondo_creazione_riga');

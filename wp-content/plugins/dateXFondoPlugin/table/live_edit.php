@@ -94,7 +94,7 @@ function creazione_nuova_riga($request)
     $stmt->bind_param("sss", $titolo_fondo, $ente, $anno);
     $res = $stmt->execute();
     $mysqli->close();
-    return true;
+    return $stmt->insert_id;
 }
 
 function cancella_riga($request)

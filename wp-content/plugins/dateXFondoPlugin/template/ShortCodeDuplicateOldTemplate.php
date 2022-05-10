@@ -33,7 +33,7 @@ class ShortCodeDuplicateOldTemplate
         </div>
         <div class="table-responsive">
 
-            <table id="data_table" class="table table-striped table-bordered">
+            <table id="defaultTable" class="table table-striped table-bordered">
                 <thead>
                 <tr>
                     <th>ID</th>
@@ -45,6 +45,8 @@ class ShortCodeDuplicateOldTemplate
                     <th>Anno</th>
 
                     <th>ID Campo</th>
+
+                    <th>Sezione</th>
 
                     <th>Label Campo</th>
 
@@ -73,12 +75,13 @@ class ShortCodeDuplicateOldTemplate
                 $old_data = $old_template->getCurrentData($ente, $anno, $fondo);
                 foreach ($old_data as $entry) {
                     ?>
-                    <tr class="id_della_row">
+                    <tr>
                         <td><?php echo $entry[0]; ?></td>
                         <td><?php echo $fondo; ?></td>
                         <td><?php echo $ente; ?></td>
                         <td><?php echo $anno; ?></td>
                         <td><?php echo $entry[4]; ?></td>
+                        <td></td>
                         <td><?php echo $entry[5]; ?></td>
                         <td><?php echo $entry[6]; ?></td>
                         <td><?php echo $entry[7]; ?></td>
@@ -88,24 +91,39 @@ class ShortCodeDuplicateOldTemplate
                         <td>
                             <div class="radio">
                                 <label><input type="radio" name=<?php echo $entry[0]; ?> checked> Si</label>
-                                <label><input type="radio" name=<?php echo $entry[0]; ?> onclick="disabledRow(<?php echo $entry[0]; ?>)">No</label>
+                                <label><input type="radio"
+                                              name=<?php echo $entry[0]; ?> onclick="disabledRow(<?php echo $entry[0]; ?>)">No</label>
                             </div>
                         </td>
                     </tr>
 
                     <?php
-
+                    $sezioni = [0 => 'Risorse fisse aventi carattere di certezza e stabilità - Risorse storiche',
+                        1 => 'Risorse fisse aventi carattere di certezza e stabilità - Incrementi stabili ART. 67 C.2 CCNL 2018',
+                        2 => 'Risorse fisse aventi carattere di certezza e stabilità - Incrementi con carattere di certezza e stabilità non soggetti a limite',
+                        3 => 'Risorse fisse aventi carattere di certezza e stabilità - Decurtazioni (a detrarre)',
+                        4 => 'Risorse variabili - risorse variabili sottoposte al limite',
+                        5 => 'Risorse variabili - risorse variabili non sottoposte al limite'];
                 }
                 ?>
                 </tbody>
             </table>
-            <div style="display:none;">
-                <table id="sample_table">
-                    <tr id="">
+            <div >
+                <table id="newTable">
+                    <tr style="display:none;">
                         <td></td>
+                        <td><?php echo $fondo;?></td>
+                        <td><?php echo $ente;?></td>
+                        <td><?php echo $anno;?></td>
                         <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>
+                            <select id="idSection" onchange="updateSection()">
+                                <?php foreach ($sezioni as $sezione) {
+                                    ?>
+                                    <option value=<?php echo $sezione; ?>><?php echo $sezione; ?></option>
+                                <?php } ?>
+                            </select>
+                        </td>
                         <td></td>
                         <td></td>
                         <td></td>
@@ -130,29 +148,42 @@ class ShortCodeDuplicateOldTemplate
 
             $(document).ready(function () {
 
-                $('#data_table').Tabledit({
-                    hideIdentifier: true,
+                $('#defaultTable').Tabledit({
+                    hideIdentifier: false,
                     editButton: false,
                     deleteButton: false,
                     columns: {
                         identifier: [0, 'id'],
-                        editable: [[8, 'valore'], [9, 'valore anno precedente'], [10, 'nota']]
+                        editable: [[9, 'valore'], [10, 'valore anno precedente'], [11, 'nota']]
                     },
 
                     url: 'https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/edit',
                 });
+                $('#newTable').Tabledit({
+                    hideIdentifier: false,
+                    editButton: false,
+                    deleteButton: false,
+                    columns: {
+                        identifier: [0, 'id'],
+                        editable: [[1,'fondo'],
+                            [2,'ente'],
+                            [3,'anno'],
+                            [4,'id_campo'],
+                            [6,'label_campo'],
+                            [7,'descrizione_campo'],
+                            [8,'sottotitolo_campo'],
+                            [9,'valore'],
+                            [10,'valore_anno_precedente'],
+                            [11,'nota']]
+                    },
+
+                    url: 'https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/edit',
+                });
+
             });
 
-            jQuery(document).delegate('a.add-record', 'click', function (e) {
+            $(document).delegate('a.add-record', 'click', function (e) {
                 e.preventDefault();
-                var content = jQuery('#sample_table  tr'),
-                    size = jQuery('#data_table >tbody >tr').length + 1,
-                    element = null,
-                    element = content.clone();
-                element.attr('id', 'rec-' + size);
-                element.find('.delete-record').attr('data-id', size);
-                element.appendTo('#tbl_posts_body');
-                element.find('.sn').html(size);
                 $.ajax({
                     type: "POST",
                     url: "https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/newrow",
@@ -160,10 +191,18 @@ class ShortCodeDuplicateOldTemplate
                         $myObj = ["fondo" => $fondo, "ente" => $ente, "anno" => $anno];
                         ?>
                         "JSONIn":<?php echo json_encode($myObj);?>},
-                    success: function () {
+                    success: function (response) {
                         successmessage = 'Riga creata correttamente';
                         alert(successmessage);
-                        location.href = "https://demo.mg3.srl/date/duplicazione-template-anno-precedente/"
+                        var content = jQuery('#newTable  tr'),
+                            element = content.clone();
+                        console.log(element.find('td'))
+                        element.attr('id', response.id);
+                        element.appendTo('#tbl_posts_body');
+                        element.find('.tabledit-identifier').html(response.id);
+                        element.find('.tabledit-identifier').attr('value',response.id);
+                        element.find('.sn').html(response.id);
+                        element.show();
                     },
                     error: function () {
                         successmessage = 'Errore: creazione riga non riuscita';
@@ -173,12 +212,14 @@ class ShortCodeDuplicateOldTemplate
 
             });
 
+
             function disabledRow(id) {
                 $.ajax({
                     type: "POST",
                     url: "https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/deleterow",
-                    data: {  id: id
-                        },
+                    data: {
+                        id: id
+                    },
                     success: function () {
                         successmessage = 'Riga cancellata correttamente';
                         alert(successmessage);
@@ -189,6 +230,10 @@ class ShortCodeDuplicateOldTemplate
                         alert(successmessage);
                     }
                 });
+            }
+            function updateSection() {
+                var x = document.getElementById("idSection").value;
+                console.log(x);
             }
         </script>
         </html>
