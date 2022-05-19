@@ -76,7 +76,8 @@ class ShortCodeTable
 
         </div>
 
-        <h2>TABELLA</h2>
+        <h2>Tabella per la visualizzazione dei dati di Chivasso.</h2>
+        <h8>I dati possono essere filtrati scegliendo l'anno o scegliendo l'anno e il fondo.</h8>
 
         <table id="data_table" class="table table-striped">
             <thead>

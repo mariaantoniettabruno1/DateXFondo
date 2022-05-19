@@ -11,25 +11,18 @@ function modifica_campi($request)
     $mysqli = $conn->connect();
 
     if (isset($input['action']) && $input['action'] == 'edit') {
-        if (isset($input['valore'])) {
-            $sql = "UPDATE DATE_entry_chivasso SET valore=?  WHERE id=?";
-            $stmt = $mysqli->prepare($sql);
-            $stmt->bind_param("si", $input['valore'], $input['id']);
-            $res = $stmt->execute();
-
-        } else if (isset($input['nota'])) {
-            $sql = "UPDATE DATE_entry_chivasso SET nota=?  WHERE id=?";
-            $stmt = $mysqli->prepare($sql);
-            $stmt->bind_param("si", $input['nota'], $input['id']);
-            $res = $stmt->execute();
-            $mysqli->close();
-        }
-
-
+        $sql = "UPDATE DATE_entry_chivasso SET id_campo=?,label_campo=?,descrizione_campo=?,sottotitolo_campo=?,valore=?,valore_anno_precedente=?,nota=?  WHERE id=?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("issssfsi", $input['id_campo'], $input['sezione'], $input['label_campo'], $input['descrizione_campo'], $input['sottotitolo_campo'], $input['valore'], $input['valore_anno_precedente'], $input['nota'], $input['id']);
+        $res = $stmt->execute();
+        $mysqli->close();
+    } else {
+        $mysqli->close();
     }
+    return 'Fine Edit';
 
-    return $stmt;
 }
+
 
 function modifica_campi_nuovo_template($request)
 {
@@ -39,25 +32,23 @@ function modifica_campi_nuovo_template($request)
     $conn = new Connection();
     $mysqli = $conn->connect();
 
-    if (isset($input['action']) && $input['action'] == 'edit') {
-        if (isset($input['id_campo'])) {
-            $sql = "UPDATE DATE_entry_chivasso SET id_campo=?  WHERE id=?";
-            $stmt = $mysqli->prepare($sql);
-            $stmt->bind_param("ii", $input['id_campo'], $input['id']);
-            $res = $stmt->execute();
-            $mysqli->close();
-        } else if (isset($input['nota'])) {
-            $sql = "UPDATE DATE_entry_chivasso SET nota=?  WHERE id=?";
-            $stmt = $mysqli->prepare($sql);
-            $stmt->bind_param("si", $input['nota'], $input['id']);
-            $res = $stmt->execute();
-            $mysqli->close();
-        }
-
-
-    }
+    $sql = "UPDATE DATE_entry_chivasso SET sezione=?  WHERE id=?";
+    $stmt = $mysqli->prepare($sql);
+    $stmt->bind_param("si", $input['sezione'], $input['id']);
+    $res = $stmt->execute();
     $mysqli->close();
-    return 'Chiamata ok';
+
+    if (isset($input['action']) && $input['action'] == 'edit') {
+        $sql = "UPDATE DATE_entry_chivasso SET id_campo=?,label_campo=?,descrizione_campo=?,sottotitolo_campo=?,valore=?,valore_anno_precedente=?,nota=?  WHERE id=?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("isssfsi", $input['id_campo'], $input['label_campo'], $input['descrizione_campo'], $input['sottotitolo_campo'], $input['valore'], $input['valore_anno_precedente'], $input['nota'], $input['id']);
+        $res = $stmt->execute();
+        $mysqli->close();
+    } else {
+        $mysqli->close();
+    }
+
+    return 'Fine edit sezione';
 }
 
 function caricamento_campi($request)

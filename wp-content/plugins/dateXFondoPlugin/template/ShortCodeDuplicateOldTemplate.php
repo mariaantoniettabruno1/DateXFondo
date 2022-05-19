@@ -108,35 +108,70 @@ class ShortCodeDuplicateOldTemplate
                 ?>
                 </tbody>
             </table>
-            <div >
-                <table id="newTable">
+            <br>
+            <div>
+                <table id="newTable" class="table table-striped table-bordered">
+                        <thead style="display:none;">
+                        <tr>
+                            <th>ID</th>
+
+                            <th>Fondo</th>
+
+                            <th>Ente</th>
+
+                            <th>Anno</th>
+
+                            <th>ID Campo</th>
+
+                            <th>Sezione</th>
+
+                            <th>Label Campo</th>
+
+                            <th>Descrizione Campo</th>
+
+                            <th>Sottotitolo Campo</th>
+
+                            <th>Valore</th>
+
+                            <th>Valore Anno Precedente</th>
+
+                            <th>Nota</th>
+
+                            <th>Attivo</th>
+                        </tr>
+                        </thead>
+                    <tbody>
                     <tr style="display:none;">
                         <td></td>
-                        <td><?php echo $fondo;?></td>
-                        <td><?php echo $ente;?></td>
-                        <td><?php echo $anno;?></td>
-                        <td></td>
-                        <td>
-                            <select id="idSection" onchange="updateSection()">
+                        <td width="5%"><?php echo $fondo;?></td>
+                        <td width="10%"><?php echo $ente;?></td>
+                        <td width="10%"><?php echo $anno;?></td>
+                        <td width="24%"></td>
+                        <td width="35%">
+                            <select>
+                                <option disabled selected value> -- seleziona una opzione -- </option>
                                 <?php foreach ($sezioni as $sezione) {
+                                    print_r($sezione)
                                     ?>
-                                    <option value=<?php echo $sezione; ?>><?php echo $sezione; ?></option>
+                                    <option><?php echo $sezione; ?></option>
                                 <?php } ?>
                             </select>
                         </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>
+                        <td width="35%"></td>
+                        <td width="35%"></td>
+                        <td width="35%"></td>
+                        <td width="35%"></td>
+                        <td width="35%"></td>
+                        <td width="35%"></td>
+                        <td width="35%">
                             <div class="radio">
                                 <label><input type="radio" value="" checked> Si</label>
                                 <label><input type="radio"> No</label>
                             </div>
                         </td>
                     </tr>
+                    </tbody>
+
                 </table>
             </div>
         </div>
@@ -149,7 +184,7 @@ class ShortCodeDuplicateOldTemplate
             $(document).ready(function () {
 
                 $('#defaultTable').Tabledit({
-                    hideIdentifier: false,
+                    hideIdentifier: true,
                     editButton: false,
                     deleteButton: false,
                     columns: {
@@ -160,7 +195,7 @@ class ShortCodeDuplicateOldTemplate
                     url: 'https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/edit',
                 });
                 $('#newTable').Tabledit({
-                    hideIdentifier: false,
+                    hideIdentifier: true,
                     editButton: false,
                     deleteButton: false,
                     columns: {
@@ -177,7 +212,7 @@ class ShortCodeDuplicateOldTemplate
                             [11,'nota']]
                     },
 
-                    url: 'https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/edit',
+                    url: 'https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/editnewfondo',
                 });
 
             });
@@ -196,13 +231,16 @@ class ShortCodeDuplicateOldTemplate
                         alert(successmessage);
                         var content = jQuery('#newTable  tr'),
                             element = content.clone();
-                        console.log(element.find('td'))
+                        console.log(element.find('select'))
                         element.attr('id', response.id);
-                        element.appendTo('#tbl_posts_body');
+                        element.appendTo('#newTable');
                         element.find('.tabledit-identifier').html(response.id);
                         element.find('.tabledit-identifier').attr('value',response.id);
                         element.find('.sn').html(response.id);
                         element.show();
+                        element.find('select').change(function (){
+                            updateSection(response.id,$(this).val())
+                        });
                     },
                     error: function () {
                         successmessage = 'Errore: creazione riga non riuscita';
@@ -231,9 +269,24 @@ class ShortCodeDuplicateOldTemplate
                     }
                 });
             }
-            function updateSection() {
-                var x = document.getElementById("idSection").value;
-                console.log(x);
+            function updateSection(id,sezione) {
+
+                $.ajax({
+                    type: "POST",
+                    url: "https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/editnewfondo",
+                    data: {
+                        sezione,id
+                    },
+                    success: function () {
+                        console.log(sezione)
+                        successmessage = 'Sezione modificata correttamente';
+                        console.log(successmessage)
+                    },
+                    error: function () {
+                        successmessage = 'Errore, sezione non modificata correttamente';
+                        console.log(successmessage);
+                    }
+                });
             }
         </script>
         </html>

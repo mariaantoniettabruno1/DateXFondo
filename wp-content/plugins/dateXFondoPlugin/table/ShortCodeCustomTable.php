@@ -24,7 +24,10 @@ class ShortCodeCustomTable
     </head>
     <body>
 
-    <h2>TABELLA</h2>
+    <h2>TABELLA DEI FONDI DELL'ANNO CORRENTE</h2>
+
+    <h8>In questa tabella è possibile modificare i campi: valore, valore anno precedente e nota.<br>
+        La modifica può essere bloccata tramite un pulsante situato al fondo della pagina. Bloccando la modifica, è possibile duplicare la tabella.</h8>
     <div class="table-responsive">
 
         <table id="data_table" class="table table-striped table-bordered">
