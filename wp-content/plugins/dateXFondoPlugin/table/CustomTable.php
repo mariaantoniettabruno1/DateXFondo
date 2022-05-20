@@ -6,7 +6,7 @@ class CustomTable
 {
     public static function getAllYears()
     {
-
+      
         $conn = new Connection();
         $mysqli = $conn->connect();
         $sql = "SELECT DISTINCT anno FROM DATE_entry_chivasso";
@@ -81,6 +81,7 @@ class CustomTable
         mysqli_close($mysqli);
 
     }
+
     public static function duplicateTable($year)
     {
         $conn = new Connection();

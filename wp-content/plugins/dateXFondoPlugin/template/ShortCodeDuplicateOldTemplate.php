@@ -17,277 +17,143 @@ class ShortCodeDuplicateOldTemplate
 
         <head>
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-            <script type="text/javascript" src="https://unpkg.com/jquery-tabledit@1.0.0/jquery.tabledit.js"></script>
             <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
             <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
             <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
                   integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
                   crossorigin="anonymous">
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css"></script>
+            <script src="https://cdn.datatables.net/1.12.0/css/dataTables.bootstrap4.min.css"></script>
 
         </head>
         <body>
 
         <h2>TABELLA NUOVO FONDO TEMPLATE DUPLICATO</h2>
-        <div class="well clearfix">
-            <a class="btn btn-primary pull-right add-record"><i class="glyphicon glyphicon-plus"></i>Aggiungi nuova Riga</a>
-        </div>
         <div class="table-responsive">
 
-            <table id="defaultTable" class="table table-striped table-bordered">
+            <table id="example" class="table table-striped table-bordered" style="width:100%">
                 <thead>
                 <tr>
-                    <th>ID</th>
-
                     <th>Fondo</th>
-
                     <th>Ente</th>
-
                     <th>Anno</th>
-
                     <th>ID Campo</th>
-
                     <th>Sezione</th>
-
-                    <th>Label Campo</th>
-
-                    <th>Descrizione Campo</th>
-
-                    <th>Sottotitolo Campo</th>
-
+                    <th>Label campo</th>
+                    <th>Descrizione campo</th>
+                    <th>Sottotitolo campo</th>
                     <th>Valore</th>
-
-                    <th>Valore Anno Precedente</th>
-
+                    <th>Valore anno precedente</th>
                     <th>Nota</th>
-
                     <th>Attivo</th>
                 </tr>
                 </thead>
-                <tbody id="tbl_posts_body">
-                <?php
-                $entry_gforms = GFAPI::get_entries(7);
-                if (!empty($entry_gforms)) {
-                    $fondo = $entry_gforms[0][1];
-                    $ente = $entry_gforms[0][26];
-                    $anno = $entry_gforms[0][25];
-                }
-                $old_template = new DuplicateOldTemplate();
-                $old_data = $old_template->getCurrentData($ente, $anno, $fondo);
-                foreach ($old_data as $entry) {
-                    ?>
-                    <tr>
-                        <td><?php echo $entry[0]; ?></td>
-                        <td><?php echo $fondo; ?></td>
-                        <td><?php echo $ente; ?></td>
-                        <td><?php echo $anno; ?></td>
-                        <td><?php echo $entry[4]; ?></td>
-                        <td></td>
-                        <td><?php echo $entry[5]; ?></td>
-                        <td><?php echo $entry[6]; ?></td>
-                        <td><?php echo $entry[7]; ?></td>
-                        <td><?php echo $entry[8]; ?></td>
-                        <td><?php echo $entry[9]; ?></td>
-                        <td><?php echo $entry[10]; ?></td>
-                        <td>
-                            <div class="radio">
-                                <label><input type="radio" name=<?php echo $entry[0]; ?> checked> Si</label>
-                                <label><input type="radio"
-                                              name=<?php echo $entry[0]; ?> onclick="disabledRow(<?php echo $entry[0]; ?>)">No</label>
-                            </div>
-                        </td>
-                    </tr>
-
-                    <?php
-                    $sezioni = [0 => 'Risorse fisse aventi carattere di certezza e stabilità - Risorse storiche',
-                        1 => 'Risorse fisse aventi carattere di certezza e stabilità - Incrementi stabili ART. 67 C.2 CCNL 2018',
-                        2 => 'Risorse fisse aventi carattere di certezza e stabilità - Incrementi con carattere di certezza e stabilità non soggetti a limite',
-                        3 => 'Risorse fisse aventi carattere di certezza e stabilità - Decurtazioni (a detrarre)',
-                        4 => 'Risorse variabili - risorse variabili sottoposte al limite',
-                        5 => 'Risorse variabili - risorse variabili non sottoposte al limite'];
-                }
-                ?>
-                </tbody>
+                <tbody>
+                <tr>
+                    <td>Tiger Nixon</td>
+                    <td>System Architect</td>
+                    <td>Edinburgh</td>
+                    <td>61</td>
+                    <td>2011-04-25</td>
+                    <td>$320,800</td>
+                    <td>Tiger Nixon</td>
+                    <td>System Architect</td>
+                    <td>Edinburgh</td>
+                    <td>61</td>
+                    <td>2011-04-25</td>
+                    <td>$320,800</td>
+                </tr>
+                <tr>
+                    <td>Garrett Winters</td>
+                    <td>Accountant</td>
+                    <td>Tokyo</td>
+                    <td>63</td>
+                    <td>2011-07-25</td>
+                    <td>$170,750</td>
+                    <td>Garrett Winters</td>
+                    <td>Accountant</td>
+                    <td>Tokyo</td>
+                    <td>63</td>
+                    <td>2011-07-25</td>
+                    <td>$170,750</td>
+                </tr>
+                <tr>
+                    <td>Ashton Cox</td>
+                    <td>Junior Technical Author</td>
+                    <td>San Francisco</td>
+                    <td>66</td>
+                    <td>2009-01-12</td>
+                    <td>$86,000</td>
+                    <td>Ashton Cox</td>
+                    <td>Junior Technical Author</td>
+                    <td>San Francisco</td>
+                    <td>66</td>
+                    <td>2009-01-12</td>
+                    <td>$86,000</td>
+                </tr>
+                <tr>
+                    <td>Cedric Kelly</td>
+                    <td>Senior Javascript Developer</td>
+                    <td>Edinburgh</td>
+                    <td>22</td>
+                    <td>2012-03-29</td>
+                    <td>$433,060</td>
+                    <td>Cedric Kelly</td>
+                    <td>Senior Javascript Developer</td>
+                    <td>Edinburgh</td>
+                    <td>22</td>
+                    <td>2012-03-29</td>
+                    <td>$433,060</td>
+                </tr>
+                <tr>
+                    <td>Airi Satou</td>
+                    <td>Accountant</td>
+                    <td>Tokyo</td>
+                    <td>33</td>
+                    <td>2008-11-28</td>
+                    <td>$162,700</td>
+                    <td>Airi Satou</td>
+                    <td>Accountant</td>
+                    <td>Tokyo</td>
+                    <td>33</td>
+                    <td>2008-11-28</td>
+                    <td>$162,700</td>
+                </tr>
+                <tr>
+                    <td>Brielle Williamson</td>
+                    <td>Integration Specialist</td>
+                    <td>New York</td>
+                    <td>61</td>
+                    <td>2012-12-02</td>
+                    <td>$372,000</td>
+                    <td>Brielle Williamson</td>
+                    <td>Integration Specialist</td>
+                    <td>New York</td>
+                    <td>61</td>
+                    <td>2012-12-02</td>
+                    <td>$372,000</td>
+                </tr>
+                <tr>
+                    <td>Herrod Chandler</td>
+                    <td>Sales Assistant</td>
+                    <td>San Francisco</td>
+                    <td>59</td>
+                    <td>2012-08-06</td>
+                    <td>$137,500</td>
+                    <td>Herrod Chandler</td>
+                    <td>Sales Assistant</td>
+                    <td>San Francisco</td>
+                    <td>59</td>
+                    <td>2012-08-06</td>
+                    <td>$137,500</td>
+                </tr>
+                </tfoot>
             </table>
-            <br>
-            <div>
-                <table id="newTable" class="table table-striped table-bordered">
-                        <thead style="display:none;">
-                        <tr>
-                            <th>ID</th>
-
-                            <th>Fondo</th>
-
-                            <th>Ente</th>
-
-                            <th>Anno</th>
-
-                            <th>ID Campo</th>
-
-                            <th>Sezione</th>
-
-                            <th>Label Campo</th>
-
-                            <th>Descrizione Campo</th>
-
-                            <th>Sottotitolo Campo</th>
-
-                            <th>Valore</th>
-
-                            <th>Valore Anno Precedente</th>
-
-                            <th>Nota</th>
-
-                            <th>Attivo</th>
-                        </tr>
-                        </thead>
-                    <tbody>
-                    <tr style="display:none;">
-                        <td></td>
-                        <td width="5%"><?php echo $fondo;?></td>
-                        <td width="10%"><?php echo $ente;?></td>
-                        <td width="10%"><?php echo $anno;?></td>
-                        <td width="24%"></td>
-                        <td width="35%">
-                            <select>
-                                <option disabled selected value> -- seleziona una opzione -- </option>
-                                <?php foreach ($sezioni as $sezione) {
-                                    print_r($sezione)
-                                    ?>
-                                    <option><?php echo $sezione; ?></option>
-                                <?php } ?>
-                            </select>
-                        </td>
-                        <td width="35%"></td>
-                        <td width="35%"></td>
-                        <td width="35%"></td>
-                        <td width="35%"></td>
-                        <td width="35%"></td>
-                        <td width="35%"></td>
-                        <td width="35%">
-                            <div class="radio">
-                                <label><input type="radio" value="" checked> Si</label>
-                                <label><input type="radio"> No</label>
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-
-                </table>
             </div>
-        </div>
-        <div class="well clearfix">
-            <a class="btn btn-primary pull-right add-record"><i class="glyphicon glyphicon-plus"></i>Aggiungi nuova Riga</a>
         </div>
         </body>
         <script>
 
-            $(document).ready(function () {
-
-                $('#defaultTable').Tabledit({
-                    hideIdentifier: true,
-                    editButton: false,
-                    deleteButton: false,
-                    columns: {
-                        identifier: [0, 'id'],
-                        editable: [[9, 'valore'], [10, 'valore anno precedente'], [11, 'nota']]
-                    },
-
-                    url: 'https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/edit',
-                });
-                $('#newTable').Tabledit({
-                    hideIdentifier: true,
-                    editButton: false,
-                    deleteButton: false,
-                    columns: {
-                        identifier: [0, 'id'],
-                        editable: [[1,'fondo'],
-                            [2,'ente'],
-                            [3,'anno'],
-                            [4,'id_campo'],
-                            [6,'label_campo'],
-                            [7,'descrizione_campo'],
-                            [8,'sottotitolo_campo'],
-                            [9,'valore'],
-                            [10,'valore_anno_precedente'],
-                            [11,'nota']]
-                    },
-
-                    url: 'https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/editnewfondo',
-                });
-
-            });
-
-            $(document).delegate('a.add-record', 'click', function (e) {
-                e.preventDefault();
-                $.ajax({
-                    type: "POST",
-                    url: "https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/newrow",
-                    data: {   <?php
-                        $myObj = ["fondo" => $fondo, "ente" => $ente, "anno" => $anno];
-                        ?>
-                        "JSONIn":<?php echo json_encode($myObj);?>},
-                    success: function (response) {
-                        successmessage = 'Riga creata correttamente';
-                        alert(successmessage);
-                        var content = jQuery('#newTable  tr'),
-                            element = content.clone();
-                        console.log(element.find('select'))
-                        element.attr('id', response.id);
-                        element.appendTo('#newTable');
-                        element.find('.tabledit-identifier').html(response.id);
-                        element.find('.tabledit-identifier').attr('value',response.id);
-                        element.find('.sn').html(response.id);
-                        element.show();
-                        element.find('select').change(function (){
-                            updateSection(response.id,$(this).val())
-                        });
-                    },
-                    error: function () {
-                        successmessage = 'Errore: creazione riga non riuscita';
-                        alert(successmessage);
-                    }
-                });
-
-            });
-
-
-            function disabledRow(id) {
-                $.ajax({
-                    type: "POST",
-                    url: "https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/deleterow",
-                    data: {
-                        id: id
-                    },
-                    success: function () {
-                        successmessage = 'Riga cancellata correttamente';
-                        alert(successmessage);
-                        location.href = "https://demo.mg3.srl/date/duplicazione-template-anno-precedente/"
-                    },
-                    error: function () {
-                        successmessage = 'Errore: cancellazione riga non riuscita';
-                        alert(successmessage);
-                    }
-                });
-            }
-            function updateSection(id,sezione) {
-
-                $.ajax({
-                    type: "POST",
-                    url: "https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/editnewfondo",
-                    data: {
-                        sezione,id
-                    },
-                    success: function () {
-                        console.log(sezione)
-                        successmessage = 'Sezione modificata correttamente';
-                        console.log(successmessage)
-                    },
-                    error: function () {
-                        successmessage = 'Errore, sezione non modificata correttamente';
-                        console.log(successmessage);
-                    }
-                });
-            }
         </script>
         </html>
 
