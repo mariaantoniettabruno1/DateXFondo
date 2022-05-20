@@ -117,11 +117,7 @@ function create_endpoint_datefondo_nuovo()
 
 function esegui_modifica_campi_nuovo_template($params)
 {
-    \dateXFondoPlugin\modifica_campi_nuovo_template($params);
-    $data = ['params'=>$params,'message'=>'Endpoint di edit modifica campi nuovo template'];
-    $response = new WP_REST_Response($data);
-    $response->set_status(200);
-    return $response;
+    return  \dateXFondoPlugin\modifica_campi_nuovo_template($params);
 
 }
 

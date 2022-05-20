@@ -41,19 +41,9 @@ function modifica_campi_nuovo_template($request)
 
      $sql = "UPDATE DATE_entry_chivasso SET id_campo=?  WHERE id=?";
      $stmt = $mysqli->prepare($sql);
-     $stmt->bind_param("ii", $input['id_campo'], $input['id']);
+     $stmt->bind_param("si", $input['id_campo'], $input['id']);
      $res = $stmt->execute();
 
-
-    if (isset($input['action']) && $input['action'] == 'edit') {
-        $sql = "UPDATE DATE_entry_chivasso SET id_campo=?,sezione=?,label_campo=?,descrizione_campo=?,sottotitolo_campo=?,valore=?,valore_anno_precedente=?,nota=?  WHERE id=?";
-        $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("issssfsi", $input['id_campo'], $input['sezione'], $input['label_campo'], $input['descrizione_campo'], $input['sottotitolo_campo'], $input['valore'], $input['valore_anno_precedente'], $input['nota'], $input['id']);
-        $res = $stmt->execute();
-        $mysqli->close();
-    } else {
-        $mysqli->close();
-    }
     $mysqli->close();
     return $input;
 }

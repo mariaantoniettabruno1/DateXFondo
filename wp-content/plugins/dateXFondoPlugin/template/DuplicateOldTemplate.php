@@ -3,6 +3,7 @@
 namespace dateXFondoPlugin;
 class DuplicateOldTemplate
 {
+
     public function getOldData($ente, $anno_precedente)
     {
         $conn = new Connection();

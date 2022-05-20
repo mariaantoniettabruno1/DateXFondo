@@ -4,10 +4,13 @@ namespace dateXFondoPlugin;
 
 use GFAPI;
 
+header('Content-Type: text/javascript');
+
 class ShortCodeDuplicateOldTemplate
 {
     public static function visualize_old_template()
     {
+
         ?>
 
 
@@ -16,25 +19,24 @@ class ShortCodeDuplicateOldTemplate
         <html lang="en">
 
         <head>
+
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
             <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
             <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
             <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
                   integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
                   crossorigin="anonymous">
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css"></script>
-            <script src="https://cdn.datatables.net/1.12.0/css/dataTables.bootstrap4.min.css"></script>
-
         </head>
         <body>
 
         <h2>TABELLA NUOVO FONDO TEMPLATE DUPLICATO</h2>
         <div class="table-responsive">
 
-            <table id="example" class="table table-striped table-bordered" style="width:100%">
+            <table id="dataTable" style="width:50%">
                 <thead>
                 <tr>
-                    <th>Fondo</th>
+                    <th>ID</th>
+                    <th style="width:70%">Fondo</th>
                     <th>Ente</th>
                     <th>Anno</th>
                     <th>ID Campo</th>
@@ -48,112 +50,91 @@ class ShortCodeDuplicateOldTemplate
                     <th>Attivo</th>
                 </tr>
                 </thead>
-                <tbody>
-                <tr>
-                    <td>Tiger Nixon</td>
-                    <td>System Architect</td>
-                    <td>Edinburgh</td>
-                    <td>61</td>
-                    <td>2011-04-25</td>
-                    <td>$320,800</td>
-                    <td>Tiger Nixon</td>
-                    <td>System Architect</td>
-                    <td>Edinburgh</td>
-                    <td>61</td>
-                    <td>2011-04-25</td>
-                    <td>$320,800</td>
-                </tr>
-                <tr>
-                    <td>Garrett Winters</td>
-                    <td>Accountant</td>
-                    <td>Tokyo</td>
-                    <td>63</td>
-                    <td>2011-07-25</td>
-                    <td>$170,750</td>
-                    <td>Garrett Winters</td>
-                    <td>Accountant</td>
-                    <td>Tokyo</td>
-                    <td>63</td>
-                    <td>2011-07-25</td>
-                    <td>$170,750</td>
-                </tr>
-                <tr>
-                    <td>Ashton Cox</td>
-                    <td>Junior Technical Author</td>
-                    <td>San Francisco</td>
-                    <td>66</td>
-                    <td>2009-01-12</td>
-                    <td>$86,000</td>
-                    <td>Ashton Cox</td>
-                    <td>Junior Technical Author</td>
-                    <td>San Francisco</td>
-                    <td>66</td>
-                    <td>2009-01-12</td>
-                    <td>$86,000</td>
-                </tr>
-                <tr>
-                    <td>Cedric Kelly</td>
-                    <td>Senior Javascript Developer</td>
-                    <td>Edinburgh</td>
-                    <td>22</td>
-                    <td>2012-03-29</td>
-                    <td>$433,060</td>
-                    <td>Cedric Kelly</td>
-                    <td>Senior Javascript Developer</td>
-                    <td>Edinburgh</td>
-                    <td>22</td>
-                    <td>2012-03-29</td>
-                    <td>$433,060</td>
-                </tr>
-                <tr>
-                    <td>Airi Satou</td>
-                    <td>Accountant</td>
-                    <td>Tokyo</td>
-                    <td>33</td>
-                    <td>2008-11-28</td>
-                    <td>$162,700</td>
-                    <td>Airi Satou</td>
-                    <td>Accountant</td>
-                    <td>Tokyo</td>
-                    <td>33</td>
-                    <td>2008-11-28</td>
-                    <td>$162,700</td>
-                </tr>
-                <tr>
-                    <td>Brielle Williamson</td>
-                    <td>Integration Specialist</td>
-                    <td>New York</td>
-                    <td>61</td>
-                    <td>2012-12-02</td>
-                    <td>$372,000</td>
-                    <td>Brielle Williamson</td>
-                    <td>Integration Specialist</td>
-                    <td>New York</td>
-                    <td>61</td>
-                    <td>2012-12-02</td>
-                    <td>$372,000</td>
-                </tr>
-                <tr>
-                    <td>Herrod Chandler</td>
-                    <td>Sales Assistant</td>
-                    <td>San Francisco</td>
-                    <td>59</td>
-                    <td>2012-08-06</td>
-                    <td>$137,500</td>
-                    <td>Herrod Chandler</td>
-                    <td>Sales Assistant</td>
-                    <td>San Francisco</td>
-                    <td>59</td>
-                    <td>2012-08-06</td>
-                    <td>$137,500</td>
-                </tr>
-                </tfoot>
+                <tbody id="tbl_posts_body">
+                <?php
+                $entry_gforms = GFAPI::get_entries(7);
+                if (!empty($entry_gforms)) {
+                    $fondo = $entry_gforms[0][1];
+                    $ente = $entry_gforms[0][26];
+                    $anno = $entry_gforms[0][25];
+                }
+                $old_template = new DuplicateOldTemplate();
+                $old_data = $old_template->getCurrentData($ente, $anno, $fondo);
+                foreach ($old_data as $entry) {
+                    ?>
+                    <tr>
+                        <td><?php echo $entry[0]; ?></td>
+                        <td><?php echo $fondo; ?></td>
+                        <td><?php echo $ente; ?></td>
+                        <td><?php echo $anno; ?></td>
+                        <td id="idTdId">
+                            <span id="spanId">
+                                <?php echo $entry[4]; ?>
+                            </span>
+                            <input type="text" id="inputID" value='<?php echo $entry[4]; ?>' style="display: none"
+                                   onchange="changeValue('<?php echo $entry[0]; ?>')"/>
+                        </td>
+                        <td>Sezione</td>
+                        <td><?php echo $entry[5]; ?></td>
+                        <td><?php echo $entry[6]; ?></td>
+                        <td><?php echo $entry[7]; ?></td>
+                        <td><?php echo $entry[8]; ?></td>
+                        <td><?php echo $entry[9]; ?></td>
+                        <td><?php echo $entry[10]; ?></td>
+                        <td>
+                            <div class="radio">
+                                <label><input type="radio" name=<?php echo $entry[0]; ?> checked> Si</label>
+                                <label><input type="radio"
+                                              name=<?php echo $entry[0]; ?> onclick="disabledRow(<?php echo $entry[0]; ?>)">No</label>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <?php
+                    $sezioni = [0 => 'Risorse fisse aventi carattere di certezza e stabilità - Risorse storiche',
+                        1 => 'Risorse fisse aventi carattere di certezza e stabilità - Incrementi stabili ART. 67 C.2 CCNL 2018',
+                        2 => 'Risorse fisse aventi carattere di certezza e stabilità - Incrementi con carattere di certezza e stabilità non soggetti a limite',
+                        3 => 'Risorse fisse aventi carattere di certezza e stabilità - Decurtazioni (a detrarre)',
+                        4 => 'Risorse variabili - risorse variabili sottoposte al limite',
+                        5 => 'Risorse variabili - risorse variabili non sottoposte al limite'];
+                }
+                ?>
+                </tbody>
             </table>
-            </div>
+            </table>
+        </div>
         </div>
         </body>
         <script>
+            $("#idTdId").click(function () {
+                $("#spanId").hide();
+                $("#inputID").show();
+            });
 
+            function changeValue(id) {
+                var id_campo = document.getElementById("inputID").value;
+                console.log(id_campo);
+                $.ajax({
+                    type: "POST",
+                    url: "https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/editnewfondo",
+                    data: {
+                        id, id_campo
+                    },
+                    success: function () {
+                        successmessage = 'Modifica eseguita correttamente';
+                        console.log(successmessage);
+                        $("#inputID").hide();
+                        $("#spanId").show();
+                        var span = document.getElementById("spanId");
+                        span.textContent = id_campo;
+
+                    },
+                    error: function () {
+                        successmessage = 'Modifica non riuscita non riuscita';
+                        console.log(successmessage);
+                    }
+                });
+            }
         </script>
         </html>
 
