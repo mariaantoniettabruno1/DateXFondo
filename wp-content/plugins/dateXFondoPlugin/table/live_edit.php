@@ -38,12 +38,56 @@ function modifica_campi_nuovo_template($request)
 
     $conn = new Connection();
     $mysqli = $conn->connect();
-
-     $sql = "UPDATE DATE_entry_chivasso SET id_campo=?  WHERE id=?";
-     $stmt = $mysqli->prepare($sql);
-     $stmt->bind_param("si", $input['id_campo'], $input['id']);
-     $res = $stmt->execute();
-
+    if (isset($input['id_campo'])) {
+        $sql = "UPDATE DATE_entry_chivasso SET id_campo=?
+WHERE id=?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("si", $input['id_campo'], $input['id']);
+        $res = $stmt->execute();
+    }
+    else if(isset($input['sezione'])){
+        $sql = "UPDATE DATE_entry_chivasso SET sezione=?
+WHERE id=?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("si", $input['sezione'], $input['id']);
+        $res = $stmt->execute();
+    }else if(isset($input['label_campo'])){
+        $sql = "UPDATE DATE_entry_chivasso SET label_campo=?
+WHERE id=?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("si", $input['label_campo'], $input['id']);
+        $res = $stmt->execute();
+    }else if(isset($input['descrizione_campo'])){
+        $sql = "UPDATE DATE_entry_chivasso SET descrizione_campo=?
+WHERE id=?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("si", $input['descrizione_campo'], $input['id']);
+        $res = $stmt->execute();
+    }else if(isset($input['sottotitolo_campo'])){
+        $sql = "UPDATE DATE_entry_chivasso SET sottotitolo_campo=?
+WHERE id=?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("si", $input['sottotitolo_campo'], $input['id']);
+        $res = $stmt->execute();
+    } else if (isset($input['valore'])) {
+        $sql = "UPDATE DATE_entry_chivasso SET valore=?
+WHERE id=?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("si", $input['valore'], $input['id']);
+        $res = $stmt->execute();
+    } else if (isset($input['valore_anno_precedente'])) {
+        $sql = "UPDATE DATE_entry_chivasso SET valore_anno_precedente=?
+WHERE id=?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("si", $input['valore_anno_precedente'], $input['id']);
+        $res = $stmt->execute();
+    }else if (isset($input['nota'])) {
+        $sql = "UPDATE DATE_entry_chivasso SET nota=?
+WHERE id=?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("si", $input['nota'], $input['id']);
+        $res = $stmt->execute();
+    }
     $mysqli->close();
     return $input;
 }

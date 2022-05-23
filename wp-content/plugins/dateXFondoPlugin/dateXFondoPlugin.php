@@ -118,7 +118,6 @@ function create_endpoint_datefondo_nuovo()
 function esegui_modifica_campi_nuovo_template($params)
 {
     return  \dateXFondoPlugin\modifica_campi_nuovo_template($params);
-
 }
 
 add_action('rest_api_init', 'create_endpoint_datefondo_nuovo');

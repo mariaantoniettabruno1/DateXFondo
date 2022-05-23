@@ -35,7 +35,6 @@ class ShortCodeDuplicateOldTemplate
             <table id="dataTable" style="width:50%">
                 <thead>
                 <tr>
-                    <th>ID</th>
                     <th style="width:70%">Fondo</th>
                     <th>Ente</th>
                     <th>Anno</th>
@@ -59,28 +58,100 @@ class ShortCodeDuplicateOldTemplate
                     $anno = $entry_gforms[0][25];
                 }
                 $old_template = new DuplicateOldTemplate();
+                $sezioni = [0 => 'Risorse fisse aventi carattere di certezza e stabilità - Risorse storiche',
+                    1 => 'Risorse fisse aventi carattere di certezza e stabilità - Incrementi stabili ART. 67 C.2 CCNL 2018',
+                    2 => 'Risorse fisse aventi carattere di certezza e stabilità - Incrementi con carattere di certezza e stabilità non soggetti a limite',
+                    3 => 'Risorse fisse aventi carattere di certezza e stabilità - Decurtazioni (a detrarre)',
+                    4 => 'Risorse variabili - risorse variabili sottoposte al limite',
+                    5 => 'Risorse variabili - risorse variabili non sottoposte al limite'];
                 $old_data = $old_template->getCurrentData($ente, $anno, $fondo);
+
                 foreach ($old_data as $entry) {
+
                     ?>
                     <tr>
-                        <td><?php echo $entry[0]; ?></td>
-                        <td><?php echo $fondo; ?></td>
-                        <td><?php echo $ente; ?></td>
-                        <td><?php echo $anno; ?></td>
-                        <td id="idTdId">
-                            <span id="spanId">
+                        <td style="display: none"><?php echo $entry[0]; ?></td>
+                        <td>  <span class="toggleable-span">
+                                <?php echo $fondo; ?>
+                            </span>
+                            <input type="text" class="toggleable-input" value='<?php echo $fondo; ?>'
+                                   style="display: none" data-field="fondo" data-id="<?= $entry[0] ?>"
+                            /></td>
+                        <td>
+                             <span class="toggleable-span">
+                                <?php echo $ente; ?>
+                            </span>
+                            <input type="text" class="toggleable-input" value='<?php echo $ente; ?>'
+                                   style="display: none" data-field="ente" data-id="<?= $entry[0] ?>"
+                            /></td>
+                        <td>
+                              <span class="toggleable-span">
+                                <?php echo $anno; ?>
+                            </span>
+                            <input type="text" class="toggleable-input" value='<?php echo $anno; ?>'
+                                   style="display: none" data-field="ente" data-id="<?= $entry[0] ?>"
+                            /></td>
+                        <td>
+                            <span class="toggleable-span">
                                 <?php echo $entry[4]; ?>
                             </span>
-                            <input type="text" id="inputID" value='<?php echo $entry[4]; ?>' style="display: none"
-                                   onchange="changeValue('<?php echo $entry[0]; ?>')"/>
+                            <input type="text" class="toggleable-input" value='<?php echo $entry[4]; ?>'
+                                   style="display: none" data-field="id_campo" data-id="<?= $entry[0] ?>"
+                            />
                         </td>
-                        <td>Sezione</td>
-                        <td><?php echo $entry[5]; ?></td>
-                        <td><?php echo $entry[6]; ?></td>
-                        <td><?php echo $entry[7]; ?></td>
-                        <td><?php echo $entry[8]; ?></td>
-                        <td><?php echo $entry[9]; ?></td>
-                        <td><?php echo $entry[10]; ?></td>
+                        <td style="width: 400px">
+                            <select class="toggleable-select">
+                                <option disabled selected value class="toggleable-option" data-field="sezione"
+                                        value='<?php echo $entry[5]; ?>'
+                                        data-id="<?= $entry[0] ?>"> <?php echo $entry[5]; ?></option>
+                                <?php foreach ($sezioni as $sezione) {
+                                    print_r($sezione)
+                                    ?>
+                                    <option class="toggleable-option" data-field="sezione"
+                                            value='<?php echo $sezione; ?>'
+                                            data-id="<?= $entry[0] ?>"><?php echo $sezione; ?></option>
+                                <?php } ?>
+                            </select></td>
+
+
+                        <td>  <span class="toggleable-span">
+                                <?php echo $entry[6]; ?>
+                            </span>
+                            <input type="text" class="toggleable-input" value='<?php echo $entry[6]; ?>'
+                                   style="display: none" data-field="descrizione_campo" data-id="<?= $entry[0] ?>"
+                            /></td>
+                        <td>
+                             <span class="toggleable-span">
+                                <?php echo $entry[7]; ?>
+                            </span>
+                            <input type="text" class="toggleable-input" value='<?php echo $entry[7]; ?>'
+                                   style="display: none" data-field="sottotitolo_campo" data-id="<?= $entry[0] ?>"
+                            /></td>
+                        <td>   <span class="toggleable-span">
+                                <?php echo $entry[8]; ?>
+                            </span>
+                            <input type="text" class="toggleable-input" value='<?php echo $entry[8]; ?>'
+                                   style="display: none" data-field="valore" data-id="<?= $entry[0] ?>"
+                            /></td>
+                        <td>   <span class="toggleable-span">
+                                <?php echo $entry[9]; ?>
+                            </span>
+                            <input type="text" class="toggleable-input" value='<?php echo $entry[9]; ?>'
+                                   style="display: none" data-field="valore_anno_precedente" data-id="<?= $entry[0] ?>"
+                            /></td>
+                        <td>   <span class="toggleable-span">
+                                <?php echo $entry[10]; ?>
+                            </span>
+                            <input type="text" class="toggleable-input" value='<?php echo $entry[10]; ?>'
+                                   style="display: none" data-field="nota" data-id="<?= $entry[0] ?>"
+                            /></td>
+                        <td>
+                              <span class="toggleable-span">
+                                <?php echo $entry[11]; ?>
+                            </span>
+                            <input type="text" class="toggleable-input" value='<?php echo $entry[11]; ?>'
+                                   style="display: none" data-field="label_campo" data-id="<?= $entry[0] ?>"
+                            /></td>
                         <td>
                             <div class="radio">
                                 <label><input type="radio" name=<?php echo $entry[0]; ?> checked> Si</label>
@@ -91,12 +162,7 @@ class ShortCodeDuplicateOldTemplate
                     </tr>
 
                     <?php
-                    $sezioni = [0 => 'Risorse fisse aventi carattere di certezza e stabilità - Risorse storiche',
-                        1 => 'Risorse fisse aventi carattere di certezza e stabilità - Incrementi stabili ART. 67 C.2 CCNL 2018',
-                        2 => 'Risorse fisse aventi carattere di certezza e stabilità - Incrementi con carattere di certezza e stabilità non soggetti a limite',
-                        3 => 'Risorse fisse aventi carattere di certezza e stabilità - Decurtazioni (a detrarre)',
-                        4 => 'Risorse variabili - risorse variabili sottoposte al limite',
-                        5 => 'Risorse variabili - risorse variabili non sottoposte al limite'];
+
                 }
                 ?>
                 </tbody>
@@ -106,28 +172,37 @@ class ShortCodeDuplicateOldTemplate
         </div>
         </body>
         <script>
-            $("#idTdId").click(function () {
-                $("#spanId").hide();
-                $("#inputID").show();
-            });
+            $(document).ready(function () {
+                $(".toggleable-span").click(function () {
+                    $(this).hide();
+                    $(this).siblings(".toggleable-input").show().focus();
+                })
+                $(".toggleable-input").blur(function () {
+                    $(this).hide();
+                    $(this).siblings(".toggleable-span").show();
+                })
+                $(".toggleable-input").change(changeValue)
 
-            function changeValue(id) {
-                var id_campo = document.getElementById("inputID").value;
-                console.log(id_campo);
+                $(".toggleable-option").change(changeValue)
+            })
+
+            function changeValue() {
+                const elem = $(this);
+                var value = elem.val();
+                const id = elem.data("id");
+                const field = elem.data("field");
+                const data = {id};
+                data[field] = value;
+                console.log(data)
                 $.ajax({
                     type: "POST",
                     url: "https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/editnewfondo",
-                    data: {
-                        id, id_campo
-                    },
+                    data,
                     success: function () {
                         successmessage = 'Modifica eseguita correttamente';
                         console.log(successmessage);
-                        $("#inputID").hide();
-                        $("#spanId").show();
-                        var span = document.getElementById("spanId");
-                        span.textContent = id_campo;
-
+                        elem.siblings(".toggleable-span").text(value);
+                        elem.siblings(".toggleable-select").text(value);
                     },
                     error: function () {
                         successmessage = 'Modifica non riuscita non riuscita';
