@@ -24,9 +24,6 @@ class DuplicateOldTemplate
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $ente = "Comune di Chivasso";
-        $fondo = "Fondo 2014 BORGARO";
-        $anno = 2014;
         $sql = "SELECT * FROM DATE_entry_chivasso WHERE ente LIKE ? AND anno=? AND fondo=? AND attivo=1";
         $stmt = $mysqli->prepare($sql);
         $stmt->bind_param("sis", $ente, $anno, $fondo);
@@ -35,5 +32,18 @@ class DuplicateOldTemplate
         $entries = $res->fetch_all();
         mysqli_close($mysqli);
         return $entries;
+    }
+
+    public function getLastRowID()
+    {
+        $conn = new Connection();
+        $mysqli = $conn->connect();
+        print_r("Sono qui dentro");
+        $sql = "SELECT MAX(id) FROM DATE_entry_chivasso";
+        $result = $mysqli->query($sql);
+        $row = $result->fetch_assoc();
+        mysqli_close($mysqli);
+        return $row['MAX(id)'];
+
     }
 }

@@ -211,33 +211,96 @@ class ShortCodeDuplicateOldTemplate
                     <th>Attivo</th>
                 </tr>
                 </thead>
-                <tbody>
-                <tr style="display:none;">
-                    <td></td>
-                    <td width="5%"><?php echo $fondo; ?></td>
-                    <td width="10%"><?php echo $ente; ?></td>
-                    <td width="10%"><?php echo $anno; ?></td>
-                    <td width="24%"></td>
-                    <td width="35%">
-                        <select>
-                            <option disabled selected value> -- seleziona una opzione --</option>
+                <?php  $newRowID = $old_template->getLastRowID(); ?>
+                <tr>
+                    <td style="display: none"><?php echo $newRowID; ?></td>
+                    <td>  <span class="toggleable-span">
+                                <?php echo $fondo; ?>
+                            </span>
+                        <input type="text" class="toggleable-input" value='<?php echo $fondo; ?>'
+                               style="display: none" data-field="fondo" data-id="<?= $newRowID ?>"
+                        /></td>
+                    <td>
+                             <span class="toggleable-span">
+                                <?php echo $ente; ?>
+                            </span>
+                        <input type="text" class="toggleable-input" value='<?php echo $ente; ?>'
+                               style="display: none" data-field="ente" data-id="<?= $newRowID ?>"
+                        /></td>
+                    <td>
+                              <span class="toggleable-span">
+                                <?php echo $anno; ?>
+                            </span>
+                        <input type="text" class="toggleable-input" value='<?php echo $anno; ?>'
+                               style="display: none" data-field="ente" data-id="<?= $newRowID ?>"
+                        /></td>
+                    <td>
+                            <span class="toggleable-span">
+
+                            </span>
+                        <input type="text" class="toggleable-input" value='ì'
+                               style="display: none" data-field="id_campo" data-id="<?= $newRowID ?>"
+                        />
+                    </td>
+                    <td class="field_section">
+                        <select class="toggleable-select" data-field="sezione" data-id="<?= $newRowID?>">
+                            <option disabled selected value> <?php echo $entry[5]; ?></option>
                             <?php foreach ($sezioni as $sezione) {
                                 print_r($sezione)
                                 ?>
-                                <option><?php echo $sezione; ?></option>
+                                <option
+                                        value='<?php echo $sezione; ?>'
+                                        data-id="<?= $entry[0] ?>"><?php echo $sezione; ?></option>
                             <?php } ?>
                         </select>
                     </td>
-                    <td width="35%"><input type="text"></td>
-                    <td width="35%"></td>
-                    <td width="35%"></td>
-                    <td width="35%"></td>
-                    <td width="35%"></td>
-                    <td width="35%"></td>
-                    <td width="35%">
-                        <div class="radio">
-                            <label><input type="radio" value="" checked> Si</label>
-                            <label><input type="radio"> No</label>
+
+
+                    <td class="field_description">
+                            <span class="toggleable-span">
+
+                            </span>
+                        <input type="text" class="toggleable-input" value=''
+                               style="display: none" data-field="descrizione_campo" data-id="<?= $newRowID ?>"
+                        /></td>
+                    <td class="field_description">
+                             <span class="toggleable-span">
+
+                            </span>
+                        <input type="text" class="toggleable-input" value=''
+                               style="display: none" data-field="sottotitolo_campo" data-id="<?= $newRowID ?>"
+                        /></td>
+                    <td>   <span class="toggleable-span">
+
+                            </span>
+                        <input type="text" class="toggleable-input" value=''
+                               style="display: none" data-field="label_campo" data-id="<?= $newRowID ?>"
+                        /></td>
+                    <td>   <span class="toggleable-span">
+
+                            </span>
+                        <input type="text" class="toggleable-input" value=''
+                               style="display: none" data-field="valore" data-id="<?= $newRowID ?>"
+                        /></td>
+                    <td>   <span class="toggleable-span">
+
+                            </span>
+                        <input type="text" class="toggleable-input" value=''
+                               style="display: none" data-field="valore_anno_precedente" data-id="<?= $newRowID ?>"
+                        /></td>
+                    <td>
+                              <span class="toggleable-span">
+                                 <?php echo $entry[11]; ?>
+                            </span>
+                        <input type="text" class="toggleable-input" value=''
+                               style="display: none" data-field="nota" data-id="<?= $newRowID ?>"
+                        /></td>
+                    <td>
+                        <div class="toggleable-radio" data-field="attivo" data-id="<?= $newRowID ?>">
+                            <label><input type="radio" name=<?php echo $newRowID; ?> checked value='1'> Si</label>
+                            <label><input type="radio"
+                                          name=<?php echo $entry[0]; ?> onclick="disabledRow(<?php echo $newRowID; ?>)"
+                                          value='0'>No</label>
                         </div>
                     </td>
                 </tr>
