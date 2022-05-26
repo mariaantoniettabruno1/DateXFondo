@@ -24,6 +24,9 @@ class DuplicateOldTemplate
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
+        $ente = "Comune di Chivasso";
+        $fondo = "Fondo 2014 BORGARO";
+        $anno = 2014;
         $sql = "SELECT * FROM DATE_entry_chivasso WHERE ente LIKE ? AND anno=? AND fondo=? AND attivo=1";
         $stmt = $mysqli->prepare($sql);
         $stmt->bind_param("sis", $ente, $anno, $fondo);
