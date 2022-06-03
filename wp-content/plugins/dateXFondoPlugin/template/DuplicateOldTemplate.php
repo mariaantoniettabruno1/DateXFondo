@@ -38,7 +38,6 @@ class DuplicateOldTemplate
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        print_r("Sono qui dentro");
         $sql = "SELECT MAX(id) FROM DATE_entry_chivasso";
         $result = $mysqli->query($sql);
         $row = $result->fetch_assoc();
