@@ -100,12 +100,12 @@ class ShortCodeDuplicateOldTemplate
                                    style="display: none" data-field="ente" data-id="<?= $entry[0] ?>"
                             /></td>
                         <td class="field_description"
-                              <span class="toggleable-span">
+                        <span class="toggleable-span">
                                 <?php echo $anno; ?>
                             </span>
-                            <input type="text" class="toggleable-input" value='<?php echo $anno; ?>'
-                                   style="display: none" data-field="anno" data-id="<?= $entry[0] ?>"
-                            /></td>
+                        <input type="text" class="toggleable-input" value='<?php echo $anno; ?>'
+                               style="display: none" data-field="anno" data-id="<?= $entry[0] ?>"
+                        /></td>
                         <td class="field_description">
                             <span class="toggleable-span">
                                 <?php echo $entry[4]; ?>
@@ -168,9 +168,9 @@ class ShortCodeDuplicateOldTemplate
                             /></td>
                         <td class="field_description">
                             <div class="toggleable-radio" data-field="attivo" data-id="<?= $entry[0] ?>">
-                                <label><input type="radio" name=<?php echo $entry[0]; ?> checked value='1'> Si</label>
+                                <label><input type="radio" name="<?php echo $entry[0]; ?>" checked value='1'> Si</label>
                                 <label><input type="radio"
-                                              name=<?php echo $entry[0]; ?> onclick="disabledRow(<?php echo $entry[0]; ?>)"
+                                              name="<?php echo $entry[0]; ?>" class="disabledRow"
                                               value='0'>No</label>
                             </div>
                         </td>
@@ -213,44 +213,44 @@ class ShortCodeDuplicateOldTemplate
                 </tr>
                 </thead>
                 <?php $newRowID = $old_template->getLastRowID(); ?>
-                <tr>
+                <tr style="display: none">
                     <td style="display: none"><?php echo $newRowID; ?></td>
                     <td class="field_description">  <span class="toggleable-span">
                                 <?php echo $fondo; ?>
                             </span>
                         <input type="text" class="toggleable-input" value='<?php echo $fondo; ?>'
-                               style="display: none" data-field="fondo" data-id="<?= $newRowID ?>"
+                               style="display: none" data-field="fondo" data-id=""
                         /></td>
                     <td class="field_description">
                              <span class="toggleable-span">
                                 <?php echo $ente; ?>
                             </span>
                         <input type="text" class="toggleable-input" value='<?php echo $ente; ?>'
-                               style="display: none" data-field="ente" data-id="<?= $newRowID ?>"
+                               style="display: none" data-field="ente" data-id=""
                         /></td>
                     <td class="field_description">
                               <span class="toggleable-span">
                                 <?php echo $anno; ?>
                             </span>
                         <input type="text" class="toggleable-input" value='<?php echo $anno; ?>'
-                               style="display: none" data-field="anno" data-id="<?= $newRowID ?>"
+                               style="display: none" data-field="anno" data-id=""
                         /></td>
                     <td class="field_description">
                             <span class="toggleable-span">
                             </span>
                         <input type="text" class="toggleable-input" value=''
-                               style="display: none" data-field="id_campo" data-id="<?= $newRowID ?>"
+                               style="display: none" data-field="id_campo" data-id=""
                         />
                     </td>
                     <td class="field_section">
-                        <select class="toggleable-select" data-field="sezione" data-id="<?= $newRowID ?>">
+                        <select class="toggleable-select" data-field="sezione" data-id="">
                             <option disabled selected value> <?php echo $entry[5]; ?></option>
                             <?php foreach ($sezioni as $sezione) {
                                 print_r($sezione)
                                 ?>
                                 <option
                                         value='<?php echo $sezione; ?>'
-                                        data-id="<?= $newRowID ?>"><?php echo $sezione; ?></option>
+                                        data-id=""><?php echo $sezione; ?></option>
                             <?php } ?>
                         </select>
                     </td>
@@ -259,7 +259,7 @@ class ShortCodeDuplicateOldTemplate
 
                             </span>
                         <input type="text" class="toggleable-input" value=''
-                               style="display: none" data-field="label_campo" data-id="<?= $newRowID ?>"
+                               style="display: none" data-field="label_campo" data-id=""
                         /></td>
 
                     <td class="field_description">
@@ -267,38 +267,38 @@ class ShortCodeDuplicateOldTemplate
 
                             </span>
                         <input type="text" class="toggleable-input" value=''
-                               style="display: none" data-field="descrizione_campo" data-id="<?= $newRowID ?>"
+                               style="display: none" data-field="descrizione_campo" data-id=""
                         /></td>
                     <td class="field_description">
                              <span class="toggleable-span">
 
                             </span>
                         <input type="text" class="toggleable-input" value=''
-                               style="display: none" data-field="sottotitolo_campo" data-id="<?= $newRowID ?>"
+                               style="display: none" data-field="sottotitolo_campo" data-id=""
                         /></td>
                     <td class="field_description">   <span class="toggleable-span">
 
                             </span>
                         <input type="text" class="toggleable-input" value=''
-                               style="display: none" data-field="valore" data-id="<?= $newRowID ?>"
+                               style="display: none" data-field="valore" data-id=""
                         /></td>
                     <td class="field_description">   <span class="toggleable-span">
 
                             </span>
                         <input type="text" class="toggleable-input" value=''
-                               style="display: none" data-field="valore_anno_precedente" data-id="<?= $newRowID ?>"
+                               style="display: none" data-field="valore_anno_precedente" data-id=""
                         /></td>
                     <td class="field_description">
                               <span class="toggleable-span">
                             </span>
                         <input type="text" class="toggleable-input" value=''
-                               style="display: none" data-field="nota" data-id="<?= $newRowID ?>"
+                               style="display: none" data-field="nota" data-id=""
                         /></td>
                     <td class="field_description">
-                        <div class="toggleable-radio" data-field="attivo" data-id="<?= $newRowID ?>">
-                            <label><input type="radio" name=<?php echo $newRowID; ?> checked value='1'> Si</label>
+                        <div class="toggleable-radio" data-field="attivo" data-id="">
+                            <label><input type="radio" name="" checked value='1'> Si</label>
                             <label><input type="radio"
-                                          name=<?php echo $newRowID; ?> onclick="disabledRow(<?php echo $newRowID; ?>)"
+                                          name="" class="disabledRow"
                                           value='0'>No</label>
                         </div>
                     </td>
@@ -325,7 +325,7 @@ class ShortCodeDuplicateOldTemplate
 
                 $(".toggleable-input").change(changeValue)
                 $(".toggleable-select").change(changeValue)
-                $(".toggleable-radio").change(changeValue)
+                $(".disabledRow").click(disabledRow)
             })
 
             function changeValue() {
@@ -335,7 +335,6 @@ class ShortCodeDuplicateOldTemplate
                 const field = elem.data("field");
                 const data = {id};
                 data[field] = value;
-                console.log(data)
                 $.ajax({
                     type: "POST",
                     url: "https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/editnewfondo",
@@ -367,19 +366,13 @@ class ShortCodeDuplicateOldTemplate
                         successmessage = 'Riga creata correttamente';
                         alert(successmessage);
                         var content = jQuery('#newTable  tr:last'),
-                            element = content.clone();
-                        console.log(element.find('select'))
+                            element = content.clone(true, true);
                         element.attr('id', response.id);
-                        element.appendTo('#newTable');
-                        element.find('.tabledit-identifier').html(response.id);
-                        element.find('.tabledit-identifier').attr('value', response.id);
-                        element.find('.sn').html(response.id);
-                        element.find('select').change(function () {
-                            updateNewRowValue(response.id, $(this).val())
-                        });
-                        element.find('input').change(function () {
-                            updateNewRowValue(response.id, $(this).val())
-                        });
+                        element.appendTo('#dataTable');
+                        element.find('input').attr("data-id", response.id);
+                        element.find('select').attr("data-id", response.id);
+                        element.find('.toggleable-radio').attr("data-id", response.id);
+                        element.find('.toggleable-radio').find("input").attr("name", response.id);
                         element.show();
                     },
                     error: function () {
@@ -390,16 +383,19 @@ class ShortCodeDuplicateOldTemplate
 
             });
 
-            function disabledRow(id) {
+            function disabledRow() {
+                const id = $(this).parent().parent().attr("data-id");
+                const data = {id};
+                console.log(data)
+                console.log($(this))
                 $.ajax({
                     type: "POST",
                     url: "https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/deleterow",
-                    data: {
-                        id
-                    },
+                    data,
                     success: function () {
                         successmessage = 'Riga cancellata correttamente';
                         alert(successmessage);
+
                         location.href = "https://demo.mg3.srl/date/duplicazione-template-anno-precedente/"
                     },
                     error: function () {
