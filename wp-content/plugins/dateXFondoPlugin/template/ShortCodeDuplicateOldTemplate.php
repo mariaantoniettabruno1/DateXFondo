@@ -321,7 +321,6 @@ class ShortCodeDuplicateOldTemplate
         <?php
         $years = new DuplicateOldTemplate();
         $readOnly = $years->isReadOnly($anno);
-        print_r($readOnly);
         if (!$readOnly && array_key_exists('button1', $_POST)) {
             $years->getTableNotEditable($anno);
         } else if ($readOnly && array_key_exists('button2', $_POST)) {
@@ -330,10 +329,10 @@ class ShortCodeDuplicateOldTemplate
 
         ?>
         <script>
-            $(document).ready(function () {
-                    let readOnly = <?php echo $readOnly?>;
-                    console.log(readOnly)
-                    if (!readOnly) {
+            let readOnly = <?php echo $readOnly?>;
+            if (!readOnly) {
+                $(document).ready(function () {
+
                         $(".toggleable-span").click(function () {
                             $(this).hide();
                             $(this).siblings(".toggleable-input").show().focus();
@@ -347,104 +346,104 @@ class ShortCodeDuplicateOldTemplate
                         $(".toggleable-select").change(changeValue)
                         $(".disabledRow").click(disabledRow)
                     }
+                )
+
+                function changeValue() {
+                    const elem = $(this);
+                    var value = elem.val();
+                    const id = elem.data("id");
+                    const field = elem.data("field");
+                    const data = {id};
+                    data[field] = value;
+                    $.ajax({
+                        type: "POST",
+                        url: "https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/editnewfondo",
+                        data,
+                        success: function () {
+                            successmessage = 'Modifica eseguita correttamente';
+                            console.log(successmessage);
+                            elem.siblings(".toggleable-span").text(value);
+                            elem.siblings(".toggleable-select").text(value);
+                            elem.siblings(".toggleable-radio").val(value);
+                        },
+                        error: function () {
+                            successmessage = 'Modifica non riuscita non riuscita';
+                            console.log(successmessage);
+                        }
+                    });
                 }
-            )
 
-            function changeValue() {
-                const elem = $(this);
-                var value = elem.val();
-                const id = elem.data("id");
-                const field = elem.data("field");
-                const data = {id};
-                data[field] = value;
-                $.ajax({
-                    type: "POST",
-                    url: "https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/editnewfondo",
-                    data,
-                    success: function () {
-                        successmessage = 'Modifica eseguita correttamente';
-                        console.log(successmessage);
-                        elem.siblings(".toggleable-span").text(value);
-                        elem.siblings(".toggleable-select").text(value);
-                        elem.siblings(".toggleable-radio").val(value);
-                    },
-                    error: function () {
-                        successmessage = 'Modifica non riuscita non riuscita';
-                        console.log(successmessage);
-                    }
-                });
-            }
+                $(document).delegate('a.add-record', 'click', function (e) {
+                    e.preventDefault();
+                    $.ajax({
+                        type: "POST",
+                        url: "https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/newrow",
+                        data: {   <?php
+                            $myObj = ["fondo" => $fondo, "ente" => $ente, "anno" => $anno];
+                            ?>
+                            "JSONIn":<?php echo json_encode($myObj);?>},
+                        success: function (response) {
+                            successmessage = 'Riga creata correttamente';
+                            alert(successmessage);
+                            var content = jQuery('#newTable  tr:last'),
+                                element = content.clone(true, true);
+                            element.attr('id', response.id);
+                            element.appendTo('#dataTable');
+                            element.find('input').attr("data-id", response.id);
+                            element.find('select').attr("data-id", response.id);
+                            element.find('.toggleable-radio').attr("data-id", response.id);
+                            element.find('.toggleable-radio').find("input").attr("name", response.id);
+                            element.show();
+                        },
+                        error: function () {
+                            successmessage = 'Errore: creazione riga non riuscita';
+                            alert(successmessage);
+                        }
+                    });
 
-            $(document).delegate('a.add-record', 'click', function (e) {
-                e.preventDefault();
-                $.ajax({
-                    type: "POST",
-                    url: "https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/newrow",
-                    data: {   <?php
-                        $myObj = ["fondo" => $fondo, "ente" => $ente, "anno" => $anno];
-                        ?>
-                        "JSONIn":<?php echo json_encode($myObj);?>},
-                    success: function (response) {
-                        successmessage = 'Riga creata correttamente';
-                        alert(successmessage);
-                        var content = jQuery('#newTable  tr:last'),
-                            element = content.clone(true, true);
-                        element.attr('id', response.id);
-                        element.appendTo('#dataTable');
-                        element.find('input').attr("data-id", response.id);
-                        element.find('select').attr("data-id", response.id);
-                        element.find('.toggleable-radio').attr("data-id", response.id);
-                        element.find('.toggleable-radio').find("input").attr("name", response.id);
-                        element.show();
-                    },
-                    error: function () {
-                        successmessage = 'Errore: creazione riga non riuscita';
-                        alert(successmessage);
-                    }
                 });
 
-            });
+                function disabledRow() {
+                    const id = $(this).parent().parent().attr("data-id");
+                    const data = {id};
+                    console.log(data)
+                    console.log($(this))
+                    $.ajax({
+                        type: "POST",
+                        url: "https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/deleterow",
+                        data,
+                        success: function () {
+                            successmessage = 'Riga cancellata correttamente';
+                            alert(successmessage);
 
-            function disabledRow() {
-                const id = $(this).parent().parent().attr("data-id");
-                const data = {id};
-                console.log(data)
-                console.log($(this))
-                $.ajax({
-                    type: "POST",
-                    url: "https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/deleterow",
-                    data,
-                    success: function () {
-                        successmessage = 'Riga cancellata correttamente';
-                        alert(successmessage);
+                            location.href = "https://demo.mg3.srl/date/duplicazione-template-anno-precedente/"
+                        },
+                        error: function () {
+                            successmessage = 'Errore: cancellazione riga non riuscita';
+                            alert(successmessage);
+                        }
+                    });
+                }
 
-                        location.href = "https://demo.mg3.srl/date/duplicazione-template-anno-precedente/"
-                    },
-                    error: function () {
-                        successmessage = 'Errore: cancellazione riga non riuscita';
-                        alert(successmessage);
-                    }
-                });
-            }
+                function updateNewRowValue(id, sezione) {
 
-            function updateNewRowValue(id, sezione) {
-
-                $.ajax({
-                    type: "POST",
-                    url: "https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/editnewfondo",
-                    data: {
-                        sezione, id
-                    },
-                    success: function () {
-                        console.log(sezione)
-                        successmessage = 'Valori aggiunti correttamente';
-                        console.log(successmessage)
-                    },
-                    error: function () {
-                        successmessage = 'Errore, valori non aggiunti correttamente';
-                        console.log(successmessage);
-                    }
-                });
+                    $.ajax({
+                        type: "POST",
+                        url: "https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/editnewfondo",
+                        data: {
+                            sezione, id
+                        },
+                        success: function () {
+                            console.log(sezione)
+                            successmessage = 'Valori aggiunti correttamente';
+                            console.log(successmessage)
+                        },
+                        error: function () {
+                            successmessage = 'Errore, valori non aggiunti correttamente';
+                            console.log(successmessage);
+                        }
+                    });
+                }
             }
 
 
