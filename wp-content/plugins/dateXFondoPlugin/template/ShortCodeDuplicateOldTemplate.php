@@ -325,6 +325,9 @@ class ShortCodeDuplicateOldTemplate
             $years->getTableNotEditable($anno);
         } else if ($readOnly && array_key_exists('button2', $_POST)) {
             $years->duplicateTable($anno);
+            $years->deleteReadOnly($anno);
+            header("Refresh:0");
+
         }
 
         ?>
