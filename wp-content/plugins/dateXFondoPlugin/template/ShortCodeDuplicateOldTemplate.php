@@ -309,24 +309,46 @@ class ShortCodeDuplicateOldTemplate
             <br>
         </div>
         <div class="well clearfix">
-            <a class="btn btn-primary pull-right add-record"><i class="glyphicon glyphicon-plus"></i>Aggiungi nuova Riga</a>
+            <a class="btn btn-primary pull-right add-record"><i class="glyphicon glyphicon-plus"></i>Aggiungi nuova Riga</a><br>
         </div>
         </body>
+        <form method="post">
+            <input type="submit" name="button1"
+                   class="button" value="Blocca la Modifica"/>
+            <input type="submit" name="button2"
+                   class="button" value="Duplica la Tabella"/>
+        </form>
+        <?php
+        $years = new DuplicateOldTemplate();
+        $readOnly = $years->isReadOnly($anno);
+        print_r($readOnly);
+        if (!$readOnly && array_key_exists('button1', $_POST)) {
+            $years->getTableNotEditable($anno);
+        } else if ($readOnly && array_key_exists('button2', $_POST)) {
+            $years->duplicateTable($anno);
+        }
+
+        ?>
         <script>
             $(document).ready(function () {
-                $(".toggleable-span").click(function () {
-                    $(this).hide();
-                    $(this).siblings(".toggleable-input").show().focus();
-                })
-                $(".toggleable-input").blur(function () {
-                    $(this).hide();
-                    $(this).siblings(".toggleable-span").show();
-                })
+                    let readOnly = <?php echo $readOnly?>;
+                    console.log(readOnly)
+                    if (!readOnly) {
+                        $(".toggleable-span").click(function () {
+                            $(this).hide();
+                            $(this).siblings(".toggleable-input").show().focus();
+                        })
+                        $(".toggleable-input").blur(function () {
+                            $(this).hide();
+                            $(this).siblings(".toggleable-span").show();
+                        })
 
-                $(".toggleable-input").change(changeValue)
-                $(".toggleable-select").change(changeValue)
-                $(".disabledRow").click(disabledRow)
-            })
+                        $(".toggleable-input").change(changeValue)
+                        $(".toggleable-select").change(changeValue)
+                        $(".disabledRow").click(disabledRow)
+                    }
+                }
+            )
 
             function changeValue() {
                 const elem = $(this);
@@ -424,11 +446,13 @@ class ShortCodeDuplicateOldTemplate
                     }
                 });
             }
+
+
         </script>
         </html>
 
         <?php
-
-
     }
+
+
 }
