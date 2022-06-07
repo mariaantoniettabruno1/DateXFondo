@@ -178,3 +178,21 @@ function esegui_cancellazione_riga($params)
 }
 
 add_action('rest_api_init', 'create_endpoint_datefondo_disattiva_riga');
+
+function create_endpoint_datefondo_ereditarieta_nota_valore()
+{
+
+    register_rest_route('datexfondoplugin/v1', 'table/heredity', array(
+        'methods' => 'POST',
+        'callback' => 'esegui_eredita_nota_valore'
+    ));
+
+
+}
+
+function esegui_eredita_nota_valore($params)
+{
+    return \dateXFondoPlugin\eredita_nome_valore($params);
+}
+
+add_action('rest_api_init', 'create_endpoint_datefondo_ereditarieta_nota_valore');

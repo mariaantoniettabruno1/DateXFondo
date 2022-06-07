@@ -100,15 +100,35 @@ function caricamento_campi($request)
     $titolo_fondo = $_POST["JSONIn"]["fondo"];
     $ente = $_POST["JSONIn"]["ente"];
     $anno = $_POST["JSONIn"]["anno"];
+    $campo_ereditato = $_POST["JSONIn"]["campo_ereditato"];
     $anno = (int)$anno;
     $anno_precedente = $anno - 1;
     $entries = $temp_data->getOldData($ente, $anno_precedente);
-    $sql = "INSERT INTO DATE_entry_chivasso (fondo,ente,anno,id_campo,label_campo,descrizione_campo,sottotitolo_campo) VALUES(?,?,?,?,?,?,?)";
-    $stmt = $mysqli->prepare($sql);
-    foreach ($entries as $entry) {
-        $stmt->bind_param("sssssss", $titolo_fondo, $ente, $anno, $entry[4], $entry[5], $entry[6], $entry[7]);
-        $res = $stmt->execute();
+    if($campo_ereditato == "Valore"){
+        $sql = "INSERT INTO DATE_entry_chivasso (fondo,ente,anno,id_campo,label_campo,descrizione_campo,sottotitolo_campo,valore) VALUES(?,?,?,?,?,?,?,?)";
+        $stmt = $mysqli->prepare($sql);
+        foreach ($entries as $entry) {
+            $stmt->bind_param("ssssssss", $titolo_fondo, $ente, $anno, $entry[4], $entry[5], $entry[6], $entry[7],$entry[8]);
+            $res = $stmt->execute();
+        }
     }
+    elseif($campo_ereditato == "Nota e Valore"){
+        $sql = "INSERT INTO DATE_entry_chivasso (fondo,ente,anno,id_campo,label_campo,descrizione_campo,sottotitolo_campo,valore) VALUES(?,?,?,?,?,?,?,?,?)";
+        $stmt = $mysqli->prepare($sql);
+        foreach ($entries as $entry) {
+            $stmt->bind_param("sssssssss", $titolo_fondo, $ente, $anno, $entry[4], $entry[5], $entry[6], $entry[7],$entry[8],$entry[10]);
+            $res = $stmt->execute();
+        }
+    }
+    else{
+        $sql = "INSERT INTO DATE_entry_chivasso (fondo,ente,anno,id_campo,label_campo,descrizione_campo,sottotitolo_campo) VALUES(?,?,?,?,?,?,?)";
+        $stmt = $mysqli->prepare($sql);
+        foreach ($entries as $entry) {
+            $stmt->bind_param("sssssss", $titolo_fondo, $ente, $anno, $entry[4], $entry[5], $entry[6], $entry[7]);
+            $res = $stmt->execute();
+        }
+    }
+
     $mysqli->close();
     return true;
 

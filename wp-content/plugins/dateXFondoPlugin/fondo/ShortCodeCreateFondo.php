@@ -61,6 +61,28 @@ class ShortCodeCreateFondo
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
                   integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
                   crossorigin="anonymous">
+            <style>
+                .modal {
+                    display: none; /* Hidden by default */
+                    position: fixed; /* Stay in place */
+                    z-index: 1; /* Sit on top */
+                    padding-top: 100px; /* Location of the box */
+                    left: 0;
+                    top: 0;
+                    width: 100%; /* Full width */
+                    height: 100%; /* Full height */
+                    overflow: auto; /* Enable scroll if needed */
+                }
+
+                /* Modal Content */
+                .modal-content {
+                    background-color: whitesmoke;
+                    margin: auto;
+                    padding: 20px;
+                    border: 1px solid #888;
+                    width: 80%;
+                }
+            </style>
         </head>
         <body>
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -76,9 +98,29 @@ class ShortCodeCreateFondo
         <div>
             <button id="button_id" type="button" class="btn btn-primary">Duplica Template Precedente</button>
         </div>
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <fieldset>
+                    <legend>Seleziona il campo che vuoi ereditare dall'anno precedente: </legend>
+                    <input type="radio" class="campo_ereditato" name="campo_ereditato" value="Valore">Valore<br>
+                    <input type="radio" class="campo_ereditato" name="campo_ereditato" value="Nota e Valore">Nota e Valore<br>
+                    <input type="radio" class="campo_ereditato" name="campo_ereditato" value="Nessuno">Nessuno<br>
+                    <br>
+                    <button id="submit_button" type="button" class="btn btn-primary">Duplica Template Precedente</button>
+                </fieldset>
+            </div>
+
+        </div>
         </body>
         <script>
+            var modal = document.getElementById("myModal");
+
             $("#button_id").click(function () {
+                modal.style.display = "block";
+            });
+            $('#submit_button').click(function(){
+                var campo_ereditato = $('.campo_ereditato:checked').val();
                 $.ajax({
                     type: "POST",
                     url: "https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/new",
@@ -86,14 +128,16 @@ class ShortCodeCreateFondo
                         <?php
                         $myObj = ["fondo" => $new_fondo->getTitoloFondo(), "ente" => $new_fondo->getEnte(), "anno" => $new_fondo->getAnno()];
                         ?>
-                        "JSONIn":<?php echo json_encode($myObj);?>
+                        "JSONIn":<?php echo json_encode($myObj);?>,
+                        campo_ereditato
+
                     },
-                    success: function() {
+                    success: function () {
                         successmessage = 'I dati sono stati caricati correttamente';
                         alert(successmessage);
                         location.href = "https://demo.mg3.srl/date/duplicazione-template-anno-precedente/";
                     },
-                    error: function() {
+                    error: function () {
                         successmessage = 'Errore: caricamento dati non riuscito';
                         alert(successmessage);
                     },
@@ -101,18 +145,17 @@ class ShortCodeCreateFondo
                 });
             });
         </script>
-    <style>
-        #button_id{
+        <style>
+            #button_id {
 
-        }
-    </style>
+            }
+        </style>
         </html>
 
         <?php
         return '';
 
     }
-
 
 
 }
