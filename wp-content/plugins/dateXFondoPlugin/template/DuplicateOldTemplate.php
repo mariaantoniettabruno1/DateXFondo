@@ -8,11 +8,11 @@ class DuplicateOldTemplate
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $ente = 'Comune di Chivasso';
-        $sql = "SELECT * FROM DATE_entry_chivasso WHERE ente LIKE ? AND anno=2018 AND attivo=1";//Ho inserito questo anno per filtrare i dati perchè sono troppi
+        //$ente = 'Comune di Chivasso';
+        $sql = "SELECT * FROM DATE_entry_chivasso WHERE ente LIKE ? AND anno=? AND attivo=1";//Ho inserito questo anno per filtrare i dati perchè sono troppi
         // dopo eliminare
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("s", $ente);
+        $stmt->bind_param("si", $ente, $anno_precedente);
         $res = $stmt->execute();
         $res = $stmt->get_result();
         $entries = $res->fetch_all();

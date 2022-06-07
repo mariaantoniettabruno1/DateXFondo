@@ -2,7 +2,6 @@
 
 namespace dateXFondoPlugin;
 
-
 function modifica_campi($request)
 {
     $input = (array)$request->get_body_params();
@@ -100,11 +99,13 @@ function caricamento_campi($request)
     $titolo_fondo = $_POST["JSONIn"]["fondo"];
     $ente = $_POST["JSONIn"]["ente"];
     $anno = $_POST["JSONIn"]["anno"];
-    $campo_ereditato = $_POST["JSONIn"]["campo_ereditato"];
+    $campo_ereditato = $_POST["campo_ereditato"];
     $anno = (int)$anno;
     $anno_precedente = $anno - 1;
+
+
     $entries = $temp_data->getOldData($ente, $anno_precedente);
-    if($campo_ereditato == "Valore"){
+    if(strcmp($campo_ereditato,"Valore")==0){
         $sql = "INSERT INTO DATE_entry_chivasso (fondo,ente,anno,id_campo,label_campo,descrizione_campo,sottotitolo_campo,valore) VALUES(?,?,?,?,?,?,?,?)";
         $stmt = $mysqli->prepare($sql);
         foreach ($entries as $entry) {
@@ -113,7 +114,7 @@ function caricamento_campi($request)
         }
     }
     elseif($campo_ereditato == "Nota e Valore"){
-        $sql = "INSERT INTO DATE_entry_chivasso (fondo,ente,anno,id_campo,label_campo,descrizione_campo,sottotitolo_campo,valore) VALUES(?,?,?,?,?,?,?,?,?)";
+        $sql = "INSERT INTO DATE_entry_chivasso (fondo,ente,anno,id_campo,label_campo,descrizione_campo,sottotitolo_campo,valore, nota) VALUES(?,?,?,?,?,?,?,?,?)";
         $stmt = $mysqli->prepare($sql);
         foreach ($entries as $entry) {
             $stmt->bind_param("sssssssss", $titolo_fondo, $ente, $anno, $entry[4], $entry[5], $entry[6], $entry[7],$entry[8],$entry[10]);
@@ -128,7 +129,6 @@ function caricamento_campi($request)
             $res = $stmt->execute();
         }
     }
-
     $mysqli->close();
     return true;
 
