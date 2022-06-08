@@ -62,26 +62,11 @@ class ShortCodeCreateFondo
                   integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
                   crossorigin="anonymous">
             <style>
-                .modal {
-                    display: none; /* Hidden by default */
-                    position: fixed; /* Stay in place */
-                    z-index: 1; /* Sit on top */
-                    padding-top: 100px; /* Location of the box */
-                    left: 0;
-                    top: 0;
-                    width: 100%; /* Full width */
-                    height: 100%; /* Full height */
-                    overflow: auto; /* Enable scroll if needed */
+                .buttonsDiv{
+                    display: flex;
+                    justify-content: center;
                 }
 
-                /* Modal Content */
-                .modal-content {
-                    background-color: whitesmoke;
-                    margin: auto;
-                    padding: 20px;
-                    border: 1px solid #888;
-                    width: 80%;
-                }
             </style>
         </head>
         <body>
@@ -95,30 +80,35 @@ class ShortCodeCreateFondo
                 integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
                 crossorigin="anonymous"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-        <div>
-            <button id="button_id" type="button" class="btn btn-primary">Duplica Template Precedente</button>
+        <div class="buttonsDiv">
+            <button id="button_id" type="button" data-toggle="modal" data-target=".modal" class="btn btn-primary mr-1">Duplica Template Precedente</button>
+            <a id="btn_newTemplate" type="button" class="btn btn-primary ml-1" href="crea-nuovo-template/">Crea nuovo template</a>
         </div>
-        <div id="myModal" class="modal">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <fieldset>
-                    <legend>Seleziona il campo che vuoi ereditare dall'anno precedente: </legend>
-                    <input type="radio" class="campo_ereditato" name="campo_ereditato" value="Valore">Valore<br>
-                    <input type="radio" class="campo_ereditato" name="campo_ereditato" value="Nota e Valore">Nota e Valore<br>
-                    <input type="radio" class="campo_ereditato" name="campo_ereditato" value="Nessuno">Nessuno<br>
-                    <br>
-                    <button id="submit_button" type="button" class="btn btn-primary">Duplica Template Precedente</button>
-                </fieldset>
-            </div>
 
+        <div class="modal fade" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Seleziona il campo che vuoi ereditare dall'anno precedente:</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="radio" class="campo_ereditato" name="campo_ereditato" value="Valore"> Valore<br>
+                        <input type="radio" class="campo_ereditato" name="campo_ereditato" value="Nota e Valore"> Nota e Valore<br>
+                        <input type="radio" class="campo_ereditato" name="campo_ereditato" value="Nessuno"> Nessuno<br>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="submit_button" type="button" class="btn btn-primary">Duplica Template Precedente</button>
+                    </div>
+                </div>
+            </div>
         </div>
+
         </body>
         <script>
-            var modal = document.getElementById("myModal");
 
-            $("#button_id").click(function () {
-                modal.style.display = "block";
-            });
             $('#submit_button').click(function(){
                 var campo_ereditato = $('.campo_ereditato:checked').val();
                 $.ajax({
@@ -145,11 +135,6 @@ class ShortCodeCreateFondo
                 });
             });
         </script>
-        <style>
-            #button_id {
-
-            }
-        </style>
         </html>
 
         <?php
