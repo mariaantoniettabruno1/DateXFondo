@@ -8,9 +8,7 @@ class DuplicateOldTemplate
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        //$ente = 'Comune di Chivasso';
-        $sql = "SELECT * FROM DATE_entry_chivasso WHERE ente LIKE ? AND anno=? AND attivo=1";//Ho inserito questo anno per filtrare i dati perchè sono troppi
-        // dopo eliminare
+        $sql = "SELECT * FROM DATE_entry_chivasso WHERE ente LIKE ? AND anno=? AND attivo=1";
         $stmt = $mysqli->prepare($sql);
         $stmt->bind_param("si", $ente, $anno_precedente);
         $res = $stmt->execute();
@@ -20,7 +18,7 @@ class DuplicateOldTemplate
         return $entries;
     }
 
-    public function getCurrentData($ente, $anno, $fondo)
+    public function getCurrentData($ente, $anno, $fondo, $startRecord, $limit)
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
@@ -30,14 +28,27 @@ class DuplicateOldTemplate
         $res = $stmt->execute();
         $res = $stmt->get_result();
         $last_version = $res->fetch_assoc()['version'];
-        $sql = "SELECT * FROM DATE_entry_chivasso WHERE ente LIKE ? AND anno=? AND fondo=? AND attivo=1 AND version=?";
+        $sql = "SELECT * FROM DATE_entry_chivasso WHERE ente LIKE ? AND anno=? AND fondo=? AND attivo=1 AND version=? LIMIT ? OFFSET ?";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("sisi", $ente, $anno, $fondo,$last_version);
+        $stmt->bind_param("sisiii", $ente, $anno, $fondo,$last_version, $limit, $startRecord);
         $res = $stmt->execute();
         $res = $stmt->get_result();
         $entries = $res->fetch_all();
         mysqli_close($mysqli);
         return $entries;
+    }
+
+    public function getCurrentDataCount($ente, $anno, $fondo){
+        $conn = new Connection();
+        $mysqli = $conn->connect();
+        $sql = "SELECT count(*) FROM DATE_entry_chivasso WHERE ente LIKE ? AND anno=? AND fondo=? AND attivo=1";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("sis", $ente, $anno, $fondo);
+        $res = $stmt->execute();
+        $res = $stmt->get_result();
+        $entries = $res->fetch_all();
+        mysqli_close($mysqli);
+        return $entries[0][0];
     }
 
     public function getLastRowID()

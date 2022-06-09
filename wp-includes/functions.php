@@ -7,6 +7,23 @@
 
 require ABSPATH . WPINC . '/option.php';
 
+
+
+
+/**
+ * @param $query_vars
+ * @returns array with custom queries
+ * @note used to implement custom queries
+ * @example : pagination, using ?page=1
+ */
+function registering_custom_query_var($query_vars)
+{
+    $query_vars[] = 'index';
+    return $query_vars;
+}
+
+add_filter('query_vars', 'registering_custom_query_var');
+
 /**
  * Convert given MySQL date string into a different format.
  *

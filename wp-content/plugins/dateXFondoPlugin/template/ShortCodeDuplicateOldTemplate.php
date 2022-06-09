@@ -23,6 +23,7 @@ class ShortCodeDuplicateOldTemplate
             <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
                   integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
                   crossorigin="anonymous">
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 
             <style type="text/css">
 
@@ -41,13 +42,13 @@ class ShortCodeDuplicateOldTemplate
 
             </style>
         </head>
-        <body>
 
+        <body>
 
         <h2>TABELLA NUOVO FONDO TEMPLATE DUPLICATO</h2>
         <div class="table-responsive">
 
-            <table id="dataTable" style="width:50%">
+            <table id="dataTable">
                 <thead>
                 <tr>
                     <th style="width:70%">Fondo</th>
@@ -79,7 +80,15 @@ class ShortCodeDuplicateOldTemplate
                     3 => 'Risorse fisse aventi carattere di certezza e stabilità - Decurtazioni (a detrarre)',
                     4 => 'Risorse variabili - risorse variabili sottoposte al limite',
                     5 => 'Risorse variabili - risorse variabili non sottoposte al limite'];
-                $old_data = $old_template->getCurrentData($ente, $anno, $fondo);
+                //$old_data = $old_template->getCurrentData($ente, $anno, $fondo);
+                $limit = 5;
+                $page = get_query_var('index',1);
+                $startRecord = ($page - 1) * $limit;
+                $old_data = $old_template->getCurrentData($ente, $anno, $fondo, $startRecord, $limit);
+                $recordsCount = $old_template->getCurrentDataCount($ente, $anno, $fondo);
+                $totalPages = ceil($recordsCount / $limit);
+                $previous = $page-1;
+                $next = $page+1;
 
                 foreach ($old_data as $entry) {
 
@@ -182,6 +191,17 @@ class ShortCodeDuplicateOldTemplate
                 ?>
                 </tbody>
             </table>
+
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-end">
+                    <li class="page-item <?php if($page<=1) {echo 'disabled';}?>"><a class="page-link" href="?index=<?php echo $previous; ?>"">Previous</a></li>
+                    <?php for ($i = 1; $i <= $totalPages; $i++) { ?>
+                        <li class="page-item"><a class="page-link" href="?index=<?php echo $i; ?>"><?php echo $i; ?></a></li>
+                    <?php } ?>
+                    <li class="page-item <?php if($page>=$totalPages) {echo 'disabled';}?>"><a class="page-link" href="?index=<?php echo $next; ?>">Next</a></li>
+                </ul>
+            </nav>
+
             <table id="newTable" class="table table-striped table-bordered">
                 <thead style="display:none;">
                 <tr>
@@ -306,7 +326,8 @@ class ShortCodeDuplicateOldTemplate
                 </tbody>
 
             </table>
-            <br>
+
+
         </div>
         <div class="well clearfix">
             <a class="btn btn-primary pull-right add-record"><i class="glyphicon glyphicon-plus"></i>Aggiungi nuova Riga</a><br>
