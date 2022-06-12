@@ -194,11 +194,13 @@ class ShortCodeDuplicateOldTemplate
 
             <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-end">
+                    <li class="page-item <?php if ($page == 1) echo 'disabled'; ?>">
+                        <a class="page-link" href="?index=1" tabindex="-1" aria-disabled="true">1</a>
                     <li class="page-item <?php if($page<=1) {echo 'disabled';}?>"><a class="page-link" href="?index=<?php echo $previous; ?>"">Previous</a></li>
-                    <?php for ($i = 1; $i <= $totalPages; $i++) { ?>
-                        <li class="page-item"><a class="page-link" href="?index=<?php echo $i; ?>"><?php echo $i; ?></a></li>
-                    <?php } ?>
+                    <li class="page-item"><input id="currentPageInput" type="number" min="1" max="<?php echo $totalPages?>"
+                           placeholder="<?php echo $page; ?>" required></li>
                     <li class="page-item <?php if($page>=$totalPages) {echo 'disabled';}?>"><a class="page-link" href="?index=<?php echo $next; ?>">Next</a></li>
+                    <li class="page-item <?php if($page>=$totalPages) {echo 'disabled';}?>"><a class="page-link" href="?index=<?php echo $totalPages; ?>"><?php echo $totalPages; ?></a></li>
                 </ul>
             </nav>
 
@@ -469,6 +471,19 @@ class ShortCodeDuplicateOldTemplate
                     });
                 }
             }
+
+            $(document).delegate('#currentPageInput', 'change', function() {
+                var newPage = $(this).val();
+                if(newPage > 0 && newPage <= <?php echo $totalPages?>) {
+                    location.href = "https://demo.mg3.srl/date/duplicazione-template-anno-precedente/?index=" + newPage;
+                }
+                else if(newPage > <?php echo $totalPages?>) {
+                    location.href = "https://demo.mg3.srl/date/duplicazione-template-anno-precedente/?index=" + <?php echo $totalPages?>;
+                }
+                else if(newPage < 1) {
+                    location.href = "https://demo.mg3.srl/date/duplicazione-template-anno-precedente/?index=1";
+                }
+            });
 
 
         </script>
