@@ -108,7 +108,7 @@ class DuplicateOldTemplate
         $res = $stmt->get_result();
         $prev_version = $res->fetch_assoc()['version'];
 
-        $sql = "SELECT * from DATE_entry_chivasso WHERE anno=? AND version=?";
+        $sql = "SELECT * from DATE_entry_chivasso WHERE anno=? AND version=? AND attivo=1";
         $stmt = $mysqli->prepare($sql);
         $stmt->bind_param("ii", $year, $prev_version);
         $res = $stmt->execute();
@@ -123,6 +123,6 @@ class DuplicateOldTemplate
         }
         $res = $stmt->execute();
         mysqli_close($mysqli);
-
+        return $data;
     }
 }
