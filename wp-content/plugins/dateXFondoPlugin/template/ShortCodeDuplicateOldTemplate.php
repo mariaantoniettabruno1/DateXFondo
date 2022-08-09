@@ -80,7 +80,6 @@ class ShortCodeDuplicateOldTemplate
                     3 => 'Risorse fisse aventi carattere di certezza e stabilità - Decurtazioni (a detrarre)',
                     4 => 'Risorse variabili - risorse variabili sottoposte al limite',
                     5 => 'Risorse variabili - risorse variabili non sottoposte al limite'];
-                //$old_data = $old_template->getCurrentData($ente, $anno, $fondo);
                 $limit = 5;
                 $page = get_query_var('index',1);
                 $startRecord = ($page - 1) * $limit;
@@ -196,10 +195,10 @@ class ShortCodeDuplicateOldTemplate
                 <ul class="pagination justify-content-end">
                     <li class="page-item <?php if ($page == 1) echo 'disabled'; ?>">
                         <a class="page-link" href="?index=1" tabindex="-1" aria-disabled="true">1</a>
-                    <li class="page-item <?php if($page<=1) {echo 'disabled';}?>"><a class="page-link" href="?index=<?php echo $previous; ?>"">Previous</a></li>
+                    <li class="page-item <?php if($page<=1) {echo 'disabled';}?>"><a class="page-link" href="?index=<?php echo $previous; ?>"">Precedente</a></li>
                     <li class="page-item"><input id="currentPageInput" type="number" min="1" max="<?php echo $totalPages?>"
                            placeholder="<?php echo $page; ?>" required></li>
-                    <li class="page-item <?php if($page>=$totalPages) {echo 'disabled';}?>"><a class="page-link" href="?index=<?php echo $next; ?>">Next</a></li>
+                    <li class="page-item <?php if($page>=$totalPages) {echo 'disabled';}?>"><a class="page-link" href="?index=<?php echo $next; ?>">Successivo</a></li>
                     <li class="page-item <?php if($page>=$totalPages) {echo 'disabled';}?>"><a class="page-link" href="?index=<?php echo $totalPages; ?>"><?php echo $totalPages; ?></a></li>
                 </ul>
             </nav>
@@ -350,7 +349,6 @@ class ShortCodeDuplicateOldTemplate
             $years->duplicateTable($anno);
             $years->deleteReadOnly($anno);
             header("Refresh:0");
-
         }
 
         ?>

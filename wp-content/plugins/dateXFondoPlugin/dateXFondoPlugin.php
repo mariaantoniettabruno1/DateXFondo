@@ -18,6 +18,8 @@ require_once(plugin_dir_path(__FILE__) . 'fondo/ShortCodeCreateFondo.php');
 require_once(plugin_dir_path(__FILE__) . 'template/ShortCodeCreateNewTemplate.php');
 require_once(plugin_dir_path(__FILE__) . 'template/DuplicateOldTemplate.php');
 require_once(plugin_dir_path(__FILE__) . 'template/ShortCodeDuplicateOldTemplate.php');
+require_once(plugin_dir_path(__FILE__) . 'formula/ShortCodeFormulaTable.php');
+require_once(plugin_dir_path(__FILE__) . 'formula/FormulaTable.php');
 require_once(plugin_dir_path(__FILE__) . 'table/live_edit.php');
 
 
@@ -46,6 +48,7 @@ function shortcodes_init()
     add_shortcode('post_create_fondo', 'create_new_fondo');
     add_shortcode('post_duplicate_old_template', 'duplicate_old_template');
     add_shortcode('post_visualize_old_template', 'visualize_old_template');
+    add_shortcode('post_visualize_formula_template', 'visualize_formula_template');
 }
 
 
@@ -71,6 +74,10 @@ function visualize_old_template()
 {
     \dateXFondoPlugin\ShortCodeDuplicateOldTemplate::visualize_old_template();
 
+}function visualize_formula_template()
+{
+    \dateXFondoPlugin\ShortCodeFormulaTable::visualize_formula_template();
+
 }
 
 function duplicate_old_template()
@@ -94,7 +101,7 @@ function create_endpoint_datefondo()
 function esegui_modifica_campi($params)
 {
     \dateXFondoPlugin\modifica_campi($params);
-    $data = ['params'=>$params,'message'=>'Endpoint di edit'];
+    $data = ['params' => $params, 'message' => 'Endpoint di edit'];
     $response = new WP_REST_Response($data);
     $response->set_status(200);
     return $response;
@@ -117,7 +124,7 @@ function create_endpoint_datefondo_nuovo()
 
 function esegui_modifica_campi_nuovo_template($params)
 {
-    return  \dateXFondoPlugin\modifica_campi_nuovo_template($params);
+    return \dateXFondoPlugin\modifica_campi_nuovo_template($params);
 }
 
 add_action('rest_api_init', 'create_endpoint_datefondo_nuovo');
@@ -136,7 +143,7 @@ function create_endpoint_datefondo_creazione_riga()
 function esegui_creazione_riga($params)
 {
     $insert_id = \dateXFondoPlugin\creazione_nuova_riga($params);
-    $data = ['id'=>$insert_id,'message'=>'Bello DateXFondo'];
+    $data = ['id' => $insert_id, 'message' => 'Bello DateXFondo'];
     $response = new WP_REST_Response($data);
     $response->set_status(201);
     return $response;

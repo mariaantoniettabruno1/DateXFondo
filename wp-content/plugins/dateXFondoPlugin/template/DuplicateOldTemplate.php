@@ -120,8 +120,9 @@ class DuplicateOldTemplate
         $stmt = $mysqli->prepare($sql);
         foreach ($data as $entry) {
             $stmt->bind_param("ssissssssssi", $entry[1], $entry[2], $entry[3], $entry[4], $entry[5], $entry[6], $entry[7], $entry[8], $entry[9], $entry[10], $entry[11], $last_version);
+            $res = $stmt->execute();
         }
-        $res = $stmt->execute();
+
         mysqli_close($mysqli);
         return $data;
     }

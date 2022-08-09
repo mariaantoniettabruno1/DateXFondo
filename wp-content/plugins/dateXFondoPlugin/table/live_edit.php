@@ -109,7 +109,7 @@ function caricamento_campi($request)
         $sql = "INSERT INTO DATE_entry_chivasso (fondo,ente,anno,id_campo,label_campo,descrizione_campo,sottotitolo_campo,valore) VALUES(?,?,?,?,?,?,?,?)";
         $stmt = $mysqli->prepare($sql);
         foreach ($entries as $entry) {
-            $stmt->bind_param("ssssssss", $titolo_fondo, $ente, $anno, $entry[4], $entry[5], $entry[6], $entry[7],$entry[8]);
+            $stmt->bind_param("ssssssss", $titolo_fondo, $ente, $anno, $entry[4], $entry[6], $entry[7], $entry[8],$entry[9]);
             $res = $stmt->execute();
         }
     }
@@ -117,7 +117,7 @@ function caricamento_campi($request)
         $sql = "INSERT INTO DATE_entry_chivasso (fondo,ente,anno,id_campo,label_campo,descrizione_campo,sottotitolo_campo,valore, nota) VALUES(?,?,?,?,?,?,?,?,?)";
         $stmt = $mysqli->prepare($sql);
         foreach ($entries as $entry) {
-            $stmt->bind_param("sssssssss", $titolo_fondo, $ente, $anno, $entry[4], $entry[5], $entry[6], $entry[7],$entry[8],$entry[10]);
+            $stmt->bind_param("sssssssss", $titolo_fondo, $ente, $anno,  $entry[4], $entry[6], $entry[7], $entry[8],$entry[9],$entry[11]);
             $res = $stmt->execute();
         }
     }
@@ -125,7 +125,7 @@ function caricamento_campi($request)
         $sql = "INSERT INTO DATE_entry_chivasso (fondo,ente,anno,id_campo,label_campo,descrizione_campo,sottotitolo_campo) VALUES(?,?,?,?,?,?,?)";
         $stmt = $mysqli->prepare($sql);
         foreach ($entries as $entry) {
-            $stmt->bind_param("sssssss", $titolo_fondo, $ente, $anno, $entry[4], $entry[5], $entry[6], $entry[7]);
+            $stmt->bind_param("sssssss", $titolo_fondo, $ente, $anno, $entry[4], $entry[6], $entry[7],$enty[8]);
             $res = $stmt->execute();
         }
     }
