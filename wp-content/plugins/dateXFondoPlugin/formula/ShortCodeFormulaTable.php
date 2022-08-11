@@ -21,11 +21,11 @@ class ShortCodeFormulaTable
         <head>
             <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-            <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
-                  integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
-                  crossorigin="anonymous">
+            Liviu Mazilu, [11/08/2022 16:10]
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
+                  integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
+                  crossorigin="anonymous" referrerpolicy="no-referrer"/>
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-
             <style type="text/css">
 
                 .field_description > span {
@@ -48,18 +48,49 @@ class ShortCodeFormulaTable
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Calcolo delle formule</h5>
-                <div style="width: 20%">
-                    <select class="form-select" id="selectOperator">
-                        <option disabled selected>Seleziona l'operazione</option>
-                        <option value="+">+</option>
-                        <option value="-">-</option>
-                        <option value="*">*</option>
-                        <option value="\">\</option>
-                    </select>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <select class="form-select" id="selectOperator">
+                                <option disabled selected>Seleziona l'operazione</option>
+                                <option value="+">+</option>
+                                <option value="-">-</option>
+                                <option value="*">*</option>
+                                <option value="\">\</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-3">
+                            <select class="form-select" id="parenthesisOperator">
+                                <option disabled selected>Seleziona la parentesi</option>
+                                <option value="(">(</option>
+                                <option value=")">)</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" placeholder="Percentuale"
+                                       aria-label="Percentuale" aria-describedby="basic-addon1">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text pr-3" id="basic-addon1">%</span>
+                                </div>
+                                <button type="button" class="btn btn-outline-info pl-3" style="float: right">Calcola
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <button type="button" class="btn btn-warning" style="float: right" onclick="deleteLastCharacter()"><i
+                                        class="fa-solid fa-arrow-rotate-left text-white"></i></button>
+                            <button type="button" class="btn btn-danger" style="float: right"
+                                    onclick="deleteExpression()"><i
+                                        class="fa-solid fa-trash"></i></button>
+                        </div>
+                    </div>
                 </div>
                 <div id="divValFormula"></div>
-                <button type="button" class="btn btn-info" style="float: right">Salva formula</button>
+                <button type="button" class="btn btn-info" style="float: right">Salva il totale</button>
+                <button type="button" class="btn btn-info" style="float: right">Calcola formula</button>
             </div>
+        </div>
         </div>
         <h2>TABELLA FORMULE</h2>
         <div class="table-responsive">
@@ -85,11 +116,11 @@ class ShortCodeFormulaTable
                 <?php
                 //$entry_gforms = GFAPI::get_entries(7);
                 //TODO implementarlo in modo differente a seconda del comune con cui si è loggati
-//                if (!empty($entry_gforms)) {
-//                    $fondo = "FONDO 2015";
-//                    $ente = "Comune di Robassomero";
-//                    $anno = 2015;
-//                }
+                //                if (!empty($entry_gforms)) {
+                //                    $fondo = "FONDO 2015";
+                //                    $ente = "Comune di Robassomero";
+                //                    $anno = 2015;
+                //                }
                 $fondo = "FONDO 2015";
                 $ente = "Comune di Robassomero";
                 $anno = 2015;
@@ -175,7 +206,8 @@ class ShortCodeFormulaTable
                                 <?php echo $entry[10]; ?>
                             </span>
                             <input type="text" class="toggleable-input" value='<?php echo $entry[10]; ?>'
-                                   style="display: none" data-field="valore_anno_precedente" data-id="<?= $entry[0] ?>"
+                                   style="display: none" data-field="valore_anno_precedente"
+                                   data-id="<?= $entry[0] ?>"
                             /></td>
                         <td class="field_description">
                               <span class="toggleable-span">
@@ -186,7 +218,7 @@ class ShortCodeFormulaTable
                             /></td>
                         <td class="field_description">
                               <span class="toggleable-span">
-                                 <?php  echo $entry[12] == 1 ?  "Attivo" :  "Non attivo" ?>
+                                 <?php echo $entry[12] == 1 ? "Attivo" : "Non attivo" ?>
                             </span>
                             <input type="text" class="toggleable-input" value='<?php echo $entry[12]; ?>'
                                    style="display: none" data-field="attivo" data-id="<?= $entry[0] ?>"
@@ -215,7 +247,8 @@ class ShortCodeFormulaTable
                     } ?>"><a class="page-link" href="?index=<?php echo $next; ?>">Successivo</a></li>
                     <li class="page-item <?php if ($page >= $totalPages) {
                         echo 'disabled';
-                    } ?>"><a class="page-link" href="?index=<?php echo $totalPages; ?>"><?php echo $totalPages; ?></a>
+                    } ?>"><a class="page-link"
+                             href="?index=<?php echo $totalPages; ?>"><?php echo $totalPages; ?></a>
                     </li>
                 </ul>
             </nav>
@@ -238,6 +271,7 @@ class ShortCodeFormulaTable
         <script>
             let formula = '';
             let operator = '';
+            let parenthesis = '';
 
             const myHeaders = new Headers();
 
@@ -256,7 +290,22 @@ class ShortCodeFormulaTable
                 var operator = select.options[select.selectedIndex].value;
                 formula = formula.concat(operator.toString())
                 document.getElementById("divValFormula").innerHTML = formula;
-            })
+            });
+            $("#parenthesisOperator").change(function () {
+                var select = document.getElementById('parenthesisOperator');
+                var parenthesis = select.options[select.selectedIndex].value;
+                formula = formula.concat(parenthesis.toString())
+                document.getElementById("divValFormula").innerHTML = formula;
+            });
+
+            function deleteExpression() {
+                formula = '';
+                document.getElementById("divValFormula").innerHTML = formula;
+            }
+            function deleteLastCharacter(){
+                formula = formula.slice(0, formula.length - 1);
+                document.getElementById("divValFormula").innerHTML = formula;
+            }
 
             function changeValue() {
                 const elem = $(this);
