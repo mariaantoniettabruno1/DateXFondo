@@ -21,7 +21,6 @@ class ShortCodeFormulaTable
         <head>
             <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-            Liviu Mazilu, [11/08/2022 16:10]
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
                   integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
                   crossorigin="anonymous" referrerpolicy="no-referrer"/>
@@ -69,16 +68,18 @@ class ShortCodeFormulaTable
                         <div class="col-sm-3">
                             <div class="input-group mb-3">
                                 <input type="text" class="form-control" placeholder="Percentuale"
-                                       aria-label="Percentuale" aria-describedby="basic-addon1">
+                                       aria-label="Percentuale" aria-describedby="basic-addon1" id="percentageInput">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text pr-3" id="basic-addon1">%</span>
                                 </div>
-                                <button type="button" class="btn btn-outline-info pl-3" style="float: right">Calcola
+                                <button type="button" class="btn btn-outline-info pl-3" style="float: right"
+                                        onclick="calculatePercentage()">Calcola
                                 </button>
                             </div>
                         </div>
                         <div class="col-sm-3">
-                            <button type="button" class="btn btn-warning" style="float: right" onclick="deleteLastCharacter()"><i
+                            <button type="button" class="btn btn-warning" style="float: right"
+                                    onclick="deleteLastCharacter()"><i
                                         class="fa-solid fa-arrow-rotate-left text-white"></i></button>
                             <button type="button" class="btn btn-danger" style="float: right"
                                     onclick="deleteExpression()"><i
@@ -88,7 +89,7 @@ class ShortCodeFormulaTable
                 </div>
                 <div id="divValFormula"></div>
                 <button type="button" class="btn btn-info" style="float: right">Salva il totale</button>
-                <button type="button" class="btn btn-info" style="float: right">Calcola formula</button>
+                <button type="button" class="btn btn-info" style="float: right" onclick="calculateFormula()">Calcola formula</button>
             </div>
         </div>
         </div>
@@ -199,7 +200,7 @@ class ShortCodeFormulaTable
                         <td class="field_description">
                             <div class="toggable-radio" data-field="valore" data-id="<?= $entry[0] ?>">
                                 <label><input type="radio" name="valore"
-                                              value='<?php echo $entry[9]; ?>'> <?php echo $entry[9]; ?></label>
+                                              value='<?php echo $entry[9]; ?>' onclick="addNumberToFormula()"> <?php echo $entry[9]; ?></label>
                             </div>
                         </td>
                         <td class="field_description">   <span class="toggleable-span">
@@ -272,6 +273,9 @@ class ShortCodeFormulaTable
             let formula = '';
             let operator = '';
             let parenthesis = '';
+            let result = 0;
+            let number = 0;
+            let resultPercentage = 0;
 
             const myHeaders = new Headers();
 
@@ -279,15 +283,15 @@ class ShortCodeFormulaTable
                 myHeaders.append('Cache-Control', 'no-store');
             });
 
-            $("#dataTable tr").click(function () {
-                let number = document.querySelector('input[name="valore"]:checked').value;
+           function addNumberToFormula() {
+                 number = document.querySelector('input[name="valore"]:checked').value;
                 formula = formula.concat(number.toString());
                 document.getElementById("divValFormula").innerHTML = formula;
-            });
+            }
 
             $("#selectOperator").change(function () {
                 var select = document.getElementById('selectOperator');
-                var operator = select.options[select.selectedIndex].value;
+                operator = select.options[select.selectedIndex].value;
                 formula = formula.concat(operator.toString())
                 document.getElementById("divValFormula").innerHTML = formula;
             });
@@ -302,9 +306,20 @@ class ShortCodeFormulaTable
                 formula = '';
                 document.getElementById("divValFormula").innerHTML = formula;
             }
-            function deleteLastCharacter(){
+
+            function deleteLastCharacter() {
                 formula = formula.slice(0, formula.length - 1);
                 document.getElementById("divValFormula").innerHTML = formula;
+            }
+
+            function calculatePercentage() {
+                let percentage = document.getElementById('percentageInput');
+                resultPercentage = (result * percentage) / 100;
+            }
+
+            function calculateFormula() {
+                let result = eval(formula);
+                alert(result);
             }
 
             function changeValue() {
