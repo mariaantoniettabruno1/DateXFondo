@@ -83,14 +83,17 @@ class ShortCodeFormulaTable
                 </thead>
                 <tbody id="tbl_posts_body">
                 <?php
-                $entry_gforms = GFAPI::get_entries(7);
-                if (!empty($entry_gforms)) {
-                    $fondo = $entry_gforms[0][1];
-                    $ente = $entry_gforms[0][26];
-                    $anno = $entry_gforms[0][25];
-                }
+                //$entry_gforms = GFAPI::get_entries(7);
+                //TODO implementarlo in modo differente a seconda del comune con cui si è loggati
+//                if (!empty($entry_gforms)) {
+//                    $fondo = "FONDO 2015";
+//                    $ente = "Comune di Robassomero";
+//                    $anno = 2015;
+//                }
+                $fondo = "FONDO 2015";
+                $ente = "Comune di Robassomero";
+                $anno = 2015;
                 $old_template = new DuplicateOldTemplate();
-
                 $limit = 5;
                 $page = get_query_var('index', 1);
                 $startRecord = ($page - 1) * $limit;
@@ -182,13 +185,12 @@ class ShortCodeFormulaTable
                                    style="display: none" data-field="nota" data-id="<?= $entry[0] ?>"
                             /></td>
                         <td class="field_description">
-                            <div class="toggleable-radio" data-field="attivo" data-id="<?= $entry[0] ?>">
-                                <label><input type="radio" name="<?php echo $entry[0]; ?>" checked value='1'> Si</label>
-                                <label><input type="radio"
-                                              name="<?php echo $entry[0]; ?>" class="disabledRow"
-                                              value='0'>No</label>
-                            </div>
-                        </td>
+                              <span class="toggleable-span">
+                                 <?php  echo $entry[12] == 1 ?  "Attivo" :  "Non attivo" ?>
+                            </span>
+                            <input type="text" class="toggleable-input" value='<?php echo $entry[12]; ?>'
+                                   style="display: none" data-field="attivo" data-id="<?= $entry[0] ?>"
+                            /></td>
                     </tr>
 
                     <?php
