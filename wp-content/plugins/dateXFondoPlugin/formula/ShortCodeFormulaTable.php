@@ -2,6 +2,7 @@
 
 namespace dateXFondoPlugin;
 
+use FormulaTable;
 use GFAPI;
 
 header('Content-Type: text/javascript');
@@ -89,12 +90,42 @@ class ShortCodeFormulaTable
                 </div>
                 <div id="divValFormula"></div>
                 <button type="button" class="btn btn-info" style="float: right">Salva il totale</button>
-                <button type="button" class="btn btn-info" style="float: right" onclick="calculateFormula()">Calcola formula</button>
+                <button type="button" class="btn btn-info" style="float: right" onclick="calculateFormula()">Calcola
+                    formula
+                </button>
             </div>
         </div>
         </div>
+        <br>
+        <div>
+            <form method='POST' action=''>
+
+                <h4>Seleziona Sezione</h4>
+
+                <?php
+
+                $sections = new FormulaTable();
+                $results_sections = $sections->getAllSections();
+                arsort($results_sections);
+
+                ?>
+
+                <select id='section' name='select_section' onchange='this.form.submit()'>
+                    <option disabled selected> Seleziona Sezione</option>
+
+                    <?php foreach ($results_sections as $res_section): ?>
+
+                        <option <?= isset($_POST['select_section']) && $_POST['select_section'] === $res_section[0] ? 'selected' : '' ?>
+
+                                value='<?= $res_section[0] ?>'><?= $res_section[0] ?></option>
+
+                    <?php endforeach; ?>
+                </select>
+            </form>
+        </div>
+        <br>
         <h2>TABELLA FORMULE</h2>
-        <div class="table-responsive">
+        <div class="table-responsive table-hover">
 
             <table id="dataTable">
                 <thead>
@@ -115,13 +146,6 @@ class ShortCodeFormulaTable
                 </thead>
                 <tbody id="tbl_posts_body">
                 <?php
-                //$entry_gforms = GFAPI::get_entries(7);
-                //TODO implementarlo in modo differente a seconda del comune con cui si è loggati
-                //                if (!empty($entry_gforms)) {
-                //                    $fondo = "FONDO 2015";
-                //                    $ente = "Comune di Robassomero";
-                //                    $anno = 2015;
-                //                }
                 $fondo = "FONDO 2015";
                 $ente = "Comune di Robassomero";
                 $anno = 2015;
@@ -129,105 +153,114 @@ class ShortCodeFormulaTable
                 $limit = 5;
                 $page = get_query_var('index', 1);
                 $startRecord = ($page - 1) * $limit;
-                $old_data = $old_template->getCurrentData($ente, $anno, $fondo, $startRecord, $limit);
                 $recordsCount = $old_template->getCurrentDataCount($ente, $anno, $fondo);
                 $totalPages = ceil($recordsCount / $limit);
                 $previous = $page - 1;
                 $next = $page + 1;
 
-                foreach ($old_data as $entry) {
+                if (isset($_POST['select_section'])) {
+                    $data = new FormulaTable();
+                    $selected_section = $_POST['select_section'];
 
-                    ?>
-                    <tr>
-                        <td style="display: none"><?php echo $entry[0]; ?></td>
-                        <td>  <span class="toggleable-span">
+
+                    $entries = $data->getAllEntriesFromSection($selected_section);
+
+                    foreach ($entries as $entry) {
+                        unset($entry[0]);
+                        unset($entry[13]);
+                        ?>
+                        <tr>
+                            <td style="display: none"><?php echo $entry[0]; ?></td>
+                            <td>  <span class="toggleable-span">
                                 <?php echo $fondo; ?>
                             </span>
-                            <input type="text" class="toggleable-input" value='<?php echo $fondo; ?>'
-                                   style="display: none" data-field="fondo" data-id="<?= $entry[0] ?>"
-                            /></td>
-                        <td class="field_description">
+                                <input type="text" class="toggleable-input" value='<?php echo $fondo; ?>'
+                                       style="display: none" data-field="fondo" data-id="<?= $entry[0] ?>"
+                                /></td>
+                            <td class="field_description">
                              <span class="toggleable-span">
                                 <?php echo $ente; ?>
                             </span>
-                            <input type="text" class="toggleable-input" value='<?php echo $ente; ?>'
-                                   style="display: none" data-field="ente" data-id="<?= $entry[0] ?>"
-                            /></td>
-                        <td class="field_description"
-                        <span class="toggleable-span">
+                                <input type="text" class="toggleable-input" value='<?php echo $ente; ?>'
+                                       style="display: none" data-field="ente" data-id="<?= $entry[0] ?>"
+                                /></td>
+                            <td class="field_description"
+                            <span class="toggleable-span">
                                 <?php echo $anno; ?>
                             </span>
-                        <input type="text" class="toggleable-input" value='<?php echo $anno; ?>'
-                               style="display: none" data-field="anno" data-id="<?= $entry[0] ?>"
-                        /></td>
-                        <td class="field_description">
-                            <span class="toggleable-span">
-                                <?php echo $entry[4]; ?>
-                            </span>
-                            <input type="text" class="toggleable-input" value='<?php echo $entry[4]; ?>'
-                                   style="display: none" data-field="id_campo" data-id="<?= $entry[0] ?>"
-                            />
-                        </td>
-                        <td class="field_section">
+                            <input type="text" class="toggleable-input" value='<?php echo $anno; ?>'
+                                   style="display: none" data-field="anno" data-id="<?= $entry[0] ?>"
+                            /></td>
+
+                            <td class="field_description">
+                                <div data-field="id_campo" data-id="<?= $entry[0] ?>">
+                                    <label><input type="text" name="id_campo"
+                                                  value='<?php echo $entry[4]; ?>'
+                                                  onclick="addNumberToFormula()" hidden> <?php echo $entry[4]; ?> </label>
+                                </div>
+                            </td>
+                            <td class="field_section">
                             <span class="toggleable-span">
                                 <?php echo $entry[5]; ?>
                             </span>
-                            <input type="text" class="toggleable-input" value='<?php echo $entry[5]; ?>'
-                                   style="display: none" data-field="sezione" data-id="<?= $entry[0] ?>"
-                            />
-                        </td>
-                        <td class="field_description">
+                                <input type="text" class="toggleable-input" value='<?php echo $entry[5]; ?>'
+                                       style="display: none" data-field="sezione" data-id="<?= $entry[0] ?>"
+                                />
+                            </td>
+                            <td class="field_description">
                             <span class="toggleable-span">
                                 <?php echo $entry[6]; ?>
                             </span>
-                            <input type="text" class="toggleable-input" value='<?php echo $entry[6]; ?>'
-                                   style="display: none" data-field="label_campo" data-id="<?= $entry[0] ?>"
-                            /></td>
-                        <td class="field_description">
+                                <input type="text" class="toggleable-input" value='<?php echo $entry[6]; ?>'
+                                       style="display: none" data-field="label_campo" data-id="<?= $entry[0] ?>"
+                                /></td>
+                            <td class="field_description">
                             <span class="toggleable-span">
                                 <?php echo $entry[7]; ?>
                             </span>
-                            <input type="text" class="toggleable-input" value='<?php echo $entry[7]; ?>'
-                                   style="display: none" data-field="descrizione_campo" data-id="<?= $entry[0] ?>"
-                            /></td>
-                        <td class="field_description">
+                                <input type="text" class="toggleable-input" value='<?php echo $entry[7]; ?>'
+                                       style="display: none" data-field="descrizione_campo" data-id="<?= $entry[0] ?>"
+                                /></td>
+                            <td class="field_description">
                              <span class="toggleable-span">
                                 <?php echo $entry[8]; ?>
                             </span>
-                            <input type="text" class="toggleable-input" value='<?php echo $entry[8]; ?>'
-                                   style="display: none" data-field="sottotitolo_campo" data-id="<?= $entry[0] ?>"
-                            /></td>
-                        <td class="field_description">
-                            <div class="toggable-radio" data-field="valore" data-id="<?= $entry[0] ?>">
-                                <label><input type="radio" name="valore"
-                                              value='<?php echo $entry[9]; ?>' onclick="addNumberToFormula()"> <?php echo $entry[9]; ?></label>
-                            </div>
-                        </td>
-                        <td class="field_description">   <span class="toggleable-span">
+                                <input type="text" class="toggleable-input" value='<?php echo $entry[8]; ?>'
+                                       style="display: none" data-field="sottotitolo_campo" data-id="<?= $entry[0] ?>"
+                                /></td>
+                            <td class="field_description">   <span class="toggleable-span">
+                                <?php echo $entry[9]; ?>
+                            </span>
+                                <input type="text" class="toggleable-input" value='<?php echo $entry[9]; ?>'
+                                       style="display: none" data-field="valore"
+                                       data-id="<?= $entry[0] ?>"
+                                /></td>
+                            <td class="field_description">   <span class="toggleable-span">
                                 <?php echo $entry[10]; ?>
                             </span>
-                            <input type="text" class="toggleable-input" value='<?php echo $entry[10]; ?>'
-                                   style="display: none" data-field="valore_anno_precedente"
-                                   data-id="<?= $entry[0] ?>"
-                            /></td>
-                        <td class="field_description">
+                                <input type="text" class="toggleable-input" value='<?php echo $entry[10]; ?>'
+                                       style="display: none" data-field="valore_anno_precedente"
+                                       data-id="<?= $entry[0] ?>"
+                                /></td>
+                            <td class="field_description">
                               <span class="toggleable-span">
                                  <?php echo $entry[11]; ?>
                             </span>
-                            <input type="text" class="toggleable-input" value='<?php echo $entry[11]; ?>'
-                                   style="display: none" data-field="nota" data-id="<?= $entry[0] ?>"
-                            /></td>
-                        <td class="field_description">
+                                <input type="text" class="toggleable-input" value='<?php echo $entry[11]; ?>'
+                                       style="display: none" data-field="nota" data-id="<?= $entry[0] ?>"
+                                /></td>
+                            <td class="field_description">
                               <span class="toggleable-span">
                                  <?php echo $entry[12] == 1 ? "Attivo" : "Non attivo" ?>
                             </span>
-                            <input type="text" class="toggleable-input" value='<?php echo $entry[12]; ?>'
-                                   style="display: none" data-field="attivo" data-id="<?= $entry[0] ?>"
-                            /></td>
-                    </tr>
+                                <input type="text" class="toggleable-input" value='<?php echo $entry[12]; ?>'
+                                       style="display: none" data-field="attivo" data-id="<?= $entry[0] ?>"
+                                /></td>
+                        </tr>
 
-                    <?php
+                        <?php
 
+                    }
                 }
                 ?>
                 </tbody>
@@ -253,21 +286,10 @@ class ShortCodeFormulaTable
                     </li>
                 </ul>
             </nav>
+
+
         </div>
         </body>
-
-        <?php
-        $years = new DuplicateOldTemplate();
-        $readOnly = $years->isReadOnly($anno);
-        if (!$readOnly && array_key_exists('button1', $_POST)) {
-            $years->getTableNotEditable($anno);
-        } else if ($readOnly && array_key_exists('button2', $_POST)) {
-            $years->duplicateTable($anno);
-            $years->deleteReadOnly($anno);
-            header("Refresh:0");
-        }
-
-        ?>
 
         <script>
             let formula = '';
@@ -283,8 +305,9 @@ class ShortCodeFormulaTable
                 myHeaders.append('Cache-Control', 'no-store');
             });
 
-           function addNumberToFormula() {
-                 number = document.querySelector('input[name="valore"]:checked').value;
+            function addNumberToFormula() {
+                number = document.querySelector('input[name="id_campo"]').value;
+                console.log(number)
                 formula = formula.concat(number.toString());
                 document.getElementById("divValFormula").innerHTML = formula;
             }
@@ -415,7 +438,7 @@ class ShortCodeFormulaTable
         </html>
 
         <?php
+
+
     }
-
-
 }
