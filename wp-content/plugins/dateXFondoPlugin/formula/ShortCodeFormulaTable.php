@@ -4,6 +4,7 @@ namespace dateXFondoPlugin;
 
 use FormulaTable;
 use GFAPI;
+use Mpdf\Form;
 
 header('Content-Type: text/javascript');
 
@@ -89,16 +90,17 @@ class ShortCodeFormulaTable
                     </div>
                 </div>
                 <div id="divValFormula"></div>
-                <button type="button" class="btn btn-info" style="float: right">Salva il totale</button>
-                <button type="button" class="btn btn-info" style="float: right" onclick="calculateFormula()">Calcola
-                    formula
-                </button>
+                <form method='POST'>
+                    <input type="hidden" name="formula" value="formula" id="formula">
+                    <input type="submit" class="btn btn-info" style="float: right" onclick="calculateFormula()"
+                           value="Calcola formula">
+                </form>
             </div>
         </div>
         </div>
         <br>
         <div>
-            <form method='POST' action=''>
+            <form method='POST'>
 
                 <h4>Seleziona Sezione</h4>
 
@@ -146,9 +148,7 @@ class ShortCodeFormulaTable
                 </thead>
                 <tbody id="tbl_posts_body">
                 <?php
-                $fondo = "FONDO 2015";
-                $ente = "Comune di Robassomero";
-                $anno = 2015;
+
                 $old_template = new DuplicateOldTemplate();
                 $limit = 5;
                 $page = get_query_var('index', 1);
@@ -168,6 +168,13 @@ class ShortCodeFormulaTable
                     foreach ($entries as $entry) {
                         unset($entry[0]);
                         unset($entry[13]);
+                        $fondo = $entry[1];
+                        $ente = $entry[2];
+                        $anno = $entry[3];
+                        setcookie("Fondo", $fondo);
+                        setcookie("Ente", $ente);
+                        setcookie("Anno", $anno);
+                        setcookie("Sezione", $selected_section);
                         ?>
                         <tr>
                             <td style="display: none"><?php echo $entry[0]; ?></td>
@@ -196,7 +203,8 @@ class ShortCodeFormulaTable
                                 <div data-field="id_campo" data-id="<?= $entry[0] ?>">
                                     <label><input type="text" name="id_campo"
                                                   value='<?php echo $entry[4]; ?>'
-                                                  onclick="addNumberToFormula()" hidden> <?php echo $entry[4]; ?> </label>
+                                                  onclick="addNumberToFormula()" hidden> <?php echo $entry[4]; ?>
+                                    </label>
                                 </div>
                             </td>
                             <td class="field_section">
@@ -306,8 +314,7 @@ class ShortCodeFormulaTable
             });
 
             function addNumberToFormula() {
-                number = document.querySelector('input[name="id_campo"]').value;
-                console.log(number)
+                number = event.target.value;
                 formula = formula.concat(number.toString());
                 document.getElementById("divValFormula").innerHTML = formula;
             }
@@ -341,9 +348,18 @@ class ShortCodeFormulaTable
             }
 
             function calculateFormula() {
-                let result = eval(formula);
-                alert(result);
+                document.getElementById("formula").value = formula;
+                <?php
+                $formula = $_POST['formula'];
+                $ente =  $_COOKIE['Ente'];
+                $fondo = $_COOKIE['Fondo'];
+                $anno =  $_COOKIE['Anno'];
+                $sezione =  $_COOKIE['Sezione'];
+                $savedFormula = new FormulaTable();
+                $savedFormula->saveFormula($sezione, $formula, $fondo, $ente, $anno);
+                ?>
             }
+
 
             function changeValue() {
                 const elem = $(this);
@@ -435,7 +451,7 @@ class ShortCodeFormulaTable
 
 
         </script>
-        </html>
+        </html lang="en">
 
         <?php
 
