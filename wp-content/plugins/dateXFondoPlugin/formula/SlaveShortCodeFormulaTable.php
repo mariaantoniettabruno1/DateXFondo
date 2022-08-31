@@ -2,15 +2,16 @@
 
 namespace dateXFondoPlugin;
 
+use SlaveFormulaTable;
 use FormulaTable;
 use GFAPI;
 use Mpdf\Form;
 
 header('Content-Type: text/javascript');
 
-class ShortCodeFormulaTable
+class SlaveShortCodeFormulaTable
 {
-    public static function visualize_formula_template()
+    public static function visualize_slave_formula_template()
     {
 
         ?>
@@ -46,99 +47,6 @@ class ShortCodeFormulaTable
         </head>
 
         <body>
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Creazione della formula</h5>
-                <div class="container">
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <select class="form-select" id="selectOperator">
-                                <option disabled selected>Seleziona l'operazione</option>
-                                <option value="+">+</option>
-                                <option value="-">-</option>
-                                <option value="*">*</option>
-                                <option value="\">\</option>
-                                <option value="%">%</option>
-                            </select>
-                        </div>
-                        <div class="col-sm-3">
-                            <select class="form-select" id="parenthesisOperator">
-                                <option disabled selected>Seleziona la parentesi</option>
-                                <option value="(">(</option>
-                                <option value=")">)</option>
-                            </select>
-                        </div>
-                        <!--                        <div class="col-sm-3">-->
-                        <!--                            <div class="input-group mb-3">-->
-                        <!--                                <input type="text" class="form-control" placeholder="Percentuale"-->
-                        <!--                                       aria-label="Percentuale" aria-describedby="basic-addon1" id="percentageInput">-->
-                        <!--                                <div class="input-group-prepend">-->
-                        <!--                                    <span class="input-group-text pr-3" id="basic-addon1">%</span>-->
-                        <!--                                </div>-->
-                        <!--                                <button type="button" class="btn btn-outline-info pl-3" style="float: right"-->
-                        <!--                                        onclick="calculatePercentage()">Calcola-->
-                        <!--                                </button>-->
-                        <!--                            </div>-->
-                        <!--                        </div>-->
-                        <div class="col-sm-3">
-                            <button type="button" class="btn btn-warning" style="float: right"
-                                    onclick="deleteLastCharacter()"><i
-                                        class="fa-solid fa-arrow-rotate-left text-white"></i></button>
-                            <button type="button" class="btn btn-danger" style="float: right"
-                                    onclick="deleteExpression()"><i
-                                        class="fa-solid fa-trash"></i></button>
-                        </div>
-                    </div>
-                </div>
-                <div id="divValFormula"></div>
-                <form method='POST'>
-                    <input type="hidden" name="formula" value="formula" id="formula">
-                    <input type="submit" class="btn btn-info" style="float: right" onclick="calculateFormula()"
-                           value="Calcola formula">
-                </form>
-            </div>
-        </div>
-        <br>
-        <div>
-            <h2>TABELLA DELLE FORMULE</h2>
-            <br>
-            <div class="table table-responsive">
-                <table id="data_table" class="table table-striped table-bordered">
-                    <thead>
-                    <tr>
-                        <th>ID</th>
-
-                        <th>Sezione</th>
-
-                        <th>Formula</th>
-
-                        <th>Ente</th>
-
-                        <th>Fondo</th>
-
-                        <th>Anno</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <?php
-                    $formulas = new FormulaTable();
-                    $formulaEntries = $formulas->getAllFormulas();
-                    foreach ($formulaEntries as $entry) {
-                        ?>
-                        <tr>
-                            <td><?php echo $entry[0]; ?></td>
-                            <td><?php echo $entry[1]; ?></td>
-                            <td><?php echo $entry[2]; ?></td>
-                            <td><?php echo $entry[3]; ?></td>
-                            <td><?php echo $entry[4]; ?></td>
-                            <td><?php echo $entry[5]; ?></td>
-                        </tr>
-                    <?php } ?>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        </div>
         <div>
             <form method='POST'>
 
@@ -168,7 +76,7 @@ class ShortCodeFormulaTable
         <br>
         <div>
             <h2>TABELLA FORMULE</h2>
-            <div class="table-responsive table-hover">
+            <div class="table-responsive">
 
                 <table id="dataTable">
                     <thead>
@@ -189,29 +97,34 @@ class ShortCodeFormulaTable
                     </thead>
                     <tbody id="tbl_posts_body">
                     <?php
-
+                    $formulaData = new SlaveFormulaTable();
                     $old_template = new DuplicateOldTemplate();
-                    $limit = 5;
-                    $page = get_query_var('index', 1);
-                    $startRecord = ($page - 1) * $limit;
-                    $recordsCount = $old_template->getCurrentDataCount($ente, $anno, $fondo);
-                    $totalPages = ceil($recordsCount / $limit);
-                    $previous = $page - 1;
-                    $next = $page + 1;
+                    $data = new FormulaTable();
 
                     if (isset($_POST['select_section'])) {
-                        $data = new FormulaTable();
                         $selected_section = $_POST['select_section'];
 
-
                         $entries = $data->getAllEntriesFromSection($selected_section);
+                        $formula = $formulaData->getFormulaBySelectedSection($selected_section);
+
+                        $fondo = $entries[0][1];
+                        $ente = $entries[0][2];
+                        $anno = $entries[0][3];
+
+                        /** For table pagination **/
+                        $limit = 5;
+                        $page = get_query_var('index', 1);
+                        $startRecord = ($page - 1) * $limit;
+                        $recordsCount = $old_template->getCurrentDataCount($ente, $anno, $fondo);
+                        $totalPages = ceil($recordsCount / $limit);
+                        $previous = $page - 1;
+                        $next = $page + 1;
+
 
                         foreach ($entries as $entry) {
                             unset($entry[0]);
                             unset($entry[13]);
-                            $fondo = $entry[1];
-                            $ente = $entry[2];
-                            $anno = $entry[3];
+
                             setcookie("Fondo", $fondo);
                             setcookie("Ente", $ente);
                             setcookie("Anno", $anno);
@@ -312,6 +225,40 @@ class ShortCodeFormulaTable
                             <?php
 
                         }
+                        ?>
+                        <tr>
+                            <td>Calcolo totale sezione</td>
+                            <td><p><b>Formula : </b></p> <?php print_r($formula[0][2]) ?></td>
+                            <?php
+                            $array = str_split($formula[0][2]);
+                            $id_campo = '';
+                            $temp_value = '';
+                            foreach ($array as $character) {
+
+                                if ($character == '+' || $character == '-' || $character == '*' || $character == '7' || $character == '(' || $character == ')') {
+                                    $temp_value .= $formulaData->getValueFromIdCampo($id_campo)['valore'];
+                                    $temp_value .= $character;
+                                    $id_campo = '';
+                                } else {
+                                    $id_campo .= $character;
+                                }
+
+                            }
+                            $total = "print (".$temp_value.");";
+
+
+                            ?>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><p><b>Totale sezione:</b></p> <?php   print_r(eval($total)); ?></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <?php
                     }
                     ?>
                     </tbody>

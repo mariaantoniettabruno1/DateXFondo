@@ -40,5 +40,14 @@ class FormulaTable
         $res = $stmt->execute();
         mysqli_close($mysqli);
     }
-
+    public static function getAllFormulas( )
+    {
+        $conn = new Connection();
+        $mysqli = $conn->connect();
+        $sql = "SELECT * FROM DATE_formula";
+        $result = $mysqli->query($sql);
+        $row = $result->fetch_all();
+        mysqli_close($mysqli);
+        return $row;
+    }
 }

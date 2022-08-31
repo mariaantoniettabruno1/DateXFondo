@@ -20,6 +20,8 @@ require_once(plugin_dir_path(__FILE__) . 'template/DuplicateOldTemplate.php');
 require_once(plugin_dir_path(__FILE__) . 'template/ShortCodeDuplicateOldTemplate.php');
 require_once(plugin_dir_path(__FILE__) . 'formula/ShortCodeFormulaTable.php');
 require_once(plugin_dir_path(__FILE__) . 'formula/FormulaTable.php');
+require_once(plugin_dir_path(__FILE__) . 'formula/SlaveFormulaTable.php');
+require_once(plugin_dir_path(__FILE__) . 'formula/SlaveShortCodeFormulaTable.php');
 require_once(plugin_dir_path(__FILE__) . 'table/live_edit.php');
 
 
@@ -49,6 +51,7 @@ function shortcodes_init()
     add_shortcode('post_duplicate_old_template', 'duplicate_old_template');
     add_shortcode('post_visualize_old_template', 'visualize_old_template');
     add_shortcode('post_visualize_formula_template', 'visualize_formula_template');
+    add_shortcode('post_visualize_slave_formula_template', 'visualize_slave_formula_template');
 }
 
 
@@ -77,6 +80,11 @@ function visualize_old_template()
 }function visualize_formula_template()
 {
     \dateXFondoPlugin\ShortCodeFormulaTable::visualize_formula_template();
+
+}
+function visualize_slave_formula_template()
+{
+    \dateXFondoPlugin\SlaveShortCodeFormulaTable::visualize_slave_formula_template();
 
 }
 
