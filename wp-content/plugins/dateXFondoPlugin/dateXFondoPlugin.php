@@ -22,6 +22,8 @@ require_once(plugin_dir_path(__FILE__) . 'formula/ShortCodeFormulaTable.php');
 require_once(plugin_dir_path(__FILE__) . 'formula/FormulaTable.php');
 require_once(plugin_dir_path(__FILE__) . 'formula/SlaveFormulaTable.php');
 require_once(plugin_dir_path(__FILE__) . 'formula/SlaveShortCodeFormulaTable.php');
+require_once(plugin_dir_path(__FILE__) . 'document/DocumentTable.php');
+require_once(plugin_dir_path(__FILE__) . 'document/ShortCodeDocumentTable.php');
 require_once(plugin_dir_path(__FILE__) . 'table/live_edit.php');
 
 
@@ -52,6 +54,7 @@ function shortcodes_init()
     add_shortcode('post_visualize_old_template', 'visualize_old_template');
     add_shortcode('post_visualize_formula_template', 'visualize_formula_template');
     add_shortcode('post_visualize_slave_formula_template', 'visualize_slave_formula_template');
+    add_shortcode('post_document_template', 'document_template');
 }
 
 
@@ -91,6 +94,12 @@ function visualize_slave_formula_template()
 function duplicate_old_template()
 {
     \dateXFondoPlugin\ShortCodeDuplicateOldTemplate::duplicate_old_template();
+
+}
+
+function document_template()
+{
+    \dateXFondoPlugin\ShortCodeDocumentTable::visualize_document_template();
 
 }
 

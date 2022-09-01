@@ -38,7 +38,7 @@ class SlaveFormulaTable
         $mysqli = $conn->connect();
         $sql = "INSERT INTO DATE_formula (totale,sezione, formula, fondo, ente, anno) VALUES (?,?,?,?,?,?) ";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("fssssi", $totale, $sezione, $formula, $fondo, $ente, $anno);
+        $stmt->bind_param("issssi", $totale, $sezione, $formula, $fondo, $ente, $anno);
         $res = $stmt->execute();
         mysqli_close($mysqli);
     }

@@ -230,12 +230,12 @@ class SlaveShortCodeFormulaTable
                             <td>Calcolo totale sezione</td>
                             <td><p><b>Formula : </b></p> <?php print_r($formula[0][2]) ?></td>
                             <?php
-                            $array = str_split($formula[0][2]);
+                            $array_formula_character = str_split($formula[0][2]);
                             $counter = 0;
                             $id_campo = '';
                             $temp_value = '';
 
-                            foreach ($array as $character) {
+                            foreach ($array_formula_character as $character) {
                                 if ($character == '+' || $character == '-' || $character == '*' || $character == '/' || $character == '(' || $character == ')') {
                                     $temp_value .= $formulaData->getValueFromIdCampo($id_campo)['valore'];
                                     $temp_value .= $character;
@@ -244,7 +244,7 @@ class SlaveShortCodeFormulaTable
                                 } else {
                                     $id_campo .= $character;
                                     $counter++;
-                                    if ($counter == sizeof($array)) {
+                                    if ($counter == sizeof($array_formula_character)) {
                                         $temp_value .= $formulaData->getValueFromIdCampo($id_campo)['valore'];
                                         $id_campo = '';
                                     }
@@ -252,9 +252,9 @@ class SlaveShortCodeFormulaTable
 
                             }
                             $total = "print (" . $temp_value . ");";
-                            //TODO salvare il totale nel db, solo una volta e non ogni volta che si entra nella pagina
-                            //print_r($array)
-                            // $formulaData->saveTotal(eval($total), $array, $selected_section, $fondo, $ente, $anno);
+                            $total = number_format(eval($total), 2, ',','.');
+
+                            // $formulaData->saveTotal($total, $formula[0][2], $selected_section, $fondo, $ente, $anno);
 
                             ?>
                             <td></td>
@@ -263,7 +263,7 @@ class SlaveShortCodeFormulaTable
                             <td></td>
                             <td></td>
                             <td><p><b>Totale sezione:</b></p></td>
-                            <td><?php print_r(number_format(eval($total), 3, '.')); ?></td>
+                            <td><?php print_r($total); ?></td>
                             <td></td>
                             <td></td>
                             <td></td>
