@@ -226,26 +226,35 @@ class SlaveShortCodeFormulaTable
 
                         }
                         ?>
-                        <tr>
+                        <tr class="table-active">
                             <td>Calcolo totale sezione</td>
                             <td><p><b>Formula : </b></p> <?php print_r($formula[0][2]) ?></td>
                             <?php
                             $array = str_split($formula[0][2]);
+                            $counter = 0;
                             $id_campo = '';
                             $temp_value = '';
-                            foreach ($array as $character) {
 
-                                if ($character == '+' || $character == '-' || $character == '*' || $character == '7' || $character == '(' || $character == ')') {
+                            foreach ($array as $character) {
+                                if ($character == '+' || $character == '-' || $character == '*' || $character == '/' || $character == '(' || $character == ')') {
                                     $temp_value .= $formulaData->getValueFromIdCampo($id_campo)['valore'];
                                     $temp_value .= $character;
                                     $id_campo = '';
+                                    $counter++;
                                 } else {
                                     $id_campo .= $character;
+                                    $counter++;
+                                    if ($counter == sizeof($array)) {
+                                        $temp_value .= $formulaData->getValueFromIdCampo($id_campo)['valore'];
+                                        $id_campo = '';
+                                    }
                                 }
 
                             }
-                            $total = "print (".$temp_value.");";
-
+                            $total = "print (" . $temp_value . ");";
+                            //TODO salvare il totale nel db, solo una volta e non ogni volta che si entra nella pagina
+                            //print_r($array)
+                            // $formulaData->saveTotal(eval($total), $array, $selected_section, $fondo, $ente, $anno);
 
                             ?>
                             <td></td>
@@ -253,8 +262,9 @@ class SlaveShortCodeFormulaTable
                             <td></td>
                             <td></td>
                             <td></td>
+                            <td><p><b>Totale sezione:</b></p></td>
+                            <td><?php print_r(number_format(eval($total), 3, '.')); ?></td>
                             <td></td>
-                            <td><p><b>Totale sezione:</b></p> <?php   print_r(eval($total)); ?></td>
                             <td></td>
                             <td></td>
                         </tr>
@@ -290,69 +300,6 @@ class SlaveShortCodeFormulaTable
         </body>
         </div>
 
-
-        <script>
-            let formula = '';
-            let operator = '';
-            let parenthesis = '';
-            let result = 0;
-            let number = 0;
-            let resultPercentage = 0;
-
-            const myHeaders = new Headers();
-
-            $(document).ready(function () {
-                myHeaders.append('Cache-Control', 'no-store');
-            });
-
-            function addNumberToFormula() {
-                number = event.target.value;
-                formula = formula.concat(number.toString());
-                document.getElementById("divValFormula").innerHTML = formula;
-            }
-
-            $("#selectOperator").change(function () {
-                var select = document.getElementById('selectOperator');
-                operator = select.options[select.selectedIndex].value;
-                formula = formula.concat(operator.toString())
-                document.getElementById("divValFormula").innerHTML = formula;
-            });
-            $("#parenthesisOperator").change(function () {
-                var select = document.getElementById('parenthesisOperator');
-                var parenthesis = select.options[select.selectedIndex].value;
-                formula = formula.concat(parenthesis.toString())
-                document.getElementById("divValFormula").innerHTML = formula;
-            });
-
-            function deleteExpression() {
-                formula = '';
-                document.getElementById("divValFormula").innerHTML = formula;
-            }
-
-            function deleteLastCharacter() {
-                formula = formula.slice(0, formula.length - 1);
-                document.getElementById("divValFormula").innerHTML = formula;
-            }
-
-            function calculatePercentage() {
-                let percentage = document.getElementById('percentageInput');
-                resultPercentage = (result * percentage) / 100;
-            }
-
-            function calculateFormula() {
-                document.getElementById("formula").value = formula;
-                <?php
-                $formula = $_POST['formula'];
-                $ente = $_COOKIE['Ente'];
-                $fondo = $_COOKIE['Fondo'];
-                $anno = $_COOKIE['Anno'];
-                $sezione = $_COOKIE['Sezione'];
-                $savedFormula = new FormulaTable();
-                $savedFormula->saveFormula($sezione, $formula, $fondo, $ente, $anno);
-                ?>
-            }
-
-        </script>
         </html lang="en">
 
         <?php

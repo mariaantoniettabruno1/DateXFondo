@@ -31,4 +31,15 @@ class SlaveFormulaTable
         mysqli_close($mysqli);
         return $entries;
     }
+
+    public static function saveTotal($totale, $formula, $sezione, $fondo, $ente, $anno)
+    {
+        $conn = new Connection();
+        $mysqli = $conn->connect();
+        $sql = "INSERT INTO DATE_formula (totale,sezione, formula, fondo, ente, anno) VALUES (?,?,?,?,?,?) ";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("fssssi", $totale, $sezione, $formula, $fondo, $ente, $anno);
+        $res = $stmt->execute();
+        mysqli_close($mysqli);
+    }
 }
