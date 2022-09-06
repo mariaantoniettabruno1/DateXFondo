@@ -190,28 +190,30 @@ class ShortCodeFormulaTable
                     <tbody id="tbl_posts_body">
                     <?php
 
-                    $old_template = new DuplicateOldTemplate();
-                    $limit = 5;
-                    $page = get_query_var('index', 1);
-                    $startRecord = ($page - 1) * $limit;
-                    $recordsCount = $old_template->getCurrentDataCount($ente, $anno, $fondo);
-                    $totalPages = ceil($recordsCount / $limit);
-                    $previous = $page - 1;
-                    $next = $page + 1;
 
                     if (isset($_POST['select_section'])) {
+
+                        $old_template = new DuplicateOldTemplate();
                         $data = new FormulaTable();
+
+                        $limit = 5;
+                        $page = get_query_var('index', 1);
+
+                        $startRecord = ($page - 1) * $limit;
                         $selected_section = $_POST['select_section'];
-
-
                         $entries = $data->getAllEntriesFromSection($selected_section);
+                        $fondo = $entries[0][1];
+                        $ente = $entries[0][2];
+                        $anno = $entries[0][3];
+                        $recordsCount = $old_template->getCurrentDataCount($ente, $anno, $fondo);
+                        $totalPages = ceil($recordsCount / $limit);
+                        $previous = $page - 1;
+                        $next = $page + 1;
 
                         foreach ($entries as $entry) {
                             unset($entry[0]);
                             unset($entry[13]);
-                            $fondo = $entry[1];
-                            $ente = $entry[2];
-                            $anno = $entry[3];
+
                             setcookie("Fondo", $fondo);
                             setcookie("Ente", $ente);
                             setcookie("Anno", $anno);
