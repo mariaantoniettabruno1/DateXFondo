@@ -43,21 +43,54 @@ class ShortCodeDocumentTable
                     document.getElementById("paragraphDocumentID").innerHTML = document_text;
                 });
 
-
                 function makeInputReadOnly() {
 
                     document.getElementById("inputId").setAttribute("readonly", "readonly");
+                    document.getElementById("inputId2").setAttribute("readonly", "readonly");
+                    document.getElementById("inputId3").setAttribute("readonly", "readonly");
+                    document.getElementById("inputId4").setAttribute("readonly", "readonly");
+                    document.getElementById("inputId5").setAttribute("readonly", "readonly");
+                    document.getElementById("inputId6").setAttribute("readonly", "readonly");
+                    document.getElementById("inputId7").setAttribute("readonly", "readonly");
+                    document.getElementById("inputId8").setAttribute("readonly", "readonly");
+                    document.getElementById("inputId9").setAttribute("readonly", "readonly");
+                    document.getElementById("inputId10").setAttribute("readonly", "readonly");
+                    document.getElementById("inputId11").setAttribute("readonly", "readonly");
                     let inputValue = document.getElementById('inputId').value;
+                    let inputValue2 = document.getElementById('inputId2').value;
+                    let inputValue3 = document.getElementById('inputId3').value;
+                    console.log(inputValue3);
+                    let inputValue4 = document.getElementById('inputId4').value;
+                    let inputValue5 = document.getElementById('inputId5').value;
+                    let inputValue6 = document.getElementById('inputId6').value;
+                    let inputValue7 = document.getElementById('inputId7').value;
+                    let inputValue8 = document.getElementById('inputId8').value;
+                    let inputValue9 = document.getElementById('inputId9').value;
+                    let inputValue10 = document.getElementById('inputId10').value;
+                    let inputValue11 = document.getElementById('inputId11').value;
                     document.getElementById('inputId').setAttribute('value', inputValue);
+                    document.getElementById('inputId2').setAttribute('value', inputValue2);
+                    document.getElementById('inputId3').setAttribute('value', inputValue3);
+                    document.getElementById('inputId4').setAttribute('value', inputValue4);
+                    document.getElementById('inputId5').setAttribute('value', inputValue5);
+                    document.getElementById('inputId6').setAttribute('value', inputValue6);
+                    document.getElementById('inputId7').setAttribute('value', inputValue7);
+                    document.getElementById('inputId8').setAttribute('value', inputValue8);
+                    document.getElementById('inputId9').setAttribute('value', inputValue9);
+                    document.getElementById('inputId10').setAttribute('value', inputValue10);
+                    document.getElementById('inputId11').setAttribute('value', inputValue11);
+
                     let val = document.getElementById("paragraphDocumentID").innerHTML;
                     document.getElementById("hiddenParagraphId").value = val;
                     document.getElementById('editableButton').hidden = false;
                     document.getElementById('saveEditButton').hidden = true;
                     <?php
                     $documentText = $_POST['hiddenParagraphId'];
-                    $goodUrl = str_replace('\"', '', $documentText);
-                    $document->updateDocument('', $goodUrl, '', '', 0);
-                    $document->updateDocument('', $goodUrl, '', '', 0);
+                    $goodDocumentText = str_replace('\"', '', $documentText);
+                    if (isset($goodDocumentText) && $goodDocumentText !== '') {
+                        $document->updateDocument('', $goodDocumentText, '', '', 0);
+                        //header("Refresh:0");
+                    }
 
                     ?>
                     console.log(val);
@@ -66,6 +99,16 @@ class ShortCodeDocumentTable
 
                 function makeInputEditable() {
                     document.getElementById('inputId').removeAttribute("readonly");
+                    document.getElementById('inputId2').removeAttribute("readonly");
+                    document.getElementById('inputId3').removeAttribute("readonly");
+                    document.getElementById('inputId4').removeAttribute("readonly");
+                    document.getElementById('inputId5').removeAttribute("readonly");
+                    document.getElementById('inputId6').removeAttribute("readonly");
+                    document.getElementById('inputId7').removeAttribute("readonly");
+                    document.getElementById('inputId8').removeAttribute("readonly");
+                    document.getElementById('inputId9').removeAttribute("readonly");
+                    document.getElementById('inputId10').removeAttribute("readonly");
+                    document.getElementById('inputId11').removeAttribute("readonly");
                     document.getElementById('editableButton').hidden = true;
                     document.getElementById('saveEditButton').hidden = false;
                 }
