@@ -3,15 +3,17 @@
 namespace dateXFondoPlugin;
 
 use DocumentTable;
-use GFAPI;
-use Mpdf\Form;
 
+//use Dompdf\Dompdf;
+
+//require '../dompdf/autoload.inc.php';
 header('Content-Type: text/javascript');
 
 class ShortCodeDocumentTable
 {
     public static function visualize_document_template()
     {
+
         // per filtrare il contenuto delle pagine tramite gli utenti
         global $current_user;
         get_currentuserinfo();
@@ -22,7 +24,6 @@ class ShortCodeDocumentTable
         }
         $document = new DocumentTable();
         $entries = $document->getEditedDocument(30);
-
         ?>
 
         <!DOCTYPE html>
@@ -37,6 +38,7 @@ class ShortCodeDocumentTable
                   crossorigin="anonymous" referrerpolicy="no-referrer"/>
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
             <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
             <script type="text/javascript">
                 $(document).ready(function () {
                     let document_text = `<?php echo json_encode($entries['testo']);?>`;
@@ -59,7 +61,7 @@ class ShortCodeDocumentTable
                     let inputValue = document.getElementById('inputId').value;
                     let inputValue2 = document.getElementById('inputId2').value;
                     let inputValue3 = document.getElementById('inputId3').value;
-                    console.log(inputValue3);
+                    console.log(inputValue);
                     let inputValue4 = document.getElementById('inputId4').value;
                     let inputValue5 = document.getElementById('inputId5').value;
                     let inputValue6 = document.getElementById('inputId6').value;
@@ -89,11 +91,10 @@ class ShortCodeDocumentTable
                     $goodDocumentText = str_replace('\"', '', $documentText);
                     if (isset($goodDocumentText) && $goodDocumentText !== '') {
                         $document->updateDocument('', $goodDocumentText, '', '', 0);
-                        //header("Refresh:0");
                     }
-
                     ?>
-                    console.log(val);
+
+
                 }
 
 
@@ -115,13 +116,18 @@ class ShortCodeDocumentTable
 
                 function createPDF() {
 
-                    var element = document.getElementById('container_content');
+                    var element = document.getElementById('paragraphDocumentID');
                     var opt = {
                         margin: [0.5, 1, 0.5, 1],
-                        filename: 'myfile.pdf',
-                        image: {type: 'jpeg', quality: 0.98},
-                        html2canvas: {scale: 2},
-                        jsPDF: {unit: 'in', format: 'a4', orientation: 'l'}
+                        filename: 'Document.pdf',
+                        //image: {type: 'jpeg', quality: 0.98},
+                        html2canvas: {
+                            scale: 2,
+                            allowTaint: true,
+                            useCORS: true
+                        },
+                        jsPDF: {unit: 'in', format: 'Legal', orientation: 'p'},
+                        pagebreak: {mode: ['avoid-all', 'css', 'legacy']}
                     };
 
                     html2pdf().set(opt).from(element).save();

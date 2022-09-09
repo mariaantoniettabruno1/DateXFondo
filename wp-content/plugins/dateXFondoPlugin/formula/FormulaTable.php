@@ -30,17 +30,18 @@ class FormulaTable
         return $entries;
     }
 
-    public static function saveFormula($sezione, $formula, $fondo, $ente, $anno)
+    public static function saveFormula($sezione, $sottosezione, $label, $formula)
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = "INSERT INTO DATE_formula (sezione, formula, fondo, ente, anno) VALUES (?,?,?,?,?) ";
+        $sql = "INSERT INTO DATE_formula (sezione,sottosezione,label_descrittiva, formula) VALUES (?,?,?,?) ";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("ssssi", $sezione, $formula, $fondo, $ente, $anno);
+        $stmt->bind_param("ssss", $sezione, $sottosezione, $label, $formula);
         $res = $stmt->execute();
         mysqli_close($mysqli);
     }
-    public static function getAllFormulas( )
+
+    public static function getAllFormulas()
     {
         $conn = new Connection();
         $mysqli = $conn->connect();

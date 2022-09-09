@@ -251,9 +251,9 @@ class SlaveShortCodeFormulaTable
                                 }
 
                             }
-                            $total = "print (" . $temp_value . ");";
-                            $total = number_format(eval($total), 2, ',','.');
 
+                            $total = "print (" . $temp_value . ");";
+                            //$totalConverted = number_format(eval($total), 2, ',','.'); non me lo stampa con il valore corretto se ci metto la variabile
                             // $formulaData->saveTotal($total, $formula[0][2], $selected_section, $fondo, $ente, $anno);
 
                             ?>
@@ -263,7 +263,7 @@ class SlaveShortCodeFormulaTable
                             <td></td>
                             <td></td>
                             <td><p><b>Totale sezione:</b></p></td>
-                            <td><?php print_r($total); ?></td>
+                            <td><?php print_r(number_format(eval($total), 2, ',','.')); ?></td>
                             <td></td>
                             <td></td>
                             <td></td>

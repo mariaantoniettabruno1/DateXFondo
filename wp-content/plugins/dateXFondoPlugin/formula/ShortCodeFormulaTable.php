@@ -90,9 +90,14 @@ class ShortCodeFormulaTable
                         </div>
                     </div>
                 </div>
-                <div id="divValFormula"></div>
+                <div style="width: 30%" class="pt-4">
+                    <h6>Inserisci descrizione per la formula: </h6>
+                    <input type="text" name="label_formula" id="label_formula">
+                </div>
+                <div id="divValFormula" class="pt-4"></div>
                 <form method='POST'>
                     <input type="hidden" name="formula" value="formula" id="formula">
+                    <input type="hidden" name="label" id="label" value="label">
                     <input type="submit" class="btn btn-info" style="float: right" onclick="calculateFormula()"
                            value="Calcola formula">
                 </form>
@@ -110,13 +115,11 @@ class ShortCodeFormulaTable
 
                         <th>Sezione</th>
 
+                        <th>Sottosezione</th>
+
+                        <th>label descrittiva</th>
+
                         <th>Formula</th>
-
-                        <th>Ente</th>
-
-                        <th>Fondo</th>
-
-                        <th>Anno</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -131,7 +134,6 @@ class ShortCodeFormulaTable
                             <td><?php echo $entry[2]; ?></td>
                             <td><?php echo $entry[3]; ?></td>
                             <td><?php echo $entry[4]; ?></td>
-                            <td><?php echo $entry[5]; ?></td>
                         </tr>
                     <?php } ?>
                     </tbody>
@@ -178,6 +180,7 @@ class ShortCodeFormulaTable
                         <th>Anno</th>
                         <th>ID Campo</th>
                         <th>Sezione</th>
+                        <th>Sottosezione</th>
                         <th>Label campo</th>
                         <th>Descrizione campo</th>
                         <th>Sottotitolo campo</th>
@@ -258,55 +261,63 @@ class ShortCodeFormulaTable
                                            style="display: none" data-field="sezione" data-id="<?= $entry[0] ?>"
                                     />
                                 </td>
-                                <td class="field_description">
+                                <td class="field_section">
                             <span class="toggleable-span">
                                 <?php echo $entry[6]; ?>
                             </span>
                                     <input type="text" class="toggleable-input" value='<?php echo $entry[6]; ?>'
-                                           style="display: none" data-field="label_campo" data-id="<?= $entry[0] ?>"
-                                    /></td>
+                                           style="display: none" data-field="sottosezione" data-id="<?= $entry[0] ?>"
+                                    />
+                                </td>
                                 <td class="field_description">
                             <span class="toggleable-span">
                                 <?php echo $entry[7]; ?>
                             </span>
                                     <input type="text" class="toggleable-input" value='<?php echo $entry[7]; ?>'
+                                           style="display: none" data-field="label_campo" data-id="<?= $entry[0] ?>"
+                                    /></td>
+                                <td class="field_description">
+                            <span class="toggleable-span">
+                                <?php echo $entry[8]; ?>
+                            </span>
+                                    <input type="text" class="toggleable-input" value='<?php echo $entry[8]; ?>'
                                            style="display: none" data-field="descrizione_campo"
                                            data-id="<?= $entry[0] ?>"
                                     /></td>
                                 <td class="field_description">
                              <span class="toggleable-span">
-                                <?php echo $entry[8]; ?>
-                            </span>
-                                    <input type="text" class="toggleable-input" value='<?php echo $entry[8]; ?>'
-                                           style="display: none" data-field="sottotitolo_campo"
-                                           data-id="<?= $entry[0] ?>"
-                                    /></td>
-                                <td class="field_description">   <span class="toggleable-span">
                                 <?php echo $entry[9]; ?>
                             </span>
                                     <input type="text" class="toggleable-input" value='<?php echo $entry[9]; ?>'
-                                           style="display: none" data-field="valore"
+                                           style="display: none" data-field="sottotitolo_campo"
                                            data-id="<?= $entry[0] ?>"
                                     /></td>
                                 <td class="field_description">   <span class="toggleable-span">
                                 <?php echo $entry[10]; ?>
                             </span>
                                     <input type="text" class="toggleable-input" value='<?php echo $entry[10]; ?>'
+                                           style="display: none" data-field="valore"
+                                           data-id="<?= $entry[0] ?>"
+                                    /></td>
+                                <td class="field_description">   <span class="toggleable-span">
+                                <?php echo $entry[11]; ?>
+                            </span>
+                                    <input type="text" class="toggleable-input" value='<?php echo $entry[11]; ?>'
                                            style="display: none" data-field="valore_anno_precedente"
                                            data-id="<?= $entry[0] ?>"
                                     /></td>
                                 <td class="field_description">
                               <span class="toggleable-span">
-                                 <?php echo $entry[11]; ?>
+                                 <?php echo $entry[12]; ?>
                             </span>
-                                    <input type="text" class="toggleable-input" value='<?php echo $entry[11]; ?>'
+                                    <input type="text" class="toggleable-input" value='<?php echo $entry[12]; ?>'
                                            style="display: none" data-field="nota" data-id="<?= $entry[0] ?>"
                                     /></td>
                                 <td class="field_description">
                               <span class="toggleable-span">
-                                 <?php echo $entry[12] == 1 ? "Attivo" : "Non attivo" ?>
+                                 <?php echo $entry[13] == 1 ? "Attivo" : "Non attivo" ?>
                             </span>
-                                    <input type="text" class="toggleable-input" value='<?php echo $entry[12]; ?>'
+                                    <input type="text" class="toggleable-input" value='<?php echo $entry[13]; ?>'
                                            style="display: none" data-field="attivo" data-id="<?= $entry[0] ?>"
                                     /></td>
                             </tr>
@@ -353,6 +364,7 @@ class ShortCodeFormulaTable
             let result = 0;
             let number = 0;
             let resultPercentage = 0;
+            let label = '';
 
             const myHeaders = new Headers();
 
@@ -363,19 +375,23 @@ class ShortCodeFormulaTable
             function addNumberToFormula() {
                 number = event.target.value;
                 formula = formula.concat(number.toString());
+                label = document.getElementById('label_formula').value;
                 document.getElementById("divValFormula").innerHTML = formula;
+                console.log(label);
             }
 
             $("#selectOperator").change(function () {
                 var select = document.getElementById('selectOperator');
                 operator = select.options[select.selectedIndex].value;
-                formula = formula.concat(operator.toString())
+                formula = formula.concat(operator.toString());
+                label = document.getElementById('label_formula').value;
                 document.getElementById("divValFormula").innerHTML = formula;
             });
             $("#parenthesisOperator").change(function () {
                 var select = document.getElementById('parenthesisOperator');
                 var parenthesis = select.options[select.selectedIndex].value;
-                formula = formula.concat(parenthesis.toString())
+                formula = formula.concat(parenthesis.toString());
+                label = document.getElementById('label_formula').value;
                 document.getElementById("divValFormula").innerHTML = formula;
             });
 
@@ -384,6 +400,7 @@ class ShortCodeFormulaTable
                 document.getElementById("divValFormula").innerHTML = formula;
             }
 
+            //migliorare, cancolare la lunghezza dell'ultimo carattere per poi cancellarli tutti
             function deleteLastCharacter() {
                 formula = formula.slice(0, formula.length - 1);
                 document.getElementById("divValFormula").innerHTML = formula;
@@ -396,14 +413,18 @@ class ShortCodeFormulaTable
 
             function calculateFormula() {
                 document.getElementById("formula").value = formula;
+                document.getElementById("label").value = label;
+                console.log(label);
                 <?php
                 $formula = $_POST['formula'];
+                $labelDescrittiva = $_POST['label'];
                 $ente = $_COOKIE['Ente'];
                 $fondo = $_COOKIE['Fondo'];
                 $anno = $_COOKIE['Anno'];
                 $sezione = $_COOKIE['Sezione'];
+                $sottosezione = '';
                 $savedFormula = new FormulaTable();
-                $savedFormula->saveFormula($sezione, $formula, $fondo, $ente, $anno);
+                $savedFormula->saveFormula($sezione, $sottosezione, $labelDescrittiva, $formula);
                 ?>
             }
 
