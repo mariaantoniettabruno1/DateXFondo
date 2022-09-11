@@ -12,6 +12,11 @@ class ShortCodeFormulaTable
 {
     public static function visualize_formula_template()
     {
+        $data = new FormulaTable();
+        $results_sections = $data->getAllSections();
+        arsort($results_sections);
+        $results_id = $data->getAllIdsCampo($_POST['select_section']);
+        arsort($results_id);
 
         ?>
 
@@ -23,6 +28,7 @@ class ShortCodeFormulaTable
         <head>
             <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+            <script src="https://code.jquery.com/jquery-3.6.1.js"></script>
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
                   integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
                   crossorigin="anonymous" referrerpolicy="no-referrer"/>
@@ -41,29 +47,136 @@ class ShortCodeFormulaTable
                     width: 150px;
                 }
 
+                #closeConditionButtonId {
+                    color: #0a0a0a;
+                }
 
             </style>
         </head>
 
         <body>
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Creazione della formula</h5>
+        <div>
+            <form method='POST'>
+
+                <h4>Seleziona Sezione</h4>
+
+                <select id='section' name='select_section' onchange='this.form.submit()'>
+                    <option disabled selected> Seleziona Sezione</option>
+
+                    <?php foreach ($results_sections as $res_section): ?>
+
+                        <option <?= isset($_POST['select_section']) && $_POST['select_section'] === $res_section[0] ? 'selected' : '' ?>
+
+                                value='<?= $res_section[0] ?>'><?= $res_section[0] ?></option>
+
+                    <?php endforeach; ?>
+                </select>
+            </form>
+        </div>
+
+        <div class=" card border-secondary mb-3">
+            <div class="card-header">Creazione della formula</div>
+            <div class="card-body text-secondar">
                 <div class="container">
-                    <div class="row">
+                    <div style="width: 30%" class="pt-4">
+                        <h6>Inserisci descrizione per la formula: </h6>
+                        <input type="text" name="label_formula" id="label_formula">
+
+                    </div>
+                    <div class="pt-4">
+                        <button type="button" class="btn btn-link" id="addConditionButton"><i
+                                    class="fa-solid fa-circle-plus"></i> Aggiungi
+                            condizione
+                        </button>
+                    </div>
+                    <div class="card pb-5" id="conditionCard" hidden>
+                        <div class="card-body">
+                            <div class="pb-4">
+                                Condizione
+                                <button type="button" class="btn btn-link" id="closeConditionButtonId"
+                                        style="float:right"><i class="fa-solid fa-xmark text-black"></i></button>
+                            </div>
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-sm-1 pr-2">
+                                        <a>Se</a>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <select class="form-select" id="firstValueCondition" name='select_first_value'
+                                                onchange="addNumberToCondition()">
+                                            <option disabled selected>Aggiungi valore</option>
+
+                                            <?php foreach ($results_id as $res_id): ?>
+
+                                                <option <?= isset($_POST['select_first_value']) && $_POST['select_first_value'] === $res_id[0] ? 'selected' : '' ?>
+
+                                                        value='<?= $res_id[0] ?>'><?= $res_id[0] ?></option>
+
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-sm-1">
+                                        <select class="form-select" id="conditionOperator" onchange="addNumberToCondition()">
+                                            <option value=">">></option>
+                                            <option value="<"><</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <a class="pl-4">di</a>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <select class="form-select" id="secondValueCondition" name='select_second_value'
+                                                onchange="addNumberToCondition()">
+                                            <option disabled selected>Aggiungi valore</option>
+
+                                            <?php foreach ($results_id as $res_id): ?>
+
+                                                <option <?= isset($_POST['select_second_value']) && $_POST['select_second_value'] === $res_id[0] ? 'selected' : '' ?>
+
+                                                        value='<?= $res_id[0] ?>'><?= $res_id[0] ?></option>
+
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="pr-4">
+                            <button type="button" class="btn btn-outline-primary" style="float:right">Salva condizione
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row pt-5">
                         <div class="col-sm-3">
+                            <select class="form-select" id="valueOperator" name='select_id_campo'
+                                    onchange="addNumberToFormula()">
+                                <option disabled selected>Aggiungi valore</option>
+
+                                <?php foreach ($results_id as $res_id): ?>
+
+                                    <option <?= isset($_POST['select_id_campo']) && $_POST['select_id_campo'] === $res_id[0] ? 'selected' : '' ?>
+
+                                            value='<?= $res_id[0] ?>'><?= $res_id[0] ?></option>
+
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <div class="col-sm-3">
+
                             <select class="form-select" id="selectOperator">
-                                <option disabled selected>Seleziona l'operazione</option>
+                                <option disabled selected>Aggiungi operazione</option>
                                 <option value="+">+</option>
                                 <option value="-">-</option>
                                 <option value="*">*</option>
                                 <option value="\">\</option>
-                                <option value="%">%</option>
                             </select>
                         </div>
                         <div class="col-sm-3">
                             <select class="form-select" id="parenthesisOperator">
-                                <option disabled selected>Seleziona la parentesi</option>
+                                <option disabled selected>Aggiungi parentesi</option>
                                 <option value="(">(</option>
                                 <option value=")">)</option>
                             </select>
@@ -81,92 +194,29 @@ class ShortCodeFormulaTable
                         <!--                            </div>-->
                         <!--                        </div>-->
                         <div class="col-sm-3">
-                            <button type="button" class="btn btn-warning" style="float: right"
+                            <button type="button" class="btn btn-link" style="float: right"
                                     onclick="deleteLastCharacter()"><i
-                                        class="fa-solid fa-arrow-rotate-left text-white"></i></button>
-                            <button type="button" class="btn btn-danger" style="float: right"
-                                    onclick="deleteExpression()"><i
-                                        class="fa-solid fa-trash"></i></button>
+                                        class="fa fa-trash text-blue"></i> Elimina ultimo valore
+                            </button>
                         </div>
                     </div>
-                </div>
-                <div style="width: 30%" class="pt-4">
-                    <h6>Inserisci descrizione per la formula: </h6>
-                    <input type="text" name="label_formula" id="label_formula">
                 </div>
                 <div id="divValFormula" class="pt-4"></div>
                 <form method='POST'>
                     <input type="hidden" name="formula" value="formula" id="formula">
+                    <input type="hidden" name="condition" value="condition" id="condition">
                     <input type="hidden" name="label" id="label" value="label">
-                    <input type="submit" class="btn btn-info" style="float: right" onclick="calculateFormula()"
+                    <input type="submit" class="btn btn-primary" style="float: right"
+                           onclick="calculateFormula()"
                            value="Calcola formula">
                 </form>
+                <div class="pt-4">
+                    <button class="btn btn-outline-primary" onclick="deleteExpression()">Elimina tutto</button>
+                </div>
             </div>
         </div>
         <br>
-        <div>
-            <h2>TABELLA DELLE FORMULE</h2>
-            <br>
-            <div class="table table-responsive">
-                <table id="data_table" class="table table-striped table-bordered">
-                    <thead>
-                    <tr>
-                        <th>ID</th>
 
-                        <th>Sezione</th>
-
-                        <th>Sottosezione</th>
-
-                        <th>label descrittiva</th>
-
-                        <th>Formula</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <?php
-                    $formulas = new FormulaTable();
-                    $formulaEntries = $formulas->getAllFormulas();
-                    foreach ($formulaEntries as $entry) {
-                        ?>
-                        <tr>
-                            <td><?php echo $entry[0]; ?></td>
-                            <td><?php echo $entry[1]; ?></td>
-                            <td><?php echo $entry[2]; ?></td>
-                            <td><?php echo $entry[3]; ?></td>
-                            <td><?php echo $entry[4]; ?></td>
-                        </tr>
-                    <?php } ?>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        </div>
-        <div>
-            <form method='POST'>
-
-                <h4>Seleziona Sezione</h4>
-
-                <?php
-
-                $sections = new FormulaTable();
-                $results_sections = $sections->getAllSections();
-                arsort($results_sections);
-
-                ?>
-
-                <select id='section' name='select_section' onchange='this.form.submit()'>
-                    <option disabled selected> Seleziona Sezione</option>
-
-                    <?php foreach ($results_sections as $res_section): ?>
-
-                        <option <?= isset($_POST['select_section']) && $_POST['select_section'] === $res_section[0] ? 'selected' : '' ?>
-
-                                value='<?= $res_section[0] ?>'><?= $res_section[0] ?></option>
-
-                    <?php endforeach; ?>
-                </select>
-            </form>
-        </div>
         <br>
         <div>
             <h2>TABELLA FORMULE</h2>
@@ -249,7 +299,7 @@ class ShortCodeFormulaTable
                                     <div data-field="id_campo" data-id="<?= $entry[0] ?>">
                                         <label><input type="text" name="id_campo"
                                                       value='<?php echo $entry[4]; ?>'
-                                                      onclick="addNumberToFormula()" hidden> <?php echo $entry[4]; ?>
+                                                      hidden> <?php echo $entry[4]; ?>
                                         </label>
                                     </div>
                                 </td>
@@ -266,7 +316,8 @@ class ShortCodeFormulaTable
                                 <?php echo $entry[6]; ?>
                             </span>
                                     <input type="text" class="toggleable-input" value='<?php echo $entry[6]; ?>'
-                                           style="display: none" data-field="sottosezione" data-id="<?= $entry[0] ?>"
+                                           style="display: none" data-field="sottosezione"
+                                           data-id="<?= $entry[0] ?>"
                                     />
                                 </td>
                                 <td class="field_description">
@@ -274,7 +325,8 @@ class ShortCodeFormulaTable
                                 <?php echo $entry[7]; ?>
                             </span>
                                     <input type="text" class="toggleable-input" value='<?php echo $entry[7]; ?>'
-                                           style="display: none" data-field="label_campo" data-id="<?= $entry[0] ?>"
+                                           style="display: none" data-field="label_campo"
+                                           data-id="<?= $entry[0] ?>"
                                     /></td>
                                 <td class="field_description">
                             <span class="toggleable-span">
@@ -295,14 +347,16 @@ class ShortCodeFormulaTable
                                 <td class="field_description">   <span class="toggleable-span">
                                 <?php echo $entry[10]; ?>
                             </span>
-                                    <input type="text" class="toggleable-input" value='<?php echo $entry[10]; ?>'
+                                    <input type="text" class="toggleable-input"
+                                           value='<?php echo $entry[10]; ?>'
                                            style="display: none" data-field="valore"
                                            data-id="<?= $entry[0] ?>"
                                     /></td>
                                 <td class="field_description">   <span class="toggleable-span">
                                 <?php echo $entry[11]; ?>
                             </span>
-                                    <input type="text" class="toggleable-input" value='<?php echo $entry[11]; ?>'
+                                    <input type="text" class="toggleable-input"
+                                           value='<?php echo $entry[11]; ?>'
                                            style="display: none" data-field="valore_anno_precedente"
                                            data-id="<?= $entry[0] ?>"
                                     /></td>
@@ -310,14 +364,16 @@ class ShortCodeFormulaTable
                               <span class="toggleable-span">
                                  <?php echo $entry[12]; ?>
                             </span>
-                                    <input type="text" class="toggleable-input" value='<?php echo $entry[12]; ?>'
+                                    <input type="text" class="toggleable-input"
+                                           value='<?php echo $entry[12]; ?>'
                                            style="display: none" data-field="nota" data-id="<?= $entry[0] ?>"
                                     /></td>
                                 <td class="field_description">
                               <span class="toggleable-span">
                                  <?php echo $entry[13] == 1 ? "Attivo" : "Non attivo" ?>
                             </span>
-                                    <input type="text" class="toggleable-input" value='<?php echo $entry[13]; ?>'
+                                    <input type="text" class="toggleable-input"
+                                           value='<?php echo $entry[13]; ?>'
                                            style="display: none" data-field="attivo" data-id="<?= $entry[0] ?>"
                                     /></td>
                             </tr>
@@ -355,14 +411,55 @@ class ShortCodeFormulaTable
             </div>
         </body>
         </div>
+        <div>
+            <h2>TABELLA DELLE FORMULE</h2>
+            <br>
+            <div class="table table-responsive">
+                <table id="data_table" class="table table-striped table-bordered">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
 
+                        <th>Sezione</th>
+
+                        <th>Sottosezione</th>
+
+                        <th>label descrittiva</th>
+
+                        <th>Condizione</th>
+
+                        <th>Formula</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+                    $formulas = new FormulaTable();
+                    $formulaEntries = $formulas->getAllFormulas();
+                    foreach ($formulaEntries as $entry) {
+                        ?>
+                        <tr>
+                            <td><?php echo $entry[0]; ?></td>
+                            <td><?php echo $entry[1]; ?></td>
+                            <td><?php echo $entry[2]; ?></td>
+                            <td><?php echo $entry[3]; ?></td>
+                            <td><?php echo $entry[4]; ?></td>
+                            <td><?php echo $entry[5]; ?></td>
+                        </tr>
+                    <?php } ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        </div>
 
         <script>
             let formula = '';
+            let condition = '';
             let operator = '';
             let parenthesis = '';
             let result = 0;
             let number = 0;
+            let conditionValue = '';
             let resultPercentage = 0;
             let label = '';
 
@@ -371,6 +468,10 @@ class ShortCodeFormulaTable
             $(document).ready(function () {
                 myHeaders.append('Cache-Control', 'no-store');
             });
+            $(".btn-link").click(function () {
+                $("#conditionCard").removeAttr('hidden');
+                document.getElementById('addConditionButton').style.visibility = 'hidden';
+            });
 
             function addNumberToFormula() {
                 number = event.target.value;
@@ -378,6 +479,11 @@ class ShortCodeFormulaTable
                 label = document.getElementById('label_formula').value;
                 document.getElementById("divValFormula").innerHTML = formula;
                 console.log(label);
+            }
+            function  addNumberToCondition() {
+                conditionValue = event.target.value;
+                condition = condition.concat(conditionValue);
+                console.log(condition);
             }
 
             $("#selectOperator").change(function () {
@@ -414,17 +520,19 @@ class ShortCodeFormulaTable
             function calculateFormula() {
                 document.getElementById("formula").value = formula;
                 document.getElementById("label").value = label;
+                document.getElementById("condition").value = condition;
                 console.log(label);
                 <?php
                 $formula = $_POST['formula'];
                 $labelDescrittiva = $_POST['label'];
+                $formulaCondition = $_POST['condition'];
                 $ente = $_COOKIE['Ente'];
                 $fondo = $_COOKIE['Fondo'];
                 $anno = $_COOKIE['Anno'];
                 $sezione = $_COOKIE['Sezione'];
                 $sottosezione = '';
                 $savedFormula = new FormulaTable();
-                $savedFormula->saveFormula($sezione, $sottosezione, $labelDescrittiva, $formula);
+                $savedFormula->saveFormula($sezione, $sottosezione, $labelDescrittiva,$formulaCondition, $formula);
                 ?>
             }
 
