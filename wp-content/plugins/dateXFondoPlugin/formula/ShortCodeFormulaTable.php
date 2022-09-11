@@ -51,6 +51,10 @@ class ShortCodeFormulaTable
                     color: #0a0a0a;
                 }
 
+                #infoPointId {
+                    color: grey;
+                }
+
             </style>
         </head>
 
@@ -101,8 +105,9 @@ class ShortCodeFormulaTable
                                     <div class="col-sm-1 pr-2">
                                         <a>Se</a>
                                     </div>
-                                    <div class="col-sm-2">
-                                        <select class="form-select" id="firstValueCondition" name='select_first_value'
+                                    <div class="col-sm-3">
+                                        <select class="form-select" id="firstValueCondition"
+                                                name='select_first_value'
                                                 onchange="addNumberToCondition()">
                                             <option disabled selected>Aggiungi valore</option>
 
@@ -115,9 +120,15 @@ class ShortCodeFormulaTable
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
-
+                                    <div class="col-sm-1 pl-1">
+                                        <button type="button" class="btn btn-link" data-toggle="tooltip"
+                                                data-placement="top" title="per maggiori dettagli consulta la 'Tabella dati' " id="infoPointId">
+                                            <i class="fa-solid fa-circle-info"></i>
+                                        </button>
+                                    </div>
                                     <div class="col-sm-1">
-                                        <select class="form-select" id="conditionOperator" onchange="addNumberToCondition()">
+                                        <select class="form-select" id="conditionOperator"
+                                                onchange="addNumberToCondition()">
                                             <option value=">">></option>
                                             <option value="<"><</option>
                                         </select>
@@ -125,7 +136,7 @@ class ShortCodeFormulaTable
                                     <div class="col-sm-1">
                                         <a class="pl-4">di</a>
                                     </div>
-                                    <div class="col-sm-2">
+                                    <div class="col-sm-3">
                                         <select class="form-select" id="secondValueCondition" name='select_second_value'
                                                 onchange="addNumberToCondition()">
                                             <option disabled selected>Aggiungi valore</option>
@@ -139,7 +150,12 @@ class ShortCodeFormulaTable
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
-
+                                    <div class="col-sm-1 pl-1">
+                                        <button type="button" class="btn btn-link" data-toggle="tooltip"
+                                                data-placement="top" title="per maggiori dettagli consulta la 'Tabella dati' " id="infoPointId">
+                                            <i class="fa-solid fa-circle-info"></i>
+                                        </button>
+                                    </div>
                                 </div>
 
                             </div>
@@ -219,7 +235,7 @@ class ShortCodeFormulaTable
 
         <br>
         <div>
-            <h2>TABELLA FORMULE</h2>
+            <h2>TABELLA DATI</h2>
             <div class="table-responsive table-hover">
 
                 <table id="dataTable">
@@ -412,7 +428,7 @@ class ShortCodeFormulaTable
         </body>
         </div>
         <div>
-            <h2>TABELLA DELLE FORMULE</h2>
+            <h2>TABELLA FORMULE CREATE</h2>
             <br>
             <div class="table table-responsive">
                 <table id="data_table" class="table table-striped table-bordered">
@@ -468,6 +484,7 @@ class ShortCodeFormulaTable
             $(document).ready(function () {
                 myHeaders.append('Cache-Control', 'no-store');
             });
+        
             $(".btn-link").click(function () {
                 $("#conditionCard").removeAttr('hidden');
                 document.getElementById('addConditionButton').style.visibility = 'hidden';
@@ -480,7 +497,8 @@ class ShortCodeFormulaTable
                 document.getElementById("divValFormula").innerHTML = formula;
                 console.log(label);
             }
-            function  addNumberToCondition() {
+
+            function addNumberToCondition() {
                 conditionValue = event.target.value;
                 condition = condition.concat(conditionValue);
                 console.log(condition);
@@ -532,7 +550,7 @@ class ShortCodeFormulaTable
                 $sezione = $_COOKIE['Sezione'];
                 $sottosezione = '';
                 $savedFormula = new FormulaTable();
-                $savedFormula->saveFormula($sezione, $sottosezione, $labelDescrittiva,$formulaCondition, $formula);
+                $savedFormula->saveFormula($sezione, $sottosezione, $labelDescrittiva, $formulaCondition, $formula);
                 ?>
             }
 
