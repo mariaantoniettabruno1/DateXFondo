@@ -4,13 +4,13 @@ use dateXFondoPlugin\Connection;
 
 class SlaveFormulaTable
 {
-    public static function getFormulaBySelectedSection($selected_section)
+    public static function getFormulaBySelectedSection($selected_subsection)
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = "SELECT * FROM DATE_formula WHERE sezione=?";
+        $sql = "SELECT * FROM DATE_formula WHERE sottosezione=?";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("s", $selected_section);
+        $stmt->bind_param("s", $selected_subsection);
         $res = $stmt->execute();
         $res = $stmt->get_result();
         $entries = $res->fetch_all();

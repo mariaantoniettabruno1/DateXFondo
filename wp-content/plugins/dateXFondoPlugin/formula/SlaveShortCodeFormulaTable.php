@@ -71,229 +71,295 @@ class SlaveShortCodeFormulaTable
 
                     <?php endforeach; ?>
                 </select>
+                <h4>Seleziona Sottosezione </h4>
+
+                <?php
+                $results_subsections = $sections->getAllSubsections($_POST['select_section']);
+                arsort($results_subsections);
+
+                ?>
+
+                <select id='subsection' name='select_subsection' onchange='this.form.submit()'>
+                    <option disabled selected> Seleziona sottosezione</option>
+
+                    <?php foreach ($results_subsections as $res_subsection): ?>
+
+                        <option <?= isset($_POST['select_subsection']) && $_POST['select_subsection'] === $res_subsection[0] ? 'selected' : '' ?>
+
+                                value='<?= $res_subsection[0] ?>'><?= $res_subsection[0] ?></option>
+
+                    <?php endforeach; ?>
+                </select>
             </form>
         </div>
         <br>
         <div>
-            <h2>TABELLA FORMULE</h2>
-            <div class="table-responsive">
-
-                <table id="dataTable">
+            <h2>TABELLA FORMULE DELLE SOTTOSEZIONI CREATE</h2>
+            <br>
+            <div class="table table-responsive">
+                <table id="data_table" class="table table-striped table-bordered">
                     <thead>
                     <tr>
-                        <th style="width:70%">Fondo</th>
-                        <th>Ente</th>
-                        <th>Anno</th>
-                        <th>ID Campo</th>
                         <th>Sezione</th>
-                        <th>Label campo</th>
-                        <th>Descrizione campo</th>
-                        <th>Sottotitolo campo</th>
-                        <th>Valore</th>
-                        <th>Valore anno precedente</th>
-                        <th>Nota</th>
-                        <th>Attivo</th>
+
+                        <th>Sottosezione</th>
+
+                        <th>label descrittiva</th>
+
+                        <th>Condizione</th>
+
+                        <th>Formula</th>
+
+                        <th>Totale</th>
                     </tr>
                     </thead>
                     <tbody id="tbl_posts_body">
                     <?php
                     $formulaData = new SlaveFormulaTable();
-                    $old_template = new DuplicateOldTemplate();
-                    $data = new FormulaTable();
+
 
                     if (isset($_POST['select_section'])) {
-                        $selected_section = $_POST['select_section'];
+                    $selected_section = $_POST['select_section'];
+                    $selected_subsection = $_POST['select_subsection'];
+                    $formulaEntries = $formulaData->getFormulaBySelectedSection($selected_subsection);
 
-                        $entries = $data->getAllEntriesFromSection($selected_section);
-                        $formula = $formulaData->getFormulaBySelectedSection($selected_section);
+                    foreach ($formulaEntries
 
-                        $fondo = $entries[0][1];
-                        $ente = $entries[0][2];
-                        $anno = $entries[0][3];
+                             as $formula) {
+                    ?>
+                    <tr>
+                        <td><?php echo $formula[1]; ?></td>
+                        <td><?php echo $formula[2]; ?></td>
+                        <td><?php echo $formula[3]; ?></td>
+                        <td><?php echo $formula[4]; ?></td>
+                        <td><?php echo $formula[5]; ?></td>
+                        <?php
+                        $array_formula_character = str_split($formula[5]);
+                        $array_formula_condition = str_split($formula[4]);
 
-                        /** For table pagination **/
-                        $limit = 5;
-                        $page = get_query_var('index', 1);
-                        $startRecord = ($page - 1) * $limit;
-                        $recordsCount = $old_template->getCurrentDataCount($ente, $anno, $fondo);
-                        $totalPages = ceil($recordsCount / $limit);
-                        $previous = $page - 1;
-                        $next = $page + 1;
+                        $counter = 0;
+                        $id_campo = '';
+                        $temp_value = '';
+                        $firstValueCondition = '';
+                        $condition = '';
+                        $secondValueCondition = '';
 
-
-                        foreach ($entries as $entry) {
-                            unset($entry[0]);
-                            unset($entry[13]);
-
-                            setcookie("Fondo", $fondo);
-                            setcookie("Ente", $ente);
-                            setcookie("Anno", $anno);
-                            setcookie("Sezione", $selected_section);
-                            ?>
-                            <tr>
-                                <td style="display: none"><?php echo $entry[0]; ?></td>
-                                <td>  <span class="toggleable-span">
-                                <?php echo $fondo; ?>
-                            </span>
-                                    <input type="text" class="toggleable-input" value='<?php echo $fondo; ?>'
-                                           style="display: none" data-field="fondo" data-id="<?= $entry[0] ?>"
-                                    /></td>
-                                <td class="field_description">
-                             <span class="toggleable-span">
-                                <?php echo $ente; ?>
-                            </span>
-                                    <input type="text" class="toggleable-input" value='<?php echo $ente; ?>'
-                                           style="display: none" data-field="ente" data-id="<?= $entry[0] ?>"
-                                    /></td>
-                                <td class="field_description"
-                                <span class="toggleable-span">
-                                <?php echo $anno; ?>
-                            </span>
-                                <input type="text" class="toggleable-input" value='<?php echo $anno; ?>'
-                                       style="display: none" data-field="anno" data-id="<?= $entry[0] ?>"
-                                /></td>
-
-                                <td class="field_description">
-                                    <div data-field="id_campo" data-id="<?= $entry[0] ?>">
-                                        <label><input type="text" name="id_campo"
-                                                      value='<?php echo $entry[4]; ?>'
-                                                      onclick="addNumberToFormula()" hidden> <?php echo $entry[4]; ?>
-                                        </label>
-                                    </div>
-                                </td>
-                                <td class="field_section">
-                            <span class="toggleable-span">
-                                <?php echo $entry[5]; ?>
-                            </span>
-                                    <input type="text" class="toggleable-input" value='<?php echo $entry[5]; ?>'
-                                           style="display: none" data-field="sezione" data-id="<?= $entry[0] ?>"
-                                    />
-                                </td>
-                                <td class="field_description">
-                            <span class="toggleable-span">
-                                <?php echo $entry[6]; ?>
-                            </span>
-                                    <input type="text" class="toggleable-input" value='<?php echo $entry[6]; ?>'
-                                           style="display: none" data-field="label_campo" data-id="<?= $entry[0] ?>"
-                                    /></td>
-                                <td class="field_description">
-                            <span class="toggleable-span">
-                                <?php echo $entry[7]; ?>
-                            </span>
-                                    <input type="text" class="toggleable-input" value='<?php echo $entry[7]; ?>'
-                                           style="display: none" data-field="descrizione_campo"
-                                           data-id="<?= $entry[0] ?>"
-                                    /></td>
-                                <td class="field_description">
-                             <span class="toggleable-span">
-                                <?php echo $entry[8]; ?>
-                            </span>
-                                    <input type="text" class="toggleable-input" value='<?php echo $entry[8]; ?>'
-                                           style="display: none" data-field="sottotitolo_campo"
-                                           data-id="<?= $entry[0] ?>"
-                                    /></td>
-                                <td class="field_description">   <span class="toggleable-span">
-                                <?php echo $entry[9]; ?>
-                            </span>
-                                    <input type="text" class="toggleable-input" value='<?php echo $entry[9]; ?>'
-                                           style="display: none" data-field="valore"
-                                           data-id="<?= $entry[0] ?>"
-                                    /></td>
-                                <td class="field_description">   <span class="toggleable-span">
-                                <?php echo $entry[10]; ?>
-                            </span>
-                                    <input type="text" class="toggleable-input" value='<?php echo $entry[10]; ?>'
-                                           style="display: none" data-field="valore_anno_precedente"
-                                           data-id="<?= $entry[0] ?>"
-                                    /></td>
-                                <td class="field_description">
-                              <span class="toggleable-span">
-                                 <?php echo $entry[11]; ?>
-                            </span>
-                                    <input type="text" class="toggleable-input" value='<?php echo $entry[11]; ?>'
-                                           style="display: none" data-field="nota" data-id="<?= $entry[0] ?>"
-                                    /></td>
-                                <td class="field_description">
-                              <span class="toggleable-span">
-                                 <?php echo $entry[12] == 1 ? "Attivo" : "Non attivo" ?>
-                            </span>
-                                    <input type="text" class="toggleable-input" value='<?php echo $entry[12]; ?>'
-                                           style="display: none" data-field="attivo" data-id="<?= $entry[0] ?>"
-                                    /></td>
-                            </tr>
-
-                            <?php
-
-                        }
-                        ?>
-                        <tr class="table-active">
-                            <td>Calcolo totale sezione</td>
-                            <td><p><b>Formula : </b></p> <?php print_r($formula[0][2]) ?></td>
-                            <?php
-                            $array_formula_character = str_split($formula[0][2]);
-                            $counter = 0;
-                            $id_campo = '';
-                            $temp_value = '';
-
-                            foreach ($array_formula_character as $character) {
-                                if ($character == '+' || $character == '-' || $character == '*' || $character == '/' || $character == '(' || $character == ')') {
+                        foreach ($array_formula_character as $character) {
+                            if ($character == '+' || $character == '-' || $character == '*' || $character == '/' || $character == '(' || $character == ')') {
+                                $temp_value .= $formulaData->getValueFromIdCampo($id_campo)['valore'];
+                                $temp_value .= $character;
+                                $id_campo = '';
+                                $counter++;
+                            } else {
+                                $id_campo .= $character;
+                                $counter++;
+                                if ($counter == sizeof($array_formula_character)) {
                                     $temp_value .= $formulaData->getValueFromIdCampo($id_campo)['valore'];
-                                    $temp_value .= $character;
                                     $id_campo = '';
-                                    $counter++;
-                                } else {
-                                    $id_campo .= $character;
-                                    $counter++;
-                                    if ($counter == sizeof($array_formula_character)) {
-                                        $temp_value .= $formulaData->getValueFromIdCampo($id_campo)['valore'];
-                                        $id_campo = '';
-                                    }
                                 }
-
                             }
 
-                            $total = "print (" . $temp_value . ");";
-                            //$totalConverted = number_format(eval($total), 2, ',','.'); non me lo stampa con il valore corretto se ci metto la variabile
-                            // $formulaData->saveTotal($total, $formula[0][2], $selected_section, $fondo, $ente, $anno);
+                        }
 
-                            ?>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td><p><b>Totale sezione:</b></p></td>
-                            <td><?php print_r(number_format(eval($total), 2, ',','.')); ?></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
+                        $total = "print (" . $temp_value . ");";
+                        $counterCondition = 0;
+                        foreach ($array_formula_condition as $character) {
+                            if ($character == '>' || $character == '<' || $character == '=' || $character == '>=' || $character == '<=') {
+                                $firstValueCondition = (int)$formulaData->getValueFromIdCampo($id_campo)['valore'];
+                                $condition = $character;
+                                $id_campo = '';
+                                $counterCondition++;
+                            } else {
+                                $id_campo .= $character;
+                                $counterCondition++;
+
+                                if ($counterCondition == sizeof($array_formula_condition)) {
+                                    $secondValueCondition = (int)$formulaData->getValueFromIdCampo($id_campo)['valore'];
+                                    $id_campo = '';
+                                }
+                            }
+
+
+                        }
+                        if (sizeof($formula[4]) != 0) {
+                            switch ($condition) {
+                                case '>':
+                                    if ($firstValueCondition > $secondValueCondition) {
+
+                                        echo '<td>';
+                                        print_r(number_format(eval($total), 2, ',', '.'));
+                                        echo '</td>';
+                                    } else {
+                                        echo '<td>';
+                                        echo 'Condizione non soddisfatta';
+                                        echo '</td>';
+                                    }
+                                    break;
+                                case '<':
+                                    if ($firstValueCondition < $secondValueCondition) {
+
+                                        echo '<td>';
+                                        print_r(number_format(eval($total), 2, ',', '.'));
+                                        echo '</td>';
+                                    } else {
+                                        echo '<td>';
+                                        echo 'Condizione non soddisfatta';
+                                        echo '</td>';
+                                    }
+
+                                    break;
+                                case '=':
+                                    if ($firstValueCondition == $secondValueCondition) {
+
+                                        echo '<td>';
+                                        print_r(number_format(eval($total), 2, ',', '.'));
+                                        echo '</td>';
+                                    } else {
+                                        echo '<td>';
+                                        echo 'Condizione non soddisfatta';
+                                        echo '</td>';
+                                    }
+                                    break;
+                                case '>=':
+
+                                    if ($firstValueCondition >= $secondValueCondition) {
+
+                                        echo '<td>';
+                                        print_r(number_format(eval($total), 2, ',', '.'));
+                                        echo '</td>';
+                                    } else {
+                                        echo '<td>';
+                                        echo 'Condizione non soddisfatta';
+                                        echo '</td>';
+                                    }
+
+                                    break;
+                                case '<=':
+                                    if ($firstValueCondition <= $secondValueCondition) {
+
+                                        echo '<td>';
+                                        print_r(number_format(eval($total), 2, ',', '.'));
+                                        echo '</td>';
+                                    } else {
+                                        echo '<td>';
+                                        echo 'Condizione non soddisfatta';
+                                        echo '</td>';
+                                    }
+
+                                    break;
+                            }
+                        } else {
+                            echo '<td>';
+                            print_r(number_format(eval($total), 2, ',', '.'));
+                            echo '</td>';
+                        }
+                        // $formulaData->saveTotal($total, $formula[0][2], $selected_section, $fondo, $ente, $anno);
+                        }
+                        }
+                        ?>
+                    </tr>
+                    <tr class="table-active">
+                        <td><p><b>Totale sezione:</b></p></td>
+                        <td></td>
                         <?php
-                    }
+                        $array_formula_character = str_split($formula[0][5]);
+                        $counter = 0;
+                        $id_campo = '';
+                        $temp_value = '';
+
+                        foreach ($array_formula_character as $character) {
+                            if ($character == '+' || $character == '-' || $character == '*' || $character == '/' || $character == '(' || $character == ')') {
+                                $temp_value .= $formulaData->getValueFromIdCampo($id_campo)['valore'];
+                                $temp_value .= $character;
+                                $id_campo = '';
+                                $counter++;
+                            } else {
+                                $id_campo .= $character;
+                                $counter++;
+                                if ($counter == sizeof($array_formula_character)) {
+                                    $temp_value .= $formulaData->getValueFromIdCampo($id_campo)['valore'];
+                                    $id_campo = '';
+                                }
+                            }
+
+                        }
+
+                        $total = "print (" . $temp_value . ");";
+                        //$totalConverted = number_format(eval($total), 2, ',','.'); non me lo stampa con il valore corretto se ci metto la variabile
+                        // $formulaData->saveTotal($total, $formula[0][2], $selected_section, $fondo, $ente, $anno);
+
+                        ?>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><?php //print_r(number_format(eval($total), 2, ',','.'));
+                            ?></td>
+                    </tr>
+                    <?php
+
                     ?>
                     </tbody>
                 </table>
 
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination justify-content-end">
-                        <li class="page-item <?php if ($page == 1) echo 'disabled'; ?>">
-                            <a class="page-link" href="?index=1" tabindex="-1" aria-disabled="true">1</a>
-                        <li class="page-item <?php if ($page <= 1) {
-                            echo 'disabled';
-                        } ?>"><a class="page-link" href="?index=<?php echo $previous; ?>"">Precedente</a></li>
-                        <li class="page-item"><input id="currentPageInput" type="number" min="1"
-                                                     max="<?php echo $totalPages ?>"
-                                                     placeholder="<?php echo $page; ?>" required></li>
-                        <li class="page-item <?php if ($page >= $totalPages) {
-                            echo 'disabled';
-                        } ?>"><a class="page-link" href="?index=<?php echo $next; ?>">Successivo</a></li>
-                        <li class="page-item <?php if ($page >= $totalPages) {
-                            echo 'disabled';
-                        } ?>"><a class="page-link"
-                                 href="?index=<?php echo $totalPages; ?>"><?php echo $totalPages; ?></a>
-                        </li>
-                    </ul>
-                </nav>
+                <!--                <nav aria-label="Page navigation example">-->
+                <!--                    <ul class="pagination justify-content-end">-->
+                <!--                        <li class="page-item --><?php //if ($page == 1) echo 'disabled';
+                ?><!--">-->
+                <!--                            <a class="page-link" href="?index=1" tabindex="-1" aria-disabled="true">1</a>-->
+                <!--                        <li class="page-item --><?php //if ($page <= 1) {
+                //                            echo 'disabled';
+                //                        }
+                ?><!--"><a class="page-link" href="?index=--><?php //echo $previous;
+                ?><!--"">Precedente</a></li>-->
+                <!--                        <li class="page-item"><input id="currentPageInput" type="number" min="1"-->
+                <!--                                                     max="--><?php //echo $totalPages
+                ?><!--"-->
+                <!--                                                     placeholder="--><?php //echo $page;
+                ?><!--" required></li>-->
+                <!--                        <li class="page-item --><?php //if ($page >= $totalPages) {
+                //                            echo 'disabled';
+                //                        }
+                ?><!--"><a class="page-link" href="?index=--><?php //echo $next;
+                ?><!--">Successivo</a></li>-->
+                <!--                        <li class="page-item --><?php //if ($page >= $totalPages) {
+                //                            echo 'disabled';
+                //                        }
+                ?><!--"><a class="page-link"-->
+                <!--                                 href="?index=--><?php //echo $totalPages;
+                ?><!--">--><?php //echo $totalPages;
+                ?><!--</a>-->
+                <!--                        </li>-->
+                <!--                    </ul>-->
+                <!--                </nav>  <nav aria-label="Page navigation example">-->
+                <!--                    <ul class="pagination justify-content-end">-->
+                <!--                        <li class="page-item --><?php //if ($page == 1) echo 'disabled';
+                ?><!--">-->
+                <!--                            <a class="page-link" href="?index=1" tabindex="-1" aria-disabled="true">1</a>-->
+                <!--                        <li class="page-item --><?php //if ($page <= 1) {
+                //                            echo 'disabled';
+                //                        }
+                ?><!--"><a class="page-link" href="?index=--><?php //echo $previous;
+                ?><!--"">Precedente</a></li>-->
+                <!--                        <li class="page-item"><input id="currentPageInput" type="number" min="1"-->
+                <!--                                                     max="--><?php //echo $totalPages
+                ?><!--"-->
+                <!--                                                     placeholder="--><?php //echo $page;
+                ?><!--" required></li>-->
+                <!--                        <li class="page-item --><?php //if ($page >= $totalPages) {
+                //                            echo 'disabled';
+                //                        }
+                ?><!--"><a class="page-link" href="?index=--><?php //echo $next;
+                ?><!--">Successivo</a></li>-->
+                <!--                        <li class="page-item --><?php //if ($page >= $totalPages) {
+                //                            echo 'disabled';
+                //                        }
+                ?><!--"><a class="page-link"-->
+                <!--                                 href="?index=--><?php //echo $totalPages;
+                ?><!--">--><?php //echo $totalPages;
+                ?><!--</a>-->
+                <!--                        </li>-->
+                <!--                    </ul>-->
+                <!--                </nav>-->
 
 
             </div>

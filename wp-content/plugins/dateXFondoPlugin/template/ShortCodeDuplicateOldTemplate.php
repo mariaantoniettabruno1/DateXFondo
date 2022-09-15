@@ -19,11 +19,20 @@ class ShortCodeDuplicateOldTemplate
         <html lang="en">
 
         <head>
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-            <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
-                  integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
-                  crossorigin="anonymous">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
+                  integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
+                  crossorigin="anonymous" referrerpolicy="no-referrer"/>
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+            <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+                    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+                    crossorigin="anonymous"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+                    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+                    crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+                    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+                    crossorigin="anonymous"></script>
 
             <style type="text/css">
 
@@ -45,122 +54,65 @@ class ShortCodeDuplicateOldTemplate
 
         <body>
 
-        <h2>TABELLA NUOVO FONDO TEMPLATE DUPLICATO</h2>
+        <h2>TEMPLATE FONDO (MASTER)</h2>
         <div class="table-responsive">
 
             <table id="dataTable">
                 <thead>
                 <tr>
-                    <th style="width:70%">Fondo</th>
-                    <th>Ente</th>
-                    <th>Anno</th>
-                    <th>ID Campo</th>
-                    <th>Sezione</th>
-                    <th>Label campo</th>
-                    <th>Descrizione campo</th>
-                    <th>Sottotitolo campo</th>
+                    <th>ID Articolo</th>
+                    <th>Nome Articolo</th>
+                    <th>Descrizione Articolo</th>
+                    <th>Sottotitolo Articolo</th>
                     <th>Valore</th>
                     <th>Valore anno precedente</th>
                     <th>Nota</th>
-                    <th>Attivo</th>
+                    <th>Link associato</th>
+                    <th>Azioni</th>
                 </tr>
                 </thead>
                 <tbody id="tbl_posts_body">
                 <?php
-                $entry_gforms = GFAPI::get_entries(7);
-                if (!empty($entry_gforms)) {
-                    $fondo = $entry_gforms[0][1];
-                    $ente = $entry_gforms[0][26];
-                    $anno = $entry_gforms[0][25];
-                }
+
+                $fondo = 'Fondo 2022';
+                $anno = 2022;
+
                 $old_template = new DuplicateOldTemplate();
-                $sezioni = [0 => 'Risorse fisse aventi carattere di certezza e stabilità - Risorse storiche',
-                    1 => 'Risorse fisse aventi carattere di certezza e stabilità - Incrementi stabili ART. 67 C.2 CCNL 2018',
-                    2 => 'Risorse fisse aventi carattere di certezza e stabilità - Incrementi con carattere di certezza e stabilità non soggetti a limite',
-                    3 => 'Risorse fisse aventi carattere di certezza e stabilità - Decurtazioni (a detrarre)',
-                    4 => 'Risorse variabili - risorse variabili sottoposte al limite',
-                    5 => 'Risorse variabili - risorse variabili non sottoposte al limite'];
-                $limit = 5;
-                $page = get_query_var('index',1);
-                $startRecord = ($page - 1) * $limit;
-                $old_data = $old_template->getCurrentData($ente, $anno, $fondo, $startRecord, $limit);
-                $recordsCount = $old_template->getCurrentDataCount($ente, $anno, $fondo);
-                $totalPages = ceil($recordsCount / $limit);
-                $previous = $page-1;
-                $next = $page+1;
+
+
+                //TODO capire se anche per il master il template del fondo ha un titolo oppure la duplicazione avviene solo per anno
+                $old_data = $old_template->getCurrentData($anno, $fondo);
 
                 foreach ($old_data as $entry) {
-
                     ?>
                     <tr>
                         <td style="display: none"><?php echo $entry[0]; ?></td>
-                        <td>  <span class="toggleable-span">
-                                <?php echo $fondo; ?>
-                            </span>
-                            <input type="text" class="toggleable-input" value='<?php echo $fondo; ?>'
-                                   style="display: none" data-field="fondo" data-id="<?= $entry[0] ?>"
-                            /></td>
                         <td class="field_description">
-                             <span class="toggleable-span">
-                                <?php echo $ente; ?>
+                            <span id="inputIdArticolo">
+                                <?php echo $entry[3]; ?>
                             </span>
-                            <input type="text" class="toggleable-input" value='<?php echo $ente; ?>'
-                                   style="display: none" data-field="ente" data-id="<?= $entry[0] ?>"
-                            /></td>
-                        <td class="field_description"
-                        <span class="toggleable-span">
-                                <?php echo $anno; ?>
-                            </span>
-                        <input type="text" class="toggleable-input" value='<?php echo $anno; ?>'
-                               style="display: none" data-field="anno" data-id="<?= $entry[0] ?>"
-                        /></td>
-                        <td class="field_description">
-                            <span class="toggleable-span">
-                                <?php echo $entry[4]; ?>
-                            </span>
-                            <input type="text" class="toggleable-input" value='<?php echo $entry[4]; ?>'
-                                   style="display: none" data-field="id_campo" data-id="<?= $entry[0] ?>"
-                            />
-                        </td>
-                        <td class="field_section">
-                            <select class="toggleable-select" data-field="sezione" data-id="<?= $entry[0] ?>">
-                                <option disabled selected value> <?php echo $entry[5]; ?></option>
-                                <?php foreach ($sezioni as $sezione) {
-                                    print_r($sezione)
-                                    ?>
-                                    <option
-                                            value='<?php echo $sezione; ?>'
-                                            data-id="<?= $entry[0] ?>"><?php echo $sezione; ?></option>
-                                <?php } ?>
-                            </select>
+
                         </td>
                         <td class="field_description">
-                            <span class="toggleable-span">
+                            <span>
                                 <?php echo $entry[6]; ?>
                             </span>
-                            <input type="text" class="toggleable-input" value='<?php echo $entry[6]; ?>'
-                                   style="display: none" data-field="label_campo" data-id="<?= $entry[0] ?>"
-                            /></td>
+                        </td>
                         <td class="field_description">
-                            <span class="toggleable-span">
+                            <span>
                                 <?php echo $entry[7]; ?>
                             </span>
-                            <input type="text" class="toggleable-input" value='<?php echo $entry[7]; ?>'
-                                   style="display: none" data-field="descrizione_campo" data-id="<?= $entry[0] ?>"
-                            /></td>
+                        </td>
                         <td class="field_description">
-                             <span class="toggleable-span">
+                             <span>
                                 <?php echo $entry[8]; ?>
                             </span>
-                            <input type="text" class="toggleable-input" value='<?php echo $entry[8]; ?>'
-                                   style="display: none" data-field="sottotitolo_campo" data-id="<?= $entry[0] ?>"
-                            /></td>
-                        <td class="field_description">   <span class="toggleable-span">
+                        </td>
+                        <td class="field_description">
+                            <span>
                                 <?php echo $entry[9]; ?>
                             </span>
-                            <input type="text" class="toggleable-input" value='<?php echo $entry[9]; ?>'
-                                   style="display: none" data-field="valore" data-id="<?= $entry[0] ?>"
-                            /></td>
+                        </td>
                         <td class="field_description">   <span class="toggleable-span">
                                 <?php echo $entry[10]; ?>
                             </span>
@@ -175,14 +127,99 @@ class ShortCodeDuplicateOldTemplate
                                    style="display: none" data-field="nota" data-id="<?= $entry[0] ?>"
                             /></td>
                         <td class="field_description">
-                            <div class="toggleable-radio" data-field="attivo" data-id="<?= $entry[0] ?>">
-                                <label><input type="radio" name="<?php echo $entry[0]; ?>" checked value='1'> Si</label>
-                                <label><input type="radio"
-                                              name="<?php echo $entry[0]; ?>" class="disabledRow"
-                                              value='0'>No</label>
+                              <span class="toggleable-span">
+                                 <?php echo $entry[12]; ?>
+                            </span>
+                            <input type="text" class="toggleable-input" value='<?php echo $entry[12]; ?>'
+                                   style="display: none" data-field="link" data-id="<?= $entry[0] ?>"
+                            /></td>
+                        <td>
+                            <div class="container">
+                                <button type="button" class="btn btn-link" data-toggle="modal"
+                                        data-target="#editModal<?php echo $entry[0]; ?>">
+                                    <i class="fa-solid fa-pen"></i></button>
+                                <button type="button" class="btn btn-link"><i class="fa-solid fa-trash"></i></button>
                             </div>
+
                         </td>
+                        <!--                        <td class="field_description">-->
+                        <!--                            <div class="toggleable-radio" data-field="attivo" data-id="-->
+                        <?//= $entry[0] ?><!--">-->
+                        <!--                                <label><input type="radio" name="-->
+                        <?php //echo $entry[0]; ?><!--" checked value='1'> Si</label>-->
+                        <!--                                <label><input type="radio"-->
+                        <!--                                              name="-->
+                        <?php //echo $entry[0]; ?><!--" class="disabledRow"-->
+                        <!--                                              value='0'>No</label>-->
+                        <!--                            </div>-->
+                        <!--                        </td>-->
                     </tr>
+                    <div class="modal fade" id="editModal<?php echo $entry[0]; ?>" tabindex="-1" role="dialog"
+                         aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Modifica riga del fondo:</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form>
+                                        <div class="form-group">
+                                            <label for="inputIdArticolo">Id Articolo</label>
+                                            <input type="text" class="form-control" id="inputIdArticolo"
+                                                   value='<?php echo $entry[3]; ?>'>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="idNomeArticolo">Nome Articolo</label>
+                                            <input type="text" class="form-control" id="idNomeArticolo"
+                                                   value='<?php echo $entry[6]; ?>'>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="idSottotitoloArticolo">Sottotitolo Articolo</label>
+                                            <textarea class="form-control"
+                                                      id="idSottotitoloArticolo"><?php echo $entry[8]; ?> </textarea>
+
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="idDescrizioneArticolo">Descrizione Articolo</label>
+                                            <textarea class="form-control"
+                                                      id="idDescrizioneArticolo"> <?php echo $entry[7]; ?></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="idLinkAssociato">Link associato</label>
+                                            <input type="text" class="form-control" id="idLinkAssociato"
+                                                   value='<?php echo $entry[12]; ?>'>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button id="submit_button" type="button" class="btn btn-primary">Salva modifica
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <h5 class="modal-title" id="exampleModalLabel">Sei sicuro di voler eliminare questa
+                                        riga?</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla
+                                    </button>
+                                    <button type="button" class="btn btn-primary" onclick="disabledRow()">Elimina
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     <?php
 
@@ -191,38 +228,22 @@ class ShortCodeDuplicateOldTemplate
                 </tbody>
             </table>
 
-            <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-end">
-                    <li class="page-item <?php if ($page == 1) echo 'disabled'; ?>">
-                        <a class="page-link" href="?index=1" tabindex="-1" aria-disabled="true">1</a>
-                    <li class="page-item <?php if($page<=1) {echo 'disabled';}?>"><a class="page-link" href="?index=<?php echo $previous; ?>"">Precedente</a></li>
-                    <li class="page-item"><input id="currentPageInput" type="number" min="1" max="<?php echo $totalPages?>"
-                           placeholder="<?php echo $page; ?>" required></li>
-                    <li class="page-item <?php if($page>=$totalPages) {echo 'disabled';}?>"><a class="page-link" href="?index=<?php echo $next; ?>">Successivo</a></li>
-                    <li class="page-item <?php if($page>=$totalPages) {echo 'disabled';}?>"><a class="page-link" href="?index=<?php echo $totalPages; ?>"><?php echo $totalPages; ?></a></li>
-                </ul>
-            </nav>
-
             <table id="newTable" class="table table-striped table-bordered">
                 <thead style="display:none;">
                 <tr>
                     <th>ID</th>
 
-                    <th>Fondo</th>
-
-                    <th>Ente</th>
-
-                    <th>Anno</th>
-
-                    <th>ID Campo</th>
+                    <th>ID Articolo</th>
 
                     <th>Sezione</th>
 
-                    <th>Label Campo</th>
+                    <th>Sottosezione</th>
 
-                    <th>Descrizione Campo</th>
+                    <th>Nome Articolo</th>
 
-                    <th>Sottotitolo Campo</th>
+                    <th>Descrizione Articolo</th>
+
+                    <th>Sottotitolo Articolo</th>
 
                     <th>Valore</th>
 
@@ -230,32 +251,16 @@ class ShortCodeDuplicateOldTemplate
 
                     <th>Nota</th>
 
+                    <th>Link di riferimento</th>
+
                     <th>Attivo</th>
+
                 </tr>
                 </thead>
                 <?php $newRowID = $old_template->getLastRowID(); ?>
                 <tr style="display: none">
                     <td style="display: none"><?php echo $newRowID; ?></td>
-                    <td class="field_description">  <span class="toggleable-span">
-                                <?php echo $fondo; ?>
-                            </span>
-                        <input type="text" class="toggleable-input" value='<?php echo $fondo; ?>'
-                               style="display: none" data-field="fondo" data-id=""
-                        /></td>
-                    <td class="field_description">
-                             <span class="toggleable-span">
-                                <?php echo $ente; ?>
-                            </span>
-                        <input type="text" class="toggleable-input" value='<?php echo $ente; ?>'
-                               style="display: none" data-field="ente" data-id=""
-                        /></td>
-                    <td class="field_description">
-                              <span class="toggleable-span">
-                                <?php echo $anno; ?>
-                            </span>
-                        <input type="text" class="toggleable-input" value='<?php echo $anno; ?>'
-                               style="display: none" data-field="anno" data-id=""
-                        /></td>
+
                     <td class="field_description">
                             <span class="toggleable-span">
                             </span>
@@ -263,18 +268,21 @@ class ShortCodeDuplicateOldTemplate
                                style="display: none" data-field="id_campo" data-id=""
                         />
                     </td>
-                    <td class="field_section">
-                        <select class="toggleable-select" data-field="sezione" data-id="">
-                            <option disabled selected value> <?php echo $entry[5]; ?></option>
-                            <?php foreach ($sezioni as $sezione) {
-                                print_r($sezione)
-                                ?>
-                                <option
-                                        value='<?php echo $sezione; ?>'
-                                        data-id=""><?php echo $sezione; ?></option>
-                            <?php } ?>
-                        </select>
                     </td>
+                    <td class="field_description">
+                            <span class="toggleable-span">
+
+                            </span>
+                        <input type="text" class="toggleable-input" value=''
+                               style="display: none" data-field="sezione" data-id=""
+                        /></td>
+                    <td class="field_description">
+                            <span class="toggleable-span">
+
+                            </span>
+                        <input type="text" class="toggleable-input" value=''
+                               style="display: none" data-field="sottosezione" data-id=""
+                        /></td>
                     <td class="field_description">
                             <span class="toggleable-span">
 
@@ -315,6 +323,7 @@ class ShortCodeDuplicateOldTemplate
                         <input type="text" class="toggleable-input" value=''
                                style="display: none" data-field="nota" data-id=""
                         /></td>
+                    <td></td>
                     <td class="field_description">
                         <div class="toggleable-radio" data-field="attivo" data-id="">
                             <label><input type="radio" name="" checked value='1'> Si</label>
@@ -331,7 +340,7 @@ class ShortCodeDuplicateOldTemplate
 
         </div>
         <div class="well clearfix">
-            <a class="btn btn-primary pull-right add-record"><i class="glyphicon glyphicon-plus"></i>Aggiungi nuova Riga</a><br>
+            <a class="btn btn-primary pull-right add-record text-white">Aggiungi nuova Riga</a><br>
         </div>
         </body>
         <form method="post">
@@ -352,10 +361,23 @@ class ShortCodeDuplicateOldTemplate
         }
 
         ?>
+
         <script>
             let readOnly = <?php echo $readOnly?>;
             if (!readOnly) {
                 $(document).ready(function () {
+                        $(document).on('click', '.editModal', function () {
+                            var id = $(this).val();
+                            console.log(id);
+                            let first = $('#inputIdArticolo' + id).text();
+                            let last = $('#idSottotitoloArticolo' + id).text();
+                            let address = $('#idDescrizioneArticolo' + id).text();
+
+                            $('#editModal').modal('show');
+                            $('#inputIdArticolo').val(first);
+                            $('#idSottotitoloArticolo').val(last);
+                            $('#idDescrizioneArticolo').val(address);
+                        });
 
                         $(".toggleable-span").click(function () {
                             $(this).hide();
@@ -403,7 +425,7 @@ class ShortCodeDuplicateOldTemplate
                         type: "POST",
                         url: "https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/newrow",
                         data: {   <?php
-                            $myObj = ["fondo" => $fondo, "ente" => $ente, "anno" => $anno];
+                            $myObj = ["fondo" => $fondo, "anno" => $anno];
                             ?>
                             "JSONIn":<?php echo json_encode($myObj);?>},
                         success: function (response) {
@@ -437,16 +459,19 @@ class ShortCodeDuplicateOldTemplate
                         url: "https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/deleterow",
                         data,
                         success: function () {
-                            successmessage = 'Riga cancellata correttamente';
-                            alert(successmessage);
 
                             location.href = "https://demo.mg3.srl/date/duplicazione-template-anno-precedente/"
+
+                            function toggleAlert() {
+                                $(".alert").toggleClass('in out');
+                                return false;
+                            }
                         },
                         error: function () {
-                            successmessage = 'Errore: cancellazione riga non riuscita';
-                            alert(successmessage);
+
                         }
-                    });
+                    })
+                    ;
                 }
 
                 function updateNewRowValue(id, sezione) {
@@ -470,21 +495,11 @@ class ShortCodeDuplicateOldTemplate
                 }
             }
 
-            $(document).delegate('#currentPageInput', 'change', function() {
-                var newPage = $(this).val();
-                if(newPage > 0 && newPage <= <?php echo $totalPages?>) {
-                    location.href = "https://demo.mg3.srl/date/duplicazione-template-anno-precedente/?index=" + newPage;
-                }
-                else if(newPage > <?php echo $totalPages?>) {
-                    location.href = "https://demo.mg3.srl/date/duplicazione-template-anno-precedente/?index=" + <?php echo $totalPages?>;
-                }
-                else if(newPage < 1) {
-                    location.href = "https://demo.mg3.srl/date/duplicazione-template-anno-precedente/?index=1";
-                }
-            });
-
 
         </script>
+        <div class="alert alert-success fade out" id="bsalert">
+            This is a success alert—check it out!
+        </div>
         </html>
 
         <?php

@@ -4,13 +4,13 @@ namespace dateXFondoPlugin;
 class DuplicateOldTemplate
 {
 
-    public function getOldData($ente, $anno_precedente)
+    public function getOldData($anno_precedente)
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = "SELECT * FROM DATE_entry_chivasso WHERE ente LIKE ? AND anno=? AND attivo=1";
+        $sql = "SELECT * FROM DATE_template_fondo WHERE  anno=? AND attivo=1";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("si", $ente, $anno_precedente);
+        $stmt->bind_param("i", $anno_precedente);
         $res = $stmt->execute();
         $res = $stmt->get_result();
         $entries = $res->fetch_all();
@@ -18,19 +18,19 @@ class DuplicateOldTemplate
         return $entries;
     }
 
-    public function getCurrentData($ente, $anno, $fondo, $startRecord, $limit)
+    public function getCurrentData($anno, $fondo)
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = "SELECT version FROM DATE_entry_chivasso WHERE anno=? ORDER BY version DESC";
+        $sql = "SELECT version FROM DATE_template_fondo WHERE anno=? ORDER BY version DESC";
         $stmt = $mysqli->prepare($sql);
         $stmt->bind_param("i", $anno);
         $res = $stmt->execute();
         $res = $stmt->get_result();
         $last_version = $res->fetch_assoc()['version'];
-        $sql = "SELECT * FROM DATE_entry_chivasso WHERE ente LIKE ? AND anno=? AND fondo=? AND attivo=1 AND version=? LIMIT ? OFFSET ?";
+        $sql = "SELECT * FROM DATE_template_fondo WHERE anno=? AND fondo=? AND attivo=1 AND version=?";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("sisiii", $ente, $anno, $fondo,$last_version, $limit, $startRecord);
+        $stmt->bind_param("isi", $anno, $fondo, $last_version);
         $res = $stmt->execute();
         $res = $stmt->get_result();
         $entries = $res->fetch_all();
@@ -38,12 +38,13 @@ class DuplicateOldTemplate
         return $entries;
     }
 
-    public function getCurrentDataCount($ente, $anno, $fondo){
+    public function getCurrentDataCount($anno, $fondo)
+    {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = "SELECT count(*) FROM DATE_entry_chivasso WHERE ente LIKE ? AND anno=? AND fondo=? AND attivo=1";
+        $sql = "SELECT count(*) FROM DATE_template_fondo WHERE anno=? AND fondo=? AND attivo=1";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("sis", $ente, $anno, $fondo);
+        $stmt->bind_param("is", $anno, $fondo);
         $res = $stmt->execute();
         $res = $stmt->get_result();
         $entries = $res->fetch_all();
@@ -55,7 +56,7 @@ class DuplicateOldTemplate
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = "SELECT MAX(id) FROM DATE_entry_chivasso";
+        $sql = "SELECT MAX(id) FROM DATE_template_fondo";
         $result = $mysqli->query($sql);
         $row = $result->fetch_assoc();
         mysqli_close($mysqli);
@@ -86,6 +87,7 @@ class DuplicateOldTemplate
         mysqli_close($mysqli);
         return $res->num_rows;
     }
+
     public static function deleteReadOnly($year)
     {
         $conn = new Connection();
@@ -101,25 +103,25 @@ class DuplicateOldTemplate
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = "SELECT version FROM DATE_entry_chivasso WHERE anno=? ORDER BY version DESC";
+        $sql = "SELECT version FROM DATE_template_fondo WHERE anno=? ORDER BY version DESC";
         $stmt = $mysqli->prepare($sql);
         $stmt->bind_param("i", $year);
         $res = $stmt->execute();
         $res = $stmt->get_result();
         $prev_version = $res->fetch_assoc()['version'];
 
-        $sql = "SELECT * from DATE_entry_chivasso WHERE anno=? AND version=? AND attivo=1";
+        $sql = "SELECT * from DATE_template_fondo WHERE anno=? AND version=? AND attivo=1";
         $stmt = $mysqli->prepare($sql);
         $stmt->bind_param("ii", $year, $prev_version);
         $res = $stmt->execute();
         $res = $stmt->get_result();
         $data = $res->fetch_all();
         $last_version = $prev_version + 1;
-        $sql = "INSERT INTO DATE_entry_chivasso (fondo,ente,anno,id_campo,sezione,label_campo,descrizione_campo,sottotitolo_campo,valore,valore_anno_precedente,nota,version)
+        $sql = "INSERT INTO DATE_template_fondo (fondo,anno,id_campo,sezione,sottosezione,label_campo,descrizione_campo,sottotitolo_campo,valore,valore_anno_precedente,nota,version)
                                                 VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
         $stmt = $mysqli->prepare($sql);
         foreach ($data as $entry) {
-            $stmt->bind_param("ssissssssssi", $entry[1], $entry[2], $entry[3], $entry[4], $entry[5], $entry[6], $entry[7], $entry[8], $entry[9], $entry[10], $entry[11], $last_version);
+            $stmt->bind_param("sisssssssssi", $entry[1], $entry[2], $entry[3], $entry[4], $entry[5], $entry[6], $entry[7], $entry[8], $entry[9], $entry[10], $entry[11], $last_version);
             $res = $stmt->execute();
         }
 

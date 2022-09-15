@@ -103,7 +103,7 @@ function document_template()
 
 }
 
-//route ed endpoint per far funzionare la modifica campi della table contenente i dati dell'anno corrente
+//route ed endpoint per far funzionare la modifica campi della table contenente i dati dell'anno corrente per il master
 function create_endpoint_datefondo()
 {
 
@@ -126,6 +126,28 @@ function esegui_modifica_campi($params)
 
 add_action('rest_api_init', 'create_endpoint_datefondo');
 
+//route ed endpoint per far funzionare la modifica campi della table contenente i dati dell'anno corrente per lo svale
+function create_endpoint_datefondo_slave()
+{
+
+    register_rest_route('datexfondoplugin/v1', 'table/editslave', array(
+        'methods' => 'POST',
+        'callback' => 'esegui_modifica_campi_slave'
+    ));
+
+
+}
+
+function esegui_modifica_campi_slave($params)
+{
+    \dateXFondoPlugin\modifica_campi_slave($params);
+    $data = ['params' => $params, 'message' => 'Endpoint di edit per lo slave'];
+    $response = new WP_REST_Response($data);
+    $response->set_status(200);
+    return $response;
+}
+
+add_action('rest_api_init', 'create_endpoint_datefondo_slave');
 
 //route ed endpoint per far funzionare la modifica campi del table template che viene duplicato in fase di creazione di un nuovo fondo
 function create_endpoint_datefondo_nuovo()

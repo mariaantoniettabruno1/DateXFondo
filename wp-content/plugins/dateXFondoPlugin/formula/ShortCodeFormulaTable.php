@@ -122,7 +122,9 @@ class ShortCodeFormulaTable
                                     </div>
                                     <div class="col-sm-1 pl-1">
                                         <button type="button" class="btn btn-link" data-toggle="tooltip"
-                                                data-placement="top" title="per maggiori dettagli consulta la 'Tabella dati' " id="infoPointId">
+                                                data-placement="top"
+                                                title="per maggiori dettagli consulta la 'Tabella dati' "
+                                                id="infoPointId">
                                             <i class="fa-solid fa-circle-info"></i>
                                         </button>
                                     </div>
@@ -131,6 +133,9 @@ class ShortCodeFormulaTable
                                                 onchange="addNumberToCondition()">
                                             <option value=">">></option>
                                             <option value="<"><</option>
+                                            <option value=">=">≥</option>
+                                            <option value="<=">≤</option>
+                                            <option value="=">=</option>
                                         </select>
                                     </div>
                                     <div class="col-sm-1">
@@ -152,7 +157,9 @@ class ShortCodeFormulaTable
                                     </div>
                                     <div class="col-sm-1 pl-1">
                                         <button type="button" class="btn btn-link" data-toggle="tooltip"
-                                                data-placement="top" title="per maggiori dettagli consulta la 'Tabella dati' " id="infoPointId">
+                                                data-placement="top"
+                                                title="per maggiori dettagli consulta la 'Tabella dati' "
+                                                id="infoPointId">
                                             <i class="fa-solid fa-circle-info"></i>
                                         </button>
                                     </div>
@@ -242,7 +249,6 @@ class ShortCodeFormulaTable
                     <thead>
                     <tr>
                         <th style="width:70%">Fondo</th>
-                        <th>Ente</th>
                         <th>Anno</th>
                         <th>ID Campo</th>
                         <th>Sezione</th>
@@ -272,9 +278,8 @@ class ShortCodeFormulaTable
                         $selected_section = $_POST['select_section'];
                         $entries = $data->getAllEntriesFromSection($selected_section);
                         $fondo = $entries[0][1];
-                        $ente = $entries[0][2];
-                        $anno = $entries[0][3];
-                        $recordsCount = $old_template->getCurrentDataCount($ente, $anno, $fondo);
+                        $anno = $entries[0][2];
+                        $recordsCount = $old_template->getCurrentDataCount( $anno, $fondo);
                         $totalPages = ceil($recordsCount / $limit);
                         $previous = $page - 1;
                         $next = $page + 1;
@@ -284,7 +289,6 @@ class ShortCodeFormulaTable
                             unset($entry[13]);
 
                             setcookie("Fondo", $fondo);
-                            setcookie("Ente", $ente);
                             setcookie("Anno", $anno);
                             setcookie("Sezione", $selected_section);
                             ?>
@@ -295,13 +299,6 @@ class ShortCodeFormulaTable
                             </span>
                                     <input type="text" class="toggleable-input" value='<?php echo $fondo; ?>'
                                            style="display: none" data-field="fondo" data-id="<?= $entry[0] ?>"
-                                    /></td>
-                                <td class="field_description">
-                             <span class="toggleable-span">
-                                <?php echo $ente; ?>
-                            </span>
-                                    <input type="text" class="toggleable-input" value='<?php echo $ente; ?>'
-                                           style="display: none" data-field="ente" data-id="<?= $entry[0] ?>"
                                     /></td>
                                 <td class="field_description"
                                 <span class="toggleable-span">
@@ -314,50 +311,58 @@ class ShortCodeFormulaTable
                                 <td class="field_description">
                                     <div data-field="id_campo" data-id="<?= $entry[0] ?>">
                                         <label><input type="text" name="id_campo"
-                                                      value='<?php echo $entry[4]; ?>'
-                                                      hidden> <?php echo $entry[4]; ?>
+                                                      value='<?php echo $entry[3]; ?>'
+                                                      hidden> <?php echo $entry[3]; ?>
                                         </label>
                                     </div>
+                                </td>
+                                <td class="field_section">
+                            <span class="toggleable-span">
+                                <?php echo $entry[4]; ?>
+                            </span>
+                                    <input type="text" class="toggleable-input" value='<?php echo $entry[4]; ?>'
+                                           style="display: none" data-field="sezione" data-id="<?= $entry[0] ?>"
+                                    />
                                 </td>
                                 <td class="field_section">
                             <span class="toggleable-span">
                                 <?php echo $entry[5]; ?>
                             </span>
                                     <input type="text" class="toggleable-input" value='<?php echo $entry[5]; ?>'
-                                           style="display: none" data-field="sezione" data-id="<?= $entry[0] ?>"
-                                    />
-                                </td>
-                                <td class="field_section">
-                            <span class="toggleable-span">
-                                <?php echo $entry[6]; ?>
-                            </span>
-                                    <input type="text" class="toggleable-input" value='<?php echo $entry[6]; ?>'
                                            style="display: none" data-field="sottosezione"
                                            data-id="<?= $entry[0] ?>"
                                     />
                                 </td>
                                 <td class="field_description">
                             <span class="toggleable-span">
-                                <?php echo $entry[7]; ?>
+                                <?php echo $entry[6]; ?>
                             </span>
-                                    <input type="text" class="toggleable-input" value='<?php echo $entry[7]; ?>'
+                                    <input type="text" class="toggleable-input" value='<?php echo $entry[6]; ?>'
                                            style="display: none" data-field="label_campo"
                                            data-id="<?= $entry[0] ?>"
                                     /></td>
                                 <td class="field_description">
                             <span class="toggleable-span">
-                                <?php echo $entry[8]; ?>
+                                <?php echo $entry[7]; ?>
                             </span>
-                                    <input type="text" class="toggleable-input" value='<?php echo $entry[8]; ?>'
+                                    <input type="text" class="toggleable-input" value='<?php echo $entry[7]; ?>'
                                            style="display: none" data-field="descrizione_campo"
                                            data-id="<?= $entry[0] ?>"
                                     /></td>
                                 <td class="field_description">
                              <span class="toggleable-span">
+                                <?php echo $entry[8]; ?>
+                            </span>
+                                    <input type="text" class="toggleable-input" value='<?php echo $entry[8]; ?>'
+                                           style="display: none" data-field="sottotitolo_campo"
+                                           data-id="<?= $entry[0] ?>"
+                                    /></td>
+                                <td class="field_description">   <span class="toggleable-span">
                                 <?php echo $entry[9]; ?>
                             </span>
-                                    <input type="text" class="toggleable-input" value='<?php echo $entry[9]; ?>'
-                                           style="display: none" data-field="sottotitolo_campo"
+                                    <input type="text" class="toggleable-input"
+                                           value='<?php echo $entry[9]; ?>'
+                                           style="display: none" data-field="valore"
                                            data-id="<?= $entry[0] ?>"
                                     /></td>
                                 <td class="field_description">   <span class="toggleable-span">
@@ -365,31 +370,23 @@ class ShortCodeFormulaTable
                             </span>
                                     <input type="text" class="toggleable-input"
                                            value='<?php echo $entry[10]; ?>'
-                                           style="display: none" data-field="valore"
-                                           data-id="<?= $entry[0] ?>"
-                                    /></td>
-                                <td class="field_description">   <span class="toggleable-span">
-                                <?php echo $entry[11]; ?>
-                            </span>
-                                    <input type="text" class="toggleable-input"
-                                           value='<?php echo $entry[11]; ?>'
                                            style="display: none" data-field="valore_anno_precedente"
                                            data-id="<?= $entry[0] ?>"
                                     /></td>
                                 <td class="field_description">
                               <span class="toggleable-span">
-                                 <?php echo $entry[12]; ?>
+                                 <?php echo $entry[11]; ?>
                             </span>
                                     <input type="text" class="toggleable-input"
-                                           value='<?php echo $entry[12]; ?>'
+                                           value='<?php echo $entry[11]; ?>'
                                            style="display: none" data-field="nota" data-id="<?= $entry[0] ?>"
                                     /></td>
                                 <td class="field_description">
                               <span class="toggleable-span">
-                                 <?php echo $entry[13] == 1 ? "Attivo" : "Non attivo" ?>
+                                 <?php echo $entry[12] == 1 ? "Attivo" : "Non attivo" ?>
                             </span>
                                     <input type="text" class="toggleable-input"
-                                           value='<?php echo $entry[13]; ?>'
+                                           value='<?php echo $entry[12]; ?>'
                                            style="display: none" data-field="attivo" data-id="<?= $entry[0] ?>"
                                     /></td>
                             </tr>
@@ -428,14 +425,12 @@ class ShortCodeFormulaTable
         </body>
         </div>
         <div>
-            <h2>TABELLA FORMULE CREATE</h2>
+            <h2>TABELLA FORMULE DELLE SOTTOSEZIONI CREATE</h2>
             <br>
             <div class="table table-responsive">
                 <table id="data_table" class="table table-striped table-bordered">
                     <thead>
                     <tr>
-                        <th>ID</th>
-
                         <th>Sezione</th>
 
                         <th>Sottosezione</th>
@@ -450,11 +445,10 @@ class ShortCodeFormulaTable
                     <tbody>
                     <?php
                     $formulas = new FormulaTable();
-                    $formulaEntries = $formulas->getAllFormulas();
+                    $formulaEntries = $formulas->getAllFormulasBySection($selected_section);
                     foreach ($formulaEntries as $entry) {
                         ?>
                         <tr>
-                            <td><?php echo $entry[0]; ?></td>
                             <td><?php echo $entry[1]; ?></td>
                             <td><?php echo $entry[2]; ?></td>
                             <td><?php echo $entry[3]; ?></td>
@@ -484,7 +478,7 @@ class ShortCodeFormulaTable
             $(document).ready(function () {
                 myHeaders.append('Cache-Control', 'no-store');
             });
-        
+
             $(".btn-link").click(function () {
                 $("#conditionCard").removeAttr('hidden');
                 document.getElementById('addConditionButton').style.visibility = 'hidden';

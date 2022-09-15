@@ -9,7 +9,7 @@ class FormulaTable
 
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = "SELECT DISTINCT sezione FROM DATE_entry_chivasso";
+        $sql = "SELECT DISTINCT sezione FROM DATE_template_fondo";
         $result = $mysqli->query($sql);
         $row = $result->fetch_all();
         mysqli_close($mysqli);
@@ -21,7 +21,21 @@ class FormulaTable
 
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = "SELECT DISTINCT id_campo FROM DATE_entry_chivasso WHERE sezione=?";
+        $sql = "SELECT DISTINCT id_campo FROM DATE_template_fondo WHERE sezione=?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("s", $selected_section);
+        $res = $stmt->execute();
+        $res = $stmt->get_result();
+        $entries = $res->fetch_all();
+        mysqli_close($mysqli);
+        return $entries;
+    }
+    public static function getAllSubsections($selected_section)
+    {
+
+        $conn = new Connection();
+        $mysqli = $conn->connect();
+        $sql = "SELECT DISTINCT sottosezione FROM DATE_template_fondo WHERE sezione=?";
         $stmt = $mysqli->prepare($sql);
         $stmt->bind_param("s", $selected_section);
         $res = $stmt->execute();
@@ -35,7 +49,7 @@ class FormulaTable
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = "SELECT * FROM DATE_entry_chivasso WHERE sezione=?";
+        $sql = "SELECT * FROM DATE_template_fondo WHERE sezione=?";
         $stmt = $mysqli->prepare($sql);
         $stmt->bind_param("s", $selected_section);
         $res = $stmt->execute();
@@ -56,14 +70,17 @@ class FormulaTable
         mysqli_close($mysqli);
     }
 
-    public static function getAllFormulas()
+    public static function getAllFormulasBySection($selected_section)
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = "SELECT * FROM DATE_formula";
-        $result = $mysqli->query($sql);
-        $row = $result->fetch_all();
+        $sql = "SELECT * FROM DATE_formula WHERE sezione=?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("s", $selected_section);
+        $res = $stmt->execute();
+        $res = $stmt->get_result();
+        $entries = $res->fetch_all();
         mysqli_close($mysqli);
-        return $row;
+        return $entries;
     }
 }
