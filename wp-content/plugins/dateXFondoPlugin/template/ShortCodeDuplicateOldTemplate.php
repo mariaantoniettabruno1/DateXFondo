@@ -2,7 +2,7 @@
 
 namespace dateXFondoPlugin;
 
-use GFAPI;
+use FormulaTable;
 
 header('Content-Type: text/javascript');
 
@@ -11,6 +11,10 @@ class ShortCodeDuplicateOldTemplate
     public static function visualize_old_template()
     {
 
+        $fondo = 'Fondo 2022';
+        $anno = 2022;
+        $old_template = new DuplicateOldTemplate();
+        $sections = new FormulaTable();
         ?>
 
 
@@ -55,177 +59,251 @@ class ShortCodeDuplicateOldTemplate
         <body>
 
         <h2>TEMPLATE FONDO (MASTER)</h2>
-        <div class="table-responsive">
+        <div class="accordion">
+            <?php
+            $sections_entries = $old_template->getAllSections($fondo, $anno);
 
-            <table id="dataTable">
-                <thead>
-                <tr>
-                    <th>ID Articolo</th>
-                    <th>Nome Articolo</th>
-                    <th>Descrizione Articolo</th>
-                    <th>Sottotitolo Articolo</th>
-                    <th>Valore</th>
-                    <th>Valore anno precedente</th>
-                    <th>Nota</th>
-                    <th>Link associato</th>
-                    <th>Azioni</th>
-                </tr>
-                </thead>
-                <tbody id="tbl_posts_body">
-                <?php
+            foreach ($sections_entries
 
-                $fondo = 'Fondo 2022';
-                $anno = 2022;
+            as $section) {
+            ?>
 
-                $old_template = new DuplicateOldTemplate();
+            <div class="card">
+                <div class="card-header" id="headingOne<?= $section[0] ?>">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne<?= $section[0] ?>"
+                                aria-expanded="true" aria-controls="collapseOne<?= $section[0] ?>">
+                            <?= $section[0] ?>
+                        </button>
+                    </h5>
+                </div>
+
+                <div id="collapseOne<?= $section[0] ?>" class="collapse show"
+                     aria-labelledby="headingOne<?= $section[0] ?>" data-parent="#accordion">
+                    <div class="card-body">
+                        <a>Seleziona Sottosezione </a>
+                        <div style="width: 30%" class="pt-2 pb-3">
+                            <form method='POST'>
+                                <?php
+                                $results_subsections = $sections->getAllSubsections($section[0]);
+                                arsort($results_subsections);
+
+                                ?>
+
+                                <select id='subsection' name='select_subsection' onchange='this.form.submit()'>
+                                    <option disabled selected> Seleziona sottosezione</option>
+
+                                    <?php foreach ($results_subsections as $res_subsection): ?>
+
+                                        <option <?= isset($_POST['select_subsection']) && $_POST['select_subsection'] === $res_subsection[0] ? 'selected' : '' ?>
+
+                                                value='<?= $res_subsection[0] ?>'><?= $res_subsection[0] ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </form>
+                        </div>
+                        
+                        <div class="table-responsive">
+
+                            <table id="dataTable">
+                                <thead>
+                                <tr>
+                                    <th>ID Articolo</th>
+                                    <th>Nome Articolo</th>
+                                    <th>Descrizione Articolo</th>
+                                    <th>Sottotitolo Articolo</th>
+                                    <th>Valore</th>
+                                    <th>Valore anno precedente</th>
+                                    <th>Nota</th>
+                                    <th>Link associato</th>
+                                    <th>Azioni</th>
+                                </tr>
+                                </thead>
+                                <tbody id="tbl_posts_body">
+                                <?php
 
 
-                //TODO capire se anche per il master il template del fondo ha un titolo oppure la duplicazione avviene solo per anno
-                $old_data = $old_template->getCurrentData($anno, $fondo);
+                                //TODO capire se anche per il master il template del fondo ha un titolo oppure la duplicazione avviene solo per anno
+                                $old_data = $old_template->getCurrentDataBySubsections($anno, $fondo, $section[0], $_POST['select_subsection']);
+                                if (empty($old_data)){
+                                    ?>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <?php
+                                }
+                                else{
+                                foreach ($old_data
 
-                foreach ($old_data as $entry) {
-                    ?>
-                    <tr>
-                        <td style="display: none"><?php echo $entry[0]; ?></td>
-                        <td class="field_description">
-                            <span id="inputIdArticolo">
+                                as $entry) {
+                                ?>
+                                <tr>
+                                    <td style="display: none"><?php echo $entry[0]; ?></td>
+                                    <td class="field_description">
+                            <span data-id="<?= $entry[0] ?>">
                                 <?php echo $entry[3]; ?>
                             </span>
 
-                        </td>
-                        <td class="field_description">
+                                    </td>
+                                    <td class="field_description">
                             <span>
                                 <?php echo $entry[6]; ?>
                             </span>
-                        </td>
-                        <td class="field_description">
+                                    </td>
+                                    <td class="field_description">
                             <span>
                                 <?php echo $entry[7]; ?>
                             </span>
-                        </td>
-                        <td class="field_description">
+                                    </td>
+                                    <td class="field_description">
                              <span>
                                 <?php echo $entry[8]; ?>
                             </span>
-                        </td>
-                        <td class="field_description">
+                                    </td>
+                                    <td class="field_description">
                             <span>
                                 <?php echo $entry[9]; ?>
                             </span>
-                        </td>
-                        <td class="field_description">   <span class="toggleable-span">
+                                    </td>
+                                    <td class="field_description">   <span class="toggleable-span">
                                 <?php echo $entry[10]; ?>
                             </span>
-                            <input type="text" class="toggleable-input" value='<?php echo $entry[10]; ?>'
-                                   style="display: none" data-field="valore_anno_precedente" data-id="<?= $entry[0] ?>"
-                            /></td>
-                        <td class="field_description">
+                                        <input type="text" class="toggleable-input" value='<?php echo $entry[10]; ?>'
+                                               style="display: none" data-field="valore_anno_precedente"
+                                               data-id="<?= $entry[0] ?>"
+                                        /></td>
+                                    <td class="field_description">
                               <span class="toggleable-span">
                                  <?php echo $entry[11]; ?>
                             </span>
-                            <input type="text" class="toggleable-input" value='<?php echo $entry[11]; ?>'
-                                   style="display: none" data-field="nota" data-id="<?= $entry[0] ?>"
-                            /></td>
-                        <td class="field_description">
+                                        <input type="text" class="toggleable-input" value='<?php echo $entry[11]; ?>'
+                                               style="display: none" data-field="nota" data-id="<?= $entry[0] ?>"
+                                        /></td>
+                                    <td class="field_description">
                               <span class="toggleable-span">
                                  <?php echo $entry[12]; ?>
                             </span>
-                            <input type="text" class="toggleable-input" value='<?php echo $entry[12]; ?>'
-                                   style="display: none" data-field="link" data-id="<?= $entry[0] ?>"
-                            /></td>
-                        <td>
-                            <div class="container">
-                                <button type="button" class="btn btn-link" data-toggle="modal"
-                                        data-target="#editModal<?php echo $entry[0]; ?>">
-                                    <i class="fa-solid fa-pen"></i></button>
-                                <button type="button" class="btn btn-link"><i class="fa-solid fa-trash"></i></button>
-                            </div>
+                                        <input type="text" class="toggleable-input" value='<?php echo $entry[12]; ?>'
+                                               style="display: none" data-field="link" data-id="<?= $entry[0] ?>"
+                                        /></td>
+                                    <td>
+                                        <div class="container">
+                                            <button type="button" class="btn btn-link" data-toggle="modal"
+                                                    data-target="#editModal<?php echo $entry[0]; ?>">
+                                                <i class="fa-solid fa-pen"></i></button>
+                                            <button type="button" class="btn btn-link" data-id="<?= $entry[0] ?>"
+                                                    data-toggle="modal"
+                                                    data-target="#deleteModal<?php echo $entry[0]; ?>"><i
+                                                        class="fa-solid fa-trash"></i>
+                                            </button>
+                                        </div>
 
-                        </td>
-                        <!--                        <td class="field_description">-->
-                        <!--                            <div class="toggleable-radio" data-field="attivo" data-id="-->
-                        <?//= $entry[0] ?><!--">-->
-                        <!--                                <label><input type="radio" name="-->
-                        <?php //echo $entry[0]; ?><!--" checked value='1'> Si</label>-->
-                        <!--                                <label><input type="radio"-->
-                        <!--                                              name="-->
-                        <?php //echo $entry[0]; ?><!--" class="disabledRow"-->
-                        <!--                                              value='0'>No</label>-->
-                        <!--                            </div>-->
-                        <!--                        </td>-->
-                    </tr>
-                    <div class="modal fade" id="editModal<?php echo $entry[0]; ?>" tabindex="-1" role="dialog"
-                         aria-labelledby="myModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Modifica riga del fondo:</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form>
-                                        <div class="form-group">
-                                            <label for="inputIdArticolo">Id Articolo</label>
-                                            <input type="text" class="form-control" id="inputIdArticolo"
-                                                   value='<?php echo $entry[3]; ?>'>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="idNomeArticolo">Nome Articolo</label>
-                                            <input type="text" class="form-control" id="idNomeArticolo"
-                                                   value='<?php echo $entry[6]; ?>'>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="idSottotitoloArticolo">Sottotitolo Articolo</label>
-                                            <textarea class="form-control"
-                                                      id="idSottotitoloArticolo"><?php echo $entry[8]; ?> </textarea>
+                                    </td>
+                                </tr>
+                                <div class="modal fade" id="editModal<?php echo $entry[0]; ?>" tabindex="-1"
+                                     role="dialog"
+                                     aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Modifica riga del fondo:</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+
+                                            <div class="modal-body">
+                                                <form method="POST">
+                                                    <input type="text" class="form-control" id="id_riga"
+                                                           value='<?php echo $entry[0]; ?>' name="id_riga" hidden>
+                                                    <div class="form-group">
+                                                        <label for="inputIdArticolo">Id Articolo</label>
+                                                        <input type="text" class="form-control" id="id_articolo"
+                                                               value='<?php echo $entry[3]; ?>' name="id_articolo"
+                                                               data-id="<?= $entry[0] ?>">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="idNomeArticolo">Nome Articolo</label>
+                                                        <input type="text" class="form-control" id="idNomeArticolo"
+                                                               name="nome_articolo"
+                                                               value='<?php echo $entry[6]; ?>'>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="idSottotitoloArticolo">Sottotitolo Articolo</label>
+                                                        <textarea class="form-control"
+                                                                  id="idSottotitoloArticolo"
+                                                                  name="sottotitolo_articolo"><?php echo $entry[8]; ?> </textarea>
+
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="idDescrizioneArticolo">Descrizione Articolo</label>
+                                                        <textarea class="form-control"
+                                                                  id="idDescrizioneArticolo"
+                                                                  name="descrizione_articolo"> <?php echo $entry[7]; ?></textarea>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="idLinkAssociato">Link associato</label>
+                                                        <input type="text" class="form-control" id="idLinkAssociato"
+                                                               name="link"
+                                                               value='<?php echo $entry[12]; ?>'>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <input type="submit" class="btn btn-primary"
+                                                               onclick="changeValue()"
+                                                               value="   Salva modifica">
+                                                    </div>
+                                                </form>
+                                            </div>
 
                                         </div>
-                                        <div class="form-group">
-                                            <label for="idDescrizioneArticolo">Descrizione Articolo</label>
-                                            <textarea class="form-control"
-                                                      id="idDescrizioneArticolo"> <?php echo $entry[7]; ?></textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="idLinkAssociato">Link associato</label>
-                                            <input type="text" class="form-control" id="idLinkAssociato"
-                                                   value='<?php echo $entry[12]; ?>'>
-                                        </div>
-                                    </form>
+                                    </div>
                                 </div>
-                                <div class="modal-footer">
-                                    <button id="submit_button" type="button" class="btn btn-primary">Salva modifica
-                                    </button>
+                        </div>
+                        <div class="modal fade" id="deleteModal<?php echo $entry[0]; ?>" tabindex="-1" role="dialog"
+                             aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <form method="POST">
+                                            <h5 class="modal-title" id="exampleModalLabel">Sei sicuro di voler eliminare
+                                                questa
+                                                riga?</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                    Annulla
+                                                </button>
+                                                <button type="button" class="btn btn-primary" onclick="disabledRow()">
+                                                    Elimina
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
-                        <div class="modal-dialog modal-dialog-centered" role="document">
-                            <div class="modal-content">
-                                <div class="modal-body">
-                                    <h5 class="modal-title" id="exampleModalLabel">Sei sicuro di voler eliminare questa
-                                        riga?</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla
-                                    </button>
-                                    <button type="button" class="btn btn-primary" onclick="disabledRow()">Elimina
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                </div>
+            </div>
 
-                    <?php
+        <?php
 
-                }
-                ?>
-                </tbody>
+        }
+        }
+        ?>
+            </tbody>
             </table>
 
             <table id="newTable" class="table table-striped table-bordered">
@@ -336,9 +414,17 @@ class ShortCodeDuplicateOldTemplate
                 </tbody>
 
             </table>
-
-
         </div>
+        </div>
+        </div>
+        </div>
+
+        <?php
+        }
+        ?>
+        </div>
+
+
         <div class="well clearfix">
             <a class="btn btn-primary pull-right add-record text-white">Aggiungi nuova Riga</a><br>
         </div>
@@ -366,18 +452,6 @@ class ShortCodeDuplicateOldTemplate
             let readOnly = <?php echo $readOnly?>;
             if (!readOnly) {
                 $(document).ready(function () {
-                        $(document).on('click', '.editModal', function () {
-                            var id = $(this).val();
-                            console.log(id);
-                            let first = $('#inputIdArticolo' + id).text();
-                            let last = $('#idSottotitoloArticolo' + id).text();
-                            let address = $('#idDescrizioneArticolo' + id).text();
-
-                            $('#editModal').modal('show');
-                            $('#inputIdArticolo').val(first);
-                            $('#idSottotitoloArticolo').val(last);
-                            $('#idDescrizioneArticolo').val(address);
-                        });
 
                         $(".toggleable-span").click(function () {
                             $(this).hide();
@@ -390,31 +464,30 @@ class ShortCodeDuplicateOldTemplate
 
                         $(".toggleable-input").change(changeValue)
                         $(".toggleable-select").change(changeValue)
-                        $(".disabledRow").click(disabledRow)
+                        //$(".disabledRow").click(disabledRow)
                     }
                 )
 
                 function changeValue() {
-                    const elem = $(this);
-                    var value = elem.val();
-                    const id = elem.data("id");
-                    const field = elem.data("field");
-                    const data = {id};
-                    data[field] = value;
                     $.ajax({
                         type: "POST",
                         url: "https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/editnewfondo",
-                        data,
-                        success: function () {
+                        data: {   <?php
+                            $myObj = ["id_riga" => $_POST['id_riga'],
+                                "id_articolo" => $_POST['id_articolo'],
+                                "nome_articolo" => $_POST['nome_articolo'],
+                                "descrizione_articolo" => $_POST['descrizione_articolo'],
+                                "sottotitolo_articolo" => $_POST['sottotitolo_articolo'],
+                                "link" => $_POST['link']];
+                            ?>
+                            "JSONIn":<?php echo json_encode($myObj);?>},
+                        success: function (response) {
                             successmessage = 'Modifica eseguita correttamente';
-                            console.log(successmessage);
-                            elem.siblings(".toggleable-span").text(value);
-                            elem.siblings(".toggleable-select").text(value);
-                            elem.siblings(".toggleable-radio").val(value);
+                            console.log(response);
                         },
-                        error: function () {
+                        error: function (response) {
                             successmessage = 'Modifica non riuscita non riuscita';
-                            console.log(successmessage);
+                            console.log(response);
                         }
                     });
                 }
@@ -450,17 +523,22 @@ class ShortCodeDuplicateOldTemplate
                 });
 
                 function disabledRow() {
-                    const id = $(this).parent().parent().attr("data-id");
-                    const data = {id};
-                    console.log(data)
-                    console.log($(this))
+                    // const id = $(this).parent().parent().attr("data-id");
+                    // const data = {id};
+                    // console.log(data)
+                    // console.log($(this))
                     $.ajax({
                         type: "POST",
                         url: "https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/deleterow",
-                        data,
+                        data: {   <?php
+                            $myObj = ["id_riga" => $_POST['id_riga']];
+
+                            ?>
+
+                            "JSONIn":<?php echo json_encode($myObj);?>},
                         success: function () {
 
-                            location.href = "https://demo.mg3.srl/date/duplicazione-template-anno-precedente/"
+                            // location.href = "https://demo.mg3.srl/date/duplicazione-template-anno-precedente/"
 
                             function toggleAlert() {
                                 $(".alert").toggleClass('in out');
@@ -497,9 +575,6 @@ class ShortCodeDuplicateOldTemplate
 
 
         </script>
-        <div class="alert alert-success fade out" id="bsalert">
-            This is a success alert—check it out!
-        </div>
         </html>
 
         <?php

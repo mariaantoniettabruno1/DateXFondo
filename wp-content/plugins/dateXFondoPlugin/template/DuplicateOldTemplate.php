@@ -18,7 +18,7 @@ class DuplicateOldTemplate
         return $entries;
     }
 
-    public function getCurrentData($anno, $fondo)
+    public function getCurrentDataBySubsections($anno, $fondo, $section, $subsection)
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
@@ -28,7 +28,27 @@ class DuplicateOldTemplate
         $res = $stmt->execute();
         $res = $stmt->get_result();
         $last_version = $res->fetch_assoc()['version'];
-        $sql = "SELECT * FROM DATE_template_fondo WHERE anno=? AND fondo=? AND attivo=1 AND version=?";
+        $sql = "SELECT * FROM DATE_template_fondo WHERE anno=? AND fondo=? AND sezione=? AND sottosezione=? AND attivo=1 AND version=?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("isssi", $anno, $fondo, $section, $subsection, $last_version);
+        $res = $stmt->execute();
+        $res = $stmt->get_result();
+        $entries = $res->fetch_all();
+        mysqli_close($mysqli);
+        return $entries;
+    }
+
+    public function getAllSections($fondo, $anno)
+    {
+        $conn = new Connection();
+        $mysqli = $conn->connect();
+        $sql = "SELECT version FROM DATE_template_fondo WHERE anno=? ORDER BY version DESC";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("i", $anno);
+        $res = $stmt->execute();
+        $res = $stmt->get_result();
+        $last_version = $res->fetch_assoc()['version'];
+        $sql = "SELECT DISTINCT sezione FROM DATE_template_fondo WHERE anno=? AND fondo=? AND attivo=1 AND version=?";
         $stmt = $mysqli->prepare($sql);
         $stmt->bind_param("isi", $anno, $fondo, $last_version);
         $res = $stmt->execute();
