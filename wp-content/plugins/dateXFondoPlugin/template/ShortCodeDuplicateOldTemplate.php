@@ -52,9 +52,6 @@ class ShortCodeDuplicateOldTemplate
                     width: 150px;
                 }
 
-                .draggable{
-                    cursor : move;
-                }
 
             </style>
         </head>
@@ -149,70 +146,73 @@ class ShortCodeDuplicateOldTemplate
 
                                 as $entry) {
                                 ?>
-                                <div class="container">
-                                <tr class="draggable" draggable="true">
-                                    <td style="display: none"><?php echo $entry[0]; ?></td>
-                                    <td class="field_description">
+                                <div>
+                                    <tr>
+                                        <td style="display: none"><?php echo $entry[0]; ?></td>
+                                        <td class="field_description">
                             <span data-id="<?= $entry[0] ?>">
                                 <?php echo $entry[3]; ?>
                             </span>
 
-                                    </td>
-                                    <td class="field_description">
+                                        </td>
+                                        <td class="field_description">
                             <span>
                                 <?php echo $entry[6]; ?>
                             </span>
-                                    </td>
-                                    <td class="field_description">
+                                        </td>
+                                        <td class="field_description">
                             <span>
                                 <?php echo $entry[7]; ?>
                             </span>
-                                    </td>
-                                    <td class="field_description">
+                                        </td>
+                                        <td class="field_description">
                              <span>
                                 <?php echo $entry[8]; ?>
                             </span>
-                                    </td>
-                                    <td class="field_description">
+                                        </td>
+                                        <td class="field_description">
                             <span>
                                 <?php echo $entry[9]; ?>
                             </span>
-                                    </td>
-                                    <td class="field_description">   <span class="toggleable-span">
+                                        </td>
+                                        <td class="field_description">   <span class="toggleable-span">
                                 <?php echo $entry[10]; ?>
                             </span>
-                                        <input type="text" class="toggleable-input" value='<?php echo $entry[10]; ?>'
-                                               style="display: none" data-field="valore_anno_precedente"
-                                               data-id="<?= $entry[0] ?>"
-                                        /></td>
-                                    <td class="field_description">
+                                            <input type="text" class="toggleable-input"
+                                                   value='<?php echo $entry[10]; ?>'
+                                                   style="display: none" data-field="valore_anno_precedente"
+                                                   data-id="<?= $entry[0] ?>"
+                                            /></td>
+                                        <td class="field_description">
                               <span class="toggleable-span">
                                  <?php echo $entry[11]; ?>
                             </span>
-                                        <input type="text" class="toggleable-input" value='<?php echo $entry[11]; ?>'
-                                               style="display: none" data-field="nota" data-id="<?= $entry[0] ?>"
-                                        /></td>
-                                    <td class="field_description">
+                                            <input type="text" class="toggleable-input"
+                                                   value='<?php echo $entry[11]; ?>'
+                                                   style="display: none" data-field="nota" data-id="<?= $entry[0] ?>"
+                                            /></td>
+                                        <td class="field_description">
                               <span class="toggleable-span">
                                  <?php echo $entry[12]; ?>
                             </span>
-                                        <input type="text" class="toggleable-input" value='<?php echo $entry[12]; ?>'
-                                               style="display: none" data-field="link" data-id="<?= $entry[0] ?>"
-                                        /></td>
-                                    <td>
-                                        <div class="container">
-                                            <button type="button" class="btn btn-link" data-toggle="modal"
-                                                    data-target="#editModal<?php echo $entry[0]; ?>">
-                                                <i class="fa-solid fa-pen"></i></button>
-                                            <button type="button" class="btn btn-link" data-id="<?= $entry[0] ?>"
-                                                    data-toggle="modal"
-                                                    data-target="#deleteModal<?php echo $entry[0]; ?>"><i
-                                                        class="fa-solid fa-trash"></i>
-                                            </button>
-                                        </div>
+                                            <input type="text" class="toggleable-input"
+                                                   value='<?php echo $entry[12]; ?>'
+                                                   style="display: none" data-field="link" data-id="<?= $entry[0] ?>"
+                                            /></td>
+                                        <td>
+                                            <div class="container">
+                                                <button type="button" class="btn btn-link" data-toggle="modal"
+                                                        data-target="#editModal<?php echo $entry[0]; ?>">
+                                                    <i class="fa-solid fa-pen"></i></button>
+                                                <button type="button" class="btn btn-link" data-id="<?= $entry[0] ?>"
+                                                        data-toggle="modal"
+                                                        data-target="#deleteModal<?php echo $entry[0]; ?>"><i
+                                                            class="fa-solid fa-trash"></i>
+                                                </button>
+                                            </div>
 
-                                    </td>
-                                </tr>
+                                        </td>
+                                    </tr>
                                 </div>
                                 <div class="modal fade" id="editModal<?php echo $entry[0]; ?>" tabindex="-1"
                                      role="dialog"
@@ -228,46 +228,39 @@ class ShortCodeDuplicateOldTemplate
                                             </div>
 
                                             <div class="modal-body">
-                                                <form method="POST">
-                                                    <input type="text" class="form-control" id="id_riga"
-                                                           value='<?php echo $entry[0]; ?>' name="id_riga" hidden>
-                                                    <div class="form-group">
-                                                        <label for="inputIdArticolo">Id Articolo</label>
-                                                        <input type="text" class="form-control" id="id_articolo"
-                                                               value='<?php echo $entry[3]; ?>' name="id_articolo"
-                                                               data-id="<?= $entry[0] ?>">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="idNomeArticolo">Nome Articolo</label>
-                                                        <input type="text" class="form-control" id="idNomeArticolo"
-                                                               name="nome_articolo"
-                                                               value='<?php echo $entry[6]; ?>'>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="idSottotitoloArticolo">Sottotitolo Articolo</label>
-                                                        <textarea class="form-control"
-                                                                  id="idSottotitoloArticolo"
-                                                                  name="sottotitolo_articolo"><?php echo $entry[8]; ?> </textarea>
+                                                <input type="text" class="form-control" id="id_riga"
+                                                       value='<?php echo $entry[0]; ?>' name="id_riga" hidden>
+                                                <label>Id Articolo</label>
+                                                <input type="text" class="form-control" id="id_articolo"
+                                                       value='<?php echo $entry[3]; ?>' name="id_articolo"
+                                                       data-id="<?= $entry[0] ?>">
 
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="idDescrizioneArticolo">Descrizione Articolo</label>
-                                                        <textarea class="form-control"
-                                                                  id="idDescrizioneArticolo"
-                                                                  name="descrizione_articolo"> <?php echo $entry[7]; ?></textarea>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="idLinkAssociato">Link associato</label>
-                                                        <input type="text" class="form-control" id="idLinkAssociato"
-                                                               name="link"
-                                                               value='<?php echo $entry[12]; ?>'>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <input type="submit" class="btn btn-primary"
-                                                               onclick="changeValue()"
-                                                               value="   Salva modifica">
-                                                    </div>
-                                                </form>
+                                                <label>Nome Articolo</label>
+                                                <input type="text" class="form-control" id="idNomeArticolo"
+                                                       name="idNomeArticolo"
+                                                       value='<?php echo $entry[6]; ?>'>
+
+                                                <label>Sottotitolo Articolo</label>
+                                                <textarea class="form-control"
+                                                          id="idSottotitoloArticolo"
+                                                          name="idSottotitoloArticolo"><?php echo $entry[8]; ?> </textarea>
+
+                                                <label>Descrizione Articolo</label>
+                                                <textarea class="form-control"
+                                                          id="idDescrizioneArticolo"
+                                                          name="idDescrizioneArticolo"> <?php echo $entry[7]; ?></textarea>
+
+                                                <label>Link associato</label>
+                                                <input type="text" class="form-control" id="idLinkAssociato"
+                                                       name="idLinkAssociato"
+                                                       value='<?php echo $entry[12]; ?>'>
+
+                                                <div class="modal-footer">
+                                                    <input type="submit" class="btn btn-primary"
+                                                           onclick="changeValue()"
+                                                           value="Salva modifica">
+                                                </div>
+
                                             </div>
 
                                         </div>
@@ -351,7 +344,7 @@ class ShortCodeDuplicateOldTemplate
                         </div>
                         <div class="form-group">
                             <label for="inputSottosezione">Sottosezione</label>
-                            <input type="text" class="form-control" id="sottosezione"
+                            <input type="text" class="form-control" id="newRowSottosezione"
                                    value='' name="newRowSottosezione">
                         </div>
                         <div class="form-group">
@@ -368,8 +361,8 @@ class ShortCodeDuplicateOldTemplate
                         <div class="form-group">
                             <label for="idSottotitoloArticolo">Sottotitolo Articolo</label>
                             <textarea class="form-control"
-                                      id="idSottotitoloArticolo"
-                                      name="sottotitolo_articolo"></textarea>
+                                      id="newRowSottotitoloArticolo"
+                                      name="newRowSottotitoloArticolo"></textarea>
 
                         </div>
                         <div class="form-group">
@@ -385,8 +378,8 @@ class ShortCodeDuplicateOldTemplate
                                    value=''>
                         </div>
                         <div class="modal-footer">
-                            <input type="submit" class="btn btn-primary add-record"
-                                   value="Aggiungi nuova riga">
+                            <input type="submit" class="btn btn-primary"
+                                   value="Aggiungi nuova riga" onclick="addNewRow()">
                         </div>
                     </div>
 
@@ -404,8 +397,8 @@ class ShortCodeDuplicateOldTemplate
             <div>
                 <input type="submit" name="button1"
                        class="btn btn-link" value="Blocca la Modifica"/>
-          <input type="submit" name="button2"
-                                     class="btn btn-link" value="Duplica la Tabella"/></div>
+                <input type="submit" name="button2"
+                       class="btn btn-link" value="Duplica la Tabella"/></div>
         </form>
         <?php
         $years = new DuplicateOldTemplate();
@@ -422,25 +415,24 @@ class ShortCodeDuplicateOldTemplate
 
         <script>
             $('.collapse').collapse();
+
             let readOnly = <?php echo $readOnly?>;
             if (!readOnly) {
-                $(document).ready(function () {
-                    }
-                )
 
                 function changeValue() {
+                    data = {
+                        'id_riga': document.getElementById('id_riga').value,
+                        'id_articolo': document.getElementById('id_articolo').value,
+                        'nome_articolo': document.getElementById('idNomeArticolo').value,
+                        'sottotitolo_articolo': document.getElementById('idSottotitoloArticolo').value,
+                        'descrizione_articolo': document.getElementById('idDescrizioneArticolo').value,
+                        'link': document.getElementById('idLinkAssociato').value
+                    }
+                    console.log(data)
                     $.ajax({
                         type: "POST",
                         url: "https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/editnewfondo",
-                        data: {   <?php
-                            $myObj = ["id_riga" => $_POST['id_riga'],
-                                "id_articolo" => $_POST['id_articolo'],
-                                "nome_articolo" => $_POST['nome_articolo'],
-                                "descrizione_articolo" => $_POST['descrizione_articolo'],
-                                "sottotitolo_articolo" => $_POST['sottotitolo_articolo'],
-                                "link" => $_POST['link']];
-                            ?>
-                            "JSONIn":<?php echo json_encode($myObj);?>},
+                        data: data,
                         success: function (response) {
                             successmessage = 'Modifica eseguita correttamente';
                             console.log(response);
@@ -452,8 +444,8 @@ class ShortCodeDuplicateOldTemplate
                     });
                 }
 
-                $(document).delegate('a.add-record', 'click', function (e) {
-                    e.preventDefault();
+                function addNewRow() {
+
                     $.ajax({
                         type: "POST",
                         url: "https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/newrow",
@@ -471,15 +463,7 @@ class ShortCodeDuplicateOldTemplate
                         success: function (response) {
                             successmessage = 'Riga creata correttamente';
                             alert(successmessage);
-                            // var content = jQuery('#newTable  tr:last'),
-                            //     element = content.clone(true, true);
-                            // element.attr('id', response.id);
-                            // element.appendTo('#dataTable');
-                            // element.find('input').attr("data-id", response.id);
-                            // element.find('select').attr("data-id", response.id);
-                            // element.find('.toggleable-radio').attr("data-id", response.id);
-                            // element.find('.toggleable-radio').find("input").attr("name", response.id);
-                            // element.show();
+                            $('#addRowModal').modal('hide');
                         },
                         error: function () {
                             successmessage = 'Errore: creazione riga non riuscita';
@@ -487,7 +471,7 @@ class ShortCodeDuplicateOldTemplate
                         }
                     });
 
-                });
+                };
 
                 function disabledRow() {
                     // const id = $(this).parent().parent().attr("data-id");

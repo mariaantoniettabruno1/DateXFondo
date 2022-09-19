@@ -57,56 +57,17 @@ function modifica_campi_nuovo_template($request)
 {
     $conn = new Connection();
     $mysqli = $conn->connect();
-    $id = (int)$_POST["JSONIn"]['id_riga'];
-    if (isset($_POST["JSONIn"]['id_articolo'])) {
-        $sql = "UPDATE DATE_template_fondo SET id_articolo=?
+    $id = (int)$_POST['id_riga'];
+    $sql = "UPDATE DATE_template_fondo SET id_articolo=?, nome_articolo=?, sottotitolo_articolo=?, descrizione_articolo=?, link=?
 WHERE id=?";
-        $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("si", $_POST["JSONIn"]['id_articolo'], $id);
-        $res = $stmt->execute();
-    } else if (isset($_POST["JSONIn"]['sezione'])) {
-        $sql = "UPDATE DATE_template_fondo SET sezione=?
-WHERE id=?";
-        $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("si", $_POST["JSONIn"]['sezione'], $_POST["JSONIn"]['id']);
-        $res = $stmt->execute();
-    } else if (isset($_POST["JSONIn"]['label_campo'])) {
-        $sql = "UPDATE DATE_template_fondo SET nome_articolo=?
-WHERE id=?";
-        $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("si", $_POST["JSONIn"]['nome_articolo'], $_POST["JSONIn"]['id']);
-        $res = $stmt->execute();
-    } else if (isset($_POST["JSONIn"]['descrizione_campo'])) {
-        $sql = "UPDATE DATE_template_fondo SET descrizione_articolo=?
-WHERE id=?";
-        $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("si", $_POST["JSONIn"]['descrizione_articolo'], $_POST["JSONIn"]['id']);
-        $res = $stmt->execute();
-    } else if (isset($_POST["JSONIn"]['sottotitolo_campo'])) {
-        $sql = "UPDATE DATE_template_fondo SET sottotitolo_articolo=?
-WHERE id=?";
-        $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("si", $_POST["JSONIn"]['sottotitolo_articolo'], $_POST["JSONIn"]['id']);
-        $res = $stmt->execute();
-    } else if (isset($_POST["JSONIn"]['valore'])) {
-        $sql = "UPDATE DATE_template_fondo SET valore=?
-WHERE id=?";
-        $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("si", $_POST["JSONIn"]['valore'], $input['id']);
-        $res = $stmt->execute();
-    } else if (isset($_POST["JSONIn"]['valore_anno_precedente'])) {
-        $sql = "UPDATE DATE_template_fondo SET valore_anno_precedente=?
-WHERE id=?";
-        $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("si", $_POST["JSONIn"]['valore_anno_precedente'], $_POST["JSONIn"]['id']);
-        $res = $stmt->execute();
-    } else if (isset($_POST["JSONIn"]['nota'])) {
-        $sql = "UPDATE DATE_template_fondo SET nota=?
-WHERE id=?";
-        $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("si", $_POST["JSONIn"]['nota'], $_POST["JSONIn"]['id']);
-        $res = $stmt->execute();
-    }
+    $stmt = $mysqli->prepare($sql);
+    $stmt->bind_param("sssssi", $_POST['id_articolo'],
+        $_POST['nome_articolo'],
+        $_POST['sottotitolo_articolo'],
+        $_POST['descrizione_articolo'],
+        $_POST['link'],
+        $id);
+    $res = $stmt->execute();
     $mysqli->close();
     return $request;
 }
