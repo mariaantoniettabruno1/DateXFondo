@@ -257,7 +257,7 @@ class ShortCodeDuplicateOldTemplate
 
                                                 <div class="modal-footer">
                                                     <input type="submit" class="btn btn-primary"
-                                                           onclick="changeValue()"
+                                                           onclick="editRow()"
                                                            value="Salva modifica">
                                                 </div>
 
@@ -272,7 +272,8 @@ class ShortCodeDuplicateOldTemplate
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-body">
-                                        <form method="POST">
+                                        <input type="text" class="form-control" id="id_riga"
+                                               value='<?php echo $entry[0]; ?>' name="id_riga" hidden>
                                             <h5 class="modal-title" id="exampleModalLabel">Sei sicuro di voler eliminare
                                                 questa
                                                 riga?</h5>
@@ -284,11 +285,10 @@ class ShortCodeDuplicateOldTemplate
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">
                                                     Annulla
                                                 </button>
-                                                <button type="button" class="btn btn-primary" onclick="disabledRow()">
+                                                <button class="btn btn-primary" onclick="disabledRow()">
                                                     Elimina
                                                 </button>
                                             </div>
-                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -331,7 +331,7 @@ class ShortCodeDuplicateOldTemplate
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="selectSezione">Sezione</label>
-                            <select id='section_selected' name='newRowSezione'>
+                            <select id='newRowSezione' name='newRowSezione'>
                                 <option disabled selected> Seleziona la sezione</option>
 
                                 <?php foreach ($sections_entries as $section_entry): ?>
@@ -419,7 +419,7 @@ class ShortCodeDuplicateOldTemplate
             let readOnly = <?php echo $readOnly?>;
             if (!readOnly) {
 
-                function changeValue() {
+                function editRow() {
                     data = {
                         'id_riga': document.getElementById('id_riga').value,
                         'id_articolo': document.getElementById('id_articolo').value,
@@ -428,14 +428,14 @@ class ShortCodeDuplicateOldTemplate
                         'descrizione_articolo': document.getElementById('idDescrizioneArticolo').value,
                         'link': document.getElementById('idLinkAssociato').value
                     }
-                    console.log(data)
                     $.ajax({
                         type: "POST",
                         url: "https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/editnewfondo",
                         data: data,
                         success: function (response) {
                             successmessage = 'Modifica eseguita correttamente';
-                            console.log(response);
+                            location.href = "https://demo.mg3.srl/date/duplicazione-template-anno-precedente/";
+
                         },
                         error: function (response) {
                             successmessage = 'Modifica non riuscita non riuscita';
@@ -445,21 +445,20 @@ class ShortCodeDuplicateOldTemplate
                 }
 
                 function addNewRow() {
+                    data = {
+                        'sezione' : document.getElementById('newRowSezione').value,
+                        'sottosezione' : document.getElementById('newRowSottosezione').value,
+                        'id_articolo': document.getElementById('id_articolo').value,
+                        'nome_articolo': document.getElementById('idNomeArticolo').value,
+                        'sottotitolo_articolo': document.getElementById('idSottotitoloArticolo').value,
+                        'descrizione_articolo': document.getElementById('idDescrizioneArticolo').value,
+                        'link': document.getElementById('idLinkAssociato').value
+                    }
 
                     $.ajax({
                         type: "POST",
                         url: "https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/newrow",
-                        data: {   <?php
-                            $myObj = ["fondo" => $fondo, "anno" => $anno,
-                                "sezione" => $_POST['newRowSezione'],
-                                "sottosezione" => $_POST['newRowSottosezione'],
-                                "id_articolo" => $_POST['newRowIdArticolo'],
-                                "nome_articolo" => $_POST['newRowNomeArticolo'],
-                                "descrizione_articolo" => $_POST['newRowDescrizioneArticolo'],
-                                "sottotitolo_articolo" => $_POST['newRowSottotitoloArticolo'],
-                                "link" => $_POST['newRowLink']];
-                            ?>
-                            "JSONIn":<?php echo json_encode($myObj);?>},
+                        data: data,
                         success: function (response) {
                             successmessage = 'Riga creata correttamente';
                             alert(successmessage);
@@ -474,27 +473,13 @@ class ShortCodeDuplicateOldTemplate
                 };
 
                 function disabledRow() {
-                    // const id = $(this).parent().parent().attr("data-id");
-                    // const data = {id};
-                    // console.log(data)
-                    // console.log($(this))
                     $.ajax({
                         type: "POST",
                         url: "https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/deleterow",
-                        data: {   <?php
-                            $myObj = ["id_riga" => $_POST['id_riga']];
-
-                            ?>
-
-                            "JSONIn":<?php echo json_encode($myObj);?>},
+                        data: {'id_riga': document.getElementById('id_riga').value},
                         success: function () {
+                            location.href = "https://demo.mg3.srl/date/duplicazione-template-anno-precedente/"
 
-                            // location.href = "https://demo.mg3.srl/date/duplicazione-template-anno-precedente/"
-
-                            function toggleAlert() {
-                                $(".alert").toggleClass('in out');
-                                return false;
-                            }
                         },
                         error: function () {
 

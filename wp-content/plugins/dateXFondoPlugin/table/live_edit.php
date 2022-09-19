@@ -117,15 +117,16 @@ function creazione_nuova_riga($request)
 {
     $conn = new Connection();
     $mysqli = $conn->connect();
-    $titolo_fondo = $_POST["JSONIn"]["fondo"];
-    $anno = $_POST["JSONIn"]["anno"];
-    $sezione = $_POST["JSONIn"]["newRowSezione"];
-    $sottosezione = $_POST["JSONIn"]["newRowSottosezione"];
-    $id_articolo = $_POST["JSONIn"]["newRowIdArticolo"];
-    $nome_articolo = $_POST["JSONIn"]["newRowNomeArticolo"];
-    $descrizione_articolo = $_POST["JSONIn"]["newRowDescrizioneArticolo"];
-    $sottotitolo_articolo = $_POST["JSONIn"]["newRowSottotitoloArticolo"];
-    $link = $_POST["JSONIn"]["newRowLink"];
+    //TODO capire come passare fondo e anno da js, altrimenti usare una get che prende i dati dal db prima dell'insert
+    $fondo = 'Fondo 2022';
+    $anno = 2022;
+    $sezione = $_POST["sezione"];
+    $sottosezione = $_POST["sottosezione"];
+    $id_articolo = $_POST["id_articolo"];
+    $nome_articolo = $_POST["nome_articolo"];
+    $descrizione_articolo = $_POST["descrizione_articolo"];
+    $sottotitolo_articolo = $_POST["sottotitolo_articolo"];
+    $link = $_POST["link"];
     $sql = "INSERT INTO DATE_template_fondo (fondo,anno,sezione,sottosezione,id_articolo,nome_articolo,
                                  descrizione_articolo,sottotitolo_articolo,link) VALUES(?,?,?,?,?,?,?,?,?)";
     $stmt = $mysqli->prepare($sql);
@@ -142,7 +143,7 @@ function cancella_riga($request)
     $mysqli = $conn->connect();
     $sql = "UPDATE DATE_template_fondo SET attivo=0  WHERE id=?";
     $stmt = $mysqli->prepare($sql);
-    $stmt->bind_param("i", $input['id']);
+    $stmt->bind_param("i", $_POST['id_riga']);
     $res = $stmt->execute();
     $mysqli->close();
     return 'id cancellato';
