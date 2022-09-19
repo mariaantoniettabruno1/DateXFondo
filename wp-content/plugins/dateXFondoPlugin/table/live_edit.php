@@ -57,7 +57,7 @@ function modifica_campi_nuovo_template($request)
 {
     $conn = new Connection();
     $mysqli = $conn->connect();
-    $id = (int)  $_POST["JSONIn"]['id_riga'];
+    $id = (int)$_POST["JSONIn"]['id_riga'];
     if (isset($_POST["JSONIn"]['id_articolo'])) {
         $sql = "UPDATE DATE_template_fondo SET id_articolo=?
 WHERE id=?";
@@ -158,9 +158,17 @@ function creazione_nuova_riga($request)
     $mysqli = $conn->connect();
     $titolo_fondo = $_POST["JSONIn"]["fondo"];
     $anno = $_POST["JSONIn"]["anno"];
-    $sql = "INSERT INTO DATE_template_fondo (fondo,anno) VALUES(?,?)";
+    $sezione = $_POST["JSONIn"]["newRowSezione"];
+    $sottosezione = $_POST["JSONIn"]["newRowSottosezione"];
+    $id_articolo = $_POST["JSONIn"]["newRowIdArticolo"];
+    $nome_articolo = $_POST["JSONIn"]["newRowNomeArticolo"];
+    $descrizione_articolo = $_POST["JSONIn"]["newRowDescrizioneArticolo"];
+    $sottotitolo_articolo = $_POST["JSONIn"]["newRowSottotitoloArticolo"];
+    $link = $_POST["JSONIn"]["newRowLink"];
+    $sql = "INSERT INTO DATE_template_fondo (fondo,anno,sezione,sottosezione,id_articolo,nome_articolo,
+                                 descrizione_articolo,sottotitolo_articolo,link) VALUES(?,?,?,?,?,?,?,?,?)";
     $stmt = $mysqli->prepare($sql);
-    $stmt->bind_param("ss", $titolo_fondo, $anno);
+    $stmt->bind_param("sssssssss", $titolo_fondo, $anno, $sezione, $sottosezione, $id_articolo, $nome_articolo, $descrizione_articolo, $sottotitolo_articolo, $link);
     $res = $stmt->execute();
     $mysqli->close();
     return $stmt->insert_id;

@@ -52,6 +52,9 @@ class ShortCodeDuplicateOldTemplate
                     width: 150px;
                 }
 
+                .draggable{
+                    cursor : move;
+                }
 
             </style>
         </head>
@@ -68,11 +71,12 @@ class ShortCodeDuplicateOldTemplate
             as $section) {
             ?>
 
-            <div class="card">
+            <div>
                 <div class="card-header" id="headingOne<?= $section[0] ?>">
                     <h5 class="mb-0">
-                        <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne<?= $section[0] ?>"
-                                aria-expanded="true" aria-controls="collapseOne<?= $section[0] ?>">
+                        <button class="btn btn-link collapsed" data-toggle="collapse"
+                                data-target="#collapseOne<?= $section[0] ?>"
+                                aria-expanded="false" aria-controls="collapseOne<?= $section[0] ?>">
                             <?= $section[0] ?>
                         </button>
                     </h5>
@@ -81,7 +85,7 @@ class ShortCodeDuplicateOldTemplate
                 <div id="collapseOne<?= $section[0] ?>" class="collapse show"
                      aria-labelledby="headingOne<?= $section[0] ?>" data-parent="#accordion">
                     <div class="card-body">
-                        <a>Seleziona Sottosezione </a>
+                        <a>Sottosezione </a>
                         <div style="width: 30%" class="pt-2 pb-3">
                             <form method='POST'>
                                 <?php
@@ -102,7 +106,7 @@ class ShortCodeDuplicateOldTemplate
                                 </select>
                             </form>
                         </div>
-                        
+
                         <div class="table-responsive">
 
                             <table id="dataTable">
@@ -145,7 +149,8 @@ class ShortCodeDuplicateOldTemplate
 
                                 as $entry) {
                                 ?>
-                                <tr>
+                                <div class="container">
+                                <tr class="draggable" draggable="true">
                                     <td style="display: none"><?php echo $entry[0]; ?></td>
                                     <td class="field_description">
                             <span data-id="<?= $entry[0] ?>">
@@ -208,6 +213,7 @@ class ShortCodeDuplicateOldTemplate
 
                                     </td>
                                 </tr>
+                                </div>
                                 <div class="modal fade" id="editModal<?php echo $entry[0]; ?>" tabindex="-1"
                                      role="dialog"
                                      aria-labelledby="myModalLabel" aria-hidden="true">
@@ -305,115 +311,6 @@ class ShortCodeDuplicateOldTemplate
         ?>
             </tbody>
             </table>
-
-            <table id="newTable" class="table table-striped table-bordered">
-                <thead style="display:none;">
-                <tr>
-                    <th>ID</th>
-
-                    <th>ID Articolo</th>
-
-                    <th>Sezione</th>
-
-                    <th>Sottosezione</th>
-
-                    <th>Nome Articolo</th>
-
-                    <th>Descrizione Articolo</th>
-
-                    <th>Sottotitolo Articolo</th>
-
-                    <th>Valore</th>
-
-                    <th>Valore Anno Precedente</th>
-
-                    <th>Nota</th>
-
-                    <th>Link di riferimento</th>
-
-                    <th>Attivo</th>
-
-                </tr>
-                </thead>
-                <?php $newRowID = $old_template->getLastRowID(); ?>
-                <tr style="display: none">
-                    <td style="display: none"><?php echo $newRowID; ?></td>
-
-                    <td class="field_description">
-                            <span class="toggleable-span">
-                            </span>
-                        <input type="text" class="toggleable-input" value=''
-                               style="display: none" data-field="id_campo" data-id=""
-                        />
-                    </td>
-                    </td>
-                    <td class="field_description">
-                            <span class="toggleable-span">
-
-                            </span>
-                        <input type="text" class="toggleable-input" value=''
-                               style="display: none" data-field="sezione" data-id=""
-                        /></td>
-                    <td class="field_description">
-                            <span class="toggleable-span">
-
-                            </span>
-                        <input type="text" class="toggleable-input" value=''
-                               style="display: none" data-field="sottosezione" data-id=""
-                        /></td>
-                    <td class="field_description">
-                            <span class="toggleable-span">
-
-                            </span>
-                        <input type="text" class="toggleable-input" value=''
-                               style="display: none" data-field="label_campo" data-id=""
-                        /></td>
-
-                    <td class="field_description">
-                            <span class="toggleable-span">
-
-                            </span>
-                        <input type="text" class="toggleable-input" value=''
-                               style="display: none" data-field="descrizione_campo" data-id=""
-                        /></td>
-                    <td class="field_description">
-                             <span class="toggleable-span">
-
-                            </span>
-                        <input type="text" class="toggleable-input" value=''
-                               style="display: none" data-field="sottotitolo_campo" data-id=""
-                        /></td>
-                    <td class="field_description">   <span class="toggleable-span">
-
-                            </span>
-                        <input type="text" class="toggleable-input" value=''
-                               style="display: none" data-field="valore" data-id=""
-                        /></td>
-                    <td class="field_description">   <span class="toggleable-span">
-
-                            </span>
-                        <input type="text" class="toggleable-input" value=''
-                               style="display: none" data-field="valore_anno_precedente" data-id=""
-                        /></td>
-                    <td class="field_description">
-                              <span class="toggleable-span">
-                            </span>
-                        <input type="text" class="toggleable-input" value=''
-                               style="display: none" data-field="nota" data-id=""
-                        /></td>
-                    <td></td>
-                    <td class="field_description">
-                        <div class="toggleable-radio" data-field="attivo" data-id="">
-                            <label><input type="radio" name="" checked value='1'> Si</label>
-                            <label><input type="radio"
-                                          name="" class="disabledRow"
-                                          value='0'>No</label>
-                        </div>
-                    </td>
-                </tr>
-                </tbody>
-
-            </table>
         </div>
         </div>
         </div>
@@ -425,15 +322,90 @@ class ShortCodeDuplicateOldTemplate
         </div>
 
 
-        <div class="well clearfix">
-            <a class="btn btn-primary pull-right add-record text-white">Aggiungi nuova Riga</a><br>
+        <div class="modal fade" id="addRowModal" tabindex="-1"
+             role="dialog"
+             aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Nuova riga:</h5>
+                        <button type="button" class="close" data-dismiss="modal"
+                                aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="selectSezione">Sezione</label>
+                            <select id='section_selected' name='newRowSezione'>
+                                <option disabled selected> Seleziona la sezione</option>
+
+                                <?php foreach ($sections_entries as $section_entry): ?>
+
+                                    <option <?= isset($_POST['section_selected']) && $_POST['section_selected'] === $section_entry[0] ? 'selected' : '' ?>
+
+                                            value='<?= $section_entry[0] ?>'><?= $section_entry[0] ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputSottosezione">Sottosezione</label>
+                            <input type="text" class="form-control" id="sottosezione"
+                                   value='' name="newRowSottosezione">
+                        </div>
+                        <div class="form-group">
+                            <label for="inputIdArticolo">Id Articolo</label>
+                            <input type="text" class="form-control" id="newRowIdArticolo"
+                                   value='' name="newRowIdArticolo">
+                        </div>
+                        <div class="form-group">
+                            <label for="idNomeArticolo">Nome Articolo</label>
+                            <input type="text" class="form-control" id="newRowNomeArticolo"
+                                   name="newRowNomeArticolo"
+                                   value=''>
+                        </div>
+                        <div class="form-group">
+                            <label for="idSottotitoloArticolo">Sottotitolo Articolo</label>
+                            <textarea class="form-control"
+                                      id="idSottotitoloArticolo"
+                                      name="sottotitolo_articolo"></textarea>
+
+                        </div>
+                        <div class="form-group">
+                            <label for="idDescrizioneArticolo">Descrizione Articolo</label>
+                            <textarea class="form-control"
+                                      id="newRowDescrizioneArticolo"
+                                      name="newRowDescrizioneArticolo"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="idLinkAssociato">Link associato</label>
+                            <input type="text" class="form-control" id="newRowLink"
+                                   name="newRowLink"
+                                   value=''>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="submit" class="btn btn-primary add-record"
+                                   value="Aggiungi nuova riga">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
         </div>
         </body>
+        <div>
+            <button class="btn btn-outline-primary pr-3" data-toggle="modal"
+                    data-target="#addRowModal" style="float: right">Aggiungi nuova Riga
+            </button>
+            <button class="btn btn-outline-primary" style="float: right">Aggiungi decurtazione</button>
+        </div>
         <form method="post">
-            <input type="submit" name="button1"
-                   class="button" value="Blocca la Modifica"/>
-            <input type="submit" name="button2"
-                   class="button" value="Duplica la Tabella"/>
+            <div>
+                <input type="submit" name="button1"
+                       class="btn btn-link" value="Blocca la Modifica"/>
+          <input type="submit" name="button2"
+                                     class="btn btn-link" value="Duplica la Tabella"/></div>
         </form>
         <?php
         $years = new DuplicateOldTemplate();
@@ -449,22 +421,10 @@ class ShortCodeDuplicateOldTemplate
         ?>
 
         <script>
+            $('.collapse').collapse();
             let readOnly = <?php echo $readOnly?>;
             if (!readOnly) {
                 $(document).ready(function () {
-
-                        $(".toggleable-span").click(function () {
-                            $(this).hide();
-                            $(this).siblings(".toggleable-input").show().focus();
-                        })
-                        $(".toggleable-input").blur(function () {
-                            $(this).hide();
-                            $(this).siblings(".toggleable-span").show();
-                        })
-
-                        $(".toggleable-input").change(changeValue)
-                        $(".toggleable-select").change(changeValue)
-                        //$(".disabledRow").click(disabledRow)
                     }
                 )
 
@@ -498,21 +458,28 @@ class ShortCodeDuplicateOldTemplate
                         type: "POST",
                         url: "https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/newrow",
                         data: {   <?php
-                            $myObj = ["fondo" => $fondo, "anno" => $anno];
+                            $myObj = ["fondo" => $fondo, "anno" => $anno,
+                                "sezione" => $_POST['newRowSezione'],
+                                "sottosezione" => $_POST['newRowSottosezione'],
+                                "id_articolo" => $_POST['newRowIdArticolo'],
+                                "nome_articolo" => $_POST['newRowNomeArticolo'],
+                                "descrizione_articolo" => $_POST['newRowDescrizioneArticolo'],
+                                "sottotitolo_articolo" => $_POST['newRowSottotitoloArticolo'],
+                                "link" => $_POST['newRowLink']];
                             ?>
                             "JSONIn":<?php echo json_encode($myObj);?>},
                         success: function (response) {
                             successmessage = 'Riga creata correttamente';
                             alert(successmessage);
-                            var content = jQuery('#newTable  tr:last'),
-                                element = content.clone(true, true);
-                            element.attr('id', response.id);
-                            element.appendTo('#dataTable');
-                            element.find('input').attr("data-id", response.id);
-                            element.find('select').attr("data-id", response.id);
-                            element.find('.toggleable-radio').attr("data-id", response.id);
-                            element.find('.toggleable-radio').find("input").attr("name", response.id);
-                            element.show();
+                            // var content = jQuery('#newTable  tr:last'),
+                            //     element = content.clone(true, true);
+                            // element.attr('id', response.id);
+                            // element.appendTo('#dataTable');
+                            // element.find('input').attr("data-id", response.id);
+                            // element.find('select').attr("data-id", response.id);
+                            // element.find('.toggleable-radio').attr("data-id", response.id);
+                            // element.find('.toggleable-radio').find("input").attr("name", response.id);
+                            // element.show();
                         },
                         error: function () {
                             successmessage = 'Errore: creazione riga non riuscita';
