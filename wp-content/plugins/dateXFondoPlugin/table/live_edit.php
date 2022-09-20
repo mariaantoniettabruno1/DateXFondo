@@ -135,6 +135,24 @@ function creazione_nuova_riga($request)
     $mysqli->close();
     return $stmt->insert_id;
 }
+function creazione_nuova_riga_dec($request)
+{
+    $conn = new Connection();
+    $mysqli = $conn->connect();
+    //TODO capire come passare fondo e anno da js, altrimenti usare una get che prende i dati dal db prima dell'insert
+    $fondo = 'Fondo 2022';
+    $anno = 2022;
+    $sezione = $_POST["sezione"];
+    $sottosezione = $_POST["sottosezione"];
+    $nota = $_POST["nota"];
+    $sql = "INSERT INTO DATE_template_fondo (fondo,anno,sezione,sottosezione,nota) VALUES(?,?,?,?,?)";
+    $stmt = $mysqli->prepare($sql);
+    $stmt->bind_param("sssss", $fondo, $anno, $sezione, $sottosezione, $nota);
+    $res = $stmt->execute();
+    $mysqli->close();
+    return $stmt->insert_id;
+}
+
 
 function cancella_riga($request)
 {

@@ -52,6 +52,11 @@ class ShortCodeDuplicateOldTemplate
                     width: 150px;
                 }
 
+                .icon {
+                    color: blue;
+                    padding-left: 50px;
+                }
+
 
             </style>
         </head>
@@ -62,6 +67,7 @@ class ShortCodeDuplicateOldTemplate
         <div class="accordion">
             <?php
             $sections_entries = $old_template->getAllSections($fondo, $anno);
+            $dec_entries = $old_template->getAllDecSections($fondo, $anno);
 
             foreach ($sections_entries
 
@@ -201,10 +207,12 @@ class ShortCodeDuplicateOldTemplate
                                             /></td>
                                         <td>
                                             <div class="container">
-                                                <button type="button" class="btn btn-link" data-toggle="modal"
+                                                <button id="editRow" type="button" class="btn btn-link"
+                                                        data-toggle="modal"
                                                         data-target="#editModal<?php echo $entry[0]; ?>">
                                                     <i class="fa-solid fa-pen"></i></button>
-                                                <button type="button" class="btn btn-link" data-id="<?= $entry[0] ?>"
+                                                <button id="deleteRow" type="button" class="btn btn-link"
+                                                        data-id="<?= $entry[0] ?>"
                                                         data-toggle="modal"
                                                         data-target="#deleteModal<?php echo $entry[0]; ?>"><i
                                                             class="fa-solid fa-trash"></i>
@@ -274,21 +282,21 @@ class ShortCodeDuplicateOldTemplate
                                     <div class="modal-body">
                                         <input type="text" class="form-control" id="id_riga"
                                                value='<?php echo $entry[0]; ?>' name="id_riga" hidden>
-                                            <h5 class="modal-title" id="exampleModalLabel">Sei sicuro di voler eliminare
-                                                questa
-                                                riga?</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
+                                        <h5 class="modal-title" id="exampleModalLabel">Sei sicuro di voler eliminare
+                                            questa
+                                            riga?</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
 
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                                                    Annulla
-                                                </button>
-                                                <button class="btn btn-primary" onclick="disabledRow()">
-                                                    Elimina
-                                                </button>
-                                            </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                Annulla
+                                            </button>
+                                            <button class="btn btn-primary" onclick="disabledRow()">
+                                                Elimina
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -388,17 +396,83 @@ class ShortCodeDuplicateOldTemplate
         </div>
         </body>
         <div>
-            <button class="btn btn-outline-primary pr-3" data-toggle="modal"
+            <button id="btnAddRow" class="btn btn-outline-primary" data-toggle="modal"
                     data-target="#addRowModal" style="float: right">Aggiungi nuova Riga
             </button>
-            <button class="btn btn-outline-primary" style="float: right">Aggiungi decurtazione</button>
+        </div>
+        <div class="pl-3">
+            <button id="btnDecurtazione" data-toggle="modal"
+                    data-target="#addRowDecModal" class="btn btn-outline-primary " style="float: right">Aggiungi
+                decurtazione
+            </button>
+        </div>
+        <div class="modal fade" id="addRowDecModal" tabindex="-1"
+             role="dialog"
+             aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Nuova decurtazione:</h5>
+                        <button type="button" class="close" data-dismiss="modal"
+                                aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="selectSezione">Sezione</label>
+                            <select id='decSezione' name='decSezione'>
+                                <option disabled selected> Seleziona la sezione</option>
+
+                                <?php foreach ($dec_entries as $dec_entry): ?>
+
+                                    <option <?= isset($_POST['dec_selected']) && $_POST['dec_selected'] === $dec_entry[0] ? 'selected' : '' ?>
+
+                                            value='<?= $dec_entry[0] ?>'><?= $dec_entry[0] ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputSottosezione">Sottosezione</label>
+                            <input type="text" class="form-control" id="decSottosezione"
+                                   value='' name="decSottosezione">
+                        </div>
+                        <label for="inputNota">Tipologia decurtazione: </label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="typeDec" id="percentualeSelected"
+                                   value="%">
+                            <label class="form-check-label" for="percentualeSelected">
+                                %
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="typeDec" id="valAbsSelected"
+                                   value="Valore Assoluto">
+                            <label class="form-check-label" for="valAbsSelected">
+                                Valore Assoluto
+                            </label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="submit" class="btn btn-primary"
+                               value="Aggiungi nuova riga" onclick="addNewRowDecurtazione()">
+                    </div>
+                </div>
+
+            </div>
+        </div>
         </div>
         <form method="post">
             <div>
+                <i class="icon fa-solid fa-ban"></i>
                 <input type="submit" name="button1"
                        class="btn btn-link" value="Blocca la Modifica"/>
+                <i class=" icon fa-regular fa-copy"></i>
                 <input type="submit" name="button2"
-                       class="btn btn-link" value="Duplica la Tabella"/></div>
+                       class="btn btn-link" value="Duplica la Tabella"/>
+
+            </div>
         </form>
         <?php
         $years = new DuplicateOldTemplate();
@@ -446,8 +520,8 @@ class ShortCodeDuplicateOldTemplate
 
                 function addNewRow() {
                     data = {
-                        'sezione' : document.getElementById('newRowSezione').value,
-                        'sottosezione' : document.getElementById('newRowSottosezione').value,
+                        'sezione': document.getElementById('newRowSezione').value,
+                        'sottosezione': document.getElementById('newRowSottosezione').value,
                         'id_articolo': document.getElementById('newRowIdArticolo').value,
                         'nome_articolo': document.getElementById('newRowNomeArticolo').value,
                         'sottotitolo_articolo': document.getElementById('newRowSottotitoloArticolo').value,
@@ -462,7 +536,7 @@ class ShortCodeDuplicateOldTemplate
                         success: function (response) {
                             successmessage = 'Riga creata correttamente';
                             alert(successmessage);
-                            $('#addRowModal').modal('hide');
+                            location.href = "https://demo.mg3.srl/date/duplicazione-template-anno-precedente/"
                         },
                         error: function () {
                             successmessage = 'Errore: creazione riga non riuscita';
@@ -470,7 +544,32 @@ class ShortCodeDuplicateOldTemplate
                         }
                     });
 
-                };
+                }
+
+                function addNewRowDecurtazione() {
+                    data = {
+                        'sezione': document.getElementById('decSezione').value,
+                        'sottosezione': document.getElementById('decSottosezione').value,
+                        'nota': document.querySelector('input[name="typeDec"]:checked').value,
+
+                    }
+
+                    $.ajax({
+                        type: "POST",
+                        url: "https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/newrowdec",
+                        data: data,
+                        success: function (response) {
+                            successmessage = 'Riga creata correttamente';
+                            alert(successmessage);
+                            location.href = "https://demo.mg3.srl/date/duplicazione-template-anno-precedente/"
+                        },
+                        error: function () {
+                            successmessage = 'Errore: creazione riga non riuscita';
+                            alert(successmessage);
+                        }
+                    });
+
+                }
 
                 function disabledRow() {
                     $.ajax({
@@ -487,26 +586,11 @@ class ShortCodeDuplicateOldTemplate
                     })
                     ;
                 }
-
-                function updateNewRowValue(id, sezione) {
-
-                    $.ajax({
-                        type: "POST",
-                        url: "https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/editnewfondo",
-                        data: {
-                            sezione, id
-                        },
-                        success: function () {
-                            console.log(sezione)
-                            successmessage = 'Valori aggiunti correttamente';
-                            console.log(successmessage)
-                        },
-                        error: function () {
-                            successmessage = 'Errore, valori non aggiunti correttamente';
-                            console.log(successmessage);
-                        }
-                    });
-                }
+            } else {
+                document.getElementById("btnAddRow").disabled = true;
+                document.getElementById("btnDecurtazione").disabled = true;
+                document.getElementById("deleteRow").disabled = true;
+                document.getElementById("editRow").disabled = true;
             }
 
 
