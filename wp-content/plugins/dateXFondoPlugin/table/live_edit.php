@@ -130,7 +130,7 @@ function creazione_nuova_riga($request)
     $sql = "INSERT INTO DATE_template_fondo (fondo,anno,sezione,sottosezione,id_articolo,nome_articolo,
                                  descrizione_articolo,sottotitolo_articolo,link) VALUES(?,?,?,?,?,?,?,?,?)";
     $stmt = $mysqli->prepare($sql);
-    $stmt->bind_param("sssssssss", $titolo_fondo, $anno, $sezione, $sottosezione, $id_articolo, $nome_articolo, $descrizione_articolo, $sottotitolo_articolo, $link);
+    $stmt->bind_param("sssssssss", $fondo, $anno, $sezione, $sottosezione, $id_articolo, $nome_articolo, $descrizione_articolo, $sottotitolo_articolo, $link);
     $res = $stmt->execute();
     $mysqli->close();
     return $stmt->insert_id;

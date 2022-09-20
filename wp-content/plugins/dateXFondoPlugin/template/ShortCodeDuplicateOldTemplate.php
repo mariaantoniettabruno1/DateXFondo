@@ -448,11 +448,11 @@ class ShortCodeDuplicateOldTemplate
                     data = {
                         'sezione' : document.getElementById('newRowSezione').value,
                         'sottosezione' : document.getElementById('newRowSottosezione').value,
-                        'id_articolo': document.getElementById('id_articolo').value,
-                        'nome_articolo': document.getElementById('idNomeArticolo').value,
-                        'sottotitolo_articolo': document.getElementById('idSottotitoloArticolo').value,
-                        'descrizione_articolo': document.getElementById('idDescrizioneArticolo').value,
-                        'link': document.getElementById('idLinkAssociato').value
+                        'id_articolo': document.getElementById('newRowIdArticolo').value,
+                        'nome_articolo': document.getElementById('newRowNomeArticolo').value,
+                        'sottotitolo_articolo': document.getElementById('newRowSottotitoloArticolo').value,
+                        'descrizione_articolo': document.getElementById('newRowDescrizioneArticolo').value,
+                        'link': document.getElementById('newRowLink').value
                     }
 
                     $.ajax({
