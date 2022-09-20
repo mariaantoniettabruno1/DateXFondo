@@ -58,20 +58,22 @@ function modifica_campi_nuovo_template($request)
     $conn = new Connection();
     $mysqli = $conn->connect();
     $id = (int)$_POST['id_riga'];
-    $sql = "UPDATE DATE_template_fondo SET id_articolo=?, nome_articolo=?, sottotitolo_articolo=?, descrizione_articolo=?, link=?
+    $sql = "UPDATE DATE_template_fondo SET id_articolo=?, nome_articolo=?, sottotitolo_articolo=?, descrizione_articolo=?, link=?, ordinamento=?
 WHERE id=?";
     $stmt = $mysqli->prepare($sql);
-    $stmt->bind_param("sssssi", $_POST['id_articolo'],
+    $stmt->bind_param("sssssii", $_POST['id_articolo'],
         $_POST['nome_articolo'],
         $_POST['sottotitolo_articolo'],
         $_POST['descrizione_articolo'],
         $_POST['link'],
+        $_POST['ordinamento'],
         $id);
     $res = $stmt->execute();
     $mysqli->close();
     return $request;
 }
 
+//function per il caricamento campi in base al radio button selezionato su valore, nota e valore o nessuno dei due 
 function caricamento_campi($request)
 {
     $temp_data = new DuplicateOldTemplate();
@@ -127,10 +129,11 @@ function creazione_nuova_riga($request)
     $descrizione_articolo = $_POST["descrizione_articolo"];
     $sottotitolo_articolo = $_POST["sottotitolo_articolo"];
     $link = $_POST["link"];
+    $ordinamento = $_POST["ordinamento"];
     $sql = "INSERT INTO DATE_template_fondo (fondo,anno,sezione,sottosezione,id_articolo,nome_articolo,
-                                 descrizione_articolo,sottotitolo_articolo,link) VALUES(?,?,?,?,?,?,?,?,?)";
+                                 descrizione_articolo,sottotitolo_articolo,link,ordinamento) VALUES(?,?,?,?,?,?,?,?,?,?)";
     $stmt = $mysqli->prepare($sql);
-    $stmt->bind_param("sssssssss", $fondo, $anno, $sezione, $sottosezione, $id_articolo, $nome_articolo, $descrizione_articolo, $sottotitolo_articolo, $link);
+    $stmt->bind_param("sssssssssi", $fondo, $anno, $sezione, $sottosezione, $id_articolo, $nome_articolo, $descrizione_articolo, $sottotitolo_articolo, $link,$ordinamento);
     $res = $stmt->execute();
     $mysqli->close();
     return $stmt->insert_id;
@@ -145,9 +148,10 @@ function creazione_nuova_riga_dec($request)
     $sezione = $_POST["sezione"];
     $sottosezione = $_POST["sottosezione"];
     $nota = $_POST["nota"];
-    $sql = "INSERT INTO DATE_template_fondo (fondo,anno,sezione,sottosezione,nota) VALUES(?,?,?,?,?)";
+    $ordinamento = $_POST["ordinamento"];
+    $sql = "INSERT INTO DATE_template_fondo (fondo,anno,sezione,sottosezione,nota,ordinamento) VALUES(?,?,?,?,?,?)";
     $stmt = $mysqli->prepare($sql);
-    $stmt->bind_param("sssss", $fondo, $anno, $sezione, $sottosezione, $nota);
+    $stmt->bind_param("sssssi", $fondo, $anno, $sezione, $sottosezione, $nota,$ordinamento);
     $res = $stmt->execute();
     $mysqli->close();
     return $stmt->insert_id;

@@ -80,11 +80,14 @@ function visualize_old_template()
 {
     \dateXFondoPlugin\ShortCodeDuplicateOldTemplate::visualize_old_template();
 
-}function visualize_formula_template()
+}
+
+function visualize_formula_template()
 {
     \dateXFondoPlugin\ShortCodeFormulaTable::visualize_formula_template();
 
 }
+
 function visualize_slave_formula_template()
 {
     \dateXFondoPlugin\SlaveShortCodeFormulaTable::visualize_slave_formula_template();
@@ -189,6 +192,27 @@ function esegui_creazione_riga($params)
 }
 
 add_action('rest_api_init', 'create_endpoint_datefondo_creazione_riga');
+function create_endpoint_datefondo_creazione_riga_decurtazione()
+{
+
+    register_rest_route('datexfondoplugin/v1', 'table/newrowdec', array(
+        'methods' => 'POST',
+        'callback' => 'esegui_creazione_riga_decurtazione'
+    ));
+
+
+}
+
+function esegui_creazione_riga_decurtazione($params)
+{
+    $insert_id = \dateXFondoPlugin\creazione_nuova_riga_dec($params);
+    $data = ['id' => $insert_id, 'message' => 'Riga decurtazione creata correttamente'];
+    $response = new WP_REST_Response($data);
+    $response->set_status(201);
+    return $response;
+}
+
+add_action('rest_api_init', 'create_endpoint_datefondo_creazione_riga_decurtazione');
 function create_endpoint_datefondo_caricamento()
 {
 

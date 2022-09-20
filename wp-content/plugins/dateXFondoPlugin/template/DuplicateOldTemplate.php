@@ -28,7 +28,7 @@ class DuplicateOldTemplate
         $res = $stmt->execute();
         $res = $stmt->get_result();
         $last_version = $res->fetch_assoc()['version'];
-        $sql = "SELECT * FROM DATE_template_fondo WHERE anno=? AND fondo=? AND sezione=? AND sottosezione=? AND attivo=1 AND version=?";
+        $sql = "SELECT * FROM DATE_template_fondo WHERE anno=? AND fondo=? AND sezione=? AND sottosezione=? AND attivo=1 AND version=? ORDER BY ordinamento";
         $stmt = $mysqli->prepare($sql);
         $stmt->bind_param("isssi", $anno, $fondo, $section, $subsection, $last_version);
         $res = $stmt->execute();
@@ -57,31 +57,24 @@ class DuplicateOldTemplate
         mysqli_close($mysqli);
         return $entries;
     }
-
-    public function getCurrentDataCount($anno, $fondo)
+    public function getAllDecSections($fondo, $anno)
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = "SELECT count(*) FROM DATE_template_fondo WHERE anno=? AND fondo=? AND attivo=1";
+        $sql = "SELECT version FROM DATE_template_fondo WHERE anno=? ORDER BY version DESC";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("is", $anno, $fondo);
+        $stmt->bind_param("i", $anno);
+        $res = $stmt->execute();
+        $res = $stmt->get_result();
+        $last_version = $res->fetch_assoc()['version'];
+        $sql = "SELECT DISTINCT sezione FROM DATE_template_fondo WHERE anno=? AND fondo=? AND attivo=1 AND version=? AND sezione LIKE '%decurtazion%'";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("isi", $anno, $fondo, $last_version);
         $res = $stmt->execute();
         $res = $stmt->get_result();
         $entries = $res->fetch_all();
         mysqli_close($mysqli);
-        return $entries[0][0];
-    }
-
-    public function getLastRowID()
-    {
-        $conn = new Connection();
-        $mysqli = $conn->connect();
-        $sql = "SELECT MAX(id) FROM DATE_template_fondo";
-        $result = $mysqli->query($sql);
-        $row = $result->fetch_assoc();
-        mysqli_close($mysqli);
-        return $row['MAX(id)'];
-
+        return $entries;
     }
 
     public static function getTableNotEditable($year)

@@ -115,6 +115,7 @@ class ShortCodeDuplicateOldTemplate
                             <table id="dataTable">
                                 <thead>
                                 <tr>
+                                    <th>Ordinamento</th>
                                     <th>ID Articolo</th>
                                     <th>Nome Articolo</th>
                                     <th>Descrizione Articolo</th>
@@ -144,10 +145,12 @@ class ShortCodeDuplicateOldTemplate
                                         <td></td>
                                         <td></td>
                                         <td></td>
+                                        <td></td>
                                     </tr>
                                     <?php
                                 }
                                 else{
+
                                 foreach ($old_data
 
                                 as $entry) {
@@ -156,8 +159,13 @@ class ShortCodeDuplicateOldTemplate
                                     <tr>
                                         <td style="display: none"><?php echo $entry[0]; ?></td>
                                         <td class="field_description">
-                            <span data-id="<?= $entry[0] ?>">
+                            <span>
                                 <?php echo $entry[3]; ?>
+                            </span>
+                                        </td>
+                                        <td class="field_description">
+                            <span data-id="<?= $entry[0] ?>">
+                                <?php echo $entry[4]; ?>
                             </span>
 
                                         </td>
@@ -238,9 +246,13 @@ class ShortCodeDuplicateOldTemplate
                                             <div class="modal-body">
                                                 <input type="text" class="form-control" id="id_riga"
                                                        value='<?php echo $entry[0]; ?>' name="id_riga" hidden>
+                                                <label>Ordinamento</label>
+                                                <input type="text" class="form-control" id="ordinamento"
+                                                       value='<?php echo $entry[3]; ?>' name="ordinamento"
+                                                       data-id="<?= $entry[0] ?>">
                                                 <label>Id Articolo</label>
                                                 <input type="text" class="form-control" id="id_articolo"
-                                                       value='<?php echo $entry[3]; ?>' name="id_articolo"
+                                                       value='<?php echo $entry[4]; ?>' name="id_articolo"
                                                        data-id="<?= $entry[0] ?>">
 
                                                 <label>Nome Articolo</label>
@@ -356,6 +368,11 @@ class ShortCodeDuplicateOldTemplate
                                    value='' name="newRowSottosezione">
                         </div>
                         <div class="form-group">
+                            <label for="ordinamento">Ordinamento</label>
+                            <input type="text" class="form-control" id="newRowOrdinamento"
+                                   value='' name="newRowIdOrdinamento">
+                        </div>
+                        <div class="form-group">
                             <label for="inputIdArticolo">Id Articolo</label>
                             <input type="text" class="form-control" id="newRowIdArticolo"
                                    value='' name="newRowIdArticolo">
@@ -434,6 +451,11 @@ class ShortCodeDuplicateOldTemplate
                             </select>
                         </div>
                         <div class="form-group">
+                            <label for="ordinamento">Ordinamento</label>
+                            <input type="text" class="form-control" id="decOrdinamento"
+                                   value='' name="decOrdinamento">
+                        </div>
+                        <div class="form-group">
                             <label for="inputSottosezione">Sottosezione</label>
                             <input type="text" class="form-control" id="decSottosezione"
                                    value='' name="decSottosezione">
@@ -495,6 +517,7 @@ class ShortCodeDuplicateOldTemplate
 
                 function editRow() {
                     data = {
+                        'ordinamento': document.getElementById('ordinamento').value,
                         'id_riga': document.getElementById('id_riga').value,
                         'id_articolo': document.getElementById('id_articolo').value,
                         'nome_articolo': document.getElementById('idNomeArticolo').value,
@@ -520,6 +543,7 @@ class ShortCodeDuplicateOldTemplate
 
                 function addNewRow() {
                     data = {
+                        'ordinamento': document.getElementById('newRowOrdinamento').value,
                         'sezione': document.getElementById('newRowSezione').value,
                         'sottosezione': document.getElementById('newRowSottosezione').value,
                         'id_articolo': document.getElementById('newRowIdArticolo').value,
@@ -548,6 +572,7 @@ class ShortCodeDuplicateOldTemplate
 
                 function addNewRowDecurtazione() {
                     data = {
+                        'ordinamento': document.getElementById('decOrdinamento').value,
                         'sezione': document.getElementById('decSezione').value,
                         'sottosezione': document.getElementById('decSottosezione').value,
                         'nota': document.querySelector('input[name="typeDec"]:checked').value,
