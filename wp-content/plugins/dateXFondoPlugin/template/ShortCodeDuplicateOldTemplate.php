@@ -67,7 +67,6 @@ class ShortCodeDuplicateOldTemplate
         <div class="accordion">
             <?php
             $sections_entries = $old_template->getAllSections($fondo, $anno);
-            $dec_entries = $old_template->getAllDecSections($fondo, $anno);
 
             foreach ($sections_entries
 
@@ -154,63 +153,61 @@ class ShortCodeDuplicateOldTemplate
                                 foreach ($old_data
 
                                 as $entry) {
+
                                 ?>
                                 <div>
                                     <tr>
                                         <td style="display: none"><?php echo $entry[0]; ?></td>
-                                        <td class="field_description">
+
+                                        <td class="field_description ordinamento">
                             <span>
                                 <?php echo $entry[3]; ?>
                             </span>
                                         </td>
-                                        <td class="field_description">
+                                        <td class="field_description id_articolo">
                             <span data-id="<?= $entry[0] ?>">
                                 <?php echo $entry[4]; ?>
                             </span>
-
                                         </td>
-                                        <td class="field_description">
-                            <span>
-                                <?php echo $entry[6]; ?>
-                            </span>
-                                        </td>
-                                        <td class="field_description">
+                                        <td class="field_description nome_articolo">
                             <span>
                                 <?php echo $entry[7]; ?>
                             </span>
                                         </td>
-                                        <td class="field_description">
-                             <span>
+                                        <td class="field_description sottotitolo_articolo">
+                            <span>
                                 <?php echo $entry[8]; ?>
                             </span>
                                         </td>
-                                        <td class="field_description">
-                            <span>
+                                        <td class="field_description descrizione_articolo">
+                             <span>
                                 <?php echo $entry[9]; ?>
                             </span>
                                         </td>
-                                        <td class="field_description">   <span class="toggleable-span">
+                                        <td class="field_description valore">
+                            <span>
                                 <?php echo $entry[10]; ?>
                             </span>
-                                            <input type="text" class="toggleable-input"
-                                                   value='<?php echo $entry[10]; ?>'
-                                                   style="display: none" data-field="valore_anno_precedente"
-                                                   data-id="<?= $entry[0] ?>"
-                                            /></td>
-                                        <td class="field_description">
-                              <span class="toggleable-span">
-                                 <?php echo $entry[11]; ?>
+                                        </td>
+                                        <td class="field_description valore_anno_precedente">
+                            <span>
+                                <?php echo $entry[11]; ?>
                             </span>
-                                            <input type="text" class="toggleable-input"
-                                                   value='<?php echo $entry[11]; ?>'
-                                                   style="display: none" data-field="nota" data-id="<?= $entry[0] ?>"
-                                            /></td>
+                                        </td>
                                         <td class="field_description">
                               <span class="toggleable-span">
                                  <?php echo $entry[12]; ?>
                             </span>
                                             <input type="text" class="toggleable-input"
                                                    value='<?php echo $entry[12]; ?>'
+                                                   style="display: none" data-field="nota" data-id="<?= $entry[0] ?>"
+                                            /></td>
+                                        <td class="field_description">
+                              <span class="toggleable-span">
+                                 <?php echo $entry[13]; ?>
+                            </span>
+                                            <input type="text" class="toggleable-input"
+                                                   value='<?php echo $entry[13]; ?>'
                                                    style="display: none" data-field="link" data-id="<?= $entry[0] ?>"
                                             /></td>
                                         <td>
@@ -244,45 +241,84 @@ class ShortCodeDuplicateOldTemplate
                                             </div>
 
                                             <div class="modal-body">
-                                                <input type="text" class="form-control" id="id_riga"
-                                                       value='<?php echo $entry[0]; ?>' name="id_riga" hidden>
-                                                <label>Ordinamento</label>
-                                                <input type="text" class="form-control" id="ordinamento"
-                                                       value='<?php echo $entry[3]; ?>' name="ordinamento"
-                                                       data-id="<?= $entry[0] ?>">
-                                                <label>Id Articolo</label>
-                                                <input type="text" class="form-control" id="id_articolo"
-                                                       value='<?php echo $entry[4]; ?>' name="id_articolo"
-                                                       data-id="<?= $entry[0] ?>">
+                                                <?php if ($entry[13] == '%' || $entry[13] == 'ValoreAssoluto') { ?>
+                                                    <input type="text" class="form-control" id="id_riga"
+                                                           value='<?php echo $entry[0]; ?>' name="id_riga" hidden>
+                                                    <label>Ordinamento</label>
+                                                    <input type="text" class="form-control" id="ordinamento"
+                                                           value='<?php echo $entry[3]; ?>' name="ordinamento"
+                                                           data-id="<?= $entry[0] ?>">
+                                                    <label>Nome Decurtazione</label>
+                                                    <input type="text" class="form-control" id="idNomeArticolo"
+                                                           name="idNomeArticolo"
+                                                           value='<?php echo $entry[7]; ?>'>
+                                                    <label>Descrizione</label>
+                                                    <textarea class="form-control"
+                                                              id="idDescrizioneArticolo"
+                                                              name="idDescrizioneArticolo"> <?php echo $entry[8]; ?></textarea>
+                                                    <label>Nota</label>
+                                                    <textarea class="form-control"
+                                                              id="idNotaArticolo"
+                                                              name="idNotaArticolo"> <?php echo $entry[12]; ?></textarea>
+                                                    <label for="inputNota">Tipologia decurtazione: </label>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="typeDecEdit"
+                                                               id="percentualeSelected"
+                                                               value="%" checked='<?php echo $entry[13]; ?>'>
+                                                        <label class="form-check-label" for="percentualeSelected">
+                                                            %
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="typeDecEdit"
+                                                               id="valAbsSelected"
+                                                               value="ValoreAssoluto">
+                                                        <label class="form-check-label" for="valAbsSelected">
+                                                            Valore Assoluto
+                                                        </label>
+                                                    </div>
+                                                <?php } else { ?>
+                                                    <input type="text" class="form-control" id="id_riga"
+                                                           value='<?php echo $entry[0]; ?>' name="id_riga" hidden>
+                                                    <label>Ordinamento</label>
+                                                    <input type="text" class="form-control" id="ordinamento"
+                                                           value='<?php echo $entry[3]; ?>' name="ordinamento"
+                                                           data-id="<?= $entry[0] ?>">
+                                                    <label>Id Articolo</label>
+                                                    <input type="text" class="form-control" id="id_articolo"
+                                                           value='<?php echo $entry[4]; ?>' name="id_articolo"
+                                                           data-id="<?= $entry[0] ?>">
 
-                                                <label>Nome Articolo</label>
-                                                <input type="text" class="form-control" id="idNomeArticolo"
-                                                       name="idNomeArticolo"
-                                                       value='<?php echo $entry[6]; ?>'>
+                                                    <label>Nome Articolo</label>
+                                                    <input type="text" class="form-control" id="idNomeArticolo"
+                                                           name="idNomeArticolo"
+                                                           value='<?php echo $entry[7]; ?>'>
 
-                                                <label>Sottotitolo Articolo</label>
-                                                <textarea class="form-control"
-                                                          id="idSottotitoloArticolo"
-                                                          name="idSottotitoloArticolo"><?php echo $entry[8]; ?> </textarea>
+                                                    <label>Sottotitolo Articolo</label>
+                                                    <textarea class="form-control"
+                                                              id="idSottotitoloArticolo"
+                                                              name="idSottotitoloArticolo"><?php echo $entry[9]; ?> </textarea>
 
-                                                <label>Descrizione Articolo</label>
-                                                <textarea class="form-control"
-                                                          id="idDescrizioneArticolo"
-                                                          name="idDescrizioneArticolo"> <?php echo $entry[7]; ?></textarea>
+                                                    <label>Descrizione Articolo</label>
+                                                    <textarea class="form-control"
+                                                              id="idDescrizioneArticolo"
+                                                              name="idDescrizioneArticolo"> <?php echo $entry[8]; ?></textarea>
 
-                                                <label>Link associato</label>
-                                                <input type="text" class="form-control" id="idLinkAssociato"
-                                                       name="idLinkAssociato"
-                                                       value='<?php echo $entry[12]; ?>'>
-
-                                                <div class="modal-footer">
-                                                    <input type="submit" class="btn btn-primary"
-                                                           onclick="editRow()"
-                                                           value="Salva modifica">
-                                                </div>
-
+                                                    <label>Nota</label>
+                                                    <textarea class="form-control"
+                                                              id="idNotaArticolo"
+                                                              name="idNotaArticolo"> <?php echo $entry[12]; ?></textarea>
+                                                    <label>Link associato</label>
+                                                    <input type="text" class="form-control" id="idLinkAssociato"
+                                                           name="idLinkAssociato"
+                                                           value='<?php echo $entry[13]; ?>'>
+                                                <?php } ?>
                                             </div>
-
+                                            <div class="modal-footer">
+                                                <input type="submit" class="btn btn-primary"
+                                                       onclick="editRow()"
+                                                       value="Salva modifica">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -397,6 +433,12 @@ class ShortCodeDuplicateOldTemplate
                                       name="newRowDescrizioneArticolo"></textarea>
                         </div>
                         <div class="form-group">
+                            <label for="idNota">Nota</label>
+                            <textarea class="form-control"
+                                      id="newRowNota"
+                                      name="newRowNota"></textarea>
+                        </div>
+                        <div class="form-group">
                             <label for="idLinkAssociato">Link associato</label>
                             <input type="text" class="form-control" id="newRowLink"
                                    name="newRowLink"
@@ -442,23 +484,33 @@ class ShortCodeDuplicateOldTemplate
                             <select id='decSezione' name='decSezione'>
                                 <option disabled selected> Seleziona la sezione</option>
 
-                                <?php foreach ($dec_entries as $dec_entry): ?>
+                                <?php foreach ($sections_entries as $dec_entry): ?>
 
-                                    <option <?= isset($_POST['dec_selected']) && $_POST['dec_selected'] === $dec_entry[0] ? 'selected' : '' ?>
-
-                                            value='<?= $dec_entry[0] ?>'><?= $dec_entry[0] ?></option>
+                                    <option value='<?= $dec_entry[0] ?>'><?= $dec_entry[0] ?></option>
                                 <?php endforeach; ?>
                             </select>
+                        </div>
+                        <div class="form-group" id="divSelectSottosezione">
+                            <label for="selectSezione">Sottosezione</label>
+                            <select id='decSottosezione' name='decSottosezione'>
+                                <option disabled selected> Seleziona la sottosezione</option>
+                                <?php foreach ($results_subsections as $dec_subsection): ?>
+
+                                    <option value='<?= $dec_subsection[0] ?>'><?= $dec_subsection[0] ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <button class="btn btn-link" onclick="showNewSubsectionInput()"><i class="fa-solid fa-plus"></i>
+                            Aggiungi nuova sottosezione
+                        </button>
+                        <div class="form-group" id="divNewSottosezione" hidden>
+                            <input type="text" class="form-control" id="decNewSottosezione"
+                                   value='' name="decNewSottosezione">
                         </div>
                         <div class="form-group">
                             <label for="ordinamento">Ordinamento</label>
                             <input type="text" class="form-control" id="decOrdinamento"
                                    value='' name="decOrdinamento">
-                        </div>
-                        <div class="form-group">
-                            <label for="inputSottosezione">Sottosezione</label>
-                            <input type="text" class="form-control" id="decSottosezione"
-                                   value='' name="decSottosezione">
                         </div>
                         <label for="inputNota">Tipologia decurtazione: </label>
                         <div class="form-check">
@@ -470,10 +522,23 @@ class ShortCodeDuplicateOldTemplate
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="typeDec" id="valAbsSelected"
-                                   value="Valore Assoluto">
+                                   value="ValoreAssoluto">
                             <label class="form-check-label" for="valAbsSelected">
                                 Valore Assoluto
                             </label>
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label for="decDescrizioneArticolo">Descrizione:</label>
+                            <textarea class="form-control"
+                                      id="decDescrizioneArticolo"
+                                      name="decDescrizioneArticolo"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="decNota">Nota:</label>
+                            <textarea class="form-control"
+                                      id="decNota"
+                                      name="decNota"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -514,17 +579,44 @@ class ShortCodeDuplicateOldTemplate
 
             let readOnly = <?php echo $readOnly?>;
             if (!readOnly) {
+                function showNewSubsectionInput() {
+                    document.getElementById('divNewSottosezione').removeAttribute("hidden");
+                    //TODO capire come nascondere la select quando viene visualizzato l'input
+                    const element = document.getElementById('divNewSottosezione');
+                    // document.getElementById('decSottosezione').setAttribute("hidden");
+                    element.setAttribute('style', 'display:block');
+
+                }
 
                 function editRow() {
+                    let id_articolo = document.getElementById('id_articolo');
+                    if (typeof id_articolo !== 'undefined' && id_articolo !== null) {
+                        id_articolo.innerHTML = value;
+                    }
+                    let sottotitolo_articolo = document.getElementById('idSottotitoloArticolo');
+                    if (typeof sottotitolo_articolo !== 'undefined' && sottotitolo_articolo !== null) {
+                        sottotitolo_articolo.innerHTML = value;
+                    }
+                    let link = document.getElementById('idLinkAssociato');
+                    if (typeof link != 'undefined' && link != null) {
+                        link.innerHTML = value;
+
+                    } else {
+                        link = document.querySelector('input[name="typeDecEdit"]:checked').value;
+
+                    }
+                    console.log(link)
                     data = {
                         'ordinamento': document.getElementById('ordinamento').value,
                         'id_riga': document.getElementById('id_riga').value,
-                        'id_articolo': document.getElementById('id_articolo').value,
+                        'id_articolo': id_articolo,
                         'nome_articolo': document.getElementById('idNomeArticolo').value,
-                        'sottotitolo_articolo': document.getElementById('idSottotitoloArticolo').value,
+                        'sottotitolo_articolo': sottotitolo_articolo,
                         'descrizione_articolo': document.getElementById('idDescrizioneArticolo').value,
-                        'link': document.getElementById('idLinkAssociato').value
+                        'nota': document.getElementById('idNotaArticolo').value,
+                        'link': link
                     }
+                    console.log(data)
                     $.ajax({
                         type: "POST",
                         url: "https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/editnewfondo",
@@ -542,6 +634,7 @@ class ShortCodeDuplicateOldTemplate
                 }
 
                 function addNewRow() {
+
                     data = {
                         'ordinamento': document.getElementById('newRowOrdinamento').value,
                         'sezione': document.getElementById('newRowSezione').value,
@@ -570,18 +663,40 @@ class ShortCodeDuplicateOldTemplate
 
                 }
 
+                //TODO fare funzione post per salvare la sezione selezionata. La get mi restituisce tutte le sottosezioni collegate
+
+                // function getAllSubsection() {
+                //     data = {
+                //         'sezione': document.getElementById('decSezione').value
+                //     }
+                //
+                //     $.ajax({
+                //         type: "POST",
+                //         url: "https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/newrowdec",
+                //         data: data,
+                //         success: function (response) {
+                //
+                //         },
+                //         error: function () {
+                //         }
+                //     });
+                //
+                // }
+
                 function addNewRowDecurtazione() {
                     data = {
                         'ordinamento': document.getElementById('decOrdinamento').value,
                         'sezione': document.getElementById('decSezione').value,
                         'sottosezione': document.getElementById('decSottosezione').value,
-                        'nota': document.querySelector('input[name="typeDec"]:checked').value,
-
+                        'sottosezione_nuova': document.getElementById('divNewSottosezione').value,
+                        'descrizione': document.getElementById('decDescrizioneArticolo').value,
+                        'nota': document.getElementById('decNota').value,
+                        'link': document.querySelector('input[name="typeDec"]:checked').value
                     }
-
+                    console.log(data)
                     $.ajax({
                         type: "POST",
-                        url: "https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/newrowdec",
+                        //url: "https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/newrowdec",
                         data: data,
                         success: function (response) {
                             successmessage = 'Riga creata correttamente';

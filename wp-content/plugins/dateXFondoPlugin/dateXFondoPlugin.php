@@ -212,7 +212,7 @@ function esegui_creazione_riga_decurtazione($params)
     return $response;
 }
 
-add_action('rest_api_init', 'create_endpoint_datefondo_creazione_riga_decurtazione');
+add_action('rest_api_init', 'create_endpoint_datefondo_creazione_riga_decurtazione ');
 function create_endpoint_datefondo_caricamento()
 {
 

@@ -57,25 +57,6 @@ class DuplicateOldTemplate
         mysqli_close($mysqli);
         return $entries;
     }
-    public function getAllDecSections($fondo, $anno)
-    {
-        $conn = new Connection();
-        $mysqli = $conn->connect();
-        $sql = "SELECT version FROM DATE_template_fondo WHERE anno=? ORDER BY version DESC";
-        $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("i", $anno);
-        $res = $stmt->execute();
-        $res = $stmt->get_result();
-        $last_version = $res->fetch_assoc()['version'];
-        $sql = "SELECT DISTINCT sezione FROM DATE_template_fondo WHERE anno=? AND fondo=? AND attivo=1 AND version=? AND sezione LIKE '%decurtazion%'";
-        $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("isi", $anno, $fondo, $last_version);
-        $res = $stmt->execute();
-        $res = $stmt->get_result();
-        $entries = $res->fetch_all();
-        mysqli_close($mysqli);
-        return $entries;
-    }
 
     public static function getTableNotEditable($year)
     {
