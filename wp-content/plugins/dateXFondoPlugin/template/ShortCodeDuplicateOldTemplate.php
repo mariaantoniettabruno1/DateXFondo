@@ -56,6 +56,11 @@ class ShortCodeDuplicateOldTemplate
                     color: blue;
                     padding-left: 50px;
                 }
+                .subsectionButtonGroup1, .subsectionButtonGroup2{
+                    width: 150px;
+                    border-radius: 70px;
+                    font-size: 15px;
+                }
 
 
             </style>
@@ -377,7 +382,7 @@ class ShortCodeDuplicateOldTemplate
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Nuova riga:</h5>
+                        <h5 class="modal-title"><b>Nuova riga:</b></h5>
                         <button type="button" class="close" data-dismiss="modal"
                                 aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -386,7 +391,8 @@ class ShortCodeDuplicateOldTemplate
 
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="selectSezione">Sezione</label>
+                            <label for="selectSezione"><b>Sezione:</b></label>
+
                             <select id='newRowSezione' name='newRowSezione'>
                                 <option disabled selected> Seleziona la sezione</option>
 
@@ -399,47 +405,64 @@ class ShortCodeDuplicateOldTemplate
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="inputSottosezione">Sottosezione</label>
+                            <br>
+                            <div class="btn-group pb-3" role="group" aria-label="Basic example">
+                                <button type="button" class="btn  btn-outline-primary subsectionButtonGroup1" onclick="changeToSelectSubsection()">Seleziona Sezione</button>
+                                <button type="button" class="btn btn-outline-primary subsectionButtonGroup2" onclick="showNewRowSubsectionInput()">Nuova sezione</button>
+                            </div>
+
+                            <select id='newRowSelectSottosezione' name='newRowSelectSottosezione'>
+                                <option disabled selected> Seleziona la sottosezione</option>
+
+                                <?php foreach ($sections_entries as $subsection_entry): ?>
+
+                                    <option <?= isset($_POST['subsection_selected']) && $_POST['subsection_selected'] === $subsection_entry[0] ? 'selected' : '' ?>
+
+                                            value='<?= $subsection_entry[0] ?>'><?= $subsection_entry[0] ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <div class="form-group"  id="divNewRowSottosezione" hidden>
                             <input type="text" class="form-control" id="newRowSottosezione"
                                    value='' name="newRowSottosezione">
                         </div>
                         <div class="form-group">
-                            <label for="ordinamento">Ordinamento</label>
+                            <label for="ordinamento"><b>Ordinamento:</b></label>
                             <input type="text" class="form-control" id="newRowOrdinamento"
                                    value='' name="newRowIdOrdinamento">
                         </div>
                         <div class="form-group">
-                            <label for="inputIdArticolo">Id Articolo</label>
+                            <label for="inputIdArticolo"><b>Id Articolo:</b></label>
                             <input type="text" class="form-control" id="newRowIdArticolo"
                                    value='' name="newRowIdArticolo">
                         </div>
                         <div class="form-group">
-                            <label for="idNomeArticolo">Nome Articolo</label>
+                            <label for="idNomeArticolo"><b>Articolo:</b> </label>
                             <input type="text" class="form-control" id="newRowNomeArticolo"
                                    name="newRowNomeArticolo"
                                    value=''>
                         </div>
                         <div class="form-group">
-                            <label for="idSottotitoloArticolo">Sottotitolo Articolo</label>
+                            <label for="idSottotitoloArticolo"><b>Sottotitolo Articolo: </b></label>
                             <textarea class="form-control"
                                       id="newRowSottotitoloArticolo"
                                       name="newRowSottotitoloArticolo"></textarea>
 
                         </div>
                         <div class="form-group">
-                            <label for="idDescrizioneArticolo">Descrizione Articolo</label>
+                            <label for="idDescrizioneArticolo"><b>Descrizione Articolo: </b></label>
                             <textarea class="form-control"
                                       id="newRowDescrizioneArticolo"
                                       name="newRowDescrizioneArticolo"></textarea>
                         </div>
                         <div class="form-group">
-                            <label for="idNota">Nota</label>
+                            <label for="idNota"><b>Nota</b></label>
                             <textarea class="form-control"
                                       id="newRowNota"
                                       name="newRowNota"></textarea>
                         </div>
                         <div class="form-group">
-                            <label for="idLinkAssociato">Link associato</label>
+                            <label for="idLinkAssociato"><b>Link associato: </b></label>
                             <input type="text" class="form-control" id="newRowLink"
                                    name="newRowLink"
                                    value=''>
@@ -471,7 +494,7 @@ class ShortCodeDuplicateOldTemplate
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Nuova decurtazione:</h5>
+                        <h5 class="modal-title"><b>Nuova decurtazione:</b></h5>
                         <button type="button" class="close" data-dismiss="modal"
                                 aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -480,7 +503,7 @@ class ShortCodeDuplicateOldTemplate
 
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="selectSezione">Sezione</label>
+                            <label for="selectSezione"><b>Sezione: </b></label>
                             <select id='decSezione' name='decSezione'>
                                 <option disabled selected> Seleziona la sezione</option>
 
@@ -491,28 +514,30 @@ class ShortCodeDuplicateOldTemplate
                             </select>
                         </div>
                         <div class="form-group" id="divSelectSottosezione">
-                            <label for="selectSezione">Sottosezione</label>
+                            <br>
+                            <div class="btn-group pb-3" role="group" aria-label="Basic example">
+                                <button type="button" class="btn  btn-outline-primary subsectionButtonGroup1" onclick="changeToSelectSubsectionDec()">Seleziona Sezione</button>
+                                <button type="button" class="btn btn-outline-primary subsectionButtonGroup2" onclick="showNewSubsectionInput()">Nuova sezione</button>
+                            </div>
                             <select id='decSottosezione' name='decSottosezione'>
                                 <option disabled selected> Seleziona la sottosezione</option>
-                                <?php foreach ($results_subsections as $dec_subsection): ?>
+                                <?php
+                                foreach ($results_subsections as $dec_subsection): ?>
 
                                     <option value='<?= $dec_subsection[0] ?>'><?= $dec_subsection[0] ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
-                        <button class="btn btn-link" onclick="showNewSubsectionInput()"><i class="fa-solid fa-plus"></i>
-                            Aggiungi nuova sottosezione
-                        </button>
                         <div class="form-group" id="divNewSottosezione" hidden>
                             <input type="text" class="form-control" id="decNewSottosezione"
                                    value='' name="decNewSottosezione">
                         </div>
                         <div class="form-group">
-                            <label for="ordinamento">Ordinamento</label>
+                            <label for="ordinamento"><b>Ordinamento: </b></label>
                             <input type="text" class="form-control" id="decOrdinamento"
                                    value='' name="decOrdinamento">
                         </div>
-                        <label for="inputNota">Tipologia decurtazione: </label>
+                        <label for="inputNota"><b>Tipologia decurtazione:</b> </label>
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="typeDec" id="percentualeSelected"
                                    value="%">
@@ -529,13 +554,13 @@ class ShortCodeDuplicateOldTemplate
                         </div>
                         <br>
                         <div class="form-group">
-                            <label for="decDescrizioneArticolo">Descrizione:</label>
+                            <label for="decDescrizioneArticolo"><b>Descrizione:</b></label>
                             <textarea class="form-control"
                                       id="decDescrizioneArticolo"
                                       name="decDescrizioneArticolo"></textarea>
                         </div>
                         <div class="form-group">
-                            <label for="decNota">Nota:</label>
+                            <label for="decNota"><b>Nota:</b></label>
                             <textarea class="form-control"
                                       id="decNota"
                                       name="decNota"></textarea>
@@ -579,13 +604,34 @@ class ShortCodeDuplicateOldTemplate
 
             let readOnly = <?php echo $readOnly?>;
             if (!readOnly) {
+                function changeToSelectSubsection () {
+                    document.getElementById('newRowSelectSottosezione').removeAttribute("hidden");
+                    const newRowSubsection = document.getElementById('newRowSelectSottosezione');
+                    const newRowSubsectionHidden = document.getElementById('divNewRowSottosezione');
+                    newRowSubsection.setAttribute('style', 'display:block');
+                    newRowSubsectionHidden.setAttribute('style', 'display:none');
+                }
+                function changeToSelectSubsectionDec () {
+                    document.getElementById('decSottosezione').removeAttribute("hidden");
+                    const newRowSubsection = document.getElementById('decSottosezione');
+                    const newRowSubsectionHidden = document.getElementById('divNewSottosezione');
+                    newRowSubsection.setAttribute('style', 'display:block');
+                    newRowSubsectionHidden.setAttribute('style', 'display:none');
+                }
+                //TODO provare ad implementare una funzione unica dato che fanno la stessa cosa
                 function showNewSubsectionInput() {
                     document.getElementById('divNewSottosezione').removeAttribute("hidden");
-                    //TODO capire come nascondere la select quando viene visualizzato l'input
-                    const element = document.getElementById('divNewSottosezione');
-                    // document.getElementById('decSottosezione').setAttribute("hidden");
-                    element.setAttribute('style', 'display:block');
-
+                    const decSubsection = document.getElementById('divNewSottosezione');
+                    const decSubsectionHidden = document.getElementById('decSottosezione');
+                    decSubsection.setAttribute('style', 'display:block');
+                    decSubsectionHidden.setAttribute('style', 'display:none');
+                }
+                function showNewRowSubsectionInput() {
+                    document.getElementById('divNewRowSottosezione').removeAttribute("hidden");
+                    const newRowSubsection = document.getElementById('divNewRowSottosezione');
+                    const newRowSubsectionHidden = document.getElementById('newRowSelectSottosezione');
+                    newRowSubsection.setAttribute('style', 'display:block');
+                    newRowSubsectionHidden.setAttribute('style', 'display:none');
                 }
 
                 function editRow() {
