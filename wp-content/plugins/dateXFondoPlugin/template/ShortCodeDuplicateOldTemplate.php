@@ -604,6 +604,7 @@ class ShortCodeDuplicateOldTemplate
 
             let readOnly = <?php echo $readOnly?>;
             if (!readOnly) {
+                //TODO provare ad implementare una funzione unica dato che fanno la stessa cosa
                 function changeToSelectSubsection () {
                     document.getElementById('newRowSelectSottosezione').removeAttribute("hidden");
                     const newRowSubsection = document.getElementById('newRowSelectSottosezione');
@@ -618,7 +619,7 @@ class ShortCodeDuplicateOldTemplate
                     newRowSubsection.setAttribute('style', 'display:block');
                     newRowSubsectionHidden.setAttribute('style', 'display:none');
                 }
-                //TODO provare ad implementare una funzione unica dato che fanno la stessa cosa
+
                 function showNewSubsectionInput() {
                     document.getElementById('divNewSottosezione').removeAttribute("hidden");
                     const decSubsection = document.getElementById('divNewSottosezione');

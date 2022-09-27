@@ -15,8 +15,8 @@ class ShortCodeFormulaTable
         $data = new FormulaTable();
         $results_sections = $data->getAllSections();
         arsort($results_sections);
-        $results_id = $data->getAllIdsCampo($_POST['select_section']);
-        arsort($results_id);
+
+
 
         ?>
 
@@ -61,20 +61,37 @@ class ShortCodeFormulaTable
         <body>
         <div>
             <form method='POST'>
+                <div class="section-submit pb-3" style="width: 30%">
 
-                <h4>Seleziona Sezione</h4>
+                    <select id='section' name='select_section' onchange='this.form.submit()'>
+                        <option disabled selected> Seleziona Sezione</option>
 
-                <select id='section' name='select_section' onchange='this.form.submit()'>
-                    <option disabled selected> Seleziona Sezione</option>
+                        <?php foreach ($results_sections as $res_section): ?>
 
-                    <?php foreach ($results_sections as $res_section): ?>
+                            <option <?= isset($_POST['select_section']) && $_POST['select_section'] === $res_section[0] ? 'selected' : '' ?>
 
-                        <option <?= isset($_POST['select_section']) && $_POST['select_section'] === $res_section[0] ? 'selected' : '' ?>
+                                    value='<?= $res_section[0] ?>'><?= $res_section[0] ?></option>
 
-                                value='<?= $res_section[0] ?>'><?= $res_section[0] ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="subsection-submit" style="width: 30%">
 
-                    <?php endforeach; ?>
-                </select>
+                    <select id='subsection' name='select_subsection' onchange='this.form.submit()'>
+                        <option disabled selected> Seleziona Sottosezione</option>
+
+                        <?php $results_subsections = $data->getAllSubsections($_POST['select_section']);
+                        arsort($results_subsections);
+                        foreach ($results_subsections as $res_subsection): ?>
+
+                            <option <?= isset($_POST['select_subsection']) && $_POST['select_subsection'] === $res_subsection[0] ? 'selected' : '' ?>
+
+                                    value='<?= $res_subsection[0] ?>'><?= $res_subsection[0] ?></option>
+
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
             </form>
         </div>
 
@@ -82,10 +99,15 @@ class ShortCodeFormulaTable
             <div class="card-header">Creazione della formula</div>
             <div class="card-body text-secondar">
                 <div class="container">
-                    <div style="width: 30%" class="pt-4">
-                        <h6>Inserisci descrizione per la formula: </h6>
-                        <input type="text" name="label_formula" id="label_formula">
-
+                    <div class="container">
+                    <div style="width: 30%" class="row pt-4">
+                        <div class="col-sm">
+                            <input type="text" name="name_formula" id="name_formula" placeholder="Nome Formula">
+                        </div>
+                        <div class="col-sm">
+                            <input type="text" name="label_formula" id="label_formula" placeholder="Descrizione formula">
+                        </div>
+                    </div>
                     </div>
                     <div class="pt-4">
                         <button type="button" class="btn btn-link" id="addConditionButton"><i
@@ -111,7 +133,10 @@ class ShortCodeFormulaTable
                                                 onchange="addNumberToCondition()">
                                             <option disabled selected>Aggiungi valore</option>
 
-                                            <?php foreach ($results_id as $res_id): ?>
+                                            <?php
+                                            $results_id = $data->getAllIdsCampo($_POST['select_section'],$_POST['select_subsection']);
+                                            arsort($results_id);
+                                            foreach ($results_id as $res_id): ?>
 
                                                 <option <?= isset($_POST['select_first_value']) && $_POST['select_first_value'] === $res_id[0] ? 'selected' : '' ?>
 
@@ -279,10 +304,7 @@ class ShortCodeFormulaTable
                         $entries = $data->getAllEntriesFromSection($selected_section);
                         $fondo = $entries[0][1];
                         $anno = $entries[0][2];
-                        $recordsCount = $old_template->getCurrentDataCount( $anno, $fondo);
-                        $totalPages = ceil($recordsCount / $limit);
-                        $previous = $page - 1;
-                        $next = $page + 1;
+
 
                         foreach ($entries as $entry) {
                             unset($entry[0]);
