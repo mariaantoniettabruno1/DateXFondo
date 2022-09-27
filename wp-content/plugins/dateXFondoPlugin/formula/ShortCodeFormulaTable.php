@@ -17,7 +17,6 @@ class ShortCodeFormulaTable
         arsort($results_sections);
 
 
-
         ?>
 
 
@@ -100,14 +99,15 @@ class ShortCodeFormulaTable
             <div class="card-body text-secondar">
                 <div class="container">
                     <div class="container">
-                    <div style="width: 30%" class="row pt-4">
-                        <div class="col-sm">
-                            <input type="text" name="name_formula" id="name_formula" placeholder="Nome Formula">
+                        <div style="width: 30%" class="row pt-4">
+                            <div class="col-sm">
+                                <input type="text" name="name_formula" id="name_formula" placeholder="Nome Formula">
+                            </div>
+                            <div class="col-sm">
+                                <input type="text" name="label_formula" id="label_formula"
+                                       placeholder="Descrizione formula">
+                            </div>
                         </div>
-                        <div class="col-sm">
-                            <input type="text" name="label_formula" id="label_formula" placeholder="Descrizione formula">
-                        </div>
-                    </div>
                     </div>
                     <div class="pt-4">
                         <button type="button" class="btn btn-link" id="addConditionButton"><i
@@ -124,9 +124,6 @@ class ShortCodeFormulaTable
                             </div>
                             <div class="container">
                                 <div class="row">
-                                    <div class="col-sm-1 pr-2">
-                                        <a>Se</a>
-                                    </div>
                                     <div class="col-sm-3">
                                         <select class="form-select" id="firstValueCondition"
                                                 name='select_first_value'
@@ -134,7 +131,7 @@ class ShortCodeFormulaTable
                                             <option disabled selected>Aggiungi valore</option>
 
                                             <?php
-                                            $results_id = $data->getAllIdsCampo($_POST['select_section'],$_POST['select_subsection']);
+                                            $results_id = $data->getAllIdsCampo($_POST['select_section'], $_POST['select_subsection']);
                                             arsort($results_id);
                                             foreach ($results_id as $res_id): ?>
 
@@ -161,41 +158,45 @@ class ShortCodeFormulaTable
                                             <option value=">=">≥</option>
                                             <option value="<=">≤</option>
                                             <option value="=">=</option>
+                                            <option value="!=">!=</option>
                                         </select>
                                     </div>
-                                    <div class="col-sm-1">
-                                        <a class="pl-4">di</a>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <select class="form-select" id="secondValueCondition" name='select_second_value'
+                                    <div class="col-sm-2">
+                                        <select class="form-select" id="conditionOperator"
                                                 onchange="addNumberToCondition()">
-                                            <option disabled selected>Aggiungi valore</option>
-
-                                            <?php foreach ($results_id as $res_id): ?>
-
-                                                <option <?= isset($_POST['select_second_value']) && $_POST['select_second_value'] === $res_id[0] ? 'selected' : '' ?>
-
-                                                        value='<?= $res_id[0] ?>'><?= $res_id[0] ?></option>
-
-                                            <?php endforeach; ?>
+                                            <option value="0">0</option>
+                                            <option value="(">(</option>
+                                            <option value=")">)</option>
+                                            <option value="&&">E</option>
+                                            <option value="||">Oppure</option>
                                         </select>
                                     </div>
-                                    <div class="col-sm-1 pl-1">
-                                        <button type="button" class="btn btn-link" data-toggle="tooltip"
-                                                data-placement="top"
-                                                title="per maggiori dettagli consulta la 'Tabella dati' "
-                                                id="infoPointId">
-                                            <i class="fa-solid fa-circle-info"></i>
+                                    <div class="col-sm-3 pl-4">
+                                        <button type="button" class="btn btn-link" style="float: right"
+                                                onclick="deleteLastConditionCharacter()"><i
+                                                    class="fa fa-trash text-blue"></i> Elimina ultimo valore
                                         </button>
                                     </div>
                                 </div>
 
                             </div>
+
                         </div>
-                        <div class="pr-4">
-                            <button type="button" class="btn btn-outline-primary" style="float:right">Salva condizione
-                            </button>
+                        <div id="divValCondition" class="pt-4 pl-5"></div>
+                        <input type="hidden" name="condition" value="condition" id="condition">
+                        <div class="row">
+                            <div class="col-sm pt-3 pl-5">
+                                <button class="btn btn-outline-primary" onclick="deleteConditionExpression()">Elimina
+                                    Condizione
+                                </button>
+                            </div>
+                            <div class="col-sm pt-3 pr-5">
+                                <button type="button" class="btn btn-primary" style="float:right">Salva condizione
+                                </button>
+                            </div>
                         </div>
+
+
                     </div>
                     <div class="row pt-5">
                         <div class="col-sm-3">
@@ -243,7 +244,7 @@ class ShortCodeFormulaTable
                         <!--                        </div>-->
                         <div class="col-sm-3">
                             <button type="button" class="btn btn-link" style="float: right"
-                                    onclick="deleteLastCharacter()"><i
+                                    onclick="deleteLastFormulaCharacter()"><i
                                         class="fa fa-trash text-blue"></i> Elimina ultimo valore
                             </button>
                         </div>
@@ -252,15 +253,18 @@ class ShortCodeFormulaTable
                 <div id="divValFormula" class="pt-4"></div>
                 <form method='POST'>
                     <input type="hidden" name="formula" value="formula" id="formula">
-                    <input type="hidden" name="condition" value="condition" id="condition">
                     <input type="hidden" name="label" id="label" value="label">
-                    <input type="submit" class="btn btn-primary" style="float: right"
-                           onclick="calculateFormula()"
-                           value="Calcola formula">
+                    <div class="row">
+                        <div class="col-sm pt-3">
+                            <button class="btn btn-outline-primary" onclick="deleteFormulaExpression()">Elimina Formula
+                            </button>
+                        </div>
+                        <div class="col-sm pt-3"><input type="submit" class="btn btn-primary" style="float: right"
+                                                        onclick="calculateFormula()"
+                                                        value="Salva formula"></div>
+                    </div>
                 </form>
-                <div class="pt-4">
-                    <button class="btn btn-outline-primary" onclick="deleteExpression()">Elimina tutto</button>
-                </div>
+
             </div>
         </div>
         <br>
@@ -423,41 +427,6 @@ class ShortCodeFormulaTable
             </div>
         </body>
         </div>
-        <div>
-            <h2>TABELLA FORMULE DELLE SOTTOSEZIONI CREATE</h2>
-            <br>
-            <div class="table table-responsive">
-                <table id="data_table" class="table table-striped table-bordered">
-                    <thead>
-                    <tr>
-                        <th>Sezione</th>
-
-                        <th>Sottosezione</th>
-
-                        <th>label descrittiva</th>
-
-                        <th>Condizione</th>
-
-                        <th>Formula</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <?php
-                    $formulas = new FormulaTable();
-                    $formulaEntries = $formulas->getAllFormulasBySection($selected_section);
-                    foreach ($formulaEntries as $entry) {
-                        ?>
-                        <tr>
-                            <td><?php echo $entry[1]; ?></td>
-                            <td><?php echo $entry[2]; ?></td>
-                            <td><?php echo $entry[3]; ?></td>
-                            <td><?php echo $entry[4]; ?></td>
-                            <td><?php echo $entry[5]; ?></td>
-                        </tr>
-                    <?php } ?>
-                    </tbody>
-                </table>
-            </div>
         </div>
         </div>
 
@@ -494,6 +463,7 @@ class ShortCodeFormulaTable
             function addNumberToCondition() {
                 conditionValue = event.target.value;
                 condition = condition.concat(conditionValue);
+                document.getElementById("divValCondition").innerHTML = condition;
                 console.log(condition);
             }
 
@@ -512,15 +482,26 @@ class ShortCodeFormulaTable
                 document.getElementById("divValFormula").innerHTML = formula;
             });
 
-            function deleteExpression() {
+            function deleteFormulaExpression() {
                 formula = '';
                 document.getElementById("divValFormula").innerHTML = formula;
             }
 
+            function deleteConditionExpression() {
+                condition = '';
+                document.getElementById("divValCondition").innerHTML = condition;
+            }
+
             //migliorare, cancolare la lunghezza dell'ultimo carattere per poi cancellarli tutti
-            function deleteLastCharacter() {
+            function deleteLastFormulaCharacter() {
                 formula = formula.slice(0, formula.length - 1);
                 document.getElementById("divValFormula").innerHTML = formula;
+            }
+
+            //migliorare, cancolare la lunghezza dell'ultimo carattere per poi cancellarli tutti
+            function deleteLastConditionCharacter() {
+                condition = condition.slice(0, condition.length - 1);
+                document.getElementById("divValCondition").innerHTML = condition;
             }
 
             function calculatePercentage() {
