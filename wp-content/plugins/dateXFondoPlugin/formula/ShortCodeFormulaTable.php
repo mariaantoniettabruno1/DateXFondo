@@ -420,29 +420,6 @@ class ShortCodeFormulaTable
                     ?>
                     </tbody>
                 </table>
-
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination justify-content-end">
-                        <li class="page-item <?php if ($page == 1) echo 'disabled'; ?>">
-                            <a class="page-link" href="?index=1" tabindex="-1" aria-disabled="true">1</a>
-                        <li class="page-item <?php if ($page <= 1) {
-                            echo 'disabled';
-                        } ?>"><a class="page-link" href="?index=<?php echo $previous; ?>"">Precedente</a></li>
-                        <li class="page-item"><input id="currentPageInput" type="number" min="1"
-                                                     max="<?php echo $totalPages ?>"
-                                                     placeholder="<?php echo $page; ?>" required></li>
-                        <li class="page-item <?php if ($page >= $totalPages) {
-                            echo 'disabled';
-                        } ?>"><a class="page-link" href="?index=<?php echo $next; ?>">Successivo</a></li>
-                        <li class="page-item <?php if ($page >= $totalPages) {
-                            echo 'disabled';
-                        } ?>"><a class="page-link"
-                                 href="?index=<?php echo $totalPages; ?>"><?php echo $totalPages; ?></a>
-                        </li>
-                    </ul>
-                </nav>
-
-
             </div>
         </body>
         </div>
