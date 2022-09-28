@@ -3,8 +3,6 @@
 namespace dateXFondoPlugin;
 
 use FormulaTable;
-use GFAPI;
-use Mpdf\Form;
 
 header('Content-Type: text/javascript');
 
@@ -104,7 +102,7 @@ class ShortCodeFormulaTable
                                 <input type="text" name="name_formula" id="name_formula" placeholder="Nome Formula">
                             </div>
                             <div class="col-sm">
-                                <input type="text" name="label_formula" id="label_formula"
+                                <input type="text" name="descrizione_formula" id="descrizione_formula"
                                        placeholder="Descrizione formula">
                             </div>
                         </div>
@@ -151,8 +149,7 @@ class ShortCodeFormulaTable
                                         </button>
                                     </div>
                                     <div class="col-sm-1">
-                                        <select class="form-select" id="conditionOperator"
-                                                onchange="addNumberToCondition()">
+                                        <select class="form-select" id="selectConditionOperator">
                                             <option value=">">></option>
                                             <option value="<"><</option>
                                             <option value=">=">≥</option>
@@ -162,8 +159,7 @@ class ShortCodeFormulaTable
                                         </select>
                                     </div>
                                     <div class="col-sm-2">
-                                        <select class="form-select" id="conditionOperator"
-                                                onchange="addNumberToCondition()">
+                                        <select class="form-select" id="parenthesisConditionOperator">
                                             <option value="0">0</option>
                                             <option value="(">(</option>
                                             <option value=")">)</option>
@@ -183,7 +179,6 @@ class ShortCodeFormulaTable
 
                         </div>
                         <div id="divValCondition" class="pt-4 pl-5"></div>
-                        <input type="hidden" name="condition" value="condition" id="condition">
                         <div class="row">
                             <div class="col-sm pt-3 pl-5">
                                 <button class="btn btn-outline-primary" onclick="deleteConditionExpression()">Elimina
@@ -253,7 +248,9 @@ class ShortCodeFormulaTable
                 <div id="divValFormula" class="pt-4"></div>
                 <form method='POST'>
                     <input type="hidden" name="formula" value="formula" id="formula">
-                    <input type="hidden" name="label" id="label" value="label">
+                    <input type="hidden" name="formula_label" id="formula_label" value="formula_label">
+                    <input type="hidden" name="formula_name" id="formula_name" value="formula_name">
+                    <input type="hidden" name="condition" id="condition" value="condition">
                     <div class="row">
                         <div class="col-sm pt-3">
                             <button class="btn btn-outline-primary" onclick="deleteFormulaExpression()">Elimina Formula
@@ -305,7 +302,8 @@ class ShortCodeFormulaTable
 
                         $startRecord = ($page - 1) * $limit;
                         $selected_section = $_POST['select_section'];
-                        $entries = $data->getAllEntriesFromSection($selected_section);
+                       // $entries = $data->getAllEntriesFromSection($selected_section);
+                        $entries = [];
                         $fondo = $entries[0][1];
                         $anno = $entries[0][2];
 
@@ -435,11 +433,14 @@ class ShortCodeFormulaTable
             let condition = '';
             let operator = '';
             let parenthesis = '';
+            let ConditionOperator = '';
+            let ConditionParenthesis = '';
             let result = 0;
             let number = 0;
             let conditionValue = '';
             let resultPercentage = 0;
-            let label = '';
+            let formulaDescription = '';
+            let formulaName = '';
 
             const myHeaders = new Headers();
 
@@ -455,31 +456,48 @@ class ShortCodeFormulaTable
             function addNumberToFormula() {
                 number = event.target.value;
                 formula = formula.concat(number.toString());
-                label = document.getElementById('label_formula').value;
+                formulaDescription = document.getElementById('descrizione_formula').value;
                 document.getElementById("divValFormula").innerHTML = formula;
-                console.log(label);
             }
 
             function addNumberToCondition() {
                 conditionValue = event.target.value;
                 condition = condition.concat(conditionValue);
                 document.getElementById("divValCondition").innerHTML = condition;
-                console.log(condition);
+                console.log("Sono nel log della condizione")
+                console.log(condition)
             }
 
             $("#selectOperator").change(function () {
-                var select = document.getElementById('selectOperator');
+                let select = document.getElementById('selectOperator');
                 operator = select.options[select.selectedIndex].value;
                 formula = formula.concat(operator.toString());
-                label = document.getElementById('label_formula').value;
+                formulaDescription = document.getElementById('descrizione_formula').value;
                 document.getElementById("divValFormula").innerHTML = formula;
             });
             $("#parenthesisOperator").change(function () {
-                var select = document.getElementById('parenthesisOperator');
-                var parenthesis = select.options[select.selectedIndex].value;
+                let select = document.getElementById('parenthesisOperator');
+                let parenthesis = select.options[select.selectedIndex].value;
                 formula = formula.concat(parenthesis.toString());
-                label = document.getElementById('label_formula').value;
+                formulaDescription = document.getElementById('descrizione_formula').value;
                 document.getElementById("divValFormula").innerHTML = formula;
+            });
+            $("#selectConditionOperator").change(function () {
+                let selectCondition = document.getElementById('selectConditionOperator');
+                conditionOperator = selectCondition.options[selectCondition.selectedIndex].value;
+                condition = condition.concat(conditionOperator.toString());
+                document.getElementById("divValCondition").innerHTML = condition;
+                console.log("Sono nella prima select condizionale")
+                console.log(condition)
+
+            });
+            $("#parenthesisConditionOperator").change(function () {
+                let selectCondition = document.getElementById('parenthesisConditionOperator');
+                 ConditionParenthesis = selectCondition.options[selectCondition.selectedIndex].value;
+                condition = condition.concat(ConditionParenthesis.toString());
+                document.getElementById("divValCondition").innerHTML = condition;
+                console.log("Sono nella seconda select condizionale")
+                console.log(condition)
             });
 
             function deleteFormulaExpression() {
@@ -511,12 +529,14 @@ class ShortCodeFormulaTable
 
             function calculateFormula() {
                 document.getElementById("formula").value = formula;
-                document.getElementById("label").value = label;
+                document.getElementById("formula_label").value = formulaDescription;
+                document.getElementById("formula_name").value = formulaName;
                 document.getElementById("condition").value = condition;
-                console.log(label);
+                console.log(condition)
                 <?php
                 $formula = $_POST['formula'];
-                $labelDescrittiva = $_POST['label'];
+                $labelDescrittiva = $_POST['formula_label'];
+                $nomeFormula = $_POST['formula_name'];
                 $formulaCondition = $_POST['condition'];
                 $ente = $_COOKIE['Ente'];
                 $fondo = $_COOKIE['Fondo'];
@@ -524,7 +544,7 @@ class ShortCodeFormulaTable
                 $sezione = $_COOKIE['Sezione'];
                 $sottosezione = '';
                 $savedFormula = new FormulaTable();
-                $savedFormula->saveFormula($sezione, $sottosezione, $labelDescrittiva, $formulaCondition, $formula);
+                $savedFormula->saveFormula($sezione, $sottosezione,$nomeFormula, $labelDescrittiva, $formulaCondition, $formula);
                 ?>
             }
 

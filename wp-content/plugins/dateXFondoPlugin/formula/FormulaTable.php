@@ -82,15 +82,15 @@ class FormulaTable
 //        return $entries;
     }
 
-    public static function saveFormula($sezione, $sottosezione, $label, $formulaCondition, $formula)
+    public static function saveFormula($sezione, $sottosezione,$formula_name, $formula_description, $formulaCondition, $formula)
     {
-//        $conn = new Connection();
-//        $mysqli = $conn->connect();
-//        $sql = "INSERT INTO DATE_formula (sezione,sottosezione,label_descrittiva,condizione, formula) VALUES (?,?,?,?,?) ";
-//        $stmt = $mysqli->prepare($sql);
-//        $stmt->bind_param("sssss", $sezione, $sottosezione, $label, $formulaCondition, $formula);
-//        $res = $stmt->execute();
-//        mysqli_close($mysqli);
+       $conn = new Connection();
+       $mysqli = $conn->connect();
+       $sql = "INSERT INTO DATE_formula (sezione,sottosezione,nome_formula,descrizione_formula,condizione, formula) VALUES (?,?,?,?,?,?) ";
+       $stmt = $mysqli->prepare($sql);
+       $stmt->bind_param("ssssss", $sezione, $sottosezione, $formula_description,$formula_name, $formulaCondition, $formula);
+       $res = $stmt->execute();
+       mysqli_close($mysqli);
     }
 
     public static function getAllFormulasBySection($selected_section)
