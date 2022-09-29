@@ -18,6 +18,10 @@ require_once(plugin_dir_path(__FILE__) . 'fondo/ShortCodeCreateFondo.php');
 require_once(plugin_dir_path(__FILE__) . 'template/ShortCodeCreateNewTemplate.php');
 require_once(plugin_dir_path(__FILE__) . 'template/DuplicateOldTemplate.php');
 require_once(plugin_dir_path(__FILE__) . 'template/ShortCodeDuplicateOldTemplate.php');
+require_once(plugin_dir_path(__FILE__) . 'template/TemplateHistory.php');
+require_once(plugin_dir_path(__FILE__) . 'template/ShortCodeTemplateHistory.php');
+require_once(plugin_dir_path(__FILE__) . 'template/DisabledTemplateRow.php');
+require_once(plugin_dir_path(__FILE__) . 'template/ShortCodeDisabledTemplateRow.php');
 require_once(plugin_dir_path(__FILE__) . 'formula/ShortCodeFormulaTable.php');
 require_once(plugin_dir_path(__FILE__) . 'formula/FormulaTable.php');
 require_once(plugin_dir_path(__FILE__) . 'formula/SlaveFormulaTable.php');
@@ -52,6 +56,8 @@ function shortcodes_init()
     add_shortcode('post_create_fondo', 'create_new_fondo');
     add_shortcode('post_duplicate_old_template', 'duplicate_old_template');
     add_shortcode('post_visualize_old_template', 'visualize_old_template');
+    add_shortcode('post_visualize_history_template', 'visualize_history_template');
+    add_shortcode('post_visualize_disabled_template_row', 'visualize_disabled_template_row');
     add_shortcode('post_visualize_formula_template', 'visualize_formula_template');
     add_shortcode('post_visualize_slave_formula_template', 'visualize_slave_formula_template');
     add_shortcode('post_document_template', 'document_template');
@@ -79,6 +85,16 @@ function create_new_fondo()
 function visualize_old_template()
 {
     \dateXFondoPlugin\ShortCodeDuplicateOldTemplate::visualize_old_template();
+
+}
+function visualize_history_template()
+{
+    \dateXFondoPlugin\ShortCodeTemplateHistory::visualize_history_template();
+
+}
+function visualize_disabled_template_row()
+{
+    \dateXFondoPlugin\ShortCodeDisabledTemplateRow::visualize_disabled_template_row();
 
 }
 
@@ -248,6 +264,23 @@ function esegui_cancellazione_riga($params)
 }
 
 add_action('rest_api_init', 'create_endpoint_datefondo_disattiva_riga');
+function create_endpoint_datefondo_attiva_riga()
+{
+
+    register_rest_route('datexfondoplugin/v1', 'table/enablerow', array(
+        'methods' => 'POST',
+        'callback' => 'esegui_abilitazione_riga'
+    ));
+
+
+}
+
+function esegui_abilitazione_riga($params)
+{
+    return \dateXFondoPlugin\abilita_riga($params);
+}
+
+add_action('rest_api_init', 'create_endpoint_datefondo_attiva_riga');
 
 function create_endpoint_datefondo_ereditarieta_nota_valore()
 {
@@ -310,3 +343,25 @@ function esegui_modifica_fondo_anno($params)
 }
 
 add_action('rest_api_init', 'create_endpoint_datefondo_edit_fondo_anno');
+
+function create_endpoint_datefondo_creazione_riga_decurtazione_speciale()
+{
+
+    register_rest_route('datexfondoplugin/v1', 'table/newrowspdec', array(
+        'methods' => 'POST',
+        'callback' => 'esegui_creazione_riga_decurtazione_speciale'
+    ));
+
+
+}
+
+function esegui_creazione_riga_decurtazione_speciale($params)
+{
+    $insert_id = \dateXFondoPlugin\create_special_decurtation_row($params);
+    $data = ['id' => $insert_id, 'message' => 'Creazione riga decurtazione speciale effettuata correttamente'];
+    $response = new WP_REST_Response($data);
+    $response->set_status(201);
+    return $response;
+}
+
+add_action('rest_api_init', 'create_endpoint_datefondo_creazione_riga_decurtazione_speciale');

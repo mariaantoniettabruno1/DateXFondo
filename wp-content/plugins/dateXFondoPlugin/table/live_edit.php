@@ -174,7 +174,18 @@ function cancella_riga($request)
     $mysqli->close();
     return 'id cancellato';
 }
-
+function abilita_riga($request)
+{
+    $input = (array)$request->get_body_params();
+    $conn = new Connection();
+    $mysqli = $conn->connect();
+    $sql = "UPDATE DATE_template_fondo SET attivo=1  WHERE id=?";
+    $stmt = $mysqli->prepare($sql);
+    $stmt->bind_param("i", $_POST['id_riga']);
+    $res = $stmt->execute();
+    $mysqli->close();
+    return 'id cancellato';
+}
  function create_formula($request)
 {
     $conn = new Connection();
@@ -202,5 +213,26 @@ function edit_fondo_anno($request){
     $res = $stmt->execute();
     $mysqli->close();
 }
-
+function create_special_decurtation_row()
+{
+    $conn = new Connection();
+    $mysqli = $conn->connect();
+    //TODO capire come passare fondo e anno da js, altrimenti usare una get che prende i dati dal db prima dell'insert
+    $fondo = 'Fondo 2022';
+    $anno = 2022;
+    $sql = "INSERT INTO DATE_template_fondo (fondo,anno,sezione,sottosezione,descrizione_articolo,nota,link,ordinamento) VALUES(?,?,?,?,?,?,?,?)";
+    $stmt = $mysqli->prepare($sql);
+    $stmt->bind_param("sisssssi",
+        $fondo,
+        $anno,
+        $_POST["sezione"],
+        $_POST["sottosezione"],
+        $_POST['descrizione'],
+        $_POST['nota'],
+        $_POST["link"],
+        $_POST["ordinamento"]);
+    $res = $stmt->execute();
+    $mysqli->close();
+    return $stmt->insert_id;
+}
 

@@ -56,7 +56,8 @@ class ShortCodeDuplicateOldTemplate
                     color: blue;
                     padding-left: 50px;
                 }
-                .subsectionButtonGroup1, .subsectionButtonGroup2{
+
+                .subsectionButtonGroup1, .subsectionButtonGroup2 {
                     width: 150px;
                     border-radius: 70px;
                     font-size: 15px;
@@ -71,10 +72,18 @@ class ShortCodeDuplicateOldTemplate
         <h2>TEMPLATE FONDO (MASTER)</h2>
 
         <div class="row pb-3">
-            <div class="col-sm"><input type="text" placeholder="Inserisci nome del fondo" id="inputFondo" value='<?= $fondo ?>'></div>
-            <div class="col-sm"><input type="text" placeholder="Inserisci l'anno corrente"  id="inputAnno" value='<?= $anno ?>'></div>
-            <div class="col-sm"><button class="btn btn-link" ><i class="fa-solid fa-pen"  id="btnEditHeader" onclick="editHeader()"></i></button></div>
-            <div class="col-sm"><button class="btn btn-link" ><i class="fa-solid fa-floppy-disk" id="btnSaveHeader" onclick="saveHeader()" style="display:none"></i></i></button></div>
+            <div class="col-sm"><input type="text" placeholder="Inserisci nome del fondo" id="inputFondo"
+                                       value='<?= $fondo ?>'></div>
+            <div class="col-sm"><input type="text" placeholder="Inserisci l'anno corrente" id="inputAnno"
+                                       value='<?= $anno ?>'></div>
+            <div class="col-sm">
+                <button class="btn btn-link"><i class="fa-solid fa-pen" id="btnEditHeader" onclick="editHeader()"></i>
+                </button>
+            </div>
+            <div class="col-sm">
+                <button class="btn btn-link"><i class="fa-solid fa-floppy-disk" id="btnSaveHeader"
+                                                onclick="saveHeader()" style="display:none"></i></i></button>
+            </div>
         </div>
 
         <div class="accordion">
@@ -383,7 +392,7 @@ class ShortCodeDuplicateOldTemplate
         ?>
         </div>
 
-
+        <!--Inizio modale per aggiungere una nuova riga basic-->
         <div class="modal fade" id="addRowModal" tabindex="-1"
              role="dialog"
              aria-labelledby="myModalLabel" aria-hidden="true">
@@ -415,8 +424,12 @@ class ShortCodeDuplicateOldTemplate
                         <div class="form-group">
                             <br>
                             <div class="btn-group pb-3" role="group" aria-label="Basic example">
-                                <button type="button" class="btn  btn-outline-primary subsectionButtonGroup1" onclick="changeToSelectSubsection()">Seleziona Sezione</button>
-                                <button type="button" class="btn btn-outline-primary subsectionButtonGroup2" onclick="showNewRowSubsectionInput()">Nuova sezione</button>
+                                <button type="button" class="btn  btn-outline-primary subsectionButtonGroup1"
+                                        onclick="changeToSelectSubsection()">Seleziona Sezione
+                                </button>
+                                <button type="button" class="btn btn-outline-primary subsectionButtonGroup2"
+                                        onclick="showNewRowSubsectionInput()">Nuova sezione
+                                </button>
                             </div>
 
                             <select id='newRowSelectSottosezione' name='newRowSelectSottosezione'>
@@ -430,7 +443,7 @@ class ShortCodeDuplicateOldTemplate
                                 <?php endforeach; ?>
                             </select>
                         </div>
-                        <div class="form-group"  id="divNewRowSottosezione" hidden>
+                        <div class="form-group" id="divNewRowSottosezione" hidden>
                             <input type="text" class="form-control" id="newRowSottosezione"
                                    value='' name="newRowSottosezione">
                         </div>
@@ -483,19 +496,29 @@ class ShortCodeDuplicateOldTemplate
 
                 </div>
             </div>
-        </div>
+        </div>      <!--Fine modale per aggiungere una nuova riga basic-->
         </body>
         <div>
+            <!--Button per aggiungere una nuova riga basic-->
             <button id="btnAddRow" class="btn btn-outline-primary" data-toggle="modal"
                     data-target="#addRowModal" style="float: right">Aggiungi nuova Riga
             </button>
         </div>
         <div class="pl-3">
+            <!--Button per aggiungere una nuova riga di decurtazione-->
             <button id="btnDecurtazione" data-toggle="modal"
                     data-target="#addRowDecModal" class="btn btn-outline-primary " style="float: right">Aggiungi
                 decurtazione
             </button>
         </div>
+        <div class="pl-3">
+            <!--Button per aggiungere una nuova riga di decurtazione speciale-->
+            <button id="btnAddSpecialDec" data-toggle="modal"
+                    data-target="#addRowSpecialDecModal" class="btn btn-outline-primary " style="float: right">Aggiungi
+                decurtazione speciale
+            </button>
+        </div>
+        <!--Inizio modale per aggiunta di una nuova riga di decurtazione-->
         <div class="modal fade" id="addRowDecModal" tabindex="-1"
              role="dialog"
              aria-labelledby="myModalLabel" aria-hidden="true">
@@ -524,8 +547,12 @@ class ShortCodeDuplicateOldTemplate
                         <div class="form-group" id="divSelectSottosezione">
                             <br>
                             <div class="btn-group pb-3" role="group" aria-label="Basic example">
-                                <button type="button" class="btn  btn-outline-primary subsectionButtonGroup1" onclick="changeToSelectSubsectionDec()">Seleziona Sezione</button>
-                                <button type="button" class="btn btn-outline-primary subsectionButtonGroup2" onclick="showNewSubsectionInput()">Nuova sezione</button>
+                                <button type="button" class="btn  btn-outline-primary subsectionButtonGroup1"
+                                        onclick="changeToSelectSubsectionDec()">Seleziona Sezione
+                                </button>
+                                <button type="button" class="btn btn-outline-primary subsectionButtonGroup2"
+                                        onclick="showNewSubsectionInput()">Nuova sezione
+                                </button>
                             </div>
                             <select id='decSottosezione' name='decSottosezione'>
                                 <option disabled selected> Seleziona la sottosezione</option>
@@ -579,6 +606,97 @@ class ShortCodeDuplicateOldTemplate
                                value="Aggiungi nuova riga" onclick="addNewRowDecurtazione()">
                     </div>
                 </div>
+            </div>    <!--Fine modale per aggiunta di una nuova riga di decurtazione-->
+        </div>
+        <!--Inizio modale per aggiungere una nuova riga decurtazione speciale-->
+        <div class="modal fade" id="addRowSpecialDecModal" tabindex="-1"
+             role="dialog"
+             aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><b>Nuova riga di decurtazione speciale:</b></h5>
+                        <button type="button" class="close" data-dismiss="modal"
+                                aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="selectSezione"><b>Sezione: </b></label>
+                            <select id='decSpecialSezione' name='decSpecialSezione'>
+                                <option disabled selected> Seleziona la sezione</option>
+
+                                <?php foreach ($sections_entries as $dec_entry): ?>
+
+                                    <option value='<?= $dec_entry[0] ?>'><?= $dec_entry[0] ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <div class="form-group" id="divSelectSpecialSottosezione">
+                            <br>
+                            <div class="btn-group pb-3" role="group" aria-label="Basic example">
+                                <button type="button" class="btn  btn-outline-primary subsectionSpecialButtonGroup1"
+                                        onclick="changeToSelectSpecialSubsectionDec()">Seleziona Sezione
+                                </button>
+                                <button type="button" class="btn btn-outline-primary subsectionSpecialButtonGroup2"
+                                        onclick="showNewSpecialSubsectionInput()">Nuova sezione
+                                </button>
+                            </div>
+                            <select id='decSpecialSottosezione' name='decSpecialSottosezione'>
+                                <option disabled selected> Seleziona la sottosezione</option>
+                                <?php
+                                foreach ($results_subsections as $dec_subsection): ?>
+
+                                    <option value='<?= $dec_subsection[0] ?>'><?= $dec_subsection[0] ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <div class="form-group" id="divNewSpecialSottosezione" hidden>
+                            <input type="text" class="form-control" id="decNewSpecialSottosezione"
+                                   value='' name="decNewSpecialSottosezione">
+                        </div>
+                        <div class="form-group">
+                            <label for="ordinamento"><b>Ordinamento: </b></label>
+                            <input type="text" class="form-control" id="decSpecialOrdinamento"
+                                   value='' name="decSpecialOrdinamento">
+                        </div>
+
+                        <label for="inputLink"><b>Tipologia decurtazione:</b> </label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="typeSpecialDec" id="specialPercentualeSelected"
+                                   value="%">
+                            <label class="form-check-label" for="specialPercentualeSelected">
+                                %
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="typeSpecialDec" id="specialValAbsSelected"
+                                   value="ValoreAssoluto">
+                            <label class="form-check-label" for="specialValAbsSelected">
+                                Valore Assoluto
+                            </label>
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label for="decSpecialDescrizioneArticolo"><b>Descrizione:</b></label>
+                            <textarea class="form-control"
+                                      id="decSpecialDescrizioneArticolo"
+                                      name="decDescrizioneArticolo"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="decSpecialNota"><b>Nota:</b></label>
+                            <textarea class="form-control"
+                                      id="decSpecialNota"
+                                      name="decSpecialNota"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="submit" class="btn btn-primary"
+                               value="Aggiungi nuova riga" onclick="addNewRowSpecialDecurtazione()">
+                    </div>
+                </div>
 
             </div>
         </div>
@@ -613,14 +731,15 @@ class ShortCodeDuplicateOldTemplate
             let readOnly = <?php echo $readOnly?>;
             if (!readOnly) {
                 //TODO provare ad implementare una funzione unica dato che fanno la stessa cosa
-                function changeToSelectSubsection () {
+                function changeToSelectSubsection() {
                     document.getElementById('newRowSelectSottosezione').removeAttribute("hidden");
                     const newRowSubsection = document.getElementById('newRowSelectSottosezione');
                     const newRowSubsectionHidden = document.getElementById('divNewRowSottosezione');
                     newRowSubsection.setAttribute('style', 'display:block');
                     newRowSubsectionHidden.setAttribute('style', 'display:none');
                 }
-                function changeToSelectSubsectionDec () {
+
+                function changeToSelectSubsectionDec() {
                     document.getElementById('decSottosezione').removeAttribute("hidden");
                     const newRowSubsection = document.getElementById('decSottosezione');
                     const newRowSubsectionHidden = document.getElementById('divNewSottosezione');
@@ -635,6 +754,7 @@ class ShortCodeDuplicateOldTemplate
                     decSubsection.setAttribute('style', 'display:block');
                     decSubsectionHidden.setAttribute('style', 'display:none');
                 }
+
                 function showNewRowSubsectionInput() {
                     document.getElementById('divNewRowSottosezione').removeAttribute("hidden");
                     const newRowSubsection = document.getElementById('divNewRowSottosezione');
@@ -647,6 +767,9 @@ class ShortCodeDuplicateOldTemplate
                     let id_articolo = document.getElementById('id_articolo');
                     if (typeof id_articolo !== 'undefined' && id_articolo !== null) {
                         id_articolo.innerHTML = value;
+                    }
+                    else {
+                        id_articolo = '';
                     }
                     let sottotitolo_articolo = document.getElementById('idSottotitoloArticolo');
                     if (typeof sottotitolo_articolo !== 'undefined' && sottotitolo_articolo !== null) {
@@ -736,23 +859,24 @@ class ShortCodeDuplicateOldTemplate
                 //
                 // }
 
-                function editHeader(){
-                   let editBtn = document.getElementById('btnEditHeader');
+                function editHeader() {
+                    let editBtn = document.getElementById('btnEditHeader');
                     editBtn.setAttribute('style', 'display:none');
                     let saveBtn = document.getElementById('btnSaveHeader');
                     saveBtn.setAttribute('style', 'display:block');
-                  //   document.getElementById('inputFondo').removeAttribute("readonly");
-                  //   document.getElementById('inputAnno').removeAttribute("readonly");
+                    //   document.getElementById('inputFondo').removeAttribute("readonly");
+                    //   document.getElementById('inputAnno').removeAttribute("readonly");
 
                 }
-                function saveHeader(){
+
+                function saveHeader() {
                     let editBtn = document.getElementById('btnEditHeader');
                     editBtn.setAttribute('style', 'display:block');
                     let saveBtn = document.getElementById('btnSaveHeader');
                     saveBtn.setAttribute('style', 'display:none');
                     data = {
-                        'fondo' : document.getElementById('inputFondo').value,
-                        'anno' : document.getElementById('inputAnno').value
+                        'fondo': document.getElementById('inputFondo').value,
+                        'anno': document.getElementById('inputAnno').value
                     }
                     $.ajax({
                         type: "POST",
@@ -768,7 +892,7 @@ class ShortCodeDuplicateOldTemplate
                             alert(successmessage);
                         }
                     });
-           }
+                }
 
                 function addNewRowDecurtazione() {
                     data = {
@@ -791,6 +915,33 @@ class ShortCodeDuplicateOldTemplate
                         },
                         error: function () {
                             successmessage = 'Errore: creazione riga non riuscita';
+                            alert(successmessage);
+                        }
+                    });
+
+                }
+                function addNewRowSpecialDecurtazione() {
+                    data = {
+                        'ordinamento': document.getElementById('decSpecialOrdinamento').value,
+                        'sezione': document.getElementById('decSpecialSezione').value,
+                        'sottosezione': document.getElementById('decSpecialSottosezione').value,
+                        'sottosezione_nuova': document.getElementById('divNewSpecialSottosezione').value,
+                        'descrizione': document.getElementById('decSpecialDescrizioneArticolo').value,
+                        'nota': document.getElementById('decSpecialNota').value,
+                        'link': document.querySelector('input[name="typeSpecialDec"]:checked').value
+                    }
+                    console.log(data)
+                    $.ajax({
+                        type: "POST",
+                        url: "https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/newrowspdec",
+                        data: data,
+                        success: function (response) {
+                            successmessage = 'Riga decurtazione speciale creata correttamente';
+                            alert(successmessage);
+                            location.href = "https://demo.mg3.srl/date/duplicazione-template-anno-precedente/"
+                        },
+                        error: function () {
+                            successmessage = 'Errore: creazione riga decurtazione speciale non riuscita';
                             alert(successmessage);
                         }
                     });
