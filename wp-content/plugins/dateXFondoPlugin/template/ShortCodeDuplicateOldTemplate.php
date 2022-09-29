@@ -11,10 +11,10 @@ class ShortCodeDuplicateOldTemplate
     public static function visualize_old_template()
     {
 
-        $fondo = 'Fondo 2022';
-        $anno = 2022;
         $old_template = new DuplicateOldTemplate();
         $sections = new FormulaTable();
+        $anno = $old_template->getAnno();
+        $fondo = $old_template->getFondo($anno);
         ?>
 
 
@@ -69,6 +69,14 @@ class ShortCodeDuplicateOldTemplate
         <body>
 
         <h2>TEMPLATE FONDO (MASTER)</h2>
+
+        <div class="row pb-3">
+            <div class="col-sm"><input type="text" placeholder="Inserisci nome del fondo" id="inputFondo" value='<?= $fondo ?>'></div>
+            <div class="col-sm"><input type="text" placeholder="Inserisci l'anno corrente"  id="inputAnno" value='<?= $anno ?>'></div>
+            <div class="col-sm"><button class="btn btn-link" ><i class="fa-solid fa-pen"  id="btnEditHeader" onclick="editHeader()"></i></button></div>
+            <div class="col-sm"><button class="btn btn-link" ><i class="fa-solid fa-floppy-disk" id="btnSaveHeader" onclick="saveHeader()" style="display:none"></i></i></button></div>
+        </div>
+
         <div class="accordion">
             <?php
             $sections_entries = $old_template->getAllSections($fondo, $anno);
@@ -652,7 +660,6 @@ class ShortCodeDuplicateOldTemplate
                         link = document.querySelector('input[name="typeDecEdit"]:checked').value;
 
                     }
-                    console.log(link)
                     data = {
                         'ordinamento': document.getElementById('ordinamento').value,
                         'id_riga': document.getElementById('id_riga').value,
@@ -663,7 +670,6 @@ class ShortCodeDuplicateOldTemplate
                         'nota': document.getElementById('idNotaArticolo').value,
                         'link': link
                     }
-                    console.log(data)
                     $.ajax({
                         type: "POST",
                         url: "https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/editnewfondo",
@@ -730,6 +736,40 @@ class ShortCodeDuplicateOldTemplate
                 //
                 // }
 
+                function editHeader(){
+                   let editBtn = document.getElementById('btnEditHeader');
+                    editBtn.setAttribute('style', 'display:none');
+                    let saveBtn = document.getElementById('btnSaveHeader');
+                    saveBtn.setAttribute('style', 'display:block');
+                  //   document.getElementById('inputFondo').removeAttribute("readonly");
+                  //   document.getElementById('inputAnno').removeAttribute("readonly");
+
+                }
+                function saveHeader(){
+                    let editBtn = document.getElementById('btnEditHeader');
+                    editBtn.setAttribute('style', 'display:block');
+                    let saveBtn = document.getElementById('btnSaveHeader');
+                    saveBtn.setAttribute('style', 'display:none');
+                    data = {
+                        'fondo' : document.getElementById('inputFondo').value,
+                        'anno' : document.getElementById('inputAnno').value
+                    }
+                    $.ajax({
+                        type: "POST",
+                        url: "https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/editfondoanno",
+                        data: data,
+                        success: function (response) {
+                            successmessage = 'Modifica effettuata correttamente';
+                            alert(successmessage);
+                            location.href = "https://demo.mg3.srl/date/duplicazione-template-anno-precedente/"
+                        },
+                        error: function () {
+                            successmessage = 'Errore: modifica non riuscita';
+                            alert(successmessage);
+                        }
+                    });
+           }
+
                 function addNewRowDecurtazione() {
                     data = {
                         'ordinamento': document.getElementById('decOrdinamento').value,
@@ -740,10 +780,9 @@ class ShortCodeDuplicateOldTemplate
                         'nota': document.getElementById('decNota').value,
                         'link': document.querySelector('input[name="typeDec"]:checked').value
                     }
-                    console.log(data)
                     $.ajax({
                         type: "POST",
-                        //url: "https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/newrowdec",
+                        url: "https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/newrowdec",
                         data: data,
                         success: function (response) {
                             successmessage = 'Riga creata correttamente';

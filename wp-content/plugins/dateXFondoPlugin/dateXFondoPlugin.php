@@ -267,3 +267,46 @@ function esegui_eredita_nota_valore($params)
 
 add_action('rest_api_init', 'create_endpoint_datefondo_ereditarieta_nota_valore');
 
+function create_endpoint_datefondo_creazione_formula()
+{
+
+    register_rest_route('datexfondoplugin/v1', 'table/newformula', array(
+        'methods' => 'POST',
+        'callback' => 'esegui_creazione_formula'
+    ));
+
+
+}
+
+function esegui_creazione_formula($params)
+{
+    $insert_id = \dateXFondoPlugin\create_formula($params);
+    $data = ['id' => $insert_id, 'message' => 'Formula creata correttamente'];
+    $response = new WP_REST_Response($data);
+    $response->set_status(201);
+    return $response;
+}
+
+add_action('rest_api_init', 'create_endpoint_datefondo_creazione_formula');
+
+function create_endpoint_datefondo_edit_fondo_anno()
+{
+
+    register_rest_route('datexfondoplugin/v1', 'table/editfondoanno', array(
+        'methods' => 'POST',
+        'callback' => 'esegui_modifica_fondo_anno'
+    ));
+
+
+}
+
+function esegui_modifica_fondo_anno($params)
+{
+    $insert_id = \dateXFondoPlugin\edit_fondo_anno($params);
+    $data = ['id' => $insert_id, 'message' => 'Modifica fondo e anno effettuata correttamente'];
+    $response = new WP_REST_Response($data);
+    $response->set_status(201);
+    return $response;
+}
+
+add_action('rest_api_init', 'create_endpoint_datefondo_edit_fondo_anno');

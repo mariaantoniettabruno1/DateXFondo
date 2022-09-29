@@ -175,6 +175,32 @@ function cancella_riga($request)
     return 'id cancellato';
 }
 
+ function create_formula($request)
+{
+    $conn = new Connection();
+    $mysqli = $conn->connect();
+    $sql = "INSERT INTO DATE_formula (sezione,sottosezione,nome_formula,descrizione_formula,condizione, formula) VALUES (?,?,?,?,?,?) ";
+    $stmt = $mysqli->prepare($sql);
+    $stmt->bind_param("ssssss",
+        $_POST['sezione'],
+        $_POST['sottosezione'],
+        $_POST['nome_formula'],
+        $_POST['descrizione_formula'],
+        $_POST['condizione'],
+        $_POST['formula']);
+    $res = $stmt->execute();
+    mysqli_close($mysqli);
+}
 
+function edit_fondo_anno($request){
+
+    $conn = new Connection();
+    $mysqli = $conn->connect();
+    $sql = "UPDATE DATE_template_fondo SET fondo=?, anno=?";
+    $stmt = $mysqli->prepare($sql);
+    $stmt->bind_param("si", $_POST['fondo'],$_POST['anno']);
+    $res = $stmt->execute();
+    $mysqli->close();
+}
 
 

@@ -246,21 +246,19 @@ class ShortCodeFormulaTable
                     </div>
                 </div>
                 <div id="divValFormula" class="pt-4"></div>
-                <form method='POST'>
-                    <input type="hidden" name="formula" value="formula" id="formula">
-                    <input type="hidden" name="formula_label" id="formula_label" value="formula_label">
-                    <input type="hidden" name="formula_name" id="formula_name" value="formula_name">
-                    <input type="hidden" name="condition" id="condition" value="condition">
-                    <div class="row">
-                        <div class="col-sm pt-3">
-                            <button class="btn btn-outline-primary" onclick="deleteFormulaExpression()">Elimina Formula
-                            </button>
-                        </div>
-                        <div class="col-sm pt-3"><input type="submit" class="btn btn-primary" style="float: right"
-                                                        onclick="calculateFormula()"
-                                                        value="Salva formula"></div>
+                <input type="hidden" name="formula" value="formula" id="formula">
+                <input type="hidden" name="formula_label" id="formula_label" value="formula_label">
+                <input type="hidden" name="formula_name" id="formula_name" value="formula_name">
+                <input type="hidden" name="condition" id="condition" value="condition">
+                <div class="row">
+                    <div class="col-sm pt-3">
+                        <button class="btn btn-outline-primary" onclick="deleteFormulaExpression()">Elimina Formula
+                        </button>
                     </div>
-                </form>
+                    <div class="col-sm pt-3"><input type="submit" class="btn btn-primary" style="float: right"
+                                                    onclick="calculateFormula()"
+                                                    value="Salva formula"></div>
+                </div>
 
             </div>
         </div>
@@ -302,7 +300,7 @@ class ShortCodeFormulaTable
 
                         $startRecord = ($page - 1) * $limit;
                         $selected_section = $_POST['select_section'];
-                       // $entries = $data->getAllEntriesFromSection($selected_section);
+                        // $entries = $data->getAllEntriesFromSection($selected_section);
                         $entries = [];
                         $fondo = $entries[0][1];
                         $anno = $entries[0][2];
@@ -457,6 +455,7 @@ class ShortCodeFormulaTable
                 number = event.target.value;
                 formula = formula.concat(number.toString());
                 formulaDescription = document.getElementById('descrizione_formula').value;
+                formulaName = document.getElementById('formula_name').value;
                 document.getElementById("divValFormula").innerHTML = formula;
             }
 
@@ -473,6 +472,7 @@ class ShortCodeFormulaTable
                 operator = select.options[select.selectedIndex].value;
                 formula = formula.concat(operator.toString());
                 formulaDescription = document.getElementById('descrizione_formula').value;
+                formulaName = document.getElementById('formula_name').value;
                 document.getElementById("divValFormula").innerHTML = formula;
             });
             $("#parenthesisOperator").change(function () {
@@ -480,6 +480,7 @@ class ShortCodeFormulaTable
                 let parenthesis = select.options[select.selectedIndex].value;
                 formula = formula.concat(parenthesis.toString());
                 formulaDescription = document.getElementById('descrizione_formula').value;
+                formulaName = document.getElementById('formula_name').value;
                 document.getElementById("divValFormula").innerHTML = formula;
             });
             $("#selectConditionOperator").change(function () {
@@ -493,7 +494,7 @@ class ShortCodeFormulaTable
             });
             $("#parenthesisConditionOperator").change(function () {
                 let selectCondition = document.getElementById('parenthesisConditionOperator');
-                 ConditionParenthesis = selectCondition.options[selectCondition.selectedIndex].value;
+                ConditionParenthesis = selectCondition.options[selectCondition.selectedIndex].value;
                 condition = condition.concat(ConditionParenthesis.toString());
                 document.getElementById("divValCondition").innerHTML = condition;
                 console.log("Sono nella seconda select condizionale")
@@ -527,25 +528,44 @@ class ShortCodeFormulaTable
                 resultPercentage = (result * percentage) / 100;
             }
 
+
             function calculateFormula() {
+
+                let sezione = document.getElementById('section');
+                let sezione_value = sezione.options[sezione.selectedIndex].text;
+
+                let sottosezione = document.getElementById('subsection');
+                let sottosezione_value = sottosezione.options[sottosezione.selectedIndex].text;
+
                 document.getElementById("formula").value = formula;
                 document.getElementById("formula_label").value = formulaDescription;
                 document.getElementById("formula_name").value = formulaName;
                 document.getElementById("condition").value = condition;
-                console.log(condition)
-                <?php
-                $formula = $_POST['formula'];
-                $labelDescrittiva = $_POST['formula_label'];
-                $nomeFormula = $_POST['formula_name'];
-                $formulaCondition = $_POST['condition'];
-                $ente = $_COOKIE['Ente'];
-                $fondo = $_COOKIE['Fondo'];
-                $anno = $_COOKIE['Anno'];
-                $sezione = $_COOKIE['Sezione'];
-                $sottosezione = '';
-                $savedFormula = new FormulaTable();
-                $savedFormula->saveFormula($sezione, $sottosezione,$nomeFormula, $labelDescrittiva, $formulaCondition, $formula);
-                ?>
+
+                data = {
+                    'sezione': sezione_value,
+                    'sottosezione': sottosezione_value,
+                    'formula': document.getElementById("formula").value,
+                    'descrizione_formula': document.getElementById("formula_label").value,
+                    'nome_formula': document.getElementById("formula_name").value,
+                    'condizione': document.getElementById("condition").value
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: "https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/newformula",
+                    data: data,
+                    success: function (response) {
+                        successmessage = 'Riga creata correttamente';
+                        alert(successmessage);
+                        location.href = "https://demo.mg3.srl/date/creazione-delle-formule/"
+                    },
+                    error: function () {
+                        successmessage = 'Errore: creazione formula non riuscita';
+                        alert(successmessage);
+                    }
+                });
+
             }
 
         </script>

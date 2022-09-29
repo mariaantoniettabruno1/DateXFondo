@@ -3,6 +3,28 @@
 namespace dateXFondoPlugin;
 class DuplicateOldTemplate
 {
+    public function getAnno(){
+        $conn = new Connection();
+        $mysqli = $conn->connect();
+        $sql = "SELECT anno FROM DATE_template_fondo  ORDER BY id DESC LIMIT 1";
+        $result = $mysqli->query($sql);
+        $anno = $result->fetch_assoc()['anno'];
+        mysqli_close($mysqli);
+        return $anno;
+    }
+    public function getFondo($anno)
+    {
+        $conn = new Connection();
+        $mysqli = $conn->connect();
+        $sql = "SELECT fondo FROM DATE_template_fondo WHERE anno=?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("i", $anno);
+        $res = $stmt->execute();
+        $res = $stmt->get_result();
+        $fondo = $res->fetch_assoc()['fondo'];
+        mysqli_close($mysqli);
+        return $fondo;
+    }
 
     public function getOldData($anno_precedente)
     {
