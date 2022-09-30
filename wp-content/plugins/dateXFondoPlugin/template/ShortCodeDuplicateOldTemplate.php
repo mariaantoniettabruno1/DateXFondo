@@ -263,7 +263,7 @@ class ShortCodeDuplicateOldTemplate
                                             </div>
 
                                             <div class="modal-body">
-                                                <?php if ($entry[13] == '%' || $entry[13] == 'ValoreAssoluto') { ?>
+                                                <?php if ($entry[16] === 'decurtazione') { ?>
                                                     <input type="text" class="form-control" id="id_riga"
                                                            value='<?php echo $entry[0]; ?>' name="id_riga" hidden>
                                                     <label>Ordinamento</label>
@@ -662,6 +662,11 @@ class ShortCodeDuplicateOldTemplate
                             <input type="text" class="form-control" id="decSpecialOrdinamento"
                                    value='' name="decSpecialOrdinamento">
                         </div>
+                        <div class="form-group">
+                            <label for="decSpecialIdArticolo"><b>id Decurtazione: </b></label>
+                            <input type="text" class="form-control" id="decSpecialIdArticolo"
+                                   value='' name="decSpecialIdArticolo">
+                        </div>
 
                         <label for="inputLink"><b>Tipologia decurtazione:</b> </label>
                         <div class="form-check">
@@ -927,6 +932,7 @@ class ShortCodeDuplicateOldTemplate
                 }
                 function addNewRowSpecialDecurtazione() {
                     data = {
+                        'id_articolo' : document.getElementById('decSpecialIdArticolo').value,
                         'ordinamento': document.getElementById('decSpecialOrdinamento').value,
                         'sezione': document.getElementById('decSpecialSezione').value,
                         'sottosezione': document.getElementById('decSpecialSottosezione').value,

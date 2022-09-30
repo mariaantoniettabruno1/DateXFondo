@@ -226,13 +226,14 @@ function create_special_decurtation_row()
     //TODO capire come passare fondo e anno da js, altrimenti usare una get che prende i dati dal db prima dell'insert
     $fondo = 'Fondo 2022';
     $anno = 2022;
-    $sql = "INSERT INTO DATE_template_fondo (fondo,anno,sezione,sottosezione,descrizione_articolo,nota,link,row_type,ordinamento) VALUES(?,?,?,?,?,?,?,?,?)";
+    $sql = "INSERT INTO DATE_template_fondo (fondo,anno,sezione,sottosezione,id_articolo,descrizione_articolo,nota,link,row_type,ordinamento) VALUES(?,?,?,?,?,?,?,?,?,?)";
     $stmt = $mysqli->prepare($sql);
-    $stmt->bind_param("sissssssi",
+    $stmt->bind_param("sisssssssi",
         $fondo,
         $anno,
         $_POST["sezione"],
         $_POST["sottosezione"],
+        $_POST["id_articolo"],
         $_POST['descrizione'],
         $_POST['nota'],
         $_POST["link"],
