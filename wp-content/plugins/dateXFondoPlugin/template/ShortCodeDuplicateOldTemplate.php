@@ -435,7 +435,7 @@ class ShortCodeDuplicateOldTemplate
                             <select id='newRowSelectSottosezione' name='newRowSelectSottosezione'>
                                 <option disabled selected> Seleziona la sottosezione</option>
 
-                                <?php foreach ($sections_entries as $subsection_entry): ?>
+                                <?php foreach ($results_subsections as $subsection_entry): ?>
 
                                     <option <?= isset($_POST['subsection_selected']) && $_POST['subsection_selected'] === $subsection_entry[0] ? 'selected' : '' ?>
 
@@ -766,18 +766,18 @@ class ShortCodeDuplicateOldTemplate
                 function editRow() {
                     let id_articolo = document.getElementById('id_articolo');
                     if (typeof id_articolo !== 'undefined' && id_articolo !== null) {
-                        id_articolo.innerHTML = value;
+                        id_articolo.hinnerHTML = value;
                     }
                     else {
                         id_articolo = '';
                     }
                     let sottotitolo_articolo = document.getElementById('idSottotitoloArticolo');
                     if (typeof sottotitolo_articolo !== 'undefined' && sottotitolo_articolo !== null) {
-                        sottotitolo_articolo.innerHTML = value;
+                        sottotitolo_articolo.hinnerHTML = value;
                     }
                     let link = document.getElementById('idLinkAssociato');
                     if (typeof link != 'undefined' && link != null) {
-                        link.innerHTML = value;
+                        link.hinnerHTML = value;
 
                     } else {
                         link = document.querySelector('input[name="typeDecEdit"]:checked').value;
@@ -793,13 +793,14 @@ class ShortCodeDuplicateOldTemplate
                         'nota': document.getElementById('idNotaArticolo').value,
                         'link': link
                     }
+                    console.log(data)
                     $.ajax({
                         type: "POST",
-                        url: "https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/editnewfondo",
+                        //url: "https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/editnewfondo",
                         data: data,
                         success: function (response) {
                             successmessage = 'Modifica eseguita correttamente';
-                            location.href = "https://demo.mg3.srl/date/duplicazione-template-anno-precedente/";
+                           // location.href = "https://demo.mg3.srl/date/duplicazione-template-anno-precedente/";
 
                         },
                         error: function (response) {
@@ -821,7 +822,8 @@ class ShortCodeDuplicateOldTemplate
                         'descrizione_articolo': document.getElementById('newRowDescrizioneArticolo').value,
                         'link': document.getElementById('newRowLink').value
                     }
-
+                    console.log('Basic row')
+                    console.log(data)
                     $.ajax({
                         type: "POST",
                         url: "https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/newrow",
@@ -902,8 +904,11 @@ class ShortCodeDuplicateOldTemplate
                         'sottosezione_nuova': document.getElementById('divNewSottosezione').value,
                         'descrizione': document.getElementById('decDescrizioneArticolo').value,
                         'nota': document.getElementById('decNota').value,
-                        'link': document.querySelector('input[name="typeDec"]:checked').value
+                        'link': document.querySelector('input[name="typeDec"]:checked').value,
+                        'row_type' : 'decurtazione'
                     }
+                    console.log('Riga decurtazione')
+                    console.log(data)
                     $.ajax({
                         type: "POST",
                         url: "https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/newrowdec",
@@ -928,8 +933,11 @@ class ShortCodeDuplicateOldTemplate
                         'sottosezione_nuova': document.getElementById('divNewSpecialSottosezione').value,
                         'descrizione': document.getElementById('decSpecialDescrizioneArticolo').value,
                         'nota': document.getElementById('decSpecialNota').value,
-                        'link': document.querySelector('input[name="typeSpecialDec"]:checked').value
+                        'link': document.querySelector('input[name="typeSpecialDec"]:checked').value,
+                        'row_type' : 'special'
+
                     }
+                    console.log('Special')
                     console.log(data)
                     $.ajax({
                         type: "POST",
