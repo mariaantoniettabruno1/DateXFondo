@@ -245,8 +245,13 @@ class ShortCodeDuplicateOldTemplate
                                                             class="fa-solid fa-trash"></i>
                                                 </button>
                                             </div>
-
                                         </td>
+                                        <td class="field_description" hidden>
+                                            <input type="text" class="toggleable-input"
+                                                   value='<?php echo $entry[16]; ?>'
+                                                   style="display: none" data-field="row_type"
+                                                   data-id="<?= $entry[0] ?>"
+                                            /></td>
                                     </tr>
                                 </div>
                                 <div class="modal fade" id="editModal<?php echo $entry[0]; ?>" tabindex="-1"
@@ -267,22 +272,22 @@ class ShortCodeDuplicateOldTemplate
                                                     <input type="text" class="form-control" id="id_riga"
                                                            value='<?php echo $entry[0]; ?>' name="id_riga" hidden>
                                                     <label>Ordinamento</label>
-                                                    <input type="text" class="form-control" id="ordinamento"
-                                                           value='<?php echo $entry[3]; ?>' name="ordinamento"
+                                                    <input type="text" class="form-control" id="decRowOrdinamento"
+                                                           value='<?php echo $entry[3]; ?>' name="decRowOrdinamento"
                                                            data-id="<?= $entry[0] ?>">
                                                     <label>Nome Decurtazione</label>
-                                                    <input type="text" class="form-control" id="idNomeArticolo"
-                                                           name="idNomeArticolo"
+                                                    <input type="text" class="form-control" id="decRowNomeArticolo"
+                                                           name="decRowNomeArticolo"
                                                            value='<?php echo $entry[7]; ?>'>
                                                     <label>Descrizione</label>
                                                     <textarea class="form-control"
-                                                              id="idDescrizioneArticolo"
-                                                              name="idDescrizioneArticolo"> <?php echo $entry[8]; ?></textarea>
+                                                              id="decRowDescrizioneArticolo"
+                                                              name="decRowDescrizioneArticolo"> <?php echo $entry[8]; ?></textarea>
                                                     <label>Nota</label>
                                                     <textarea class="form-control"
-                                                              id="idNotaArticolo"
-                                                              name="idNotaArticolo"> <?php echo $entry[12]; ?></textarea>
-                                                    <label for="inputNota">Tipologia decurtazione: </label>
+                                                              id="decRowNotaArticolo"
+                                                              name="decRowNotaArticolo"> <?php echo $entry[12]; ?></textarea>
+                                                    <label for="inputNota"><b>Tipologia decurtazione: </b></label>
                                                     <div class="form-check">
                                                         <input class="form-check-input" type="radio" name="typeDecEdit"
                                                                id="percentualeSelected"
@@ -299,7 +304,7 @@ class ShortCodeDuplicateOldTemplate
                                                             Valore Assoluto
                                                         </label>
                                                     </div>
-                                                <?php } else { ?>
+                                                <?php } else if($entry[16] === 'basic'){ ?>
                                                     <input type="text" class="form-control" id="id_riga"
                                                            value='<?php echo $entry[0]; ?>' name="id_riga" hidden>
                                                     <label>Ordinamento</label>
@@ -334,11 +339,46 @@ class ShortCodeDuplicateOldTemplate
                                                     <input type="text" class="form-control" id="idLinkAssociato"
                                                            name="idLinkAssociato"
                                                            value='<?php echo $entry[13]; ?>'>
-                                                <?php } ?>
+                                                <?php } else{ ?>
+                                                    <input type="text" class="form-control" id="id_riga"
+                                                           value='<?php echo $entry[0]; ?>' name="id_riga" hidden>
+                                                    <label><b>Ordinamento:</b> </label>
+                                                    <input type="text" class="form-control" id="spRowOrdinamento"
+                                                           value='<?php echo $entry[3]; ?>' name="spRowOrdinamento"
+                                                           data-id="<?= $entry[0] ?>">
+                                                    <label><b>Id Articolo:</b></label>
+                                                    <input type="text" class="form-control" id="spRowIdArticolo"
+                                                           value='<?php echo $entry[4]; ?>' name="spRowIdArticolo"
+                                                           data-id="<?= $entry[0] ?>">
+
+                                                    <label><b>Nome Articolo:</b></label>
+                                                    <input type="text" class="form-control" id="spRowIdNomeArticolo"
+                                                           name="spRowIdNomeArticolo"
+                                                           value='<?php echo $entry[7]; ?>'>
+
+                                                    <label<b>Sottotitolo Articolo:</b></label>
+                                                    <textarea class="form-control"
+                                                              id="spRowIdSottotitoloArticolo"
+                                                              name="spRowIdSottotitoloArticolo"><?php echo $entry[9]; ?> </textarea>
+
+                                                    <label><b>Descrizione Articolo:</b></label>
+                                                    <textarea class="form-control"
+                                                              id="spRowIdDescrizioneArticolo"
+                                                              name="spRowIdDescrizioneArticolo"> <?php echo $entry[8]; ?></textarea>
+
+                                                    <label><b>Nota:</b></label>
+                                                    <textarea class="form-control"
+                                                              id="spRowIdNotaArticolo"
+                                                              name="spRowIdNotaArticolo"> <?php echo $entry[12]; ?></textarea>
+                                                    <label><b>Link associato:</b></label>
+                                                    <input type="text" class="form-control" id="spRowIdLinkAssociato"
+                                                           name="spRowIdLinkAssociato"
+                                                           value='<?php echo $entry[13]; ?>'>
+                                             <?php   }?>
                                             </div>
                                             <div class="modal-footer">
                                                 <input type="submit" class="btn btn-primary"
-                                                       onclick="editRow()"
+                                                       onclick="editRow('<?php echo $entry[16]; ?>')"
                                                        value="Salva modifica">
                                             </div>
                                         </div>
@@ -490,7 +530,7 @@ class ShortCodeDuplicateOldTemplate
                         </div>
                         <div class="modal-footer">
                             <input type="submit" class="btn btn-primary"
-                                   value="Aggiungi nuova riga" onclick="addNewRow()">
+                                   value="Aggiungi nuova riga" onclick="addNewRow('basic')">
                         </div>
                     </div>
 
@@ -621,90 +661,95 @@ class ShortCodeDuplicateOldTemplate
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="selectSezione"><b>Sezione: </b></label>
-                            <select id='decSpecialSezione' name='decSpecialSezione'>
+                            <label for="selectSezione"><b>Sezione:</b></label>
+
+                            <select id='spRowSezione' name='spRowSezione'>
                                 <option disabled selected> Seleziona la sezione</option>
 
-                                <?php foreach ($sections_entries as $dec_entry): ?>
+                                <?php foreach ($sections_entries as $section_entry): ?>
 
-                                    <option value='<?= $dec_entry[0] ?>'><?= $dec_entry[0] ?></option>
+                                    <option <?= isset($_POST['section_selected']) && $_POST['section_selected'] === $section_entry[0] ? 'selected' : '' ?>
+
+                                            value='<?= $section_entry[0] ?>'><?= $section_entry[0] ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
-                        <div class="form-group" id="divSelectSpecialSottosezione">
+                        <div class="form-group">
                             <br>
                             <div class="btn-group pb-3" role="group" aria-label="Basic example">
-                                <button type="button" class="btn  btn-outline-primary subsectionSpecialButtonGroup1"
-                                        onclick="changeToSelectSpecialSubsectionDec()">Seleziona Sezione
+                                <button type="button" class="btn  btn-outline-primary subsectionButtonGroup1"
+                                        onclick="changeToSelectSubsection()">Seleziona Sezione
                                 </button>
-                                <button type="button" class="btn btn-outline-primary subsectionSpecialButtonGroup2"
-                                        onclick="showNewSpecialSubsectionInput()">Nuova sezione
+                                <button type="button" class="btn btn-outline-primary subsectionButtonGroup2"
+                                        onclick="showNewRowSubsectionInput()">Nuova sezione
                                 </button>
                             </div>
-                            <select id='decSpecialSottosezione' name='decSpecialSottosezione'>
-                                <option disabled selected> Seleziona la sottosezione</option>
-                                <?php
-                                foreach ($results_subsections as $dec_subsection): ?>
 
-                                    <option value='<?= $dec_subsection[0] ?>'><?= $dec_subsection[0] ?></option>
+                            <select id='newRowSpSezione' name='newRowSpSezione'>
+                                <option disabled selected> Seleziona la sottosezione</option>
+
+                                <?php foreach ($results_subsections as $subsection_entry): ?>
+
+                                    <option <?= isset($_POST['subsection_selected']) && $_POST['subsection_selected'] === $subsection_entry[0] ? 'selected' : '' ?>
+
+                                            value='<?= $subsection_entry[0] ?>'><?= $subsection_entry[0] ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
-                        <div class="form-group" id="divNewSpecialSottosezione" hidden>
-                            <input type="text" class="form-control" id="decNewSpecialSottosezione"
-                                   value='' name="decNewSpecialSottosezione">
+                        <div class="form-group" id="divNewRowSpSottosezione" hidden>
+                            <input type="text" class="form-control" id="newRowSpSottosezione"
+                                   value='' name="newRowSpSottosezione">
                         </div>
                         <div class="form-group">
-                            <label for="ordinamento"><b>Ordinamento: </b></label>
-                            <input type="text" class="form-control" id="decSpecialOrdinamento"
-                                   value='' name="decSpecialOrdinamento">
+                            <label for="ordinamento"><b>Ordinamento:</b></label>
+                            <input type="text" class="form-control" id="newRowSpOrdinamento"
+                                   value='' name="newRowSpOrdinamento">
                         </div>
                         <div class="form-group">
-                            <label for="decSpecialIdArticolo"><b>id Decurtazione: </b></label>
-                            <input type="text" class="form-control" id="decSpecialIdArticolo"
-                                   value='' name="decSpecialIdArticolo">
+                            <label for="inputIdArticolo"><b>Id Articolo:</b></label>
+                            <input type="text" class="form-control" id="newRowSpIdArticolo"
+                                   value='' name="newRowSpIdArticolo">
                         </div>
+                        <div class="form-group">
+                            <label for="idNomeArticolo"><b>Articolo:</b> </label>
+                            <input type="text" class="form-control" id="newRowSpNomeArticolo"
+                                   name="newRowSpNomeArticolo"
+                                   value=''>
+                        </div>
+                        <div class="form-group">
+                            <label for="idSottotitoloArticolo"><b>Sottotitolo Articolo: </b></label>
+                            <textarea class="form-control"
+                                      id="newRowSpSottotitoloArticolo"
+                                      name="newRowSpSottotitoloArticolo"></textarea>
 
-                        <label for="inputLink"><b>Tipologia decurtazione:</b> </label>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="typeSpecialDec" id="specialPercentualeSelected"
-                                   value="%">
-                            <label class="form-check-label" for="specialPercentualeSelected">
-                                %
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="typeSpecialDec" id="specialValAbsSelected"
-                                   value="ValoreAssoluto">
-                            <label class="form-check-label" for="specialValAbsSelected">
-                                Valore Assoluto
-                            </label>
-                        </div>
-                        <br>
-                        <div class="form-group">
-                            <label for="decSpecialDescrizioneArticolo"><b>Descrizione:</b></label>
-                            <textarea class="form-control"
-                                      id="decSpecialDescrizioneArticolo"
-                                      name="decDescrizioneArticolo"></textarea>
                         </div>
                         <div class="form-group">
-                            <label for="decSpecialNota"><b>Nota:</b></label>
+                            <label for="idDescrizioneArticolo"><b>Descrizione Articolo: </b></label>
                             <textarea class="form-control"
-                                      id="decSpecialNota"
-                                      name="decSpecialNota"></textarea>
+                                      id="newRowSpDescrizioneArticolo"
+                                      name="newRowSpDescrizioneArticolo"></textarea>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <input type="submit" class="btn btn-primary"
-                               value="Aggiungi nuova riga" onclick="addNewRowSpecialDecurtazione()">
+                        <div class="form-group">
+                            <label for="idNota"><b>Nota</b></label>
+                            <textarea class="form-control"
+                                      id="newRowSpNota"
+                                      name="newRowSpNota"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="idLinkAssociato"><b>Link associato: </b></label>
+                            <input type="text" class="form-control" id="newRowSpLink"
+                                   name="newRowSpLink"
+                                   value=''>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="submit" class="btn btn-primary"
+                                   value="Aggiungi nuova riga" onclick="addNewRow('special')">
+                        </div>
                     </div>
                 </div>
-
             </div>
-        </div>
         </div>
         <form method="post">
             <div>
@@ -736,6 +781,7 @@ class ShortCodeDuplicateOldTemplate
             let readOnly = <?php echo $readOnly?>;
             if (!readOnly) {
                 //TODO provare ad implementare una funzione unica dato che fanno la stessa cosa
+                //TODO aggiungere metodo anche per le righe speciali (?)
                 function changeToSelectSubsection() {
                     document.getElementById('newRowSelectSottosezione').removeAttribute("hidden");
                     const newRowSubsection = document.getElementById('newRowSelectSottosezione');
@@ -768,44 +814,53 @@ class ShortCodeDuplicateOldTemplate
                     newRowSubsectionHidden.setAttribute('style', 'display:none');
                 }
 
-                function editRow() {
-                    let id_articolo = document.getElementById('id_articolo');
-                    if (typeof id_articolo !== 'undefined' && id_articolo !== null) {
-                        id_articolo.hinnerHTML = value;
-                    }
-                    else {
-                        id_articolo = '';
-                    }
-                    let sottotitolo_articolo = document.getElementById('idSottotitoloArticolo');
-                    if (typeof sottotitolo_articolo !== 'undefined' && sottotitolo_articolo !== null) {
-                        sottotitolo_articolo.hinnerHTML = value;
-                    }
-                    let link = document.getElementById('idLinkAssociato');
-                    if (typeof link != 'undefined' && link != null) {
-                        link.hinnerHTML = value;
+                function editRow(row_type) {
+                     if (row_type === 'basic') {
+                        data = {
+                            'ordinamento': document.getElementById('ordinamento').value,
+                            'id_articolo': document.getElementById('id_articolo').value,
+                            'nome_articolo': document.getElementById('idNomeArticolo').value,
+                            'sottotitolo_articolo': document.getElementById('idSottotitoloArticolo').value,
+                            'descrizione_articolo': document.getElementById('idDescrizioneArticolo').value,
+                            'nota': document.getElementById('idNotaArticolo').value,
+                            'link': document.getElementById('idLinkAssociato').value
+                        }
+                         console.log('Sono nella basic row')
+                         console.log(data)
+                    } else if(row_type === 'special') {
+                        data = {
+                            'ordinamento': document.getElementById('spRowOrdinamento').value,
+                            'id_articolo': document.getElementById('spRowIdArticolo').value,
+                            'nome_articolo': document.getElementById('spRowIdNomeArticolo').value,
+                            'sottotitolo_articolo': document.getElementById('spRowIdSottotitoloArticolo').value,
+                            'descrizione_articolo': document.getElementById('spRowIdDescrizioneArticolo').value,
+                            'nota': document.getElementById('spRowIdNotaArticolo').value,
+                            'link': document.getElementById('spRowIdLinkAssociato').value
+                        }
+                        console.log('Sono nella special row')
+                         console.log(data)
 
-                    } else {
-                        link = document.querySelector('input[name="typeDecEdit"]:checked').value;
+                     }
+                    else{
+                        if (row_type === 'decurtazione') {
+                            data = {
+                                'ordinamento': document.getElementById('decRowOrdinamento').value,
+                                'nome_articolo': document.getElementById('decRowNomeArticolo').value,
+                                'descrizione_articolo': document.getElementById('decRowDescrizioneArticolo').value,
+                                'nota': document.getElementById('decRowNotaArticolo').value,
+                                'link': document.querySelector('input[name="typeDecEdit"]:checked').value
+                            }
+                        }
 
                     }
-                    data = {
-                        'ordinamento': document.getElementById('ordinamento').value,
-                        'id_riga': document.getElementById('id_riga').value,
-                        'id_articolo': id_articolo,
-                        'nome_articolo': document.getElementById('idNomeArticolo').value,
-                        'sottotitolo_articolo': sottotitolo_articolo,
-                        'descrizione_articolo': document.getElementById('idDescrizioneArticolo').value,
-                        'nota': document.getElementById('idNotaArticolo').value,
-                        'link': link
-                    }
-                    console.log(data)
+
                     $.ajax({
                         type: "POST",
                         //url: "https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/editnewfondo",
                         data: data,
                         success: function (response) {
                             successmessage = 'Modifica eseguita correttamente';
-                           // location.href = "https://demo.mg3.srl/date/duplicazione-template-anno-precedente/";
+                            // location.href = "https://demo.mg3.srl/date/duplicazione-template-anno-precedente/";
 
                         },
                         error: function (response) {
@@ -815,17 +870,32 @@ class ShortCodeDuplicateOldTemplate
                     });
                 }
 
-                function addNewRow() {
+                function addNewRow(row_type) {
+                    if (row_type === 'basic') {
+                        data = {
+                            'ordinamento': document.getElementById('newRowOrdinamento').value,
+                            'sezione': document.getElementById('newRowSezione').value,
+                            'sottosezione': document.getElementById('newRowSottosezione').value,
+                            'id_articolo': document.getElementById('newRowIdArticolo').value,
+                            'nome_articolo': document.getElementById('newRowNomeArticolo').value,
+                            'sottotitolo_articolo': document.getElementById('newRowSottotitoloArticolo').value,
+                            'descrizione_articolo': document.getElementById('newRowDescrizioneArticolo').value,
+                            'link': document.getElementById('newRowLink').value,
+                            row_type: row_type
 
-                    data = {
-                        'ordinamento': document.getElementById('newRowOrdinamento').value,
-                        'sezione': document.getElementById('newRowSezione').value,
-                        'sottosezione': document.getElementById('newRowSottosezione').value,
-                        'id_articolo': document.getElementById('newRowIdArticolo').value,
-                        'nome_articolo': document.getElementById('newRowNomeArticolo').value,
-                        'sottotitolo_articolo': document.getElementById('newRowSottotitoloArticolo').value,
-                        'descrizione_articolo': document.getElementById('newRowDescrizioneArticolo').value,
-                        'link': document.getElementById('newRowLink').value
+                        }
+                    } else {
+                        data = {
+                            'ordinamento': document.getElementById('newRowSpOrdinamento').value,
+                            'sezione': document.getElementById('newRowSpSezione').value,
+                            'sottosezione': document.getElementById('newRowSpSottosezione').value,
+                            'id_articolo': document.getElementById('newRowSpIdArticolo').value,
+                            'nome_articolo': document.getElementById('newRowSpNomeArticolo').value,
+                            'sottotitolo_articolo': document.getElementById('newRowSpSottotitoloArticolo').value,
+                            'descrizione_articolo': document.getElementById('newRowSpDescrizioneArticolo').value,
+                            'link': document.getElementById('newRowSpLink').value,
+                            row_type: row_type
+                        }
                     }
                     console.log('Basic row')
                     console.log(data)
@@ -910,7 +980,7 @@ class ShortCodeDuplicateOldTemplate
                         'descrizione': document.getElementById('decDescrizioneArticolo').value,
                         'nota': document.getElementById('decNota').value,
                         'link': document.querySelector('input[name="typeDec"]:checked').value,
-                        'row_type' : 'decurtazione'
+                        'row_type': 'decurtazione'
                     }
                     console.log('Riga decurtazione')
                     console.log(data)
@@ -925,37 +995,6 @@ class ShortCodeDuplicateOldTemplate
                         },
                         error: function () {
                             successmessage = 'Errore: creazione riga non riuscita';
-                            alert(successmessage);
-                        }
-                    });
-
-                }
-                function addNewRowSpecialDecurtazione() {
-                    data = {
-                        'id_articolo' : document.getElementById('decSpecialIdArticolo').value,
-                        'ordinamento': document.getElementById('decSpecialOrdinamento').value,
-                        'sezione': document.getElementById('decSpecialSezione').value,
-                        'sottosezione': document.getElementById('decSpecialSottosezione').value,
-                        'sottosezione_nuova': document.getElementById('divNewSpecialSottosezione').value,
-                        'descrizione': document.getElementById('decSpecialDescrizioneArticolo').value,
-                        'nota': document.getElementById('decSpecialNota').value,
-                        'link': document.querySelector('input[name="typeSpecialDec"]:checked').value,
-                        'row_type' : 'special'
-
-                    }
-                    console.log('Special')
-                    console.log(data)
-                    $.ajax({
-                        type: "POST",
-                        url: "https://demo.mg3.srl/date/wp-json/datexfondoplugin/v1/table/newrowspdec",
-                        data: data,
-                        success: function (response) {
-                            successmessage = 'Riga decurtazione speciale creata correttamente';
-                            alert(successmessage);
-                            location.href = "https://demo.mg3.srl/date/duplicazione-template-anno-precedente/"
-                        },
-                        error: function () {
-                            successmessage = 'Errore: creazione riga decurtazione speciale non riuscita';
                             alert(successmessage);
                         }
                     });
@@ -978,10 +1017,10 @@ class ShortCodeDuplicateOldTemplate
                     ;
                 }
             } else {
-                document.getElementById("btnAddRow").disabled = true;
-                document.getElementById("btnDecurtazione").disabled = true;
-                document.getElementById("deleteRow").disabled = true;
-                document.getElementById("editRow").disabled = true;
+                // document.getElementById("btnAddRow").disabled = true;
+                // document.getElementById("btnDecurtazione").disabled = true;
+                // document.getElementById("deleteRow").disabled = true;
+                // document.getElementById("editRow").disabled = true;
             }
 
 

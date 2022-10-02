@@ -124,9 +124,9 @@ function creazione_nuova_riga($request)
     $fondo = 'Fondo 2022';
     $anno = 2022;
     $sql = "INSERT INTO DATE_template_fondo (fondo,anno,sezione,sottosezione,id_articolo,nome_articolo,
-                                 descrizione_articolo,sottotitolo_articolo,nota,link,ordinamento) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+                                 descrizione_articolo,sottotitolo_articolo,nota,link,row_type,ordinamento) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
     $stmt = $mysqli->prepare($sql);
-    $stmt->bind_param("sissssssssi",
+    $stmt->bind_param("sisssssssssi",
         $fondo,
         $anno,
         $_POST["sezione"],
@@ -137,6 +137,7 @@ function creazione_nuova_riga($request)
         $_POST["sottotitolo_articolo"],
         $_POST["nota"],
         $_POST["link"],
+        $_POST["row_type"],
         $_POST["ordinamento"]);
     $res = $stmt->execute();
     $mysqli->close();
@@ -219,28 +220,5 @@ function edit_fondo_anno($request){
     $res = $stmt->execute();
     $mysqli->close();
 }
-function create_special_decurtation_row()
-{
-    $conn = new Connection();
-    $mysqli = $conn->connect();
-    //TODO capire come passare fondo e anno da js, altrimenti usare una get che prende i dati dal db prima dell'insert
-    $fondo = 'Fondo 2022';
-    $anno = 2022;
-    $sql = "INSERT INTO DATE_template_fondo (fondo,anno,sezione,sottosezione,id_articolo,descrizione_articolo,nota,link,row_type,ordinamento) VALUES(?,?,?,?,?,?,?,?,?,?)";
-    $stmt = $mysqli->prepare($sql);
-    $stmt->bind_param("sisssssssi",
-        $fondo,
-        $anno,
-        $_POST["sezione"],
-        $_POST["sottosezione"],
-        $_POST["id_articolo"],
-        $_POST['descrizione'],
-        $_POST['nota'],
-        $_POST["link"],
-        $_POST["row_type"],
-        $_POST["ordinamento"]);
-    $res = $stmt->execute();
-    $mysqli->close();
-    return $stmt->insert_id;
-}
+
 
