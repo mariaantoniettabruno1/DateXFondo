@@ -2,7 +2,7 @@
 
 namespace dateXFondoPlugin;
 
-use FormulaTable;
+use FormulaRepository;
 
 header('Content-Type: text/javascript');
 
@@ -12,7 +12,7 @@ class ShortCodeDuplicateOldTemplate
     {
 
         $old_template = new DuplicateOldTemplate();
-        $sections = new FormulaTable();
+        $sections = new FormulaRepository();
         $anno = $old_template->getAnno();
         $fondo = $old_template->getFondo($anno);
         ?>

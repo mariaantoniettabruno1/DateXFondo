@@ -15,7 +15,7 @@ require_once(plugin_dir_path(__FILE__) . 'repositories/TemplateHistory.php');
 require_once(plugin_dir_path(__FILE__) . 'repositories/DuplicateOldTemplate.php');
 require_once(plugin_dir_path(__FILE__) . 'repositories/DisabledTemplateRow.php');
 require_once(plugin_dir_path(__FILE__) . 'repositories/DocumentTable.php');
-require_once(plugin_dir_path(__FILE__) . 'repositories/FormulaTable.php');
+require_once(plugin_dir_path(__FILE__) . 'repositories/FormulaRepository.php');
 require_once(plugin_dir_path(__FILE__) . 'repositories/SlaveFormulaTable.php');
 require_once(plugin_dir_path(__FILE__) . 'views/table/ShortCodeCustomTable.php');
 require_once(plugin_dir_path(__FILE__) . 'views/table/ShortCodeTable.php');
@@ -27,6 +27,9 @@ require_once(plugin_dir_path(__FILE__) . 'views/template/ShortCodeDisabledTempla
 require_once(plugin_dir_path(__FILE__) . 'views/formula/Formula.php');
 require_once(plugin_dir_path(__FILE__) . 'views/formula/SlaveShortCodeFormulaTable.php');
 require_once(plugin_dir_path(__FILE__) . 'views/document/ShortCodeDocumentTable.php');
+require_once(plugin_dir_path(__FILE__) . 'views/formula/components/FormulaCard.php');
+require_once(plugin_dir_path(__FILE__) . 'views/formula/components/FormulaSidebar.php');
+require_once(plugin_dir_path(__FILE__) . 'api/formula.php');
 
 
 /**
@@ -298,27 +301,7 @@ function esegui_eredita_nota_valore($params)
 
 add_action('rest_api_init', 'create_endpoint_datefondo_ereditarieta_nota_valore');
 
-function create_endpoint_datefondo_creazione_formula()
-{
 
-    register_rest_route('datexfondoplugin/v1', 'table/newformula', array(
-        'methods' => 'POST',
-        'callback' => 'esegui_creazione_formula'
-    ));
-
-
-}
-
-function esegui_creazione_formula($params)
-{
-    $insert_id = \dateXFondoPlugin\create_formula($params);
-    $data = ['id' => $insert_id, 'message' => 'Formula creata correttamente'];
-    $response = new WP_REST_Response($data);
-    $response->set_status(201);
-    return $response;
-}
-
-add_action('rest_api_init', 'create_endpoint_datefondo_creazione_formula');
 
 function create_endpoint_datefondo_edit_fondo_anno()
 {

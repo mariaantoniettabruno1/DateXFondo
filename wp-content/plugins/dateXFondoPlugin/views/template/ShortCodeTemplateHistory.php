@@ -3,7 +3,7 @@
 namespace dateXFondoPlugin;
 
 use dateXFondoPlugin\TemplateHistory;
-use FormulaTable;
+use FormulaRepository;
 
 class ShortCodeTemplateHistory
 {

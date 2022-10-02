@@ -3,7 +3,7 @@
 namespace dateXFondoPlugin;
 
 use SlaveFormulaTable;
-use FormulaTable;
+use FormulaRepository;
 use GFAPI;
 use Mpdf\Form;
 
@@ -54,7 +54,7 @@ class SlaveShortCodeFormulaTable
 
                 <?php
 
-                $sections = new FormulaTable();
+                $sections = new FormulaRepository();
                 $results_sections = $sections->getAllSections();
                 arsort($results_sections);
 
