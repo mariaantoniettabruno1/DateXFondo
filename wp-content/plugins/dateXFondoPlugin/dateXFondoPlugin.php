@@ -7,28 +7,26 @@
  * Author: MG3
  * Author URI:
  */
-require_once(plugin_dir_path(__FILE__) . 'table/CustomTable.php');
 require_once(plugin_dir_path(__FILE__) . 'common.php');
-require_once(plugin_dir_path(__FILE__) . 'database/Connection.php');
-require_once(plugin_dir_path(__FILE__) . 'table/CustomTable.php');
-require_once(plugin_dir_path(__FILE__) . 'table/ShortCodeCustomTable.php');
-require_once(plugin_dir_path(__FILE__) . 'table/ShortCodeTable.php');
-require_once(plugin_dir_path(__FILE__) . 'fondo/CreateFondo.php');
-require_once(plugin_dir_path(__FILE__) . 'fondo/ShortCodeCreateFondo.php');
-require_once(plugin_dir_path(__FILE__) . 'template/ShortCodeCreateNewTemplate.php');
-require_once(plugin_dir_path(__FILE__) . 'template/DuplicateOldTemplate.php');
-require_once(plugin_dir_path(__FILE__) . 'template/ShortCodeDuplicateOldTemplate.php');
-require_once(plugin_dir_path(__FILE__) . 'template/TemplateHistory.php');
-require_once(plugin_dir_path(__FILE__) . 'template/ShortCodeTemplateHistory.php');
-require_once(plugin_dir_path(__FILE__) . 'template/DisabledTemplateRow.php');
-require_once(plugin_dir_path(__FILE__) . 'template/ShortCodeDisabledTemplateRow.php');
-require_once(plugin_dir_path(__FILE__) . 'formula/ShortCodeFormulaTable.php');
-require_once(plugin_dir_path(__FILE__) . 'formula/FormulaTable.php');
-require_once(plugin_dir_path(__FILE__) . 'formula/SlaveFormulaTable.php');
-require_once(plugin_dir_path(__FILE__) . 'formula/SlaveShortCodeFormulaTable.php');
-require_once(plugin_dir_path(__FILE__) . 'document/DocumentTable.php');
-require_once(plugin_dir_path(__FILE__) . 'document/ShortCodeDocumentTable.php');
-require_once(plugin_dir_path(__FILE__) . 'table/live_edit.php');
+require_once(plugin_dir_path(__FILE__) . 'repositories/CustomTable.php');
+require_once(plugin_dir_path(__FILE__) . 'repositories/Connection.php');
+require_once(plugin_dir_path(__FILE__) . 'repositories/CreateFondo.php');
+require_once(plugin_dir_path(__FILE__) . 'repositories/TemplateHistory.php');
+require_once(plugin_dir_path(__FILE__) . 'repositories/DuplicateOldTemplate.php');
+require_once(plugin_dir_path(__FILE__) . 'repositories/DisabledTemplateRow.php');
+require_once(plugin_dir_path(__FILE__) . 'repositories/DocumentTable.php');
+require_once(plugin_dir_path(__FILE__) . 'repositories/FormulaTable.php');
+require_once(plugin_dir_path(__FILE__) . 'repositories/SlaveFormulaTable.php');
+require_once(plugin_dir_path(__FILE__) . 'views/table/ShortCodeCustomTable.php');
+require_once(plugin_dir_path(__FILE__) . 'views/table/ShortCodeTable.php');
+require_once(plugin_dir_path(__FILE__) . 'views/table/live_edit.php');
+require_once(plugin_dir_path(__FILE__) . 'views/fondo/ShortCodeCreateFondo.php');
+require_once(plugin_dir_path(__FILE__) . 'views/template/ShortCodeDuplicateOldTemplate.php');
+require_once(plugin_dir_path(__FILE__) . 'views/template/ShortCodeTemplateHistory.php');
+require_once(plugin_dir_path(__FILE__) . 'views/template/ShortCodeDisabledTemplateRow.php');
+require_once(plugin_dir_path(__FILE__) . 'views/formula/Formula.php');
+require_once(plugin_dir_path(__FILE__) . 'views/formula/SlaveShortCodeFormulaTable.php');
+require_once(plugin_dir_path(__FILE__) . 'views/document/ShortCodeDocumentTable.php');
 
 
 /**
@@ -100,8 +98,7 @@ function visualize_disabled_template_row()
 
 function visualize_formula_template()
 {
-    \dateXFondoPlugin\ShortCodeFormulaTable::visualize_formula_template();
-
+    \dateXFondoPlugin\Formula::render();
 }
 
 function visualize_slave_formula_template()
