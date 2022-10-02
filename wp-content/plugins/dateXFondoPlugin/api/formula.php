@@ -10,7 +10,6 @@ function create_endpoint_datefondo_creazione_formula()
 
 function esegui_creazione_formula($params)
 {
-    $params['condizione'] = 0;
     if (!isset($params['visibile'])) {
         $params['visibile'] = 1;
     }

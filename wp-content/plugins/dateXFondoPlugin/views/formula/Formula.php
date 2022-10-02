@@ -13,7 +13,8 @@ class Formula
     public static function render()
     {
         $data = new FormulaRepository();
-        $result = $data->getArticoli();
+        $result_articoli = $data->getArticoli();
+        $result_formule = $data->getFormule();
         ?>
 
 
@@ -32,7 +33,9 @@ class Formula
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 
             <script>
-                const articoli = JSON.parse((`<?=json_encode($result);?>`));
+                const articoli = JSON.parse((`<?=json_encode($result_articoli);?>`));
+                const formule = JSON.parse((`<?=json_encode($result_formule);?>`));
+                console.log(formule)
                 const sezioni = {}
                 articoli.forEach(a => {
                     if(!sezioni[a.sezione]){
@@ -42,7 +45,6 @@ class Formula
                         sezioni[a.sezione].push(a.sottosezione);
                     }
                 })
-                console.log(articoli, sezioni);
             </script>
         </head>
 
