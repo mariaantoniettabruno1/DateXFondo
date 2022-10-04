@@ -12,7 +12,7 @@ require_once(plugin_dir_path(__FILE__) . 'repositories/CustomTable.php');
 require_once(plugin_dir_path(__FILE__) . 'repositories/Connection.php');
 require_once(plugin_dir_path(__FILE__) . 'repositories/CreateFondo.php');
 require_once(plugin_dir_path(__FILE__) . 'repositories/TemplateHistory.php');
-require_once(plugin_dir_path(__FILE__) . 'repositories/DuplicateOldTemplate.php');
+require_once(plugin_dir_path(__FILE__) . 'repositories/MasterTemplateRepository.php');
 require_once(plugin_dir_path(__FILE__) . 'repositories/DisabledTemplateRow.php');
 require_once(plugin_dir_path(__FILE__) . 'repositories/DocumentTable.php');
 require_once(plugin_dir_path(__FILE__) . 'repositories/FormulaRepository.php');
@@ -21,7 +21,9 @@ require_once(plugin_dir_path(__FILE__) . 'views/table/ShortCodeCustomTable.php')
 require_once(plugin_dir_path(__FILE__) . 'views/table/ShortCodeTable.php');
 require_once(plugin_dir_path(__FILE__) . 'views/table/live_edit.php');
 require_once(plugin_dir_path(__FILE__) . 'views/fondo/ShortCodeCreateFondo.php');
-require_once(plugin_dir_path(__FILE__) . 'views/template/ShortCodeDuplicateOldTemplate.php');
+require_once(plugin_dir_path(__FILE__) . 'views/template/MasterTemplate.php');
+require_once(plugin_dir_path(__FILE__) . 'views/template/components/MasterTemplateHeader.php');
+require_once(plugin_dir_path(__FILE__) . 'views/template/components/MasterTemplateTable.php');
 require_once(plugin_dir_path(__FILE__) . 'views/template/ShortCodeTemplateHistory.php');
 require_once(plugin_dir_path(__FILE__) . 'views/template/ShortCodeDisabledTemplateRow.php');
 require_once(plugin_dir_path(__FILE__) . 'views/formula/Formula.php');
@@ -30,6 +32,7 @@ require_once(plugin_dir_path(__FILE__) . 'views/document/ShortCodeDocumentTable.
 require_once(plugin_dir_path(__FILE__) . 'views/formula/components/FormulaCard.php');
 require_once(plugin_dir_path(__FILE__) . 'views/formula/components/FormulaSidebar.php');
 require_once(plugin_dir_path(__FILE__) . 'api/formula.php');
+require_once(plugin_dir_path(__FILE__) . 'api/template.php');
 
 
 /**
@@ -56,7 +59,7 @@ function shortcodes_init()
     add_shortcode('post_table', 'call_table');
     add_shortcode('post_create_fondo', 'create_new_fondo');
     add_shortcode('post_duplicate_old_template', 'duplicate_old_template');
-    add_shortcode('post_visualize_old_template', 'visualize_old_template');
+    add_shortcode('post_visualize_master_template', 'visualize_master_template');
     add_shortcode('post_visualize_history_template', 'visualize_history_template');
     add_shortcode('post_visualize_disabled_template_row', 'visualize_disabled_template_row');
     add_shortcode('post_visualize_formula_template', 'visualize_formula_template');
@@ -83,9 +86,9 @@ function create_new_fondo()
 
 }
 
-function visualize_old_template()
+function visualize_master_template()
 {
-    \dateXFondoPlugin\ShortCodeDuplicateOldTemplate::visualize_old_template();
+    \dateXFondoPlugin\MasterTemplate::render();
 
 }
 function visualize_history_template()
@@ -112,7 +115,7 @@ function visualize_slave_formula_template()
 
 function duplicate_old_template()
 {
-    \dateXFondoPlugin\ShortCodeDuplicateOldTemplate::duplicate_old_template();
+    \dateXFondoPlugin\MasterTemplate::duplicate_old_template();
 
 }
 
@@ -302,28 +305,6 @@ function esegui_eredita_nota_valore($params)
 add_action('rest_api_init', 'create_endpoint_datefondo_ereditarieta_nota_valore');
 
 
-
-function create_endpoint_datefondo_edit_fondo_anno()
-{
-
-    register_rest_route('datexfondoplugin/v1', 'table/editfondoanno', array(
-        'methods' => 'POST',
-        'callback' => 'esegui_modifica_fondo_anno'
-    ));
-
-
-}
-
-function esegui_modifica_fondo_anno($params)
-{
-    $insert_id = \dateXFondoPlugin\edit_fondo_anno($params);
-    $data = ['id' => $insert_id, 'message' => 'Modifica fondo e anno effettuata correttamente'];
-    $response = new WP_REST_Response($data);
-    $response->set_status(201);
-    return $response;
-}
-
-add_action('rest_api_init', 'create_endpoint_datefondo_edit_fondo_anno');
 
 function create_endpoint_datefondo_creazione_riga_decurtazione_speciale()
 {

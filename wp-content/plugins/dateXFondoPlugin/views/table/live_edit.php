@@ -77,7 +77,7 @@ WHERE id=?";
 //function per il caricamento campi in base al radio button selezionato su valore, nota e valore o nessuno dei due
 function caricamento_campi($request)
 {
-    $temp_data = new DuplicateOldTemplate();
+    $temp_data = new MasterTemplateRepository();
     $conn = new Connection();
     $mysqli = $conn->connect();
     $titolo_fondo = $_POST["JSONIn"]["fondo"];
@@ -195,15 +195,6 @@ function abilita_riga($request)
 }
 
 
-function edit_fondo_anno($request){
 
-    $conn = new Connection();
-    $mysqli = $conn->connect();
-    $sql = "UPDATE DATE_template_fondo SET fondo=?, anno=?";
-    $stmt = $mysqli->prepare($sql);
-    $stmt->bind_param("si", $_POST['fondo'],$_POST['anno']);
-    $res = $stmt->execute();
-    $mysqli->close();
-}
 
 
