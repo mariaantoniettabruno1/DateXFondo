@@ -4,7 +4,7 @@
 function create_endpoint_datefondo_edit_header_template()
 {
 
-    register_rest_route('datexfondoplugin/v1', 'table/headertemplate', array(
+    register_rest_route('datexfondoplugin/v1', 'headertemplate', array(
         'methods' => 'POST',
         'callback' => 'esegui_modifica_header_template'
     ));

@@ -47,14 +47,33 @@ class MasterTemplate
         <body>
         <div class="container-fluid">
             <div class="row">
+                <div class="col">
                     <?php
                     MasterTemplateHeader::render();
                     ?>
+                </div>
             </div>
             <div class="row">
+                <div class="col">
                     <?php
                     MasterTemplateTable::render();
                     ?>
+                </div>
+            </div>
+        <div class="row">
+            <div class="col-4">
+                <?php
+                MasterTemplateNewRow::render();
+                ?>
+            </div>
+            <div class="col-4">
+                <?php
+                MasterTemplateNewDecurtationRow::render();
+                ?>
+            </div>  <div class="col-4">
+                <?php
+                MasterTemplateNewSpecialRow::render();
+                ?>
             </div>
         </div>
         </div>

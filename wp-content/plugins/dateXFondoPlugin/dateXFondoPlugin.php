@@ -13,6 +13,7 @@ require_once(plugin_dir_path(__FILE__) . 'repositories/Connection.php');
 require_once(plugin_dir_path(__FILE__) . 'repositories/CreateFondo.php');
 require_once(plugin_dir_path(__FILE__) . 'repositories/TemplateHistory.php');
 require_once(plugin_dir_path(__FILE__) . 'repositories/MasterTemplateRepository.php');
+require_once(plugin_dir_path(__FILE__) . 'repositories/MasterTemplateRowRepository.php');
 require_once(plugin_dir_path(__FILE__) . 'repositories/DisabledTemplateRow.php');
 require_once(plugin_dir_path(__FILE__) . 'repositories/DocumentTable.php');
 require_once(plugin_dir_path(__FILE__) . 'repositories/FormulaRepository.php');
@@ -24,6 +25,9 @@ require_once(plugin_dir_path(__FILE__) . 'views/fondo/ShortCodeCreateFondo.php')
 require_once(plugin_dir_path(__FILE__) . 'views/template/MasterTemplate.php');
 require_once(plugin_dir_path(__FILE__) . 'views/template/components/MasterTemplateHeader.php');
 require_once(plugin_dir_path(__FILE__) . 'views/template/components/MasterTemplateTable.php');
+require_once(plugin_dir_path(__FILE__) . 'views/template/components/MasterTemplateNewRow.php');
+require_once(plugin_dir_path(__FILE__) . 'views/template/components/MasterTemplateNewDecurtationRow.php');
+require_once(plugin_dir_path(__FILE__) . 'views/template/components/MasterTemplateNewSpecialRow.php');
 require_once(plugin_dir_path(__FILE__) . 'views/template/ShortCodeTemplateHistory.php');
 require_once(plugin_dir_path(__FILE__) . 'views/template/ShortCodeDisabledTemplateRow.php');
 require_once(plugin_dir_path(__FILE__) . 'views/formula/Formula.php');
@@ -33,6 +37,7 @@ require_once(plugin_dir_path(__FILE__) . 'views/formula/components/FormulaCard.p
 require_once(plugin_dir_path(__FILE__) . 'views/formula/components/FormulaSidebar.php');
 require_once(plugin_dir_path(__FILE__) . 'api/formula.php');
 require_once(plugin_dir_path(__FILE__) . 'api/template.php');
+require_once(plugin_dir_path(__FILE__) . 'api/newrow.php');
 
 
 /**
@@ -58,7 +63,7 @@ function shortcodes_init()
     add_shortcode('post_custom_table', 'call_custom_table');
     add_shortcode('post_table', 'call_table');
     add_shortcode('post_create_fondo', 'create_new_fondo');
-    add_shortcode('post_duplicate_old_template', 'duplicate_old_template');
+   // add_shortcode('post_duplicate_old_template', 'duplicate_old_template');
     add_shortcode('post_visualize_master_template', 'visualize_master_template');
     add_shortcode('post_visualize_history_template', 'visualize_history_template');
     add_shortcode('post_visualize_disabled_template_row', 'visualize_disabled_template_row');
@@ -113,11 +118,11 @@ function visualize_slave_formula_template()
 
 }
 
-function duplicate_old_template()
-{
-    \dateXFondoPlugin\MasterTemplate::duplicate_old_template();
-
-}
+//function duplicate_old_template()
+//{
+//    \dateXFondoPlugin\MasterTemplate::duplicate_old_template();
+//
+//}
 
 function document_template()
 {
@@ -190,48 +195,8 @@ function esegui_modifica_campi_nuovo_template($params)
 
 add_action('rest_api_init', 'create_endpoint_datefondo_nuovo');
 
-function create_endpoint_datefondo_creazione_riga()
-{
-
-    register_rest_route('datexfondoplugin/v1', 'table/newrow', array(
-        'methods' => 'POST',
-        'callback' => 'esegui_creazione_riga'
-    ));
 
 
-}
-
-function esegui_creazione_riga($params)
-{
-    $insert_id = \dateXFondoPlugin\creazione_nuova_riga($params);
-    $data = ['id' => $insert_id, 'message' => 'Bello DateXFondo'];
-    $response = new WP_REST_Response($data);
-    $response->set_status(201);
-    return $response;
-}
-
-add_action('rest_api_init', 'create_endpoint_datefondo_creazione_riga');
-function create_endpoint_datefondo_creazione_riga_decurtazione()
-{
-
-    register_rest_route('datexfondoplugin/v1', 'table/newrowdec', array(
-        'methods' => 'POST',
-        'callback' => 'esegui_creazione_riga_decurtazione'
-    ));
-
-
-}
-
-function esegui_creazione_riga_decurtazione($params)
-{
-    $insert_id = \dateXFondoPlugin\creazione_nuova_riga_dec($params);
-    $data = ['id' => $insert_id, 'message' => 'Riga decurtazione creata correttamente'];
-    $response = new WP_REST_Response($data);
-    $response->set_status(201);
-    return $response;
-}
-
-add_action('rest_api_init', 'create_endpoint_datefondo_creazione_riga_decurtazione');
 
 function create_endpoint_datefondo_caricamento()
 {

@@ -16,11 +16,12 @@ class MasterTemplateHeader
 
                 $("#editInputButton").click(function () {
                     $(this).hide();
+                    $('#saveInputButton').show();
                 });
                 $('#saveInputButton').click(function () {
                     {
                         let fondo = $('#inputFondo').val();
-                        let anno = $('#inputAnno').val();
+                        let anno = parseInt($('#inputAnno').val());
                         let descrizione_fondo = $('#inputDescrizioneFondo').val();
 
                         const payload = {
@@ -28,6 +29,7 @@ class MasterTemplateHeader
                             anno,
                             descrizione_fondo
                         }
+                        console.log(payload)
                         $.ajax({
                             url: '<?= DateXFondoCommon::get_website_url() ?>/wp-json/datexfondoplugin/v1/templateheader',
                             data: payload,
@@ -39,7 +41,7 @@ class MasterTemplateHeader
                                 console.error(response);
                             }
                         });
-                        $(this).hide();
+                        $('#saveInputButton').hide();
                         $('#editInputButton').show();
                     }
                 });

@@ -116,58 +116,6 @@ function caricamento_campi($request)
 
 }
 
-function creazione_nuova_riga($request)
-{
-    $conn = new Connection();
-    $mysqli = $conn->connect();
-    //TODO capire come passare fondo e anno da js, altrimenti usare una get che prende i dati dal db prima dell'insert
-    $fondo = 'Fondo 2022';
-    $anno = 2022;
-    $sql = "INSERT INTO DATE_template_fondo (fondo,anno,sezione,sottosezione,id_articolo,nome_articolo,
-                                 descrizione_articolo,sottotitolo_articolo,nota,link,row_type,ordinamento) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
-    $stmt = $mysqli->prepare($sql);
-    $stmt->bind_param("sisssssssssi",
-        $fondo,
-        $anno,
-        $_POST["sezione"],
-        $_POST["sottosezione"],
-        $_POST["id_articolo"],
-        $_POST["nome_articolo"],
-        $_POST["descrizione_articolo"],
-        $_POST["sottotitolo_articolo"],
-        $_POST["nota"],
-        $_POST["link"],
-        $_POST["row_type"],
-        $_POST["ordinamento"]);
-    $res = $stmt->execute();
-    $mysqli->close();
-    return $stmt->insert_id;
-}
-
-function creazione_nuova_riga_dec($request)
-{
-    $conn = new Connection();
-    $mysqli = $conn->connect();
-    //TODO capire come passare fondo e anno da js, altrimenti usare una get che prende i dati dal db prima dell'insert
-    $fondo = 'Fondo 2022';
-    $anno = 2022;
-    $sql = "INSERT INTO DATE_template_fondo (fondo,anno,sezione,sottosezione,descrizione_articolo,nota,link,row_type,ordinamento) VALUES(?,?,?,?,?,?,?,?,?)";
-    $stmt = $mysqli->prepare($sql);
-    $stmt->bind_param("sissssssi",
-        $fondo,
-        $anno,
-        $_POST["sezione"],
-        $_POST["sottosezione"],
-        $_POST['descrizione'],
-        $_POST['nota'],
-        $_POST["link"],
-        $_POST["row_type"],
-        $_POST["ordinamento"]);
-    $res = $stmt->execute();
-    $mysqli->close();
-    return $stmt->insert_id;
-}
-
 
 function cancella_riga($request)
 {

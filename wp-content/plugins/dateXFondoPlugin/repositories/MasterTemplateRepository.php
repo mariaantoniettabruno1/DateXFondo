@@ -16,13 +16,13 @@ class MasterTemplateRepository
     }
     function edit_header_template($request){
 
-        $conn = new Connection();
-        $mysqli = $conn->connect();
-        $sql = "UPDATE DATE_template_fondo SET fondo=?, anno=?, descrizione_fondo=?";
-        $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("sis", $request['fondo'],$request['anno'],$request['descrizione_fondo']);
-        $res = $stmt->execute();
-        $mysqli->close();
+//        $conn = new Connection();
+//        $mysqli = $conn->connect();
+//        $sql = "UPDATE DATE_template_fondo SET fondo=?,anno=?,descrizione_fondo=?";
+//        $stmt = $mysqli->prepare($sql);
+//        $stmt->bind_param("sss", $request['fondo'],$request['anno'],$request['descrizione_fondo']);
+//        $stmt->execute();
+//        mysqli_close($mysqli);
     }
 //    public function getAnno(){
 //        $conn = new Connection();
