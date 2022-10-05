@@ -117,18 +117,7 @@ function caricamento_campi($request)
 }
 
 
-function cancella_riga($request)
-{
-    $input = (array)$request->get_body_params();
-    $conn = new Connection();
-    $mysqli = $conn->connect();
-    $sql = "UPDATE DATE_template_fondo SET attivo=0  WHERE id=?";
-    $stmt = $mysqli->prepare($sql);
-    $stmt->bind_param("i", $_POST['id_riga']);
-    $res = $stmt->execute();
-    $mysqli->close();
-    return 'id cancellato';
-}
+
 function abilita_riga($request)
 {
     $input = (array)$request->get_body_params();

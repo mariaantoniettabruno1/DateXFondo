@@ -60,7 +60,7 @@ class MasterTemplate
                 MasterTemplateTable::render();
                 ?>
             </div>
-            <div class="row">
+            <div class="row pt-2">
                 <div class="col-4">
                     <?php
                     MasterTemplateNewRow::render();

@@ -50,4 +50,16 @@ public static function create_new_dec($request){
     $mysqli->close();
     return $stmt->insert_id;
 }
+    public static function delete_row($request)
+    {
+        $input = (array)$request->get_body_params();
+        $conn = new Connection();
+        $mysqli = $conn->connect();
+        $sql = "UPDATE DATE_template_fondo SET attivo=0  WHERE id=?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("i", $request['id']);
+        $res = $stmt->execute();
+        $mysqli->close();
+
+    }
 }

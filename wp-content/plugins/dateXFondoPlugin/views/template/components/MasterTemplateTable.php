@@ -28,9 +28,9 @@ class MasterTemplateTable
                                         <td></td>
                                        <td>${art.nota}</td>
                                        <td>${art.link}</td>
-                                           <td><div class="row">
-                <div class="col-3"><button class="btn btn-link"><i class="fa-solid fa-pen"></i></button></div>
-                <div class="col-3"><button class="btn btn-link"><i class="fa-solid fa-trash"></i></button></div>
+                                           <td><div class="row pr-3">
+                <div class="col-3"><button class="btn btn-link btn-edit-row" data-id='${art.id}' data-articolo ='${art}'><i class="fa-solid fa-pen" data-toggle="modal" data-target="#editModal"></i></button></div>
+                <div class="col-3"><button class="btn btn-link btn-delete-row" data-id='${art.id}' data-toggle="modal" data-target="#deleteModal"><i class="fa-solid fa-trash"></i></button></div>
                 </div></td>
                                  </tr>
                              `);
@@ -50,11 +50,62 @@ class MasterTemplateTable
                 renderDataTable();
                 $('.classAccordionButton').click(function () {
                     let section = $(this).attr('data-section');
-                    //$('#selectTemplateSottosezione').attr('disabled', false);
-                    sezioni[section].forEach(ssez => {
-                        $('#select' + section).append(`<option>${ssez}</option>`);
-                    });
+                    // //$('#selectTemplateSottosezione').attr('disabled', false);
+                    // sezioni[section].forEach(ssez => {
+                    //     $('#select' + section).append(`<option>${ssez}</option>`);
+                    // });
                 });
+                $('.btn-edit-row').click(function () {
+                    let articolo = $(this).attr('data-articolo');
+                    console.log(articolo)
+
+                    $('#editRowButton').click(function () {
+                    const payload = {
+                        id
+                    }
+                    console.log(payload)
+
+                    //$.ajax({
+                    //    url: '<?//= DateXFondoCommon::get_website_url() ?>///wp-json/datexfondoplugin/v1/editrow',
+                    //    data: payload,
+                    //    type: "POST",
+                    //    success: function (response) {
+                    //        console.log(response);
+                    //        $("#editModal").modal('hide');
+                    //    },
+                    //    error: function (response) {
+                    //        console.error(response);
+                    //        $("#editModal").modal('hide');
+                    //    }
+                    //});
+                })
+                })
+                $('.btn-delete-row').click(function () {
+                    let id = $(this).attr('data-id');
+                    $('#deleteRowButton').click(function () {
+                        const payload = {
+                            id
+                        }
+                        console.log(payload)
+
+                        $.ajax({
+                            url: '<?= DateXFondoCommon::get_website_url() ?>/wp-json/datexfondoplugin/v1/delrow',
+                            data: payload,
+                            type: "POST",
+                            success: function (response) {
+                                console.log(response);
+                                $("#deleteModal").modal('hide');
+                                $(".delete-toast-ok").toast('show');
+                            },
+                            error: function (response) {
+                                console.error(response);
+                                $("#deleteModal").modal('hide');
+                            }
+                        });
+                    })
+                })
+
+
             })
         </script>
         <?php
@@ -72,6 +123,7 @@ class MasterTemplateTable
                 array_push($sezioni, $articolo['sezione']);
             }
         }
+
 
         ?>
         <div class="accordionTemplateTable mt-2">
@@ -131,13 +183,81 @@ class MasterTemplateTable
                         </div>
                     </div>
                 </div>
+
                 <?php
             }
             ?>
 
 
         </div>
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalLabel">Cancella riga </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Vuoi veramente eliminare questa riga?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
+                        <button type="button" class="btn btn-primary" id="deleteRowButton">Cancella</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="editModal" tabindex="-1"
+             role="dialog"
+             aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Modifica riga del fondo:</h5>
+                        <button type="button" class="close" data-dismiss="modal"
+                                aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
 
+                    <div class="modal-body">
+                        <!--  Inserire check per cambiare la view del modale a seconda del type row -->
+                        <label>Ordinamento</label>
+                        <input type="text" class="form-control" id="ordinamento" name="ordinamento">
+                        <label>Id Articolo</label>
+                        <input type="text" class="form-control" id="id_articolo" name="id_articolo">
+
+                        <label>Nome Articolo</label>
+                        <input type="text" class="form-control" id="idNomeArticolo"
+                               name="idNomeArticolo">
+
+                        <label>Sottotitolo Articolo</label>
+                        <textarea class="form-control"
+                                  id="idSottotitoloArticolo"
+                                  name="idSottotitoloArticolo"></textarea>
+
+                        <label>Descrizione Articolo</label>
+                        <textarea class="form-control"
+                                  id="idDescrizioneArticolo"
+                                  name="idDescrizioneArticolo"></textarea>
+
+                        <label>Nota</label>
+                        <textarea class="form-control"
+                                  id="idNotaArticolo"
+                                  name="idNotaArticolo"></textarea>
+                        <label>Link associato</label>
+                        <input type="text" class="form-control" id="idLinkAssociato"
+                               name="idLinkAssociato">
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" id="editRowButton">Salva Modifica</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <?php
         self::render_scripts();

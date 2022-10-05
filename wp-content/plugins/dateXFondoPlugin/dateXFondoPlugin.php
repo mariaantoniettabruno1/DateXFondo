@@ -216,23 +216,7 @@ function esegui_caricamento_campi($params)
 
 add_action('rest_api_init', 'create_endpoint_datefondo_caricamento');
 
-function create_endpoint_datefondo_disattiva_riga()
-{
 
-    register_rest_route('datexfondoplugin/v1', 'table/deleterow', array(
-        'methods' => 'POST',
-        'callback' => 'esegui_cancellazione_riga'
-    ));
-
-
-}
-
-function esegui_cancellazione_riga($params)
-{
-    return \dateXFondoPlugin\cancella_riga($params);
-}
-
-add_action('rest_api_init', 'create_endpoint_datefondo_disattiva_riga');
 function create_endpoint_datefondo_attiva_riga()
 {
 

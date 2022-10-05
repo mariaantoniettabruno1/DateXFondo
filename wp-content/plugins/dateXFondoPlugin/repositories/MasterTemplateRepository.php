@@ -8,21 +8,23 @@ class MasterTemplateRepository
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = "SELECT fondo,anno,descrizione_fondo,ordinamento,sezione,sottosezione,id_articolo,nome_articolo,sottotitolo_articolo,nota,link FROM DATE_template_fondo WHERE id_articolo IS NOT NULL and attivo=1";
+        $sql = "SELECT id,fondo,anno,descrizione_fondo,ordinamento,sezione,sottosezione,id_articolo,nome_articolo,sottotitolo_articolo,nota,link FROM DATE_template_fondo WHERE id_articolo IS NOT NULL and attivo=1";
         $result = $mysqli->query($sql);
         $row = $result->fetch_all(MYSQLI_ASSOC);
         mysqli_close($mysqli);
         return $row;
     }
+
+
     function edit_header_template($request){
 
-//        $conn = new Connection();
-//        $mysqli = $conn->connect();
-//        $sql = "UPDATE DATE_template_fondo SET fondo=?,anno=?,descrizione_fondo=?";
-//        $stmt = $mysqli->prepare($sql);
-//        $stmt->bind_param("sss", $request['fondo'],$request['anno'],$request['descrizione_fondo']);
-//        $stmt->execute();
-//        mysqli_close($mysqli);
+//      $conn = new Connection();
+//      $mysqli = $conn->connect();
+//      $sql = "UPDATE DATE_template_fondo SET fondo=?,anno=?,descrizione_fondo=?";
+//      $stmt = $mysqli->prepare($sql);
+//      $stmt->bind_param("sss", $request['fondo'],$request['anno'],$request['descrizione_fondo']);
+//      $stmt->execute();
+//      mysqli_close($mysqli);
     }
 //    public function getAnno(){
 //        $conn = new Connection();
