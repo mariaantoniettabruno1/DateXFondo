@@ -39,33 +39,21 @@ class MasterTemplateTable
 
 
             function filterSubsections(section) {
-                $('#selectTemplateSottosezione').html('<option>Seleziona Sottosezione</option>');
+                console.log(section)
+                $('.classTeplateSottosezione').html('<option>Seleziona Sottosezione</option>');
                 sezioni[section].forEach(ssez => {
-                    $('#selectTemplateSottosezione').append(`<option>${ssez}</option>`);
+                    $('.classTeplateSottosezione').append(`<option>${ssez}</option>`);
                 });
             }
 
             $(document).ready(function () {
-
                 renderDataTable();
-                $.each(sezioni, function(i) {
-                    console.log(i)
-                    $('#templateCard').addClass('card');
-                });
-                $('#collapseTemplate').click(function () {
-                    const section = $('#collapseTemplate').val();
+                $('.classAccordionButton').click(function () {
+                    let section = $(this).attr('data-section');
                     //$('#selectTemplateSottosezione').attr('disabled', false);
-                    filterSubsections(section);
-                });
-                $('#selectTemplateSottosezione').change(function () {
-                    const subsection = $('#selectTemplateSottosezione').val();
-                    const section = $('#collapseTemplate').val();
-                    if (subsection !== 'Seleziona Sottosezione') {
-                        renderDataTable(section, subsection);
-                    } else {
-                       // $('#selectTemplateSottosezione').attr('disabled', true);
-
-                    }
+                    sezioni[section].forEach(ssez => {
+                        $('#select' + section).append(`<option>${ssez}</option>`);
+                    });
                 });
             })
         </script>
@@ -74,48 +62,80 @@ class MasterTemplateTable
 
     public static function render()
     {
+        $data = new MasterTemplateRepository();
+        $results_articoli = $data->getArticoli();
+
+        $sezioni = [];
+        $sottosezioni = [];
+        foreach ($results_articoli as $articolo) {
+            if (!in_array($articolo['sezione'], $sezioni)) {
+                array_push($sezioni, $articolo['sezione']);
+            }
+        }
+
         ?>
-
         <div class="accordionTemplateTable mt-2">
-            <div class="card" id="templateCard">
-                <div class="card-header" id="headingTemplateTable">
-                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapseTemplate"
-                            aria-expanded="false" aria-controls="collapseTemplate">
-                    </button>
-                </div>
-                <div id="collapseTemplate" class="collapse" aria-labelledby="headingTemplateTable"
-                     data-parent="#accordionTemplateTable">
-                    <div class="car-body">
-                        <div class="row pl-2 pb-2 pt-2">
-                            <div class="col-3">
-                                <select class="custom-select" id="selectTemplateSottosezione">
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row pl-5">
-                            <div class="col-11">
-                                <table class="table">
-                                    <thead>
-                                    <tr>
-                                        <th>Ordinamento</th>
-                                        <th>Id Articolo</th>
-                                        <th>Nome Articolo</th>
-                                        <th>Sottotitolo Articolo</th>
-                                        <th>Descrizione Articolo</th>
-                                        <th>Nota</th>
-                                        <th>Link</th>
-                                        <th>Azioni</th>
-                                    </tr>
+            <?php
 
-                                    </thead>
-                                    <tbody id="dataTemplateTableBody">
-                                    </tbody>
-                                </table>
+            foreach ($sezioni as $key => $sezione) {
+                ?>
+                <div class="card" id="templateCard">
+                    <div class="card-header" id="headingTemplateTable<?= $key ?>">
+                        <button class="btn btn-link classAccordionButton" data-toggle="collapse"
+                                data-target="#collapseTemplate<?= $key ?>"
+                                aria-expanded="false" aria-controls="collapseTemplate<?= $key ?>"
+                                data-section="<?= $sezione ?>">
+                            <?= $sezione ?>
+                        </button>
+                    </div>
+                    <div id="collapseTemplate<?= $key ?>" class="collapse"
+                         aria-labelledby="headingTemplateTable<?= $key ?>"
+                         data-parent="#accordionTemplateTable">
+                        <div class="car-body">
+                            <div class="row pl-2 pb-2 pt-2">
+                                <div class="col-3">
+                                    <select class="custom-select class-template-sottosezione"
+                                            id="select <?= $sezione ?>">
+                                        <option>Seleziona Sottosezione</option>
+                                        <?php
+                                        foreach ($sottosezioni as $sottosezione) {
+                                            ?>
+                                            <option><?= $sottosezione ?></option>
+                                            <?php
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row pl-5">
+                                <div class="col-11">
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th>Ordinamento</th>
+                                            <th>Id Articolo</th>
+                                            <th>Nome Articolo</th>
+                                            <th>Sottotitolo Articolo</th>
+                                            <th>Descrizione Articolo</th>
+                                            <th>Nota</th>
+                                            <th>Link</th>
+                                            <th>Azioni</th>
+                                        </tr>
+
+                                        </thead>
+                                        <tbody id="dataTemplateTableBody">
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+                <?php
+            }
+            ?>
+
+
         </div>
 
 

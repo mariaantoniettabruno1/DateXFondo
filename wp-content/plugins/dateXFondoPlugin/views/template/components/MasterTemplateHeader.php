@@ -17,12 +17,18 @@ class MasterTemplateHeader
                 $("#editInputButton").click(function () {
                     $(this).hide();
                     $('#saveInputButton').show();
+                    $('#inputFondo').attr('readonly', false);
+                    $('#inputAnno').attr('readonly', false);
+                    $('#inputDescrizioneFondo').attr('readonly', false);
                 });
                 $('#saveInputButton').click(function () {
                     {
                         let fondo = $('#inputFondo').val();
                         let anno = parseInt($('#inputAnno').val());
                         let descrizione_fondo = $('#inputDescrizioneFondo').val();
+                        $('#inputFondo').attr('readonly', true);
+                        $('#inputAnno').attr('readonly', true);
+                        $('#inputDescrizioneFondo').attr('readonly', true);
 
                         const payload = {
                             fondo,
@@ -54,17 +60,18 @@ class MasterTemplateHeader
     {
         ?>
         <div class="col-3">
-            <input type="text" placeholder="Fondo" id="inputFondo">
+            <input type="text" placeholder="Fondo" id="inputFondo" readonly>
         </div>
         <div class="col-3">
-            <input type="text" placeholder="Anno" id="inputAnno">
+            <input type="text" placeholder="Anno" id="inputAnno" readonly>
         </div>
         <div class="col-3">
-            <input type="text" placeholder="Descrizione Fondo" id="inputDescrizioneFondo">
+            <input type="text" placeholder="Descrizione Fondo" id="inputDescrizioneFondo" readonly>
         </div>
         <div class="col-3">
             <button class="btn btn-link" id="editInputButton"><i class="fa-solid fa-pen"></i></button>
-            <button class="btn btn-link" id="saveInputButton"><i class="fa-solid fa-floppy-disk"></i></button>
+            <button class="btn btn-link" id="saveInputButton" style="display: none"><i
+                        class="fa-solid fa-floppy-disk"></i></button>
         </div>
         <?php
         self::render_scripts();

@@ -102,8 +102,6 @@ class MasterTemplateNewRow
         <button class="btn btn-outline-primary" data-toggle="modal"
                 data-target="#addRowModal">Aggiungi riga
         </button>
-
-        <button class="btn btn-outline-primary">Aggiungi riga speciale</button>
         <div class="modal fade" id="addRowModal" tabindex="-1"
              role="dialog"
              aria-labelledby="myModalLabel" aria-hidden="true">

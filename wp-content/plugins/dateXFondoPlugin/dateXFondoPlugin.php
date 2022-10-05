@@ -271,24 +271,3 @@ add_action('rest_api_init', 'create_endpoint_datefondo_ereditarieta_nota_valore'
 
 
 
-function create_endpoint_datefondo_creazione_riga_decurtazione_speciale()
-{
-
-    register_rest_route('datexfondoplugin/v1', 'table/newrowspdec', array(
-        'methods' => 'POST',
-        'callback' => 'esegui_creazione_riga_decurtazione_speciale'
-    ));
-
-
-}
-
-function esegui_creazione_riga_decurtazione_speciale($params)
-{
-    $insert_id = \dateXFondoPlugin\create_special_decurtation_row($params);
-    $data = ['id' => $insert_id, 'message' => 'Creazione riga decurtazione speciale effettuata correttamente'];
-    $response = new WP_REST_Response($data);
-    $response->set_status(201);
-    return $response;
-}
-
-add_action('rest_api_init', 'create_endpoint_datefondo_creazione_riga_decurtazione_speciale');
