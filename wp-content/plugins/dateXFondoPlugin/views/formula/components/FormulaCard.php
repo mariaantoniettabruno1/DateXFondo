@@ -26,6 +26,7 @@ class FormulaCard
             }
 
             $(document).ready(function () {
+                let selectedInput = null;
                 renderSectionInput();
                 $('#inputSelectSezioneFormula').change(function () {
                     const section = $('#inputSelectSezioneFormula').val();
@@ -37,6 +38,48 @@ class FormulaCard
                         $('#inputSelectSottosezioneFormula').html('');
                     }
                 });
+
+                $(".input-field").click(function () {
+                    selectedInput = $(this);
+                })
+
+                $(".formula-button").click(function () {
+                    if (!selectedInput) return;
+                    const id = selectedInput.attr("id");
+                    const insert = $(this).attr("data-input");
+                    const t = selectedInput.val()
+                    const cursorPosition = document.getElementById(id).selectionStart ?? 0;
+
+                    if (cursorPosition) {
+                        selectedInput.val(t.slice(0, cursorPosition) + insert + t.slice(cursorPosition));
+                    } else {
+                        selectedInput.val(t + insert);
+                    }
+                    let nextPosition = cursorPosition + insert.length
+                    // @todo Nice to have: aggiungere casistica per posizionare il cursore tra le due parentesi
+                    setCaretPosition(id,nextPosition)
+                })
+
+                function setCaretPosition(elemId, caretPos) {
+                    var elem = document.getElementById(elemId);
+
+                    if(elem != null) {
+                        if(elem.createTextRange) {
+                            var range = elem.createTextRange();
+                            range.move('character', caretPos);
+                            range.select();
+                        }
+                        else {
+                            if(elem.selectionStart) {
+                                elem.focus();
+                                elem.setSelectionRange(caretPos, caretPos);
+                            }
+                            else
+                                elem.focus();
+                        }
+                    }
+                }
+
 
                 $('#insertFormula').click(function () {
                     let sezione = $('#inputSelectSezioneFormula').val();
@@ -69,7 +112,7 @@ class FormulaCard
                         success: function (response) {
                             console.log(response);
                             if (response["id"]) {
-                                formule.push(response);
+                                formule.push({...payload, id: response["id"]});
                             }
                         },
                         error: function (response) {
@@ -112,7 +155,7 @@ class FormulaCard
                             type: "POST",
                             success: function (response) {
                                 if (response["id"]) {
-                                    formule.push(response);
+                                    formule.push({...payload, id: response["id"]});
                                 }
                                 console.log(response);
 
@@ -132,14 +175,13 @@ class FormulaCard
 
     public static function render()
     {
-
         ?>
-        <div class="card mb-2">
+        <div class="card">
             <div class="card-header">
                 Informazioni Formula
             </div>
             <div class="card-body">
-                <div class="row pb-2">
+                <div class="row mb-3">
                     <div class="col-4"><input type="text" class="form-control" id="inputNomeFormula"
                                               placeholder="Inserisci nome"
                                               aria-label="NomeFormula" aria-describedby="basic-addon1">
@@ -149,12 +191,12 @@ class FormulaCard
                                placeholder="Inserisci descrizione" aria-label="DescrizioneFormula"
                                aria-describedby="basic-addon1"></div>
                 </div>
-                <div class="row pb-2">
+                <div class="row mb-3">
                     <div class="col">
                         <select class="custom-select" id="inputSelectSezioneFormula">
                         </select>
                     </div>
-                    <div class="col-6">
+                    <div class="col">
                         <select class="custom-select" id="inputSelectSottosezioneFormula" disabled>
                         </select>
                     </div>
@@ -171,8 +213,8 @@ class FormulaCard
                     </div>
                 </div>
             </div>
-
         </div>
+        <hr/>
         <div id="accordion">
             <div class="card">
                 <div class="card-header" id="headingOne">
@@ -188,12 +230,12 @@ class FormulaCard
                     <div class="card-body">
                         <div class="row pb-2">
                             <div class="col">
-                                <input type="text" class="form-control" id="inputFormula"
+                                <input type="text" class="form-control input-field" id="inputFormula"
                                        placeholder="Inserisci formula"
                                        aria-label="Formula" aria-describedby="basic-addon1"></div>
                         </div>
                         <div class="d-flex flex-row justify-content-end">
-                            <button class="btn btn-outline-primary" id="insertFormula">Aggiungi</button>
+                            <button class="btn btn-outline-primary" id="insertFormula">Aggiungi Formula</button>
                         </div>
                     </div>
                 </div>
@@ -211,30 +253,103 @@ class FormulaCard
                     <div class="card-body">
                         <div class="row pb-2">
                             <div class="col">
-                                <input type="text" class="form-control" id="inputCondizione"
+                                <input type="text" class="form-control input-field" id="inputCondizione"
                                        placeholder="Inserisci condizione" aria-label="Condizione"
                                        aria-describedby="basic-addon1"></div>
                         </div>
                         <div class="row pb-2">
-                            <div class="col"><input type="text" class="form-control" id="inputVero"
+                            <div class="col"><input type="text" class="form-control input-field" id="inputVero"
                                                     placeholder="Se vero"
                                                     aria-label="CondizionaleVero" aria-describedby="basic-addon1">
                             </div>
                         </div>
                         <div class="row pb-2">
                             <div class="col">
-                                <input type="text" class="form-control" id="inputFalso" placeholder="Se falso"
+                                <input type="text" class="form-control input-field" id="inputFalso"
+                                       placeholder="Se falso"
                                        aria-label="CondizionaleFalso" aria-describedby="basic-addon1">
                             </div>
                         </div>
 
                         <div class="d-flex flex-row justify-content-end">
-                            <button class="btn btn-outline-primary" id="insertCondition">Aggiungi</button>
+                            <button class="btn btn-outline-primary" id="insertCondition">Aggiungi Condizionale</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <hr>
+        <div class="card mb-2">
+
+            <div class="card-body">
+                <div class="row mb-3" id="arithmeticLogicControls">
+                    <div class="col px-1">
+                        <button id="btnPlus" class="btn btn-block btn-outline-primary formula-button" data-input=" + ">
+                            +
+                        </button>
+                    </div>
+                    <div class="col px-1">
+                        <button id="btnMinus" class="btn btn-block btn-outline-primary formula-button" data-input=" - ">
+                            -
+                        </button>
+                    </div>
+                    <div class="col px-1">
+                        <button id="btnTimes" class="btn btn-block btn-outline-primary formula-button" data-input=" * ">
+                            x
+                        </button>
+                    </div>
+                    <div class="col px-1">
+                        <button id="btnDiv" class="btn btn-block btn-outline-primary formula-button" data-input=" / ">
+                            /
+                        </button>
+                    </div>
+                    <div class="col px-1">
+                        <button id="btnPar" class="btn btn-block btn-outline-primary formula-button"
+                                data-input=" (   ) ">( )
+                        </button>
+                    </div>
+                    <div class="col px-1">
+                        <button id="btnAnd" class="btn btn-block btn-outline-primary formula-button" data-input=" && ">
+                            AND
+                        </button>
+                    </div>
+                    <div class="col px-1">
+                        <button id="btnOr" class="btn btn-block btn-outline-primary formula-button" data-input=" || ">
+                            OR
+                        </button>
+                    </div>
+                    <div class="col px-1">
+                        <button id="btnNot" class="btn btn-block btn-outline-primary formula-button"
+                                data-input=" !(   ) ">NOT
+                        </button>
+                    </div>
+                </div>
+                <div class="d-flex" id="comparators">
+                    <div class="col px-1">
+                        <button class="btn btn-block btn-outline-primary formula-button" data-input=" > "> ></button>
+                    </div>
+                    <div class="col px-1">
+                        <button class="btn btn-block btn-outline-primary formula-button" data-input=" < "> <</button>
+                    </div>
+                    <div class="col px-1">
+                        <button class="btn btn-block btn-outline-primary formula-button" data-input=" >= "> ≥</button>
+                    </div>
+                    <div class="col px-1">
+                        <button class="btn btn-block btn-outline-primary formula-button" data-input=" <= "> ≤</button>
+                    </div>
+                    <div class="col px-1">
+                        <button class="btn btn-block btn-outline-primary formula-button" data-input=" == "> =</button>
+                    </div>
+                    <div class="col px-1">
+                        <button class="btn btn-block btn-outline-primary formula-button" data-input=" != "> ≠</button>
+                    </div>
+                    <div class="col px-1">
+                        <button class="btn btn-block btn-outline-primary formula-button" data-input=" 0 "> 0</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
         <?php
         self::render_scripts();
