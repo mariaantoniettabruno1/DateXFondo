@@ -20,9 +20,19 @@ class FormulaSidebar
                 filteredArticoli.forEach(art => {
                     $('#dataTableBody').append(`
                         <tr>
-                              <td>${art.id_articolo}</td>
-                              <td>${art.nome_articolo}</td>
-                              <td>${art.sottotitolo_articolo}</td>
+                          <td class="text-truncate" data-toggle="tooltip" title="${art.id_articolo}">
+                           ${art.id_articolo}
+                          </td>
+                          <td class="text-truncate" data-toggle="tooltip" title="${art.nome_articolo}">
+                           ${art.nome_articolo}
+                          </td>
+                          <td class="text-truncate" data-toggle="tooltip" title="${art.sottotitolo_articolo}">
+                           ${art.sottotitolo_articolo}
+                          </td>
+                          <td>
+                            <button type="button" class="btn btn-sm btn-outline-primary" title="Aggiungi ${art.id_articolo} alla formula" onclick="insertIntoFormula('${art.id_articolo}')"><i class="fa-solid fa-plus"></i></button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary" title="Visualizza"><i class="fa-solid fa-eye"></i></button>
+                          </td>
                         </tr>
                     `);
                 });
@@ -48,8 +58,12 @@ class FormulaSidebar
                     }
                     table.append(`
                         <tr>
-                              <td>${f.nome}</td>
-                              <td>${f.descrizione}</td>
+                          <td class="text-truncate" data-toggle="tooltip" title="${f.nome}">${f.nome}</td>
+                          <td class="text-truncate" data-toggle="tooltip" title="${f.descrizione}">${f.descrizione}</td>
+                          <td>
+                            <button type="button" class="btn btn-sm btn-outline-primary" title="Aggiungi ${f.nome} alla formula" onclick="insertIntoFormula('${art.id_articolo}')"><i class="fa-solid fa-plus"></i></button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary" title="Visualizza"><i class="fa-solid fa-pencil"></i></button>
+                          </td>
                         </tr>
                     `);
                 });
@@ -141,12 +155,13 @@ class FormulaSidebar
                 <div id="collapseDati" class="collapse show" aria-labelledby="headingDati"
                      data-parent="#accordionSidebar">
                     <div class="card-body">
-                        <table class="table">
+                        <table class="table" style="table-layout: fixed">
                             <thead>
                             <tr>
-                                <th>Id Articolo</th>
+                                <th style="width: 110px">Id Articolo</th>
                                 <th>Nome</th>
                                 <th>Sottotitolo</th>
+                                <th style="width: 94px"></th>
                             </tr>
                             </thead>
                             <tbody id="dataTableBody">
@@ -155,59 +170,58 @@ class FormulaSidebar
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="card">
-            <div class="card-header" id="headingFormule">
-                <h5 class="mb-0">
-                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFormule"
-                            aria-expanded="false" aria-controls="collapseFormule">
-                        Formule
-                    </button>
-                </h5>
-            </div>
-            <div id="collapseFormule" class="collapse" aria-labelledby="headingFormule"
-                 data-parent="#accordionSidebar">
-                <div class="card-body">
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th>Nome</th>
-                            <th>Descrizione</th>
-                        </tr>
-                        </thead>
-                        <tbody id="formulaTableBody">
-                        </tbody>
-                    </table>
+            <div class="card">
+                <div class="card-header" id="headingFormule">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFormule"
+                                aria-expanded="false" aria-controls="collapseFormule">
+                            Formule
+                        </button>
+                    </h5>
+                </div>
+                <div id="collapseFormule" class="collapse" aria-labelledby="headingFormule"
+                     data-parent="#accordionSidebar">
+                    <div class="card-body">
+                        <table class="table" style="table-layout: fixed">
+                            <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Descrizione</th>
+                            </tr>
+                            </thead>
+                            <tbody id="formulaTableBody">
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="card">
-            <div class="card-header" id="headingCondizionali">
-                <h5 class="mb-0">
-                    <button class="btn btn-link collapsed" data-toggle="collapse"
-                            data-target="#collapseCondizionali" aria-expanded="false"
-                            aria-controls="collapseCondizionali">
-                        Condizionali
-                    </button>
-                </h5>
-            </div>
-            <div id="collapseCondizionali" class="collapse" aria-labelledby="headingCondizionali"
-                 data-parent="#accordionSidebar">
-                <div class="card-body">
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th>Nome</th>
-                            <th>Descrizione</th>
-                        </tr>
-                        </thead>
-                        <tbody id="conditionalTableBody">
-                        </tbody>
-                    </table>
+            <div class="card">
+                <div class="card-header" id="headingCondizionali">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link collapsed" data-toggle="collapse"
+                                data-target="#collapseCondizionali" aria-expanded="false"
+                                aria-controls="collapseCondizionali">
+                            Condizionali
+                        </button>
+                    </h5>
+                </div>
+                <div id="collapseCondizionali" class="collapse" aria-labelledby="headingCondizionali"
+                     data-parent="#accordionSidebar">
+                    <div class="card-body">
+                        <table class="table" style="table-layout: fixed">
+                            <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Descrizione</th>
+                            </tr>
+                            </thead>
+                            <tbody id="conditionalTableBody">
+                            </tbody>
+                        </table>
 
+                    </div>
                 </div>
             </div>
-        </div>
         </div>
         <?php
         self::render_scripts();

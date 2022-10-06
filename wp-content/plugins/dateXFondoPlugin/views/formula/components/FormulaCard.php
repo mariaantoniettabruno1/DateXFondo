@@ -25,8 +25,46 @@ class FormulaCard
                 });
             }
 
+            let selectedInput = null;
+
+            function insertIntoFormula(insert){
+                if (!selectedInput) return;
+                const id = selectedInput.attr("id");
+
+                const t = selectedInput.val()
+                const cursorPosition = document.getElementById(id).selectionStart ?? 0;
+
+                if (cursorPosition) {
+                    selectedInput.val(t.slice(0, cursorPosition) + insert + t.slice(cursorPosition));
+                } else {
+                    selectedInput.val(t + insert);
+                }
+                let nextPosition = cursorPosition + insert.length
+                // @todo Nice to have: aggiungere casistica per posizionare il cursore tra le due parentesi
+                setCaretPosition(id,nextPosition)
+            }
+
+            function setCaretPosition(elemId, caretPos) {
+                var elem = document.getElementById(elemId);
+
+                if(elem != null) {
+                    if(elem.createTextRange) {
+                        var range = elem.createTextRange();
+                        range.move('character', caretPos);
+                        range.select();
+                    }
+                    else {
+                        if(elem.selectionStart) {
+                            elem.focus();
+                            elem.setSelectionRange(caretPos, caretPos);
+                        }
+                        else
+                            elem.focus();
+                    }
+                }
+            }
+
             $(document).ready(function () {
-                let selectedInput = null;
                 renderSectionInput();
                 $('#inputSelectSezioneFormula').change(function () {
                     const section = $('#inputSelectSezioneFormula').val();
@@ -43,43 +81,10 @@ class FormulaCard
                     selectedInput = $(this);
                 })
 
-                $(".formula-button").click(function () {
-                    if (!selectedInput) return;
-                    const id = selectedInput.attr("id");
+                $(".input-button").click(function () {
                     const insert = $(this).attr("data-input");
-                    const t = selectedInput.val()
-                    const cursorPosition = document.getElementById(id).selectionStart ?? 0;
-
-                    if (cursorPosition) {
-                        selectedInput.val(t.slice(0, cursorPosition) + insert + t.slice(cursorPosition));
-                    } else {
-                        selectedInput.val(t + insert);
-                    }
-                    let nextPosition = cursorPosition + insert.length
-                    // @todo Nice to have: aggiungere casistica per posizionare il cursore tra le due parentesi
-                    setCaretPosition(id,nextPosition)
+                    insertIntoFormula(insert);
                 })
-
-                function setCaretPosition(elemId, caretPos) {
-                    var elem = document.getElementById(elemId);
-
-                    if(elem != null) {
-                        if(elem.createTextRange) {
-                            var range = elem.createTextRange();
-                            range.move('character', caretPos);
-                            range.select();
-                        }
-                        else {
-                            if(elem.selectionStart) {
-                                elem.focus();
-                                elem.setSelectionRange(caretPos, caretPos);
-                            }
-                            else
-                                elem.focus();
-                        }
-                    }
-                }
-
 
                 $('#insertFormula').click(function () {
                     let sezione = $('#inputSelectSezioneFormula').val();
@@ -282,69 +287,72 @@ class FormulaCard
         <div class="card mb-2">
 
             <div class="card-body">
-                <div class="row mb-3" id="arithmeticLogicControls">
+                <div class="row mb-3" id="arithmeticControls">
                     <div class="col px-1">
-                        <button id="btnPlus" class="btn btn-block btn-outline-primary formula-button" data-input=" + ">
+                        <button id="btnPlus" class="btn btn-block btn-outline-primary input-button" data-input=" + ">
                             +
                         </button>
                     </div>
                     <div class="col px-1">
-                        <button id="btnMinus" class="btn btn-block btn-outline-primary formula-button" data-input=" - ">
+                        <button id="btnMinus" class="btn btn-block btn-outline-primary input-button" data-input=" - ">
                             -
                         </button>
                     </div>
                     <div class="col px-1">
-                        <button id="btnTimes" class="btn btn-block btn-outline-primary formula-button" data-input=" * ">
+                        <button id="btnTimes" class="btn btn-block btn-outline-primary input-button" data-input=" * ">
                             x
                         </button>
                     </div>
                     <div class="col px-1">
-                        <button id="btnDiv" class="btn btn-block btn-outline-primary formula-button" data-input=" / ">
+                        <button id="btnDiv" class="btn btn-block btn-outline-primary input-button" data-input=" / ">
                             /
                         </button>
                     </div>
                     <div class="col px-1">
-                        <button id="btnPar" class="btn btn-block btn-outline-primary formula-button"
+                        <button id="btnPar" class="btn btn-block btn-outline-primary input-button"
                                 data-input=" (   ) ">( )
                         </button>
                     </div>
+                </div>
+                <div class="row mb-3">
                     <div class="col px-1">
-                        <button id="btnAnd" class="btn btn-block btn-outline-primary formula-button" data-input=" && ">
-                            AND
+                        <button id="btnAnd" class="btn btn-block btn-outline-primary input-button" data-input=" && ">
+                            E
                         </button>
                     </div>
                     <div class="col px-1">
-                        <button id="btnOr" class="btn btn-block btn-outline-primary formula-button" data-input=" || ">
-                            OR
+                        <button id="btnOr" class="btn btn-block btn-outline-primary input-button" data-input=" || ">
+                            O
                         </button>
                     </div>
                     <div class="col px-1">
-                        <button id="btnNot" class="btn btn-block btn-outline-primary formula-button"
-                                data-input=" !(   ) ">NOT
+                        <button id="btnNot" class="btn btn-block btn-outline-primary input-button" data-input=" !(   ) ">
+                            NON
                         </button>
+                    </div>
+                    <div class="col px-1">
+                        <button class="btn btn-block btn-outline-primary input-button" data-input=" 0 "> 0</button>
+                    </div>
+                    <div class="col px-1">
+                        <button class="btn btn-block btn-outline-primary input-button" data-input=" == "> =</button>
                     </div>
                 </div>
-                <div class="d-flex" id="comparators">
+                <div class="row" id="comparators">
                     <div class="col px-1">
-                        <button class="btn btn-block btn-outline-primary formula-button" data-input=" > "> ></button>
+                        <button class="btn btn-block btn-outline-primary input-button" data-input=" > ">></button>
                     </div>
                     <div class="col px-1">
-                        <button class="btn btn-block btn-outline-primary formula-button" data-input=" < "> <</button>
+                        <button class="btn btn-block btn-outline-primary input-button" data-input=" < "><</button>
                     </div>
                     <div class="col px-1">
-                        <button class="btn btn-block btn-outline-primary formula-button" data-input=" >= "> ≥</button>
+                        <button class="btn btn-block btn-outline-primary input-button" data-input=" >= "> ≥</button>
                     </div>
                     <div class="col px-1">
-                        <button class="btn btn-block btn-outline-primary formula-button" data-input=" <= "> ≤</button>
+                        <button class="btn btn-block btn-outline-primary input-button" data-input=" <= "> ≤</button>
                     </div>
+
                     <div class="col px-1">
-                        <button class="btn btn-block btn-outline-primary formula-button" data-input=" == "> =</button>
-                    </div>
-                    <div class="col px-1">
-                        <button class="btn btn-block btn-outline-primary formula-button" data-input=" != "> ≠</button>
-                    </div>
-                    <div class="col px-1">
-                        <button class="btn btn-block btn-outline-primary formula-button" data-input=" 0 "> 0</button>
+                        <button class="btn btn-block btn-outline-primary input-button" data-input=" != "> ≠</button>
                     </div>
                 </div>
             </div>
