@@ -21,12 +21,9 @@ class MasterTemplateTable
             function renderDataTable(section, subsection) {
                 $('#dataTemplateTableBody').html('');
                 filteredArticoli = articoli;
-                if (section) {
-                    filteredArticoli = filteredArticoli.filter(art => art.sezione === section)
-                }
-                if (subsection) {
-                    filteredArticoli = filteredArticoli.filter(art => art.sottosezione === subsection)
-                }
+                filteredArticoli = filteredArticoli.filter(art => art.sezione === section)
+                filteredArticoli = filteredArticoli.filter(art => art.sottosezione === subsection)
+
 
                 filteredArticoli.forEach(art => {
                     $('#dataTemplateTableBody').append(`

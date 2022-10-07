@@ -22,6 +22,7 @@ require_once(plugin_dir_path(__FILE__) . 'views/table/ShortCodeTable.php');
 require_once(plugin_dir_path(__FILE__) . 'views/table/live_edit.php');
 require_once(plugin_dir_path(__FILE__) . 'views/fondo/ShortCodeCreateFondo.php');
 require_once(plugin_dir_path(__FILE__) . 'views/template/MasterTemplate.php');
+require_once(plugin_dir_path(__FILE__) . 'views/template/MasterTemplateToActive.php');
 require_once(plugin_dir_path(__FILE__) . 'views/template/MasterTemplateHistory.php');
 require_once(plugin_dir_path(__FILE__) . 'views/template/components/MasterTemplateHeader.php');
 require_once(plugin_dir_path(__FILE__) . 'views/template/components/MasterTemplateTable.php');
@@ -30,6 +31,7 @@ require_once(plugin_dir_path(__FILE__) . 'views/template/components/MasterTempla
 require_once(plugin_dir_path(__FILE__) . 'views/template/components/MasterTemplateNewDecurtationRow.php');
 require_once(plugin_dir_path(__FILE__) . 'views/template/components/MasterTemplateNewSpecialRow.php');
 require_once(plugin_dir_path(__FILE__) . 'views/template/components/MasterTemplateStopEditingButton.php');
+require_once(plugin_dir_path(__FILE__) . 'views/template/components/MasterTemplateToActiveRow.php');
 require_once(plugin_dir_path(__FILE__) . 'views/template/ShortCodeDisabledTemplateRow.php');
 require_once(plugin_dir_path(__FILE__) . 'views/formula/Formula.php');
 require_once(plugin_dir_path(__FILE__) . 'views/formula/SlaveShortCodeFormulaTable.php');
@@ -104,7 +106,7 @@ function visualize_history_template()
 }
 function visualize_disabled_template_row()
 {
-    \dateXFondoPlugin\ShortCodeDisabledTemplateRow::visualize_disabled_template_row();
+    \dateXFondoPlugin\MasterTemplateToActive::render();
 
 }
 

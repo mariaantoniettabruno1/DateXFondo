@@ -66,3 +66,25 @@ function esegui_blocca_modifica_template($params)
 }
 
 add_action('rest_api_init', 'create_endpoint_datefondo_not_editable_template');
+
+function create_endpoint_datefondo_active_row()
+{
+
+    register_rest_route('datexfondoplugin/v1', 'activerow', array(
+        'methods' => 'POST',
+        'callback' => 'esegui_attiva_riga'
+    ));
+
+
+}
+
+function esegui_attiva_riga($params)
+{
+    $bool_res = \dateXFondoPlugin\MasterTemplateRepository::active_row($params);
+    $data = ['update' => $bool_res, 'message' => 'Riga attivata correttamente'];
+    $response = new WP_REST_Response($data);
+    $response->set_status(201);
+    return $response;
+}
+
+add_action('rest_api_init', 'create_endpoint_datefondo_active_row');

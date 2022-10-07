@@ -73,9 +73,6 @@ class MasterTemplateHistoryTable
 
     public static function render()
     {
-        $data = new MasterTemplateRepository();
-        $results_articoli = $data->getStoredArticoli();
-        foreach ($results_articoli as $art){
 
         ?>
         <table class="table">
@@ -89,12 +86,18 @@ class MasterTemplateHistoryTable
             </tr>
 
             </thead>
-            <tbody id="dataTemplateTableBody">
-            </tbody>
-        </table>
-            <?php
-        }
+            <?php $data = new MasterTemplateRepository();
+            $results_articoli = $data->getStoredArticoli();
+            $arrLength = count($results_articoli);
+            for ($results_articoli = 0; $results_articoli <= $arrLength; $results_articoli++) { ?>
+                <tbody id="dataTemplateTableBody">
+                </tbody>
+                <?php
+            }
+
             ?>
+        </table>
+
         <div class="modal fade" id="duplicateModal" tabindex="-1" role="dialog" aria-labelledby="duplicateModalLabel"
              aria-hidden="true">
             <div class="modal-dialog" role="document">

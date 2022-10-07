@@ -18,13 +18,22 @@ class MasterTemplateRepository
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = "SELECT DISTINCT fondo,anno,descrizione_fondo,editable,version FROM DATE_template_fondo WHERE id_articolo IS NOT NULL and attivo=1";
+        $sql = "SELECT DISTINCT fondo,anno,descrizione_fondo,editable,version FROM DATE_storico_template_fondo WHERE id_articolo IS NOT NULL and attivo=1";
         $result = $mysqli->query($sql);
         $row = $result->fetch_all(MYSQLI_ASSOC);
         mysqli_close($mysqli);
         return $row;
     }
-
+    public static function getDisabledArticoli()
+    {
+        $conn = new Connection();
+        $mysqli = $conn->connect();
+        $sql = "SELECT id,fondo,anno,descrizione_fondo,ordinamento,sezione,sottosezione,id_articolo,nome_articolo,sottotitolo_articolo,nota,link FROM DATE_storico_template_fondo WHERE id_articolo IS NOT NULL and attivo=0";
+        $result = $mysqli->query($sql);
+        $row = $result->fetch_all(MYSQLI_ASSOC);
+        mysqli_close($mysqli);
+        return $row;
+    }
 
     public static function edit_header_template($request)
     {
@@ -77,6 +86,22 @@ WHERE id=?";
         $sql = "UPDATE DATE_storico_template_fondo SET editable=0 WHERE fondo=? AND anno=? AND descrizione_fondo=? AND version=?";
         $stmt = $mysqli->prepare($sql);
         $stmt->bind_param("sisi", $request['fondo'],$request['anno'],$request['descrizione_fondo'], $request['version']);
+        $res = $stmt->execute();
+        mysqli_close($mysqli);
+        return $res;
+    }
+    public static function active_row($request)
+    {
+        $conn = new Connection();
+        $mysqli = $conn->connect();
+        //TODO modificare il primo update perchè gli id delle righe potrebbero non coincidere
+        $sql = "UPDATE DATE_template_fondo SET attivo=1 WHERE id=?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("i", $request['id']);
+        $res = $stmt->execute();
+        $sql = "UPDATE DATE_storico_template_fondo SET attivo=1 WHERE id=?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("i", $request['id']);
         $res = $stmt->execute();
         mysqli_close($mysqli);
         return $res;
