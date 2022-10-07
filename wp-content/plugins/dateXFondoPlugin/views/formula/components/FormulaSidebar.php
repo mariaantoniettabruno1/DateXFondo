@@ -50,7 +50,7 @@ class FormulaSidebar
                 }
                 filteredFormule.forEach(f => {
                     let table;
-                    if (f.condizione === "1") { <?php // QUANDO FACCIAMO IL JSON PARSE VIENE TUTTO CONVERTITO IN STRINGA. ?>
+                    if (Number(f.condizione) === 1) { <?php // QUANDO FACCIAMO IL JSON PARSE VIENE TUTTO CONVERTITO IN STRINGA. ?>
                         table = $('#conditionalTableBody');
                     } else {
                         table = $('#formulaTableBody');
@@ -61,8 +61,8 @@ class FormulaSidebar
                           <td class="text-truncate" data-toggle="tooltip" title="${f.nome}">${f.nome}</td>
                           <td class="text-truncate" data-toggle="tooltip" title="${f.descrizione}">${f.descrizione}</td>
                           <td>
-                            <button type="button" class="btn btn-sm btn-outline-primary" title="Aggiungi ${f.nome} alla formula" onclick="insertIntoFormula('${art.id_articolo}')"><i class="fa-solid fa-plus"></i></button>
-                            <button type="button" class="btn btn-sm btn-outline-secondary" title="Visualizza"><i class="fa-solid fa-pencil"></i></button>
+                            <button type="button" class="btn btn-sm btn-outline-primary" title="Aggiungi ${f.nome} alla formula" onclick="insertIntoFormula('${f.nome}')"><i class="fa-solid fa-plus"></i></button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary" title="Visualizza" onclick="editFormula('${f.id}')"><i class="fa-solid fa-pencil"></i></button>
                           </td>
                         </tr>
                     `);
@@ -83,10 +83,26 @@ class FormulaSidebar
                 });
             }
 
+            function handleFilter() {
+                let subsection = $('#inputSelectSottosezione').val();
+                let section = $('#inputSelectSezione').val();
+                if (subsection === 'Seleziona Sottosezione' || subsection==="") {
+                    subsection = null
+                }
+                if (section === 'Seleziona Sezione') {
+                    section = null
+                }
+                console.log(section, subsection);
+                renderDataTable(section, subsection);
+                renderFormulaTables(section, subsection);
+            }
+
             $(document).ready(function () {
                 renderDataTable();
                 renderFormulaTables();
                 renderSectionFilter();
+
+
                 $('#inputSelectSezione').change(function () {
                     const section = $('#inputSelectSezione').val();
                     if (section !== 'Seleziona Sezione') {
@@ -102,16 +118,7 @@ class FormulaSidebar
                     }
                 });
                 $('#inputSelectSottosezione').change(function () {
-                    const subsection = $('#inputSelectSottosezione').val();
-                    const section = $('#inputSelectSezione').val();
-
-                    if (subsection !== 'Seleziona Sottosezione') {
-                        renderDataTable(section, subsection);
-                        renderFormulaTables(section, subsection);
-                    } else {
-                        renderDataTable(section);
-                        renderFormulaTables(section);
-                    }
+                    handleFilter();
                 });
             })
         </script>
