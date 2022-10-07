@@ -19,14 +19,14 @@ class MasterTemplateTable
             }
 
             function renderDataTable(section, subsection) {
-                $('#dataTemplateTableBody').html('');
+                let index = Object.keys(sezioni).indexOf(section);
+                $('#dataTemplateTableBody' + index).html('');
                 filteredArticoli = articoli;
                 filteredArticoli = filteredArticoli.filter(art => art.sezione === section)
                 filteredArticoli = filteredArticoli.filter(art => art.sottosezione === subsection)
 
-
                 filteredArticoli.forEach(art => {
-                    $('#dataTemplateTableBody').append(`
+                    $('#dataTemplateTableBody' + index).append(`
                                  <tr>
                                        <td>${art.ordinamento}</td>
                                        <td>${art.id_articolo}</td>
@@ -36,16 +36,13 @@ class MasterTemplateTable
                                        <td>${art.nota}</td>
                                        <td>${art.link}</td>
                                            <td><div class="row pr-3">
-                <div class="col-3"><button class="btn btn-link btn-edit-row" data-id='${art.id}' data-toggle="modal" data-target="#editModal"><i class="fa-solid fa-pen"></i></button></div>
+                <div class="col-3"><button class="btn btn-link btn-edit-row" data-id='${art.id}' data-toggle="modal" data-target="#editModal" data-edit='${art.editable}'><i class="fa-solid fa-pen"></i></button></div>
                 <div class="col-3"><button class="btn btn-link btn-delete-row" data-id='${art.id}' data-toggle="modal" data-target="#deleteModal"><i class="fa-solid fa-trash"></i></button></div>
                 </div></td>
                                  </tr>
                              `);
-                    if (art.editable === 0) {
-                        $('.btn-edit-row').prop('disabled', true);
-                        $('.btn-delete-row').prop('disabled', true);
-                    }
                 });
+
                 $('.btn-delete-row').click(function () {
                     id = $(this).attr('data-id');
                 });
@@ -61,14 +58,16 @@ class MasterTemplateTable
                     $('#idNotaArticolo').val(articolo[0].nota)
                     $('#idLinkAssociato').val(articolo[0].link)
                 });
+
+
             }
 
             function renderEditDataTable(articolo) {
                 filteredArticoli.filter(art => {
                     if (art.id === articolo.id) {
                         art.id_articolo = articolo.id_articolo;
-                        art.nome_articolo = articolo.nome_articolo;
-                        art.sottotitolo_articolo = articolo.sottotitolo_articolo;
+                        art.nome_articolo = articolo.nome;
+                        art.sottotitolo_articolo = articolo.sottotitolo;
                         art.ordinamento = articolo.ordinamento;
                         art.nota = articolo.nota;
                         art.link = articolo.link;
@@ -83,6 +82,9 @@ class MasterTemplateTable
 
                 $('.class-accordion-button').click(function () {
                     let section = $(this).attr('data-section');
+                    let editable = $('.btn-edit-row').attr('data-edit');
+                    console.log(editable)
+
                     renderDataTable(section);
                     $('.class-template-sottosezione').change(function () {
                         let subsection = $(this).val();
@@ -100,8 +102,7 @@ class MasterTemplateTable
                     let ordinamento = $('#ordinamento').val();
                     let nota = $('#idNotaArticolo').val();
                     let link = $('#idLinkAssociato').val();
-                    console.log("Prima del console")
-                    console.log(nome)
+
 
                     const payload = {
                         id,
@@ -122,6 +123,7 @@ class MasterTemplateTable
                         success: function (response) {
                             console.log(response);
                             $("#editModal").modal('hide');
+                            renderEditDataTable(payload);
                         },
                         error: function (response) {
                             console.error(response);
@@ -178,24 +180,23 @@ class MasterTemplateTable
             }
         }
 
-
         ?>
-        <div class="accordionTemplateTable mt-2">
+        <div class="accordion mt-2" id="accordionTemplateTable">
             <?php
-
+            $section_index  = 0 ;
             foreach ($tot_array as $sezione => $sottosezioni) {
                 ?>
                 <div class="card" id="templateCard">
-                    <div class="card-header" id="headingTemplateTable <?= $sezione ?>">
+                    <div class="card-header" id="headingTemplateTable<?= $section_index ?>">
                         <button class="btn btn-link class-accordion-button" data-toggle="collapse"
-                                data-target="#collapseTemplate <?= $sezione ?>"
-                                aria-expanded="false" aria-controls="collapseTemplate"
+                                data-target="#collapseTemplate<?= $section_index ?>"
+                                aria-expanded="false" aria-controls="collapseTemplate<?= $section_index ?>"
                                 data-section="<?= $sezione ?>">
                             <?= $sezione ?>
                         </button>
                     </div>
-                    <div id="collapseTemplate <?= $sezione ?>" class="collapse"
-                         aria-labelledby="headingTemplateTable <?= $sezione ?>"
+                    <div id="collapseTemplate<?= $section_index ?>" class="collapse"
+                         aria-labelledby="headingTemplateTable<?= $section_index ?>"
                          data-parent="#accordionTemplateTable">
                         <div class="car-body">
                             <div class="row pl-2 pb-2 pt-2">
@@ -229,7 +230,7 @@ class MasterTemplateTable
                                         </tr>
 
                                         </thead>
-                                        <tbody id="dataTemplateTableBody">
+                                        <tbody id="dataTemplateTableBody<?= $section_index ?>">
                                         </tbody>
                                     </table>
                                 </div>
@@ -239,6 +240,7 @@ class MasterTemplateTable
                 </div>
 
                 <?php
+                $section_index++;
             }
             ?>
         </div>
