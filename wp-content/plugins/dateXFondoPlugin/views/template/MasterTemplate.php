@@ -60,23 +60,23 @@ class MasterTemplate
                 MasterTemplateTable::render();
                 ?>
             </div>
-            <div class="row pt-2">
-                <div class="col-4">
+            <div class="row pt-2 justify-content-end">
+                <div class="pr-2">
                     <?php
                     MasterTemplateNewRow::render();
                     ?>
                 </div>
-            <div class="col-4">
-                <?php
-                MasterTemplateNewSpecialRow::render();
-                ?>
-            </div>
-                <div class="col-4">
+                <div class="pr-2">
+                    <?php
+                    MasterTemplateNewSpecialRow::render();
+                    ?>
+                </div>
+                <div  class="pr-2">
                     <?php
                     MasterTemplateNewDecurtationRow::render();
                     ?>
+                </div>
             </div>
-        </div>
         </body>
         </html lang="en">
 

@@ -16,15 +16,45 @@ class MasterTemplateRepository
     }
 
 
-    function edit_header_template($request){
+    public static function edit_header_template($request)
+    {
+//
+//        $conn = new Connection();
+//        $mysqli = $conn->connect();
+//        $sql = "UPDATE DATE_template_fondo SET fondo=?,anno=?,descrizione_fondo=?";
+//        $stmt = $mysqli->prepare($sql);
+//        $stmt->bind_param("sss", $request['fondo'],$request['anno'],$request['descrizione_fondo']);
+//        $stmt->execute();
+//        mysqli_close($mysqli);
+    }
 
-//      $conn = new Connection();
-//      $mysqli = $conn->connect();
-//      $sql = "UPDATE DATE_template_fondo SET fondo=?,anno=?,descrizione_fondo=?";
-//      $stmt = $mysqli->prepare($sql);
-//      $stmt->bind_param("sss", $request['fondo'],$request['anno'],$request['descrizione_fondo']);
-//      $stmt->execute();
-//      mysqli_close($mysqli);
+    public static function edit_row($request)
+    {
+
+        $conn = new Connection();
+        $mysqli = $conn->connect();
+
+        $sql = "UPDATE DATE_template_fondo SET id_articolo=?,
+                               nome_articolo=?,
+                               descrizione_articolo=?,
+                               sottotitolo_articolo=?,
+                               ordinamento=?,
+                               nota=?,
+                               link=? 
+WHERE id=?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("ssssissi",
+            $request['id_articolo'],
+            $input['nome'],
+            $input['descrizione'],
+            $input['sottitotolo'],
+            $input['ordinamento'],
+            $input['nota'],
+            $input['link'],
+            $input['id']);
+        $res = $stmt->execute();
+        $mysqli->close();
+        return $res;
     }
 //    public function getAnno(){
 //        $conn = new Connection();

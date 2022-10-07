@@ -2,31 +2,7 @@
 
 namespace dateXFondoPlugin;
 
-function modifica_campi($request)
-{
-    $input = (array)$request->get_body_params();
 
-    $conn = new Connection();
-    $mysqli = $conn->connect();
-
-    if (isset($input['action']) && $input['action'] == 'edit') {
-        $sql = "UPDATE DATE_template_fondo SET id_campo=?,
-                               label_campo=?,
-                               descrizione_campo=?,
-                               sottotitolo_campo=?,
-                               valore=?,
-                               valore_anno_precedente=?,
-                               nota=? 
-WHERE id=?";
-        $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("issssfs", $input['id_campo'], $input['label_campo'], $input['descrizione_campo'], $input['sottotitolo_campo'], $input['valore'], $input['valore_anno_precedente'], $input['nota'], $input['id']);
-        $res = $stmt->execute();
-        $mysqli->close();
-    } else {
-        $mysqli->close();
-    }
-    return $input;
-}
 
 function modifica_campi_slave($request)
 {
