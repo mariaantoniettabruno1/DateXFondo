@@ -10,7 +10,7 @@ class MasterTemplateTable
         <script>
 
             let id = 0;
-            let filteredArticoli = {};
+            let filteredArticoli = articoli;
 
             function renderEditData(id) {
                 let articolo = articoli;
@@ -50,11 +50,9 @@ class MasterTemplateTable
                     id = $(this).attr('data-id');
                 });
                 $('.btn-edit-row').click(function () {
-
                     id = $(this).attr('data-id');
                     let articolo = renderEditData(id);
-
-                    $('#id_articolo').val(articolo[0].id_articolo)
+                    $('#idArticolo').val(articolo[0].id_articolo)
                     $('#ordinamento').val(articolo[0].ordinamento)
                     $('#idNomeArticolo').val(articolo[0].nome_articolo)
                     $('#idSottotitoloArticolo').val(articolo[0].sottotitolo_articolo)
@@ -66,7 +64,6 @@ class MasterTemplateTable
             }
 
             function renderEditDataTable(articolo) {
-                let filteredArticoli = articoli;
                 filteredArticoli.filter(art => {
                     if (art.id === articolo.id) {
                         art.id_articolo = articolo.id_articolo;
@@ -95,7 +92,7 @@ class MasterTemplateTable
                 });
 
                 $('#editRowButton').click(function () {
-                    let id_articolo = $('#id_articolo').val();
+                    let id_articolo = $('#idArticolo').val();
                     let nome = $('#idNomeArticolo').val();
                     // let descrizione = $('#idDescrizioneArticolo').val();
                     let descrizione = '';
@@ -103,6 +100,8 @@ class MasterTemplateTable
                     let ordinamento = $('#ordinamento').val();
                     let nota = $('#idNotaArticolo').val();
                     let link = $('#idLinkAssociato').val();
+                    console.log("Prima del console")
+                    console.log(nome)
 
                     const payload = {
                         id,
@@ -123,14 +122,13 @@ class MasterTemplateTable
                         success: function (response) {
                             console.log(response);
                             $("#editModal").modal('hide');
-                            renderEditDataTable(payload);
                         },
                         error: function (response) {
                             console.error(response);
                             $("#editModal").modal('hide');
                         }
                     });
-                })
+                });
 
                 $('#deleteRowButton').click(function () {
                     const payload = {
@@ -283,7 +281,7 @@ class MasterTemplateTable
                         <label>Ordinamento</label>
                         <input type="text" class="form-control" id="ordinamento">
                         <label>Id Articolo</label>
-                        <input type="text" class="form-control" id="id_articolo">
+                        <input type="text" class="form-control" id="idArticolo">
 
                         <label>Nome Articolo</label>
                         <input type="text" class="form-control" id="idNomeArticolo">

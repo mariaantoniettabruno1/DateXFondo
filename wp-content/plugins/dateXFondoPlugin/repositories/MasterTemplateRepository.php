@@ -64,13 +64,13 @@ WHERE id=?";
         $stmt = $mysqli->prepare($sql);
         $stmt->bind_param("ssssissi",
             $request['id_articolo'],
-            $input['nome'],
-            $input['descrizione'],
-            $input['sottitotolo'],
-            $input['ordinamento'],
-            $input['nota'],
-            $input['link'],
-            $input['id']);
+            $request['nome'],
+            $request['descrizione'],
+            $request['sottotitolo'],
+            $request['ordinamento'],
+            $request['nota'],
+            $request['link'],
+            $request['id']);
         $res = $stmt->execute();
         $mysqli->close();
         return $res;
@@ -106,31 +106,7 @@ WHERE id=?";
         mysqli_close($mysqli);
         return $res;
     }
-//
-//    public static function isReadOnly($year)
-//    {
-//        $conn = new Connection();
-//        $mysqli = $conn->connect();
-//        $sql = "SELECT anno FROM DATE_submitted_years WHERE anno=?";
-//        $stmt = $mysqli->prepare($sql);
-//        $stmt->bind_param("i", $year);
-//        $res = $stmt->execute();
-//        $res = $stmt->get_result();
-//        mysqli_close($mysqli);
-//        return $res->num_rows;
-//    }
-//
-//    public static function deleteReadOnly($year)
-//    {
-//        $conn = new Connection();
-//        $mysqli = $conn->connect();
-//        $sql = "DELETE FROM DATE_submitted_years WHERE anno=?";
-//        $stmt = $mysqli->prepare($sql);
-//        $stmt->bind_param("i", $year);
-//        $res = $stmt->execute();
-//        mysqli_close($mysqli);
-//    }
-//
+
 //    public static function duplicateTable($year)
 //    {
 //        $conn = new Connection();
