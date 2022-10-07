@@ -2,17 +2,13 @@
 
 namespace dateXFondoPlugin;
 
-use dateXFondoPlugin\MasterTemplateRepository;
-
-header('Content-Type: text/javascript');
-
-class MasterTemplate
+class MasterTemplateToActive
 {
     public static function render()
     {
 
         $data = new MasterTemplateRepository();
-        $results_articoli = $data->getArticoli();
+        $results_articoli = $data->getDisabledArticoli();
         ?>
 
         <!DOCTYPE html>
@@ -35,15 +31,13 @@ class MasterTemplate
 
             <script>
                 const articoli = JSON.parse((`<?=json_encode($results_articoli);?>`));
-                const sezioni = {}
+                const fondi = {};
+                const years = {};
                 articoli.forEach(a => {
-                    if (!sezioni[a.sezione]) {
-                        sezioni[a.sezione] = [];
-                    }
-                    if (!sezioni[a.sezione].includes(a.sottosezione)) {
-                        sezioni[a.sezione].push(a.sottosezione);
-                    }
+                    fondi[a.fondo] = true;
+                    years[a.anno] = true;
                 });
+
             </script>
         </head>
 
@@ -51,42 +45,14 @@ class MasterTemplate
         <div class="container-fluid">
             <div class="row">
                 <?php
-                MasterTemplateHeader::render();
-                ?>
-
-            </div>
-            <div class="row">
-                <?php
-                MasterTemplateTable::render();
+                MasterTemplateToActiveRow::render();
                 ?>
             </div>
-            <div class="row pt-2 justify-content-end">
-                <div class="col align-self-start">
-                    <?php
-                    MasterTemplateStopEditingButton::render();
-                    ?>
-                </div>
-                <div class="pr-2">
-                    <?php
-                    MasterTemplateNewRow::render();
-                    ?>
-                </div>
-                <div class="pr-2">
-                    <?php
-                    MasterTemplateNewSpecialRow::render();
-                    ?>
-                </div>
-                <div class="pr-2">
-                    <?php
-                    MasterTemplateNewDecurtationRow::render();
-                    ?>
-                </div>
-            </div>
+        </div>
         </body>
         </html lang="en">
 
         <?php
     }
-
 
 }

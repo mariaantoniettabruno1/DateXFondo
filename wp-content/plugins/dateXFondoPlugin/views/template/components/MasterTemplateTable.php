@@ -8,15 +8,22 @@ class MasterTemplateTable
     {
         ?>
         <script>
+
+            let id = 0;
+            let filteredArticoli = articoli;
+
+            function renderEditData(id) {
+                let articolo = articoli;
+                articolo = articolo.filter(art => art.id === id)
+                return articolo;
+            }
+
             function renderDataTable(section, subsection) {
                 $('#dataTemplateTableBody').html('');
-                let filteredArticoli = articoli;
-                if (section) {
-                    filteredArticoli = filteredArticoli.filter(art => art.sezione === section)
-                }
-                if (subsection) {
-                    filteredArticoli = filteredArticoli.filter(art => art.sottosezione === subsection)
-                }
+                filteredArticoli = articoli;
+                filteredArticoli = filteredArticoli.filter(art => art.sezione === section)
+                filteredArticoli = filteredArticoli.filter(art => art.sottosezione === subsection)
+
 
                 filteredArticoli.forEach(art => {
                     $('#dataTemplateTableBody').append(`
@@ -29,84 +36,122 @@ class MasterTemplateTable
                                        <td>${art.nota}</td>
                                        <td>${art.link}</td>
                                            <td><div class="row pr-3">
-                <div class="col-3"><button class="btn btn-link btn-edit-row" data-id='${art.id}' data-articolo ='${art}'><i class="fa-solid fa-pen" data-toggle="modal" data-target="#editModal"></i></button></div>
+                <div class="col-3"><button class="btn btn-link btn-edit-row" data-id='${art.id}' data-toggle="modal" data-target="#editModal"><i class="fa-solid fa-pen"></i></button></div>
                 <div class="col-3"><button class="btn btn-link btn-delete-row" data-id='${art.id}' data-toggle="modal" data-target="#deleteModal"><i class="fa-solid fa-trash"></i></button></div>
                 </div></td>
                                  </tr>
                              `);
+                    if (art.editable === 0) {
+                        $('.btn-edit-row').prop('disabled', true);
+                        $('.btn-delete-row').prop('disabled', true);
+                    }
+                });
+                $('.btn-delete-row').click(function () {
+                    id = $(this).attr('data-id');
+                });
+                $('.btn-edit-row').click(function () {
+                    id = $(this).attr('data-id');
+                    let articolo = renderEditData(id);
+                    $('#idArticolo').val(articolo[0].id_articolo)
+                    $('#ordinamento').val(articolo[0].ordinamento)
+                    $('#idNomeArticolo').val(articolo[0].nome_articolo)
+                    $('#idSottotitoloArticolo').val(articolo[0].sottotitolo_articolo)
+                    //togliere commento quando verranno sistemati i caratteri speciali per le descrizioni
+                    // $('#idDescrizioneArticolo').val(articolo[0].descrizione_articolo)
+                    $('#idNotaArticolo').val(articolo[0].nota)
+                    $('#idLinkAssociato').val(articolo[0].link)
                 });
             }
 
-
-            function filterSubsections(section) {
-                console.log(section)
-                $('.classTeplateSottosezione').html('<option>Seleziona Sottosezione</option>');
-                sezioni[section].forEach(ssez => {
-                    $('.classTeplateSottosezione').append(`<option>${ssez}</option>`);
+            function renderEditDataTable(articolo) {
+                filteredArticoli.filter(art => {
+                    if (art.id === articolo.id) {
+                        art.id_articolo = articolo.id_articolo;
+                        art.nome_articolo = articolo.nome_articolo;
+                        art.sottotitolo_articolo = articolo.sottotitolo_articolo;
+                        art.ordinamento = articolo.ordinamento;
+                        art.nota = articolo.nota;
+                        art.link = articolo.link;
+                    }
                 });
+                renderDataTable();
             }
 
             $(document).ready(function () {
-                renderDataTable();
-                $('.classAccordionButton').click(function () {
-                    let section = $(this).attr('data-section');
-                    // //$('#selectTemplateSottosezione').attr('disabled', false);
-                    // sezioni[section].forEach(ssez => {
-                    //     $('#select' + section).append(`<option>${ssez}</option>`);
-                    // });
-                });
-                $('.btn-edit-row').click(function () {
-                    let articolo = $(this).attr('data-articolo');
-                    console.log(articolo)
 
-                    $('#editRowButton').click(function () {
+                renderDataTable();
+
+                $('.class-accordion-button').click(function () {
+                    let section = $(this).attr('data-section');
+                    renderDataTable(section);
+                    $('.class-template-sottosezione').change(function () {
+                        let subsection = $(this).val();
+                        if (subsection !== 'Seleziona Sottosezione')
+                            renderDataTable(section, subsection);
+                    });
+                });
+
+                $('#editRowButton').click(function () {
+                    let id_articolo = $('#idArticolo').val();
+                    let nome = $('#idNomeArticolo').val();
+                    // let descrizione = $('#idDescrizioneArticolo').val();
+                    let descrizione = '';
+                    let sottotitolo = $('#idSottotitoloArticolo').val();
+                    let ordinamento = $('#ordinamento').val();
+                    let nota = $('#idNotaArticolo').val();
+                    let link = $('#idLinkAssociato').val();
+                    console.log("Prima del console")
+                    console.log(nome)
+
+                    const payload = {
+                        id,
+                        id_articolo,
+                        ordinamento,
+                        nome,
+                        sottotitolo,
+                        descrizione,
+                        nota,
+                        link
+                    }
+                    //console.log(payload)
+
+                    $.ajax({
+                        url: '<?= DateXFondoCommon::get_website_url() ?>/wp-json/datexfondoplugin/v1/editrow',
+                        data: payload,
+                        type: "POST",
+                        success: function (response) {
+                            console.log(response);
+                            $("#editModal").modal('hide');
+                        },
+                        error: function (response) {
+                            console.error(response);
+                            $("#editModal").modal('hide');
+                        }
+                    });
+                });
+
+                $('#deleteRowButton').click(function () {
                     const payload = {
                         id
                     }
-                    console.log(payload)
 
-                    //$.ajax({
-                    //    url: '<?//= DateXFondoCommon::get_website_url() ?>///wp-json/datexfondoplugin/v1/editrow',
-                    //    data: payload,
-                    //    type: "POST",
-                    //    success: function (response) {
-                    //        console.log(response);
-                    //        $("#editModal").modal('hide');
-                    //    },
-                    //    error: function (response) {
-                    //        console.error(response);
-                    //        $("#editModal").modal('hide');
-                    //    }
-                    //});
-                })
-                })
-                $('.btn-delete-row').click(function () {
-                    let id = $(this).attr('data-id');
-                    $('#deleteRowButton').click(function () {
-                        const payload = {
-                            id
+                    $.ajax({
+                        url: '<?= DateXFondoCommon::get_website_url() ?>/wp-json/datexfondoplugin/v1/delrow',
+                        data: payload,
+                        type: "POST",
+                        success: function (response) {
+                            console.log(response);
+                            $("#deleteModal").modal('hide');
+                        },
+                        error: function (response) {
+                            console.error(response);
+                            $("#deleteModal").modal('hide');
                         }
-                        console.log(payload)
-
-                        $.ajax({
-                            url: '<?= DateXFondoCommon::get_website_url() ?>/wp-json/datexfondoplugin/v1/delrow',
-                            data: payload,
-                            type: "POST",
-                            success: function (response) {
-                                console.log(response);
-                                $("#deleteModal").modal('hide');
-                                $(".delete-toast-ok").toast('show');
-                            },
-                            error: function (response) {
-                                console.error(response);
-                                $("#deleteModal").modal('hide');
-                            }
-                        });
-                    })
-                })
+                    });
+                });
 
 
-            })
+            });
         </script>
         <?php
     }
@@ -117,10 +162,19 @@ class MasterTemplateTable
         $results_articoli = $data->getArticoli();
 
         $sezioni = [];
-        $sottosezioni = [];
+        $tot_array = [];
         foreach ($results_articoli as $articolo) {
             if (!in_array($articolo['sezione'], $sezioni)) {
                 array_push($sezioni, $articolo['sezione']);
+                $tot_array = array_fill_keys($sezioni, []);
+            }
+        }
+
+        foreach ($tot_array as $key => $value) {
+            foreach ($results_articoli as $articolo) {
+                if ($key === $articolo['sezione'] && !in_array($tot_array[$key], $articolo['sottosezione'])) {
+                    array_push($tot_array[$key], $articolo['sottosezione']);
+                }
             }
         }
 
@@ -129,26 +183,26 @@ class MasterTemplateTable
         <div class="accordionTemplateTable mt-2">
             <?php
 
-            foreach ($sezioni as $key => $sezione) {
+            foreach ($tot_array as $sezione => $sottosezioni) {
                 ?>
                 <div class="card" id="templateCard">
-                    <div class="card-header" id="headingTemplateTable<?= $key ?>">
-                        <button class="btn btn-link classAccordionButton" data-toggle="collapse"
-                                data-target="#collapseTemplate<?= $key ?>"
-                                aria-expanded="false" aria-controls="collapseTemplate<?= $key ?>"
+                    <div class="card-header" id="headingTemplateTable <?= $sezione ?>">
+                        <button class="btn btn-link class-accordion-button" data-toggle="collapse"
+                                data-target="#collapseTemplate <?= $sezione ?>"
+                                aria-expanded="false" aria-controls="collapseTemplate"
                                 data-section="<?= $sezione ?>">
                             <?= $sezione ?>
                         </button>
                     </div>
-                    <div id="collapseTemplate<?= $key ?>" class="collapse"
-                         aria-labelledby="headingTemplateTable<?= $key ?>"
+                    <div id="collapseTemplate <?= $sezione ?>" class="collapse"
+                         aria-labelledby="headingTemplateTable <?= $sezione ?>"
                          data-parent="#accordionTemplateTable">
                         <div class="car-body">
                             <div class="row pl-2 pb-2 pt-2">
                                 <div class="col-3">
                                     <select class="custom-select class-template-sottosezione"
                                             id="select <?= $sezione ?>">
-                                        <option>Seleziona Sottosezione</option>
+                                        <option selected>Seleziona Sottosezione</option>
                                         <?php
                                         foreach ($sottosezioni as $sottosezione) {
                                             ?>
@@ -187,9 +241,8 @@ class MasterTemplateTable
                 <?php
             }
             ?>
-
-
         </div>
+
         <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
              aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -226,31 +279,26 @@ class MasterTemplateTable
                     <div class="modal-body">
                         <!--  Inserire check per cambiare la view del modale a seconda del type row -->
                         <label>Ordinamento</label>
-                        <input type="text" class="form-control" id="ordinamento" name="ordinamento">
+                        <input type="text" class="form-control" id="ordinamento">
                         <label>Id Articolo</label>
-                        <input type="text" class="form-control" id="id_articolo" name="id_articolo">
+                        <input type="text" class="form-control" id="idArticolo">
 
                         <label>Nome Articolo</label>
-                        <input type="text" class="form-control" id="idNomeArticolo"
-                               name="idNomeArticolo">
+                        <input type="text" class="form-control" id="idNomeArticolo">
 
                         <label>Sottotitolo Articolo</label>
                         <textarea class="form-control"
-                                  id="idSottotitoloArticolo"
-                                  name="idSottotitoloArticolo"></textarea>
+                                  id="idSottotitoloArticolo"></textarea>
 
                         <label>Descrizione Articolo</label>
                         <textarea class="form-control"
-                                  id="idDescrizioneArticolo"
-                                  name="idDescrizioneArticolo"></textarea>
+                                  id="idDescrizioneArticolo"></textarea>
 
                         <label>Nota</label>
                         <textarea class="form-control"
-                                  id="idNotaArticolo"
-                                  name="idNotaArticolo"></textarea>
+                                  id="idNotaArticolo"></textarea>
                         <label>Link associato</label>
-                        <input type="text" class="form-control" id="idLinkAssociato"
-                               name="idLinkAssociato">
+                        <input type="text" class="form-control" id="idLinkAssociato">
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-primary" id="editRowButton">Salva Modifica</button>
