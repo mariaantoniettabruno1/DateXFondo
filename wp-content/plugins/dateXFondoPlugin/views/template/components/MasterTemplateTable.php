@@ -20,7 +20,7 @@ class MasterTemplateTable
 
             function renderDataTable(section, subsection) {
                 $('#dataTemplateTableBody').html('');
-                 filteredArticoli = articoli;
+                filteredArticoli = articoli;
                 if (section) {
                     filteredArticoli = filteredArticoli.filter(art => art.sezione === section)
                 }
@@ -44,6 +44,10 @@ class MasterTemplateTable
                 </div></td>
                                  </tr>
                              `);
+                    if (art.editable === 0) {
+                        $('.btn-edit-row').prop('disabled', true);
+                        $('.btn-delete-row').prop('disabled', true);
+                    }
                 });
                 $('.btn-delete-row').click(function () {
                     id = $(this).attr('data-id');

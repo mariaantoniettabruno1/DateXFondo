@@ -100,7 +100,7 @@ class MasterTemplateNewRow
     {
         ?>
         <button class="btn btn-outline-primary" data-toggle="modal"
-                data-target="#addRowModal">Aggiungi riga
+                data-target="#addRowModal" id="idAddRow">Aggiungi riga
         </button>
         <div class="modal fade" id="addRowModal" tabindex="-1"
              role="dialog"

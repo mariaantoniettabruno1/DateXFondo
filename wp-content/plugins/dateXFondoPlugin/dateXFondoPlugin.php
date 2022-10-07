@@ -11,7 +11,6 @@ require_once(plugin_dir_path(__FILE__) . 'common.php');
 require_once(plugin_dir_path(__FILE__) . 'repositories/CustomTable.php');
 require_once(plugin_dir_path(__FILE__) . 'repositories/Connection.php');
 require_once(plugin_dir_path(__FILE__) . 'repositories/CreateFondo.php');
-require_once(plugin_dir_path(__FILE__) . 'repositories/TemplateHistory.php');
 require_once(plugin_dir_path(__FILE__) . 'repositories/MasterTemplateRepository.php');
 require_once(plugin_dir_path(__FILE__) . 'repositories/MasterTemplateRowRepository.php');
 require_once(plugin_dir_path(__FILE__) . 'repositories/DisabledTemplateRow.php');
@@ -23,12 +22,14 @@ require_once(plugin_dir_path(__FILE__) . 'views/table/ShortCodeTable.php');
 require_once(plugin_dir_path(__FILE__) . 'views/table/live_edit.php');
 require_once(plugin_dir_path(__FILE__) . 'views/fondo/ShortCodeCreateFondo.php');
 require_once(plugin_dir_path(__FILE__) . 'views/template/MasterTemplate.php');
+require_once(plugin_dir_path(__FILE__) . 'views/template/MasterTemplateHistory.php');
 require_once(plugin_dir_path(__FILE__) . 'views/template/components/MasterTemplateHeader.php');
 require_once(plugin_dir_path(__FILE__) . 'views/template/components/MasterTemplateTable.php');
+require_once(plugin_dir_path(__FILE__) . 'views/template/components/MasterTemplateHistoryTable.php');
 require_once(plugin_dir_path(__FILE__) . 'views/template/components/MasterTemplateNewRow.php');
 require_once(plugin_dir_path(__FILE__) . 'views/template/components/MasterTemplateNewDecurtationRow.php');
 require_once(plugin_dir_path(__FILE__) . 'views/template/components/MasterTemplateNewSpecialRow.php');
-require_once(plugin_dir_path(__FILE__) . 'views/template/ShortCodeTemplateHistory.php');
+require_once(plugin_dir_path(__FILE__) . 'views/template/components/MasterTemplateStopEditingButton.php');
 require_once(plugin_dir_path(__FILE__) . 'views/template/ShortCodeDisabledTemplateRow.php');
 require_once(plugin_dir_path(__FILE__) . 'views/formula/Formula.php');
 require_once(plugin_dir_path(__FILE__) . 'views/formula/SlaveShortCodeFormulaTable.php');
@@ -98,7 +99,7 @@ function visualize_master_template()
 }
 function visualize_history_template()
 {
-    \dateXFondoPlugin\ShortCodeTemplateHistory::visualize_history_template();
+    \dateXFondoPlugin\MasterTemplateHistory::render();
 
 }
 function visualize_disabled_template_row()
@@ -196,25 +197,6 @@ function esegui_modifica_campi_nuovo_template($params)
 add_action('rest_api_init', 'create_endpoint_datefondo_nuovo');
 
 
-
-
-function create_endpoint_datefondo_caricamento()
-{
-
-    register_rest_route('datexfondoplugin/v1', 'table/new', array(
-        'methods' => 'POST',
-        'callback' => 'esegui_caricamento_campi'
-    ));
-
-
-}
-
-function esegui_caricamento_campi($params)
-{
-    return \dateXFondoPlugin\caricamento_campi($params);
-}
-
-add_action('rest_api_init', 'create_endpoint_datefondo_caricamento');
 
 
 function create_endpoint_datefondo_attiva_riga()
