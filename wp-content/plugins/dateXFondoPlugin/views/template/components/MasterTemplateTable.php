@@ -174,7 +174,7 @@ class MasterTemplateTable
 
         foreach ($tot_array as $key => $value) {
             foreach ($results_articoli as $articolo) {
-                if ($key === $articolo['sezione'] && !in_array($tot_array[$key], $articolo['sottosezione'])) {
+                if ($key === $articolo['sezione'] && !array_search($articolo['sottosezione'],$tot_array[$key])) {
                     array_push($tot_array[$key], $articolo['sottosezione']);
                 }
             }
