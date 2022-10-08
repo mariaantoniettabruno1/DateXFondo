@@ -46,4 +46,24 @@ class FormulaRepository
         mysqli_close($mysqli);
         return $stmt->insert_id;
     }
+
+    public static function update_formula($request)
+    {
+        $conn = new Connection();
+        $mysqli = $conn->connect();
+        $sql = "UPDATE DATE_formula SET sezione = ?, sottosezione = ?, nome = ?, descrizione = ?, condizione = ?, formula = ?, visibile = ? WHERE ID = ?;";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("ssssisii",
+            $request['sezione'],
+            $request['sottosezione'],
+            $request['nome'],
+            $request['descrizione'],
+            $request['condizione'],
+            $request['formula'],
+            $request['visibile'],
+            $request['id']);
+        $stmt->execute();
+        mysqli_close($mysqli);
+        return $stmt->affected_rows;
+    }
 }

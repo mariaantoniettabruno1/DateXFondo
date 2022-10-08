@@ -27,7 +27,7 @@ class FormulaCard
 
             let selectedInput = null;
 
-            function insertIntoFormula(insert){
+            function insertIntoFormula(insert, moveCaret = 0){
                 if (!selectedInput) return;
                 const id = selectedInput.attr("id");
 
@@ -39,8 +39,9 @@ class FormulaCard
                 } else {
                     selectedInput.val(t + insert);
                 }
-                let nextPosition = cursorPosition + insert.length
+                let nextPosition = cursorPosition + insert.length + moveCaret
                 // @todo Nice to have: aggiungere casistica per posizionare il cursore tra le due parentesi
+
                 setCaretPosition(id,nextPosition)
             }
 
@@ -64,6 +65,28 @@ class FormulaCard
                 }
             }
 
+            let formulaId = 0
+            function editFormula(fId) {
+                const formula = formule.find(f => f.id === fId);
+
+                $('#inputSelectSezioneFormula').val(formula.sezione);
+                $('#inputSelectSottosezioneFormula').val(formula.sottosezione);
+                $('#inputNomeFormula').val(formula.nome);
+                $('#inputDescrizioneFormula').val(formula.descrizione);
+                $('#inputCheckboxVisibileFormula').prop('checked', formula.visibile)
+                formulaId = fId;
+                if(Number(formula.condizione) === 0) {
+                    $('#inputFormula').val(formula.formula);
+                } else {
+                    const [cond, vf] = formula.formula.split("?");
+                    const [v, f] = vf.split(":");
+                   $('#inputCondizione').val(cond);
+                   $('#inputVero').val(v);
+                   $('#inputFalso').val(f);
+                }
+
+            }
+
             $(document).ready(function () {
                 renderSectionInput();
                 $('#inputSelectSezioneFormula').change(function () {
@@ -83,7 +106,9 @@ class FormulaCard
 
                 $(".input-button").click(function () {
                     const insert = $(this).attr("data-input");
-                    insertIntoFormula(insert);
+                    let moveCaret = $(this).attr("data-move-caret");
+                    if(moveCaret) moveCaret = Number(moveCaret)
+                    insertIntoFormula(insert, moveCaret);
                 })
 
                 $('#insertFormula').click(function () {
@@ -102,6 +127,7 @@ class FormulaCard
                     let condizione = 0;
 
                     const payload = {
+                        id: formulaId,
                         sezione,
                         sottosezione,
                         nome,
@@ -116,9 +142,16 @@ class FormulaCard
                         type: "POST",
                         success: function (response) {
                             console.log(response);
-                            if (response["id"]) {
+                            if(!response.updated){
+                                if (response["id"]) {
+                                    formule.push({...payload, id: response["id"]});
+                                }
+                            } else {
+                                formule = formule.filter(f => Number(f.id) !== Number(formulaId));
                                 formule.push({...payload, id: response["id"]});
                             }
+                            formulaId = 0;
+                            handleFilter();
                         },
                         error: function (response) {
                             console.error(response);
@@ -146,6 +179,7 @@ class FormulaCard
                         let condizione = 1;
 
                         const payload = {
+                            id: formulaId,
                             sezione,
                             sottosezione,
                             nome,
@@ -159,11 +193,17 @@ class FormulaCard
                             data: payload,
                             type: "POST",
                             success: function (response) {
-                                if (response["id"]) {
+                                console.log(response);
+                                if(!response.updated){
+                                    if (response["id"]) {
+                                        formule.push({...payload, id: response["id"]});
+                                    }
+                                } else {
+                                    formule = formule.filter(f => Number(f.id) !== Number(formulaId));
                                     formule.push({...payload, id: response["id"]});
                                 }
-                                console.log(response);
-
+                                formulaId = 0;
+                                handleFilter();
                             },
                             error: function (response) {
                                 console.error(response);
@@ -240,7 +280,7 @@ class FormulaCard
                                        aria-label="Formula" aria-describedby="basic-addon1"></div>
                         </div>
                         <div class="d-flex flex-row justify-content-end">
-                            <button class="btn btn-outline-primary" id="insertFormula">Aggiungi Formula</button>
+                            <button class="btn btn-outline-primary" id="insertFormula">Salva Formula</button>
                         </div>
                     </div>
                 </div>
@@ -277,7 +317,7 @@ class FormulaCard
                         </div>
 
                         <div class="d-flex flex-row justify-content-end">
-                            <button class="btn btn-outline-primary" id="insertCondition">Aggiungi Condizionale</button>
+                            <button class="btn btn-outline-primary" id="insertCondition">Salva Condizionale</button>
                         </div>
                     </div>
                 </div>
@@ -309,10 +349,9 @@ class FormulaCard
                         </button>
                     </div>
                     <div class="col px-1">
-                        <button id="btnPar" class="btn btn-block btn-outline-primary input-button"
-                                data-input=" (   ) ">( )
-                        </button>
+                        <button class="btn btn-block btn-outline-primary input-button" data-input=" 0 "> 0</button>
                     </div>
+
                 </div>
                 <div class="row mb-3">
                     <div class="col px-1">
@@ -326,12 +365,14 @@ class FormulaCard
                         </button>
                     </div>
                     <div class="col px-1">
-                        <button id="btnNot" class="btn btn-block btn-outline-primary input-button" data-input=" !(   ) ">
+                        <button id="btnNot" class="btn btn-block btn-outline-primary input-button" data-input=" !(   ) " data-move-caret="-3">
                             NON
                         </button>
                     </div>
                     <div class="col px-1">
-                        <button class="btn btn-block btn-outline-primary input-button" data-input=" 0 "> 0</button>
+                        <button id="btnPar" class="btn btn-block btn-outline-primary input-button"
+                                data-input=" (   ) " data-move-caret="-3">( )
+                        </button>
                     </div>
                     <div class="col px-1">
                         <button class="btn btn-block btn-outline-primary input-button" data-input=" == "> =</button>
