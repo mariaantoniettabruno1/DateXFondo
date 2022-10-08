@@ -25,7 +25,31 @@ class MasterTemplateTable
                 filteredArticoli = filteredArticoli.filter(art => art.sezione === section)
                 filteredArticoli = filteredArticoli.filter(art => art.sottosezione === subsection)
 
+                let button = '';
+                let delete_button = '';
+
                 filteredArticoli.forEach(art => {
+
+                    if (art.row_type === 'decurtazione') {
+                        button = ` <button class="btn btn-link btn-edit-row-dec" data-id='${art.id}' data-toggle="modal" data-target="#editDecModal"><i class="fa-solid fa-pen"></i></button>`;
+                        if (art.editable === '0') {
+                            delete_button = ` <button class="btn btn-link btn-delete-row" data-id='${art.id}' data-toggle="modal" data-target="#deleteModal" disabled><i class="fa-solid fa-trash"></i></button>`;
+                            button = ` <button class="btn btn-link btn-edit-row-dec" data-id='${art.id}' data-toggle="modal" data-target="#editDecModal" disabled><i class="fa-solid fa-pen"></i></button>`;
+                        } else {
+                            delete_button = ` <button class="btn btn-link btn-delete-row" data-id='${art.id}' data-toggle="modal" data-target="#deleteModal"><i class="fa-solid fa-trash"></i></button>`;
+
+                        }
+                    } else {
+                        button = ` <button class="btn btn-link btn-edit-row" data-id='${art.id}' data-toggle="modal" data-target="#editModal"><i class="fa-solid fa-pen"></i></button>`;
+                        if (art.editable === '0') {
+                            button = ` <button class="btn btn-link btn-edit-row" data-id='${art.id}' data-toggle="modal" data-target="#editModal" disabled><i class="fa-solid fa-pen"></i></button>`;
+                            delete_button = ` <button class="btn btn-link btn-delete-row" data-id='${art.id}' data-toggle="modal" data-target="#deleteModal" disabled><i class="fa-solid fa-trash"></i></button>`;
+                        }
+                        else {
+                            delete_button = ` <button class="btn btn-link btn-delete-row" data-id='${art.id}' data-toggle="modal" data-target="#deleteModal"><i class="fa-solid fa-trash"></i></button>`;
+                        }
+                    }
+
                     $('#dataTemplateTableBody' + index).append(`
                                  <tr>
                                        <td>${art.ordinamento}</td>
@@ -35,9 +59,9 @@ class MasterTemplateTable
                                         <td></td>
                                        <td>${art.nota}</td>
                                        <td>${art.link}</td>
-                                           <td><div class="row pr-3">
-                <div class="col-3"><button class="btn btn-link btn-edit-row" data-id='${art.id}' data-toggle="modal" data-target="#editModal" data-edit='${art.editable}'><i class="fa-solid fa-pen"></i></button></div>
-                <div class="col-3"><button class="btn btn-link btn-delete-row" data-id='${art.id}' data-toggle="modal" data-target="#deleteModal"><i class="fa-solid fa-trash"></i></button></div>
+                                       <td><div class="row pr-3">
+                <div class="col-3">${button}</div>
+                <div class="col-3">${delete_button}</div>
                 </div></td>
                                  </tr>
                              `);
@@ -57,6 +81,21 @@ class MasterTemplateTable
                     // $('#idDescrizioneArticolo').val(articolo[0].descrizione_articolo)
                     $('#idNotaArticolo').val(articolo[0].nota)
                     $('#idLinkAssociato').val(articolo[0].link)
+                });
+                $('.btn-edit-row-dec').click(function () {
+                    id = $(this).attr('data-id');
+                    let articolo = renderEditData(id);
+                    $('#idDecArticolo').val(articolo[0].id_articolo)
+                    $('#decRowOrdinamento').val(articolo[0].ordinamento)
+                    //togliere commento quando verranno sistemati i caratteri speciali per le descrizioni
+                    // $('#decRowDescrizioneArticolo').val(articolo[0].descrizione_articolo)
+                    $('#decRowNotaArticolo').val(articolo[0].nota)
+                    if (articolo[0].link === '%') {
+                        $('#percentualeSelected').prop('checked', true);
+                    } else if (articolo[0].link === 'ValoreAssoluto') {
+                        $('#valAbsSelected').prop('checked', true);
+                    }
+
                 });
 
 
@@ -82,8 +121,6 @@ class MasterTemplateTable
 
                 $('.class-accordion-button').click(function () {
                     let section = $(this).attr('data-section');
-                    let editable = $('.btn-edit-row').attr('data-edit');
-                    console.log(editable)
 
                     renderDataTable(section);
                     $('.class-template-sottosezione').change(function () {
@@ -114,7 +151,7 @@ class MasterTemplateTable
                         nota,
                         link
                     }
-                    //console.log(payload)
+                    console.log(payload)
 
                     $.ajax({
                         url: '<?= DateXFondoCommon::get_website_url() ?>/wp-json/datexfondoplugin/v1/editrow',
@@ -123,11 +160,13 @@ class MasterTemplateTable
                         success: function (response) {
                             console.log(response);
                             $("#editModal").modal('hide');
+                            $("#editDecModal").modal('hide');
                             renderEditDataTable(payload);
                         },
                         error: function (response) {
                             console.error(response);
                             $("#editModal").modal('hide');
+                            $("#editDecModal").modal('hide');
                         }
                     });
                 });
@@ -174,7 +213,7 @@ class MasterTemplateTable
 
         foreach ($tot_array as $key => $value) {
             foreach ($results_articoli as $articolo) {
-                if ($key === $articolo['sezione'] && !array_search($articolo['sottosezione'],$tot_array[$key])) {
+                if ($key === $articolo['sezione'] && !array_search($articolo['sottosezione'], $tot_array[$key])) {
                     array_push($tot_array[$key], $articolo['sottosezione']);
                 }
             }
@@ -183,7 +222,7 @@ class MasterTemplateTable
         ?>
         <div class="accordion mt-2" id="accordionTemplateTable">
             <?php
-            $section_index  = 0 ;
+            $section_index = 0;
             foreach ($tot_array as $sezione => $sottosezioni) {
                 ?>
                 <div class="card" id="templateCard">
@@ -308,6 +347,60 @@ class MasterTemplateTable
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="editDecModal" tabindex="-1"
+             role="dialog"
+             aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Modifica riga del fondo:</h5>
+                        <button type="button" class="close" data-dismiss="modal"
+                                aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <label>Ordinamento</label>
+                        <input type="text" class="form-control" id="decRowOrdinamento">
+
+                        <label>Id Decurtazione</label>
+                        <input type="text" class="form-control" id="idDecArticolo">
+
+                        <label>Descrizione</label>
+                        <textarea class="form-control"
+                                  id="decRowDescrizioneArticolo"></textarea>
+
+                        <label>Nota</label>
+                        <textarea class="form-control"
+                                  id="decRowNotaArticolo"></textarea>
+
+                        <label>Tipologia decurtazione:</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="typeDecEdit"
+                                   id="percentualeSelected"
+                                   value="%">
+                            <label class="form-check-label" for="percentualeSelected">
+                                %
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="typeDecEdit"
+                                   id="valAbsSelected"
+                                   value="ValoreAssoluto">
+                            <label class="form-check-label" for="valAbsSelected">
+                                Valore Assoluto
+                            </label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" id="editRowButton">Salva Modifica</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
 
         <?php
         self::render_scripts();

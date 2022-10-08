@@ -93,90 +93,104 @@ class MasterTemplateNewDecurtationRow
     }
 
     public static function render()
+
     {
+        $data = new MasterTemplateRepository();
+        $results_articoli = $data->getArticoli();
+        if($results_articoli[0]['editable']=='1'){
         ?>
         <button class="btn btn-outline-primary" id="btnDecurtazione" data-toggle="modal"
                 data-target="#addRowDecModal">Aggiungi decurtazione
         </button>
+        <?php
+    }
+    else{
+        ?>
+        <button class="btn btn-outline-primary" id="btnDecurtazione" data-toggle="modal"
+                data-target="#addRowDecModal" disabled>Aggiungi decurtazione
+        </button>
+        <?php
+    }
+        ?>
         <div class="modal fade" id="addRowDecModal" tabindex="-1"
              role="dialog"
              aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title"><b>Nuova decurtazione:</b></h5>
-                <button type="button" class="close" data-dismiss="modal"
-                        aria-label="Close">
-                    <span aria-hidden="true"></span>
-                </button>
-            </div>
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><b>Nuova decurtazione:</b></h5>
+                        <button type="button" class="close" data-dismiss="modal"
+                                aria-label="Close">
+                            <span aria-hidden="true"></span>
+                        </button>
+                    </div>
 
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="selectSezione"><b>Sezione: </b></label>
-                    <select class="custom-select" id="selectNewDecSezione">
-                    </select>
-                </div>
-                <div class="form-group" id="divSelectSottosezione">
-                    <br>
-                    <div class="btn-group pb-3" role="group" aria-label="Basic example">
-                        <button type="button" class="btn  btn-outline-primary subsDecButtonGroup1"
-                        >Seleziona Sottosezione
-                        </button>
-                        <button type="button" class="btn btn-outline-primary subsDecButtonGroup2"
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="selectSezione"><b>Sezione: </b></label>
+                            <select class="custom-select" id="selectNewDecSezione">
+                            </select>
+                        </div>
+                        <div class="form-group" id="divSelectSottosezione">
+                            <br>
+                            <div class="btn-group pb-3" role="group" aria-label="Basic example">
+                                <button type="button" class="btn  btn-outline-primary subsDecButtonGroup1"
+                                >Seleziona Sottosezione
+                                </button>
+                                <button type="button" class="btn btn-outline-primary subsDecButtonGroup2"
                                 >Nuova Sottosezione
-                        </button>
+                                </button>
+                            </div>
+                            <div class="form-group">
+                                <select class="custom-select" id="selectNewDecSottosezione">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="decNewSottosezione" style="display:none">
+                        </div>
+                        <div class="form-group">
+                            <label for="ordinamento"><b>Ordinamento: </b></label>
+                            <input type="text" class="form-control" id="decOrdinamento"
+                                   value='' name="decOrdinamento">
+                        </div>
+                        <div class="form-group">
+                            <label for="idArticolo"><b>Id Articolo: </b></label>
+                            <input type="text" class="form-control" id="decIdArticolo">
+                        </div>
+                        <label for="inputNota"><b>Tipologia decurtazione:</b> </label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="typeDec" id="percentualeSelected"
+                                   value="%">
+                            <label class="form-check-label" for="percentualeSelected">
+                                %
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="typeDec" id="valAbsSelected"
+                                   value="ValoreAssoluto">
+                            <label class="form-check-label" for="valAbsSelected">
+                                Valore Assoluto
+                            </label>
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label for="decDescrizioneArticolo"><b>Descrizione:</b></label>
+                            <textarea class="form-control"
+                                      id="decDescrizioneArticolo"
+                                      name="decDescrizioneArticolo"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="decNota"><b>Nota:</b></label>
+                            <textarea class="form-control"
+                                      id="decNota"
+                                      name="decNota"></textarea>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <select class="custom-select" id="selectNewDecSottosezione">
-                        </select>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" id="addNewDecurtationButton">Aggiungi riga</button>
                     </div>
                 </div>
-                <div class="form-group">
-                    <input type="text" class="form-control" id="decNewSottosezione" style="display:none">
-                </div>
-                <div class="form-group">
-                    <label for="ordinamento"><b>Ordinamento: </b></label>
-                    <input type="text" class="form-control" id="decOrdinamento"
-                           value='' name="decOrdinamento">
-                </div>
-                <div class="form-group">
-                    <label for="idArticolo"><b>Id Articolo: </b></label>
-                    <input type="text" class="form-control" id="decIdArticolo">
-                </div>
-                <label for="inputNota"><b>Tipologia decurtazione:</b> </label>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="typeDec" id="percentualeSelected"
-                           value="%">
-                    <label class="form-check-label" for="percentualeSelected">
-                        %
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="typeDec" id="valAbsSelected"
-                           value="ValoreAssoluto">
-                    <label class="form-check-label" for="valAbsSelected">
-                        Valore Assoluto
-                    </label>
-                </div>
-                <br>
-                <div class="form-group">
-                    <label for="decDescrizioneArticolo"><b>Descrizione:</b></label>
-                    <textarea class="form-control"
-                              id="decDescrizioneArticolo"
-                              name="decDescrizioneArticolo"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="decNota"><b>Nota:</b></label>
-                    <textarea class="form-control"
-                              id="decNota"
-                              name="decNota"></textarea>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-primary" id="addNewDecurtationButton">Aggiungi riga</button>
-            </div>
-        </div>
         <?php
         self::render_scripts();
 

@@ -98,11 +98,22 @@ class MasterTemplateNewSpecialRow
     }
 
     public static function render()
-    {
+    {    $data = new MasterTemplateRepository();
+        $results_articoli = $data->getArticoli();
+        if ($results_articoli[0]['editable'] == '1') {
+            ?>
+            <button class="btn btn-outline-primary" id="btnSpecialRow" data-toggle="modal"
+                    data-target="#addSpecialRowModal">Aggiungi riga speciale
+            </button>
+            <?php
+        } else {
+            ?>
+            <button class="btn btn-outline-primary" id="btnSpecialRow" data-toggle="modal"
+                    data-target="#addSpecialRowModal" disabled>Aggiungi riga speciale
+            </button>
+            <?php
+        }
         ?>
-        <button class="btn btn-outline-primary" id="btnSpecialRow" data-toggle="modal"
-                data-target="#addSpecialRowModal">Aggiungi riga speciale
-        </button>
         <div class="modal fade" id="addSpecialRowModal" tabindex="-1"
              role="dialog"
              aria-labelledby="myModalLabel" aria-hidden="true">
