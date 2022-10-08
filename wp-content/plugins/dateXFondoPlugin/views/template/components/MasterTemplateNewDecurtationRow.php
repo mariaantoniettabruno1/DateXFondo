@@ -34,12 +34,12 @@ class MasterTemplateNewDecurtationRow
                         $('#selectNewDecSottosezione').html('');
                     }
                 });
-                $('#subsDecButtonGroup1').click(function () {
+                $('.subsDecButtonGroup1').click(function () {
                     $('#selectNewDecSottosezione').show();
                     $('#decNewSottosezione').hide();
                 });
-                $('#subsDecButtonGroup2').click(function () {
-                    $('#decNewSottosezione').show();
+                $('.subsDecButtonGroup2').click(function () {
+                    $('#decNewSottosezione').attr('style', 'display:block');
                     $('#selectNewDecSottosezione').hide();
                 });
                 $('#addNewDecurtationButton').click(function () {
@@ -133,7 +133,7 @@ class MasterTemplateNewDecurtationRow
                     </div>
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" id="decNewSottosezione">
+                    <input type="text" class="form-control" id="decNewSottosezione" style="display:none">
                 </div>
                 <div class="form-group">
                     <label for="ordinamento"><b>Ordinamento: </b></label>

@@ -9,9 +9,9 @@ class MasterTemplateNewSpecialRow
         ?>
         <script>
             function renderSectionFilter() {
-                $('#selectNewSpRowSezione').html('<option>Seleziona Sezione</option>');
+                $('#selectSpRowSezione').html('<option>Seleziona Sezione</option>');
                 Object.keys(sezioni).forEach(sez => {
-                    $('#selectNewSpRowSezione').append(`<option>${sez}</option>`);
+                    $('#selectSpRowSezione').append(`<option>${sez}</option>`);
                 });
             }
 
@@ -23,9 +23,11 @@ class MasterTemplateNewSpecialRow
             }
 
             $(document).ready(function () {
+
                 renderSectionFilter();
-                $('#selectNewSpRowSezione').change(function () {
-                    const section = $('#selectNewSpRowSezione').val();
+
+                $('#selectSpRowSezione').change(function () {
+                    const section = $('#selectSpRowSezione').val();
                     if (section !== 'Seleziona Sezione') {
                         $('#selectNewSpRowSottosezione').attr('disabled', false);
                         filterSubsections(section);
@@ -34,12 +36,12 @@ class MasterTemplateNewSpecialRow
                         $('#selectNewSpRowSottosezione').html('');
                     }
                 });
-                $('#spSubsectionButtonGroup1').click(function () {
+                $('.subsSpButtonGroup1').click(function () {
                     $('#selectNewSpRowSottosezione').show();
-                    $('#newSpRowSottosezione').hide();
+                    $('#spNewSottosezione').attr('style','display:none');
                 });
-                $('#spSubsectionButtonGroup2').click(function () {
-                    $('#newSpRowSottosezione').show();
+                $('.subsSpButtonGroup2').click(function () {
+                    $('#spNewSottosezione').attr('style','display:block');
                     $('#selectNewSpRowSottosezione').hide();
                 });
                 $('#addNewSpecialRowButton').click(function () {
@@ -80,7 +82,7 @@ class MasterTemplateNewSpecialRow
                             type: "POST",
                             success: function (response) {
                                 if (response["id"]) {
-                                    //articoli.push(response);
+                                    articoli.push(response);
                                 }
                                 console.log(response);
                             },
@@ -115,18 +117,18 @@ class MasterTemplateNewSpecialRow
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="selectSezione"><b>Sezione:</b></label>
-                            <select class="custom-select" id="selectNewSpRowSezione">
+                            <label for="selectSezione"><b>Sezione: </b></label>
+                            <select class="custom-select" id="selectSpRowSezione">
                             </select>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" id="divSelectSpSottosezione">
                             <br>
                             <div class="btn-group pb-3" role="group" aria-label="Basic example">
-                                <button type="button" class="btn  btn-outline-primary spSubsectionButtonGroup1">
-                                    Seleziona Sottosezione
+                                <button type="button" class="btn  btn-outline-primary subsSpButtonGroup1"
+                                >Seleziona Sottosezione
                                 </button>
-                                <button type="button" class="btn btn-outline-primary spSubsectionButtonGroup2">
-                                    Nuova Sottosezione
+                                <button type="button" class="btn btn-outline-primary subsSpButtonGroup2"
+                                >Nuova Sottosezione
                                 </button>
                             </div>
                             <div class="form-group">
@@ -135,7 +137,7 @@ class MasterTemplateNewSpecialRow
                             </div>
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control" id="newSpRowSottosezione" style="display:none">
+                            <input type="text" class="form-control" id="spNewSottosezione" style="display:none">
                         </div>
                         <div class="form-group">
                             <label for="ordinamento"><b>Ordinamento:</b></label>

@@ -34,12 +34,12 @@ class MasterTemplateNewRow
                         $('#selectNewRowSottosezione').html('');
                     }
                 });
-                $('#subsectionButtonGroup1').click(function () {
+                $('.subsectionButtonGroup1').click(function () {
                     $('#selectNewRowSottosezione').show();
-                    $('#newRowSottosezione').hide();
+                    $('#newRowSottosezione').attr('style','display:none');
                 });
-                $('#subsectionButtonGroup2').click(function () {
-                    $('#newRowSottosezione').show();
+                $('.subsectionButtonGroup2').click(function () {
+                    $('#newRowSottosezione').attr('style','display:block');
                     $('#selectNewRowSottosezione').hide();
                 });
                 $('#addNewRowButton').click(function () {
@@ -137,8 +137,7 @@ class MasterTemplateNewRow
 
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control" id="newRowSottosezione"
-                                   value='' name="newRowSottosezione">
+                            <input type="text" class="form-control" id="newRowSottosezione" style="display:none">
                         </div>
                         <div class="form-group">
                             <label for="ordinamento"><b>Ordinamento:</b></label>
