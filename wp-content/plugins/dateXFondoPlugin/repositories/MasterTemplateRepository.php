@@ -8,7 +8,7 @@ class MasterTemplateRepository
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = "SELECT id,fondo,anno,descrizione_fondo,ordinamento,sezione,sottosezione,id_articolo,nome_articolo,sottotitolo_articolo,nota,link,editable,version FROM DATE_template_fondo WHERE id_articolo IS NOT NULL and attivo=1";
+        $sql = "SELECT id,fondo,anno,descrizione_fondo,ordinamento,sezione,sottosezione,id_articolo,nome_articolo,sottotitolo_articolo,nota,link,editable,version,row_type FROM DATE_template_fondo WHERE id_articolo IS NOT NULL and attivo=1";
         $result = $mysqli->query($sql);
         $row = $result->fetch_all(MYSQLI_ASSOC);
         mysqli_close($mysqli);

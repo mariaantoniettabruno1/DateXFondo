@@ -36,10 +36,10 @@ class MasterTemplateNewRow
                 });
                 $('.subsectionButtonGroup1').click(function () {
                     $('#selectNewRowSottosezione').show();
-                    $('#newRowSottosezione').attr('style','display:none');
+                    $('#newRowSottosezione').attr('style', 'display:none');
                 });
                 $('.subsectionButtonGroup2').click(function () {
-                    $('#newRowSottosezione').attr('style','display:block');
+                    $('#newRowSottosezione').attr('style', 'display:block');
                     $('#selectNewRowSottosezione').hide();
                 });
                 $('#addNewRowButton').click(function () {
@@ -98,10 +98,22 @@ class MasterTemplateNewRow
 
     public static function render()
     {
+        $data = new MasterTemplateRepository();
+        $results_articoli = $data->getArticoli();
+        if ($results_articoli[0]['editable'] == '1') {
+            ?>
+            <button class="btn btn-outline-primary" data-toggle="modal"
+                    data-target="#addRowModal" id="idAddRow">Aggiungi riga
+            </button>
+            <?php
+        } else {
+            ?>
+            <button class="btn btn-outline-primary" data-toggle="modal"
+                    data-target="#addRowModal" id="idAddRow" disabled>Aggiungi riga
+            </button>
+            <?php
+        }
         ?>
-        <button class="btn btn-outline-primary" data-toggle="modal"
-                data-target="#addRowModal" id="idAddRow">Aggiungi riga
-        </button>
         <div class="modal fade" id="addRowModal" tabindex="-1"
              role="dialog"
              aria-labelledby="myModalLabel" aria-hidden="true">

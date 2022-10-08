@@ -58,6 +58,8 @@ class MasterTemplateHeader
 
     public static function render()
     {
+        $data = new MasterTemplateRepository();
+        $results_articoli = $data->getArticoli();
         ?>
         <div class="col-3">
             <input type="text" placeholder="Fondo" id="inputFondo" readonly>
@@ -69,9 +71,22 @@ class MasterTemplateHeader
             <input type="text" placeholder="Descrizione Fondo" id="inputDescrizioneFondo" readonly>
         </div>
         <div class="col-3">
-            <button class="btn btn-link" id="editInputButton"><i class="fa-solid fa-pen"></i></button>
-            <button class="btn btn-link" id="saveInputButton" style="display: none"><i
-                        class="fa-solid fa-floppy-disk"></i></button>
+            <?php
+            if ($results_articoli[0]['editable'] == '1') {
+                ?>
+                <button class="btn btn-link" id="editInputButton"><i class="fa-solid fa-pen"></i></button>
+                <button class="btn btn-link" id="saveInputButton" style="display: none"><i
+                            class="fa-solid fa-floppy-disk"></i></button>
+                <?php
+            } else {
+                ?>
+                <button class="btn btn-link" id="editInputButton" disabled><i class="fa-solid fa-pen"></i></button>
+                <button class="btn btn-link" id="saveInputButton" style="display: none"><i
+                            class="fa-solid fa-floppy-disk"></i></button>
+                <?php
+            }
+            ?>
+
         </div>
         <?php
         self::render_scripts();
