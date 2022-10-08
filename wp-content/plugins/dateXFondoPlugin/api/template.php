@@ -15,13 +15,13 @@ function create_endpoint_datefondo_edit_header_template()
 function esegui_modifica_header_template($params)
 {
     \dateXFondoPlugin\MasterTemplateRepository::edit_header_template($params);
-    $data = ['message' => 'Modifica fondo e anno effettuata correttamente'];
+    $data = ['message' => 'Modifica header effettuata correttamente'];
     $response = new WP_REST_Response($data);
     $response->set_status(201);
     return $response;
 }
 
-add_action('rest_api_init', 'esegui_modifica_header_template');
+add_action('rest_api_init', 'create_endpoint_datefondo_edit_header_template');
 
 function create_endpoint_datefondo_edit_row()
 {

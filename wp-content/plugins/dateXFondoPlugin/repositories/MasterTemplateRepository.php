@@ -37,14 +37,14 @@ class MasterTemplateRepository
 
     public static function edit_header_template($request)
     {
-//
-//        $conn = new Connection();
-//        $mysqli = $conn->connect();
-//        $sql = "UPDATE DATE_template_fondo SET fondo=?,anno=?,descrizione_fondo=?";
-//        $stmt = $mysqli->prepare($sql);
-//        $stmt->bind_param("sss", $request['fondo'],$request['anno'],$request['descrizione_fondo']);
-//        $stmt->execute();
-//        mysqli_close($mysqli);
+
+       $conn = new Connection();
+       $mysqli = $conn->connect();
+       $sql = "UPDATE DATE_template_fondo SET fondo=?,anno=?,descrizione_fondo=?";
+       $stmt = $mysqli->prepare($sql);
+       $stmt->bind_param("sss", $request['fondo'],$request['anno'],$request['descrizione_fondo']);
+       $stmt->execute();
+        $mysqli->close();
     }
 
     public static function edit_row($request)
