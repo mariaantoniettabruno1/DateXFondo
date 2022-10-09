@@ -18,6 +18,14 @@ class FormulaSidebar
                     filteredArticoli = filteredArticoli.filter(art => art.sottosezione === subsection)
                 }
                 filteredArticoli.forEach(art => {
+
+                    let button = "";
+                    if(art.row_type !== "decurtazione"){
+                        button = `<button type="button" class="btn btn-sm btn-outline-primary" title="Aggiungi ${art.id_articolo} alla formula" onclick="insertIntoFormula('${art.id_articolo}')"><i class="fa-solid fa-plus"></i></button>`
+                    } else {
+                        button = `<button type="button" class="btn btn-sm btn-outline-success" title="Aggiungi decurtazione ${art.id_articolo} alla formula" onclick="insertDecurtazioneIntoFormula('${art.link}', '${art.id_articolo}')"><i class="fa-solid fa-plus"></i></button>`
+                    }
+
                     $('#dataTableBody').append(`
                         <tr>
                           <td class="text-truncate" data-toggle="tooltip" title="${art.id_articolo}">
@@ -30,7 +38,7 @@ class FormulaSidebar
                            ${art.sottotitolo_articolo}
                           </td>
                           <td>
-                            <button type="button" class="btn btn-sm btn-outline-primary" title="Aggiungi ${art.id_articolo} alla formula" onclick="insertIntoFormula('${art.id_articolo}')"><i class="fa-solid fa-plus"></i></button>
+                            ${button}
                             <button type="button" class="btn btn-sm btn-outline-secondary" title="Visualizza"><i class="fa-solid fa-eye"></i></button>
                           </td>
                         </tr>

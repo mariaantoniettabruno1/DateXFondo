@@ -9,7 +9,7 @@ class FormulaRepository
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = "SELECT id,id_articolo, nome_articolo, sottotitolo_articolo, sezione, sottosezione FROM DATE_template_fondo WHERE id_articolo IS NOT NULL AND attivo=1";
+        $sql = "SELECT id, id_articolo, nome_articolo, sottotitolo_articolo, sezione, sottosezione, row_type, link FROM DATE_template_fondo WHERE id_articolo IS NOT NULL AND attivo=1";
         $result = $mysqli->query($sql);
         $row = $result->fetch_all(MYSQLI_ASSOC);
         mysqli_close($mysqli);

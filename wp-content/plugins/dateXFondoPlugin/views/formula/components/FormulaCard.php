@@ -40,8 +40,6 @@ class FormulaCard
                     selectedInput.val(t + insert);
                 }
                 let nextPosition = cursorPosition + insert.length + moveCaret
-                // @todo Nice to have: aggiungere casistica per posizionare il cursore tra le due parentesi
-
                 setCaretPosition(id,nextPosition)
             }
 
@@ -63,6 +61,17 @@ class FormulaCard
                             elem.focus();
                     }
                 }
+            }
+
+            function insertDecurtazioneIntoFormula(type, idArticolo) {
+                if (!selectedInput) return;
+                const t = selectedInput.val()
+                if(type === "%") {
+                    selectedInput.val(`(${t}) * ${idArticolo} / 100`);
+                } else {
+                    selectedInput.val(`(${t}) > 0 ? (${t}) : - (${t})`);
+                }
+                selectedInput.focus();
             }
 
             let formulaId = 0
