@@ -44,6 +44,7 @@ class MasterTemplate
                         sezioni[a.sezione].push(a.sottosezione);
                     }
                 });
+                console.log(articoli)
             </script>
         </head>
 

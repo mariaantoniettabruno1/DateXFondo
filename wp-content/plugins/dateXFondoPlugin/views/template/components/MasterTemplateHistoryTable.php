@@ -24,6 +24,7 @@ class MasterTemplateHistoryTable
                                        <td data-version = '${art.version}'>${art.version}</td>
                                            <td>
                 <button class="btn btn-primary btn-duplicate-template" data-toggle="modal" data-target="#duplicateModal">Duplica</button>
+                <button class="btn btn-primary btn-visualize-template">Visualizza</button>
                 </td>
                 </tr>
                              `);
@@ -52,14 +53,13 @@ class MasterTemplateHistoryTable
                     //console.log(payload)
 
                     $.ajax({
-                        url: '<?= DateXFondoCommon::get_website_url() ?>/wp-json/datexfondoplugin/v1/editrow',
+                        url: '<?= DateXFondoCommon::get_website_url() ?>/wp-json/datexfondoplugin/v1/duplicatetemplate',
                         data: payload,
                         type: "POST",
                         success: function (response) {
                             console.log(response);
                             $("#duplicateModal").modal('hide');
-                            //chiedere a ste come fare il location.href
-                            location.href = 'https://demo.mg3.srl/date/duplicazione-template-anno-precedente/';
+                            location.href = '<?= DateXFondoCommon::get_website_url() ?>/visualizza-template-fondo/';
                         },
                         error: function (response) {
                             console.error(response);
@@ -75,27 +75,19 @@ class MasterTemplateHistoryTable
     {
 
         ?>
-        <table class="table">
+        <table class="table" style="table-layout: fixed">
             <thead>
             <tr>
-                <th>Fondo</th>
-                <th>Anno</th>
+                <th style="width: 200px">Fondo</th>
+                <th style="width: 100px">Anno</th>
                 <th>Descrizione fondo</th>
-                <th>Versione</th>
-                <th>Azioni</th>
+                <th style="width: 100px">Versione</th>
+                <th style="width: 202px">Azioni</th>
             </tr>
 
             </thead>
-            <?php $data = new MasterTemplateRepository();
-            $results_articoli = $data->getStoredArticoli();
-            $arrLength = count($results_articoli);
-            for ($results_articoli = 0; $results_articoli <= $arrLength; $results_articoli++) { ?>
                 <tbody id="dataTemplateTableBody">
                 </tbody>
-                <?php
-            }
-
-            ?>
         </table>
 
         <div class="modal fade" id="duplicateModal" tabindex="-1" role="dialog" aria-labelledby="duplicateModalLabel"

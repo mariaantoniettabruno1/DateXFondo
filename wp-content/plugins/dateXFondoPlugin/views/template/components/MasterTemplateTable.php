@@ -25,30 +25,90 @@ class MasterTemplateTable
                 filteredArticoli = filteredArticoli.filter(art => art.sezione === section)
                 filteredArticoli = filteredArticoli.filter(art => art.sottosezione === subsection)
 
+
                 let button = '';
                 let delete_button = '';
+                let radio_value = '';
+                let radio_both = '';
+                let radio_none = '';
 
                 filteredArticoli.forEach(art => {
-
+                    console.log(art.heredity)
                     if (art.row_type === 'decurtazione') {
-                        button = ` <button class="btn btn-link btn-edit-row-dec" data-id='${art.id}' data-toggle="modal" data-target="#editDecModal"><i class="fa-solid fa-pen"></i></button>`;
                         if (art.editable === '0') {
                             delete_button = ` <button class="btn btn-link btn-delete-row" data-id='${art.id}' data-toggle="modal" data-target="#deleteModal" disabled><i class="fa-solid fa-trash"></i></button>`;
                             button = ` <button class="btn btn-link btn-edit-row-dec" data-id='${art.id}' data-toggle="modal" data-target="#editDecModal" disabled><i class="fa-solid fa-pen"></i></button>`;
-                        } else {
-                            delete_button = ` <button class="btn btn-link btn-delete-row" data-id='${art.id}' data-toggle="modal" data-target="#deleteModal"><i class="fa-solid fa-trash"></i></button>`;
+                             if (art.heredity === '1') {
+                                 radio_value = ` <input class="form-check-input btn-value" type="radio"  disabled value="0">`;
+                                 radio_both = ` <input class="form-check-input  btn-note-value" type="radio" checked disabled value="1">`;
+                                 radio_none = ` <input class="form-check-input btn-none" type="radio" disabled>`;
+                             } else if (art.heredity === '0') {
+                                 radio_both = ` <input class="form-check-input  btn-note-value" type="radio" disabled value="1">`;
+                                 radio_value = ` <input class="form-check-input btn-value" type="radio"checked disabled value="0">`;
+                                 radio_none = ` <input class="form-check-input btn-none" type="radio" disabled>`;
+                             } else if (art.heredity === null) {
+                                 radio_none = ` <input class="form-check-input btn-none" type="radio" checked disabled>`;
+                                 radio_value = ` <input class="form-check-input btn-value" type="radio" disabled value="0">`;
+                                 radio_both = ` <input class="form-check-input  btn-note-value" type="radio" disabled value="1">`;
 
+                             }
+                        } else {
+                            button = ` <button class="btn btn-link btn-edit-row-dec" data-id='${art.id}' data-toggle="modal" data-target="#editDecModal"><i class="fa-solid fa-pen"></i></button>`;
+                            if (art.heredity === '1') {
+                                radio_value = ` <input class="form-check-input  btn-value" type="radio"  value="0">`;
+                                radio_both = ` <input class="form-check-input  btn-note-value" type="radio" checked value="1">`;
+                                radio_none = ` <input class="form-check-input btn-none" type="radio">`;
+                            } else if (art.heredity === '0') {
+                                radio_both = ` <input class="form-check-input  btn-note-value" type="radio"  value="1">`;
+                                radio_value = ` <input class="form-check-input  btn-value" type="radio" checked value="0">`;
+                                radio_none = ` <input class="form-check-input btn-none" type="radio">`;
+
+                            } else if (art.heredity === null) {
+                                radio_none = ` <input class="form-check-input btn-none" type="radio" checked>`;
+                                radio_value = ` <input class="form-check-input  btn-value" type="radio" value="0">`;
+                                radio_both = ` <input class="form-check-input  btn-note-value" type="radio" value="1">`;
+                            }
+                            delete_button = ` <button class="btn btn-link btn-delete-row" data-id='${art.id}' data-toggle="modal" data-target="#deleteModal"><i class="fa-solid fa-trash"></i></button>`;
                         }
                     } else {
-                        button = ` <button class="btn btn-link btn-edit-row" data-id='${art.id}' data-toggle="modal" data-target="#editModal"><i class="fa-solid fa-pen"></i></button>`;
                         if (art.editable === '0') {
                             button = ` <button class="btn btn-link btn-edit-row" data-id='${art.id}' data-toggle="modal" data-target="#editModal" disabled><i class="fa-solid fa-pen"></i></button>`;
                             delete_button = ` <button class="btn btn-link btn-delete-row" data-id='${art.id}' data-toggle="modal" data-target="#deleteModal" disabled><i class="fa-solid fa-trash"></i></button>`;
-                        }
-                        else {
+                             if (art.heredity === '1') {
+                                 radio_value = ` <input class="form-check-input btn-value" type="radio"  disabled value="0">`;
+                                 radio_both = ` <input class="form-check-input  btn-note-value" type="radio" checked disabled value="1">`;
+                                 radio_none = ` <input class="form-check-input btn-none" type="radio" disabled>`;
+                             } else if (art.heredity === '0') {
+                                 radio_both = ` <input class="form-check-input  btn-note-value" type="radio"  disabled value="2">`;
+                                 radio_value = ` <input class="form-check-input btn-value" type="radio" checked disabled value="0">`;
+                                 radio_none = ` <input class="form-check-input btn-none" type="radio" disabled>`;
+                             } else if (art.heredity === null) {
+                                 radio_none = ` <input class="form-check-input btn-none" type="radio" checked disabled>`;
+                                 radio_value = ` <input class="form-check-input btn-value" type="radio" disabled value="0">`;
+                                 radio_both = ` <input class="form-check-input  btn-note-value" type="radio" disabled value="1">`;
+
+                             }
+                        } else {
+                            button = ` <button class="btn btn-link btn-edit-row" data-id='${art.id}' data-toggle="modal" data-target="#editModal"><i class="fa-solid fa-pen"></i></button>`;
+
+                             if (art.heredity === '1') {
+                                 radio_value = ` <input class="form-check-input  btn-value" type="radio"  value="0">`;
+                                 radio_both = ` <input class="form-check-input  btn-note-value" type="radio" checked value="1">`;
+                                 radio_none = ` <input class="form-check-input btn-none" type="radio">`;
+                             } else if (art.heredity === '0') {
+                                 radio_both = ` <input class="form-check-input  btn-note-value" type="radio"  value="1">`;
+                                 radio_value = ` <input class="form-check-input  btn-value" type="radio" checked value="0">`;
+                                 radio_none = ` <input class="form-check-input btn-none" type="radio" >`;
+
+                             } else if (art.heredity === null) {
+                                 radio_none = ` <input class="form-check-input btn-none" type="radio" checked>`;
+                                 radio_value = ` <input class="form-check-input  btn-value" type="radio" value="0">`;
+                                 radio_both = ` <input class="form-check-input  btn-note-value" type="radio" value="1">`;
+                             }
                             delete_button = ` <button class="btn btn-link btn-delete-row" data-id='${art.id}' data-toggle="modal" data-target="#deleteModal"><i class="fa-solid fa-trash"></i></button>`;
                         }
                     }
+
 
                     $('#dataTemplateTableBody' + index).append(`
                                  <tr>
@@ -59,7 +119,30 @@ class MasterTemplateTable
                                         <td></td>
                                        <td>${art.nota}</td>
                                        <td>${art.link}</td>
-                                       <td><div class="row pr-3">
+
+                                      <td>
+                                       <div class="container">
+                                         <div class="form-check">
+                                            ${radio_value}
+                                             <label class="form-check-label">
+                                                Valore
+                                             </label>
+                                        </div>
+                                        <div class="form-check">
+                                          ${radio_both}
+                                             <label class="form-check-label">
+                                                 Nota e Valore
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            ${radio_none}
+                                             <label class="form-check-label">
+                                                 Nessuno
+                                             </label>
+                                        </div>
+                                       </div>
+                                    </td>
+  <td><div class="row pr-3">
                 <div class="col-3">${button}</div>
                 <div class="col-3">${delete_button}</div>
                 </div></td>
@@ -149,7 +232,8 @@ class MasterTemplateTable
                         sottotitolo,
                         descrizione,
                         nota,
-                        link
+                        link,
+                        heredity
                     }
                     console.log(payload)
 
@@ -265,6 +349,7 @@ class MasterTemplateTable
                                             <th>Descrizione Articolo</th>
                                             <th>Nota</th>
                                             <th>Link</th>
+                                            <th>Ereditarietà</th>
                                             <th>Azioni</th>
                                         </tr>
 
