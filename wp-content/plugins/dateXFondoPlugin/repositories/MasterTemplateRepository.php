@@ -121,10 +121,12 @@ FROM DATE_template_fondo";
 
         $conn = new Connection();
         $mysqli = $conn->connect();
-//        $sql = " TRUNCATE table DATE_template_fondo";
-//        $stmt = $mysqli->prepare($sql);
-//        $stmt->execute();
-        $sql = "SELECT ALL FROM DATE_storico_template_fondo WHERE fondo=? AND anno=? AND descrizione_fondo=? AND version=? AND id_articolo IS NOT NULL AND attivo=1";
+        $sql = " TRUNCATE table DATE_template_fondo";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->execute();
+        $sql = "SELECT fondo,anno,descrizione_fondo,ordinamento,id_articolo,sezione,sottosezione,
+                     nome_articolo,descrizione_articolo,sottotitolo_articolo,valore,valore_anno_precedente,nota,link,attivo,version,row_type,editable,heredity
+FROM DATE_storico_template_fondo WHERE fondo=? AND anno=? AND descrizione_fondo=? AND version=? AND id_articolo IS NOT NULL AND attivo=1";
         $stmt = $mysqli->prepare($sql);
         $stmt->bind_param("sisi", $request['fondo'], $request['anno'], $request['descrizione'], $request['version']);
         $res = $stmt->execute();
@@ -132,9 +134,20 @@ FROM DATE_template_fondo";
             $rows = $res->fetch_all(MYSQLI_ASSOC);
         } else
             $rows = [];
-        //inserire insert nella table DATE_storico_template con la version++ rispetto alla precedente
+        $sql = "INSERT INTO DATE_template_fondo 
+                    (fondo,anno,descrizione_fondo,ordinamento,id_articolo,sezione,sottosezione,
+                     nome_articolo,descrizione_articolo,sottotitolo_articolo,valore,valore_anno_precedente,nota,link,attivo,version,row_type,editable,heredity) 
+                     VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        $stmt = $mysqli->prepare($sql);
+        $version = $rows[0]['version']+1;
+        foreach ($rows as $entry) {
+            $stmt->bind_param("sisissssssiissiisii", $entry['fondo'], $entry['anno'], $entry['descrizione_fondo'], $entry['ordinamento'], $entry['id_articolo'],
+                $entry['sezione'], $entry['sottosezione'], $entry['nome_articolo'], $entry['descrizione_articolo'], $entry['sottotitolo_articolo'], $entry['valore'],
+                $entry['valore_anno_precedente'],$entry['nota'],$entry['link'],$entry['attivo'],$version,$entry['row_type'],$entry['editable'],$entry['heredity']);
+            $res = $stmt->execute();
+        }
         mysqli_close($mysqli);
-        return $rows;
+        return $res;
     }
 
     public static function visualize_template($request)
