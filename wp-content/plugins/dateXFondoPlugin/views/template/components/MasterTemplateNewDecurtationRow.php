@@ -27,10 +27,8 @@ class MasterTemplateNewDecurtationRow
                 $('#selectNewDecSezione').change(function () {
                     const section = $('#selectNewDecSezione').val();
                     if (section !== 'Seleziona Sezione') {
-                        $('#selectNewDecSottosezione').attr('disabled', false);
                         filterSubsections(section);
                     } else {
-                        $('#selectNewDecSottosezione').attr('disabled', true);
                         $('#selectNewDecSottosezione').html('');
                     }
                 });
@@ -47,9 +45,17 @@ class MasterTemplateNewDecurtationRow
                         //inserire validazione campi obbligatori
                         //inserire anche il campo descrizione articolo
                         let id = $('#decIdArticolo').val();
-                        let sezione = $('#selectNewDecSezione').val();
-                        //inserire controllo su input piuttosto che su select
-                        let sottosezione = $('#selectNewDecSottosezione').val();
+                        let sezione = '';
+                        if (sezione !== 'Seleziona Sezione') {
+                            sezione = $('#selectNewDecSezione').val();
+                        }
+                        let sottosezione = '';
+                        if($('#selectNewDecSottosezione').val()!= null || $('#selectNewRowSottosezione').val()!== 'Seleziona Sottosezione'){
+                            sottosezione = $('#selectNewDecSottosezione').val();
+                        }
+                        else if($('#decNewSottosezione').val()!=null){
+                            sottosezione = $('#decNewSottosezione').val();
+                        }
                         let nota = $('#decNota').val();
                         let link = $('#typeDec:checked').val();
                         let ordinamento = $('#decOrdinamento').val();
@@ -76,10 +82,9 @@ class MasterTemplateNewDecurtationRow
                             data: payload,
                             type: "POST",
                             success: function (response) {
-                                if (response["id"]) {
-                                    //articoli.push(response);
-                                }
                                 console.log(response);
+                                $("#addRowDecModal").modal('hide');
+                                renderEditDataTable(payload);
                             },
                             error: function (response) {
                                 console.error(response);

@@ -38,10 +38,10 @@ class MasterTemplateNewSpecialRow
                 });
                 $('.subsSpButtonGroup1').click(function () {
                     $('#selectNewSpRowSottosezione').show();
-                    $('#spNewSottosezione').attr('style','display:none');
+                    $('#spNewSottosezione').attr('style', 'display:none');
                 });
                 $('.subsSpButtonGroup2').click(function () {
-                    $('#spNewSottosezione').attr('style','display:block');
+                    $('#spNewSottosezione').attr('style', 'display:block');
                     $('#selectNewSpRowSottosezione').hide();
                 });
                 $('#addNewSpecialRowButton').click(function () {
@@ -50,9 +50,16 @@ class MasterTemplateNewSpecialRow
                         let id = $('#newRowSpIdArticolo').val();
                         let nome = parseInt($('#newRowSpNomeArticolo').val());
                         let sottotitolo = $('#newRowSpSottotitoloArticolo').val();
-                        let sezione = $('#selectNewSpRowSezione').val();
-                        //inserire controllo su input piuttosto che su select
-                        let sottosezione = $('#selectNewSpRowSottosezione').val();
+                        let sezione = '';
+                        if (sezione !== 'Seleziona Sezione') {
+                            sezione = $('#selectNewSpRowSezione').val();
+                        }
+                        let sottosezione = '';
+                        if ($('#selectNewSpRowSottosezione').val() != null || $('#selectNewSpRowSottosezione').val() !== 'Seleziona Sottosezione') {
+                            sottosezione = $('#selectNewSpRowSottosezione').val();
+                        } else if ($('#spNewSottosezione').val() != null) {
+                            sottosezione = $('#spNewSottosezione').val();
+                        }
                         let nota = $('#newRowSpNota').val();
                         let link = $('#newRowSpLink').val();
                         let ordinamento = $('#newRowSpOrdinamento').val();
@@ -83,11 +90,15 @@ class MasterTemplateNewSpecialRow
                             success: function (response) {
                                 if (response["id"]) {
                                     articoli.push(response);
+                                    $("#addSpecialRowModal").modal('hide');
+                                    renderEditDataTable(payload);
                                 }
                                 console.log(response);
                             },
                             error: function (response) {
                                 console.error(response);
+                                $("#addSpecialRowModal").modal('hide');
+
                             }
                         });
                     }
@@ -98,7 +109,8 @@ class MasterTemplateNewSpecialRow
     }
 
     public static function render()
-    {    $data = new MasterTemplateRepository();
+    {
+        $data = new MasterTemplateRepository();
         $results_articoli = $data->getArticoli();
         if ($results_articoli[0]['editable'] == '1') {
             ?>

@@ -34,14 +34,20 @@ public static function create_new_dec($request){
     $mysqli = $conn->connect();
     //TODO aggiungere descrizione articolo
 
-    $sql = "INSERT INTO DATE_template_fondo (fondo,anno,sezione,sottosezione,id_articolo,descrizione_fondo,nota,link,row_type,ordinamento) VALUES(?,?,?,?,?,?,?,?,?,?)";
+    $sql = "INSERT INTO DATE_template_fondo (fondo,
+                                 anno,
+                                 sezione,
+                                 sottosezione,
+                                 id_articolo,
+                                 descrizione_fondo,nota,link,row_type,ordinamento) VALUES(?,?,?,?,?,?,?,?,?,?)";
     $stmt = $mysqli->prepare($sql);
-    $stmt->bind_param("sissssssi",
+    $stmt->bind_param("sisssssssi",
         $request['fondo'],
         $request['anno'],
-        $request['descrizione_fondo'],
         $request["sezione"],
         $request["sottosezione"],
+        $request["id"],
+        $request['descrizione_fondo'],
         $request['nota'],
         $request["link"],
         $request["row_type"],

@@ -27,10 +27,8 @@ class MasterTemplateNewRow
                 $('#selectNewRowSezione').change(function () {
                     const section = $('#selectNewRowSezione').val();
                     if (section !== 'Seleziona Sezione') {
-                        $('#selectNewRowSottosezione').attr('disabled', false);
                         filterSubsections(section);
                     } else {
-                        $('#selectNewRowSottosezione').attr('disabled', true);
                         $('#selectNewRowSottosezione').html('');
                     }
                 });
@@ -44,13 +42,21 @@ class MasterTemplateNewRow
                 });
                 $('#addNewRowButton').click(function () {
                     {
-                        //inserire validazione campi obbligatori
+                       <?php //inserire validazione campi obbligatori ?>
+
                         let id = $('#newRowIdArticolo').val();
                         let nome = parseInt($('#newRowNomeArticolo').val());
                         let sottotitolo = $('#newRowSottotitoloArticolo').val();
-                        let sezione = $('#selectNewRowSezione').val();
-                        //inserire controllo su input piuttosto che su select
-                        let sottosezione = $('#selectNewRowSottosezione').val();
+                        let sezione = '';
+                        if (sezione !== 'Seleziona Sezione') {
+                            sezione = $('#selectNewRowSezione').val();
+                        }
+                        let sottosezione = '';
+                        if ($('#selectNewRowSottosezione').val() != null || $('#selectNewRowSottosezione').val() !== 'Seleziona Sottosezione') {
+                            sottosezione = $('#selectNewRowSottosezione').val();
+                        } else if ($('#newRowSottosezione').val() != null) {
+                            sottosezione = $('#newRowSottosezione').val();
+                        }
                         let nota = $('#newRowNota').val();
                         let link = $('#newRowLink').val();
                         let ordinamento = $('#newRowOrdinamento').val();
@@ -79,12 +85,12 @@ class MasterTemplateNewRow
                             data: payload,
                             type: "POST",
                             success: function (response) {
-                                if (response["id"]) {
-                                    //articoli.push(response);
-                                }
+                                $("#addRowModal").modal('hide');
+                                renderEditDataTable(payload);
                                 console.log(response);
                             },
                             error: function (response) {
+                                $("#addRowModal").modal('hide');
                                 console.error(response);
                             }
                         });

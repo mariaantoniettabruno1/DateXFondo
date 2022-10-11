@@ -111,3 +111,25 @@ function esegui_duplicazione_template($params)
 
 add_action('rest_api_init', 'create_endpoint_datefondo_duplicate_template');
 
+function create_endpoint_datefondo_visualize_template()
+{
+
+    register_rest_route('datexfondoplugin/v1', 'visualizetemplate', array(
+        'methods' => 'POST',
+        'callback' => 'esegui_visualizzazione_template'
+    ));
+
+
+}
+
+function esegui_visualizzazione_template($params)
+{
+    $bool_res = \dateXFondoPlugin\MasterTemplateRepository::visualize_template($params);
+    $data = ['update' => $bool_res];
+    $response = new WP_REST_Response($data);
+    $response->set_status(201);
+    return $response;
+}
+
+add_action('rest_api_init', 'create_endpoint_datefondo_visualize_template');
+

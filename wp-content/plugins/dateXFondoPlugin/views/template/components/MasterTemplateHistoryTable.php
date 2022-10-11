@@ -18,26 +18,31 @@ class MasterTemplateHistoryTable
                 articoli.forEach(art => {
                     $('#dataTemplateTableBody').append(`
                                  <tr>
-                                       <td data-fondo='${art.fondo}'>${art.fondo}</td>
-                                       <td data-anno='${art.anno}'>${art.anno}</td>
-                                       <td data-desc = '${art.descrizione_fondo}' >${art.descrizione_fondo}</td>
-                                       <td data-version = '${art.version}'>${art.version}</td>
+                                       <td >${art.fondo}</td>
+                                       <td >${art.anno}</td>
+                                       <td >${art.descrizione_fondo}</td>
+                                       <td >${art.version}</td>
                                            <td>
-                <button class="btn btn-primary btn-duplicate-template" data-toggle="modal" data-target="#duplicateModal">Duplica</button>
+                <button class="btn btn-primary btn-duplicate-template"data-fondo='${art.fondo}' data-anno='${art.anno}' data-desc ='${art.descrizione_fondo}' data-version='${art.version}' data-toggle="modal" data-target="#duplicateModal">Duplica</button>
                 <button class="btn btn-primary btn-visualize-template">Visualizza</button>
                 </td>
                 </tr>
                              `);
+
                 });
-                console.log(articoli);
-
-
                 $('.btn-duplicate-template').click(function () {
                     fondo = $(this).attr('data-fondo');
                     anno = $(this).attr('data-anno');
                     descrizione = $(this).attr('data-desc');
                     version = $(this).attr('data-version');
                 });
+                $('.btn-visualize-template').click(function () {
+                    fondo = $(this).attr('data-fondo');
+                    anno = $(this).attr('data-anno');
+                    descrizione = $(this).attr('data-desc');
+                    version = $(this).attr('data-version');
+                });
+                console.log(articoli);
             }
 
             $(document).ready(function () {
@@ -50,10 +55,34 @@ class MasterTemplateHistoryTable
                         descrizione,
                         version
                     }
-                    //console.log(payload)
+                    console.log(payload)
 
                     $.ajax({
                         url: '<?= DateXFondoCommon::get_website_url() ?>/wp-json/datexfondoplugin/v1/duplicatetemplate',
+                        data: payload,
+                        type: "POST",
+                        success: function (response) {
+                            console.log(response);
+                            $("#duplicateModal").modal('hide');
+                            //location.href = '<?//= DateXFondoCommon::get_website_url() ?>///visualizza-template-fondo/';
+                        },
+                        error: function (response) {
+                            console.error(response);
+                            $("#duplicateModal").modal('hide');
+                        }
+                    });
+                });
+                $('.btn-visualize-template').click(function () {
+                    const payload = {
+                        fondo,
+                        anno,
+                        descrizione,
+                        version
+                    }
+                    console.log(payload)
+
+                    $.ajax({
+                        url: '<?= DateXFondoCommon::get_website_url() ?>/wp-json/datexfondoplugin/v1/visualizetemplate',
                         data: payload,
                         type: "POST",
                         success: function (response) {
@@ -63,7 +92,6 @@ class MasterTemplateHistoryTable
                         },
                         error: function (response) {
                             console.error(response);
-                            $("#duplicateModal").modal('hide');
                         }
                     });
                 });
@@ -86,8 +114,8 @@ class MasterTemplateHistoryTable
             </tr>
 
             </thead>
-                <tbody id="dataTemplateTableBody">
-                </tbody>
+            <tbody id="dataTemplateTableBody">
+            </tbody>
         </table>
 
         <div class="modal fade" id="duplicateModal" tabindex="-1" role="dialog" aria-labelledby="duplicateModalLabel"
