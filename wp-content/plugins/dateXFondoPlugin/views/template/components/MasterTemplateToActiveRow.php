@@ -10,6 +10,10 @@ class MasterTemplateToActiveRow
         <script>
             let id = 0;
             let filteredArticoli = articoli;
+            let fondo = '';
+            let anno = 0;
+            let descrizione = '';
+            let version = 0;
 
 
             function renderDataTable(fondo, anno) {
@@ -41,7 +45,17 @@ class MasterTemplateToActiveRow
 
                 $('.btn-active-row').click(function () {
                     id = $(this).attr('data-id');
+                    renderEditData(id);
                 });
+            }
+
+            function renderEditData(id) {
+                let articolo = articoli;
+                articolo = articolo.filter(art => art.id === id)
+                fondo = articolo[0].fondo;
+                anno = articolo[0].anno;
+                descrizione = articolo[0].descrizione_fondo;
+                version = articolo[0].version;
             }
 
             function renderFondoFilter() {
@@ -85,7 +99,11 @@ class MasterTemplateToActiveRow
                 });
                 $('#activeRowButton').click(function () {
                     const payload = {
-                        id
+                        id,
+                        fondo,
+                        anno,
+                        descrizione,
+                        version
                     }
                     console.log(payload)
 

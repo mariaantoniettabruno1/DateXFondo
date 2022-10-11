@@ -88,8 +88,11 @@ WHERE id=?";
         $stmt = $mysqli->prepare($sql);
         $res = $stmt->execute();
         $sql = "INSERT INTO DATE_storico_template_fondo 
-                    (fondo,anno,descrizione_fondo,sezione,sottosezione,id_articolo,sottotitolo_articolo,descrizione_articolo,valore,valore_anno_precedente,nota,link,version,attivo,row_type,editable,heredity)
-                        SELECT ALL FROM DATE_template_fondo";
+                    (fondo,anno,descrizione_fondo,ordinamento,id_articolo,sezione,sottosezione,
+                     nome_articolo,descrizione_articolo,sottotitolo_articolo,valore,valore_anno_precedente,nota,link,attivo,version,row_type,editable,heredity)
+                        SELECT  fondo,anno,descrizione_fondo,ordinamento,id_articolo,sezione,sottosezione,
+                     nome_articolo,descrizione_articolo,sottotitolo_articolo,valore,valore_anno_precedente,nota,link,attivo,version,row_type,editable,heredity
+FROM DATE_template_fondo";
         $stmt = $mysqli->prepare($sql);
         $res = $stmt->execute();
         mysqli_close($mysqli);
@@ -105,9 +108,9 @@ WHERE id=?";
         $stmt = $mysqli->prepare($sql);
         $stmt->bind_param("i", $request['id']);
         $res = $stmt->execute();
-        $sql = "UPDATE DATE_storico_template_fondo SET attivo=1 WHERE id=?";
+        $sql = "UPDATE DATE_storico_template_fondo SET attivo=1 WHERE fondo=? AND anno=? AND descrizione_fondo=? AND version=?";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("i", $request['id']);
+        $stmt->bind_param("sisi", $request['fondo'],$request['anno'],$request['descrizione'],$request['version']);
         $res = $stmt->execute();
         mysqli_close($mysqli);
         return $res;
@@ -129,6 +132,7 @@ WHERE id=?";
             $rows = $res->fetch_all(MYSQLI_ASSOC);
         } else
             $rows = [];
+        //inserire insert nella table DATE_storico_template con la version++ rispetto alla precedente
         mysqli_close($mysqli);
         return $rows;
     }
