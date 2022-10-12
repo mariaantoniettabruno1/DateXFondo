@@ -23,8 +23,8 @@ class MasterTemplateHistoryTable
                                        <td >${art.descrizione_fondo}</td>
                                        <td >${art.version}</td>
                                            <td>
-                <button class="btn btn-primary btn-duplicate-template"data-fondo='${art.fondo}' data-anno='${art.anno}' data-desc ='${art.descrizione_fondo}' data-version='${art.version}' data-toggle="modal" data-target="#duplicateModal">Duplica</button>
-                <button class="btn btn-primary btn-visualize-template">Visualizza</button>
+                <button class="btn btn-primary btn-duplicate-template" data-fondo='${art.fondo}' data-anno='${art.anno}' data-desc ='${art.descrizione_fondo}' data-version='${art.version}' data-toggle="modal" data-target="#duplicateModal">Duplica</button>
+                <button class="btn btn-primary btn-visualize-template" data-fondo='${art.fondo}' data-anno='${art.anno}' data-desc ='${art.descrizione_fondo}' data-version='${art.version}'>Visualizza</button>
                 </td>
                 </tr>
                              `);
@@ -64,7 +64,7 @@ class MasterTemplateHistoryTable
                         success: function (response) {
                             console.log(response);
                             $("#duplicateModal").modal('hide');
-                            //location.href = '<?//= DateXFondoCommon::get_website_url() ?>///visualizza-template-fondo/';
+                            location.href = '<?= DateXFondoCommon::get_website_url() ?>/visualizza-template-fondo/';
                         },
                         error: function (response) {
                             console.error(response);
@@ -73,27 +73,7 @@ class MasterTemplateHistoryTable
                     });
                 });
                 $('.btn-visualize-template').click(function () {
-                    const payload = {
-                        fondo,
-                        anno,
-                        descrizione,
-                        version
-                    }
-                    console.log(payload)
-
-                    $.ajax({
-                        url: '<?= DateXFondoCommon::get_website_url() ?>/wp-json/datexfondoplugin/v1/visualizetemplate',
-                        data: payload,
-                        type: "POST",
-                        success: function (response) {
-                            console.log(response);
-                            $("#duplicateModal").modal('hide');
-                            location.href = '<?= DateXFondoCommon::get_website_url() ?>/visualizza-template-fondo/';
-                        },
-                        error: function (response) {
-                            console.error(response);
-                        }
-                    });
+                    location.href = '<?= DateXFondoCommon::get_website_url()?>/visualizza-template-fondo/?fondo='+fondo+'&anno='+anno+'&descrizione='+descrizione+'&version='+version;
                 });
             });
         </script>

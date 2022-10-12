@@ -30,8 +30,49 @@ class MasterTemplateTable
                 let button = '';
                 let delete_button = '';
                 let heredity = '';
+                let nota = '';
+                let id_articolo = '';
+                let descrizione = '';
+                let sottotitolo = '';
+                let link = '';
+                let nome_articolo = '';
+
 
                 filteredArticoli.forEach(art => {
+
+                    if (art.nota !== null) {
+                        nota = art.nota;
+                    } else {
+                        nota = '';
+                    }
+                    if (art.id_articolo != null) {
+                        id_articolo = art.id_articolo;
+                    }
+                    else {
+                        id_articolo = '';
+                    }
+                    // if (art.descrizione_articolo !== null) {
+                    //     descrizione = art.descrizione_articolo;
+                    // }
+                    if (art.sottotitolo_articolo !== null) {
+                        sottotitolo = art.sottotitolo_articolo;
+                    }
+                    else {
+                        sottotitolo = '';
+                    }
+                    if (art.link !== null) {
+                        link = art.link;
+                    }
+                    else {
+                        link = '';
+                    }
+                    if (art.nome_articolo !== null) {
+                        nome_articolo = art.nome_articolo;
+                    }
+                    else {
+                        nome_articolo = '';
+                    }
+
                     if (art.row_type === 'decurtazione') {
                         if (art.editable === '0') {
                             delete_button = ` <button class="btn btn-link btn-delete-row" data-id='${art.id}' data-toggle="modal" data-target="#deleteModal" disabled><i class="fa-solid fa-trash"></i></button>`;
@@ -39,7 +80,6 @@ class MasterTemplateTable
 
                         } else {
                             button = ` <button class="btn btn-link btn-edit-row-dec" data-id='${art.id}' data-toggle="modal" data-target="#editDecModal"><i class="fa-solid fa-pen"></i></button>`;
-
                             delete_button = ` <button class="btn btn-link btn-delete-row" data-id='${art.id}' data-toggle="modal" data-target="#deleteModal"><i class="fa-solid fa-trash"></i></button>`;
                         }
                     } else {
@@ -48,17 +88,14 @@ class MasterTemplateTable
                             delete_button = ` <button class="btn btn-link btn-delete-row" data-id='${art.id}' data-toggle="modal" data-target="#deleteModal" disabled><i class="fa-solid fa-trash"></i></button>`;
                         } else {
                             button = ` <button class="btn btn-link btn-edit-row" data-id='${art.id}' data-toggle="modal" data-target="#editModal"><i class="fa-solid fa-pen"></i></button>`;
-
                             delete_button = ` <button class="btn btn-link btn-delete-row" data-id='${art.id}' data-toggle="modal" data-target="#deleteModal"><i class="fa-solid fa-trash"></i></button>`;
                         }
                     }
-                    if(art.heredity === "0"){
+                    if (art.heredity === "0") {
                         heredity = "Nè nota nè valore ereditati";
-                    }
-                    else if(art.heredity === "1"){
+                    } else if (art.heredity === "1") {
                         heredity = "Valore ereditato";
-                    }
-                    else if(art.heredity === "2"){
+                    } else if (art.heredity === "2") {
                         heredity = "Nota e valore ereditati";
                     }
 
@@ -66,12 +103,12 @@ class MasterTemplateTable
                     $('#dataTemplateTableBody' + index).append(`
                                  <tr>
                                        <td>${art.ordinamento}</td>
-                                       <td>${art.id_articolo}</td>
-                                       <td>${art.nome_articolo}</td>
-                                       <td>${art.sottotitolo_articolo}</td>
+                                       <td>${id_articolo}</td>
+                                       <td>${nome_articolo}</td>
+                                       <td>${sottotitolo}</td>
                                         <td></td>
-                                       <td>${art.nota}</td>
-                                       <td>${art.link}</td>
+                                       <td>${nota}</td>
+                                       <td>${link}</td>
                                        <td>${heredity}</td>
   <td><div class="row pr-3">
                 <div class="col-3">${button}</div>
@@ -96,14 +133,12 @@ class MasterTemplateTable
                     $('#idNotaArticolo').val(articolo[0].nota)
                     $('#idLinkAssociato').val(articolo[0].link)
 
-                    if(articolo[0].heredity === "2"){
+                    if (articolo[0].heredity === "2") {
                         $(".btn-value-note").prop('checked', true);
-                    }
-                    else if(articolo[0].heredity === "1"){
+                    } else if (articolo[0].heredity === "1") {
                         $(".btn-value").prop('checked', true);
-                    }
-                    else if(articolo[0].heredity === '0'){
-                        $(".btn-none").prop('checked',true);
+                    } else if (articolo[0].heredity === '0') {
+                        $(".btn-none").prop('checked', true);
                     }
                 });
                 $('.btn-edit-row-dec').click(function () {
@@ -122,7 +157,7 @@ class MasterTemplateTable
 
                 });
                 $('.btn-value').click(function () {
-                   heredity = $('input[name="heredityButton"]:checked').val();
+                    heredity = $('input[name="heredityButton"]:checked').val();
                 });
                 $('.btn-note-value').click(function () {
                     heredity = $('input[name="heredityButton"]:checked').val();
@@ -229,7 +264,6 @@ class MasterTemplateTable
                 });
 
 
-
             });
         </script>
         <?php
@@ -238,8 +272,12 @@ class MasterTemplateTable
     public static function render()
     {
         $data = new MasterTemplateRepository();
-        $results_articoli = $data->getArticoli();
+        if (isset($_GET['fondo']) || isset($_GET['anno']) || isset($_GET['descrizione']) || isset($_GET['version'])) {
+            $results_articoli = $data->visualize_template($_GET['fondo'], $_GET['anno'], $_GET['descrizione'], $_GET['version']);
 
+        } else {
+            $results_articoli = $data->getArticoli();
+        }
         $sezioni = [];
         $tot_array = [];
         foreach ($results_articoli as $articolo) {
@@ -251,12 +289,11 @@ class MasterTemplateTable
 
         foreach ($tot_array as $key => $value) {
             foreach ($results_articoli as $articolo) {
-                if ($key === $articolo['sezione'] && array_search($articolo['sottosezione'], $tot_array[$key])===false) {
+                if ($key === $articolo['sezione'] && array_search($articolo['sottosezione'], $tot_array[$key]) === false) {
                     array_push($tot_array[$key], $articolo['sottosezione']);
                 }
             }
         }
-
 
 
         ?>
@@ -384,19 +421,22 @@ class MasterTemplateTable
                         <label>Ereditarietà</label>
                         <div class="container">
                             <div class="form-check">
-                                 <input class="form-check-input btn-value" type="radio" name="heredityRadioButton" value="1">
+                                <input class="form-check-input btn-value" type="radio" name="heredityRadioButton"
+                                       value="1">
                                 <label class="form-check-label">
                                     Valore
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input btn-value-note"  name="heredityRadioButton" type="radio"  value="2">
+                                <input class="form-check-input btn-value-note" name="heredityRadioButton" type="radio"
+                                       value="2">
                                 <label class="form-check-label">
                                     Nota e Valore
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input btn-none" name="heredityRadioButton" value="0" type="radio">
+                                <input class="form-check-input btn-none" name="heredityRadioButton" value="0"
+                                       type="radio">
                                 <label class="form-check-label">
                                     Nessuno
                                 </label>

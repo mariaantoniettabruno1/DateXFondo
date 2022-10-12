@@ -105,8 +105,12 @@ class MasterTemplateNewRow
     public static function render()
     {
         $data = new MasterTemplateRepository();
-        $results_articoli = $data->getArticoli();
-        if ($results_articoli[0]['editable'] == '1') {
+        if (isset($_GET['fondo']) || isset($_GET['anno']) || isset($_GET['descrizione']) || isset($_GET['version'])) {
+            $results_articoli = $data->visualize_template($_GET['fondo'], $_GET['anno'], $_GET['descrizione'], $_GET['version']);
+
+        } else {
+            $results_articoli = $data->getArticoli();
+        }        if ($results_articoli[0]['editable'] == '1') {
             ?>
             <button class="btn btn-outline-primary" data-toggle="modal"
                     data-target="#addRowModal" id="idAddRow">Aggiungi riga

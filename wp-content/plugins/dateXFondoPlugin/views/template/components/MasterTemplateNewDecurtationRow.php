@@ -101,8 +101,12 @@ class MasterTemplateNewDecurtationRow
 
     {
         $data = new MasterTemplateRepository();
-        $results_articoli = $data->getArticoli();
-        if($results_articoli[0]['editable']=='1'){
+        if (isset($_GET['fondo']) || isset($_GET['anno']) || isset($_GET['descrizione']) || isset($_GET['version'])) {
+            $results_articoli = $data->visualize_template($_GET['fondo'], $_GET['anno'], $_GET['descrizione'], $_GET['version']);
+
+        } else {
+            $results_articoli = $data->getArticoli();
+        }        if($results_articoli[0]['editable']=='1'){
         ?>
         <button class="btn btn-outline-primary" id="btnDecurtazione" data-toggle="modal"
                 data-target="#addRowDecModal">Aggiungi decurtazione

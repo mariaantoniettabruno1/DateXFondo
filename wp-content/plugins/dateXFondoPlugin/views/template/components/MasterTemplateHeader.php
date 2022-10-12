@@ -59,8 +59,12 @@ class MasterTemplateHeader
     public static function render()
     {
         $data = new MasterTemplateRepository();
-        $results_articoli = $data->getArticoli();
-        ?>
+        if (isset($_GET['fondo']) || isset($_GET['anno']) || isset($_GET['descrizione']) || isset($_GET['version'])) {
+            $results_articoli = $data->visualize_template($_GET['fondo'], $_GET['anno'], $_GET['descrizione'], $_GET['version']);
+
+        } else {
+            $results_articoli = $data->getArticoli();
+        }        ?>
         <div class="col-3">
             <input type="text" placeholder="Fondo" id="inputFondo" readonly>
         </div>

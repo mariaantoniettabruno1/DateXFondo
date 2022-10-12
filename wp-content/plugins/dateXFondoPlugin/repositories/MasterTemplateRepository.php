@@ -10,9 +10,9 @@ class MasterTemplateRepository
         $mysqli = $conn->connect();
         $sql = "SELECT id,fondo,anno,descrizione_fondo,ordinamento,sezione,sottosezione,id_articolo,nome_articolo,sottotitolo_articolo,nota,link,editable,version,row_type,heredity FROM DATE_template_fondo WHERE id_articolo IS NOT NULL and attivo=1";
         $result = $mysqli->query($sql);
-        $row = $result->fetch_all(MYSQLI_ASSOC);
+        $rows = $result->fetch_all(MYSQLI_ASSOC);
         mysqli_close($mysqli);
-        return $row;
+        return $rows;
     }
 
     public static function getStoredArticoli()
@@ -110,7 +110,7 @@ FROM DATE_template_fondo";
         $res = $stmt->execute();
         $sql = "UPDATE DATE_storico_template_fondo SET attivo=1 WHERE fondo=? AND anno=? AND descrizione_fondo=? AND version=?";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("sisi", $request['fondo'],$request['anno'],$request['descrizione'],$request['version']);
+        $stmt->bind_param("sisi", $request['fondo'], $request['anno'], $request['descrizione'], $request['version']);
         $res = $stmt->execute();
         mysqli_close($mysqli);
         return $res;
@@ -139,28 +139,35 @@ FROM DATE_storico_template_fondo WHERE fondo=? AND anno=? AND descrizione_fondo=
                      nome_articolo,descrizione_articolo,sottotitolo_articolo,valore,valore_anno_precedente,nota,link,attivo,version,row_type,editable,heredity) 
                      VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         $stmt = $mysqli->prepare($sql);
-        $version = $rows[0]['version']+1;
+        $version = $rows[0]['version'] + 1;
         foreach ($rows as $entry) {
             $stmt->bind_param("sisissssssiissiisii", $entry['fondo'], $entry['anno'], $entry['descrizione_fondo'], $entry['ordinamento'], $entry['id_articolo'],
                 $entry['sezione'], $entry['sottosezione'], $entry['nome_articolo'], $entry['descrizione_articolo'], $entry['sottotitolo_articolo'], $entry['valore'],
-                $entry['valore_anno_precedente'],$entry['nota'],$entry['link'],$entry['attivo'],$version,$entry['row_type'],$entry['editable'],$entry['heredity']);
+                $entry['valore_anno_precedente'], $entry['nota'], $entry['link'], $entry['attivo'], $version, $entry['row_type'], $entry['editable'], $entry['heredity']);
             $res = $stmt->execute();
         }
         mysqli_close($mysqli);
         return $res;
     }
 
-    public static function visualize_template($request)
+    public static function visualize_template($fondo, $anno, $descrizione, $version)
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = "SELECT ALL FROM DATE_storico_template_fondo WHERE attivo=1 AND fondo=? AND anno=? AND descrizione_fondo=? AND version=?";
+        $sql = "SELECT fondo,anno,descrizione_fondo,ordinamento,id_articolo,sezione,sottosezione,
+                     nome_articolo,sottotitolo_articolo,valore,valore_anno_precedente,nota,link,attivo,version,row_type,editable,heredity
+FROM DATE_storico_template_fondo WHERE fondo=? AND anno=? AND descrizione_fondo=? AND version=?";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("sisi", $request['fondo'],$request['anno'],$request['descrizione'],$request['version']);
+        $stmt->bind_param("sisi", $fondo, $anno, $descrizione, $version);
         $res = $stmt->execute();
-        $result = $mysqli->query($sql);
-        $rows = $result->fetch_all(MYSQLI_ASSOC);
+        if ($res = $stmt->get_result()) {
+            $rows = $res->fetch_all(MYSQLI_ASSOC);
+        } else
+            $rows = [];
         mysqli_close($mysqli);
         return $rows;
+
     }
+
+
 }
