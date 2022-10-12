@@ -30,7 +30,7 @@ class MasterTemplateRepository
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = "SELECT id,fondo,anno,descrizione_fondo,ordinamento,sezione,sottosezione,id_articolo,nome_articolo,sottotitolo_articolo,nota,link FROM DATE_storico_template_fondo WHERE id_articolo IS NOT NULL and attivo=0";
+        $sql = "SELECT id,fondo,anno,descrizione_fondo,ordinamento,sezione,sottosezione,id_articolo,nome_articolo,sottotitolo_articolo,nota,link,version FROM DATE_storico_template_fondo WHERE id_articolo IS NOT NULL and attivo=0";
         $result = $mysqli->query($sql);
         $row = $result->fetch_all(MYSQLI_ASSOC);
         mysqli_close($mysqli);
@@ -103,7 +103,6 @@ FROM DATE_template_fondo";
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        //TODO modificare il primo update perchè gli id delle righe potrebbero non coincidere
         $sql = "UPDATE DATE_template_fondo SET attivo=1 WHERE id=?";
         $stmt = $mysqli->prepare($sql);
         $stmt->bind_param("i", $request['id']);
