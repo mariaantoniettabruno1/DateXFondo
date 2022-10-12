@@ -8,7 +8,7 @@ class MasterTemplateRepository
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = "SELECT id,fondo,anno,descrizione_fondo,ordinamento,sezione,sottosezione,id_articolo,nome_articolo,sottotitolo_articolo,nota,link,editable,version,row_type,heredity FROM DATE_template_fondo WHERE id_articolo IS NOT NULL and attivo=1";
+        $sql = "SELECT id,fondo,anno,descrizione_fondo,ordinamento,sezione,sottosezione,id_articolo,nome_articolo,sottotitolo_articolo,nota,link,editable,version,row_type,heredity FROM DATE_template_fondo WHERE id_articolo IS NOT NULL and attivo=1 ORDER BY ordinamento ASC";
         $result = $mysqli->query($sql);
         $rows = $result->fetch_all(MYSQLI_ASSOC);
         mysqli_close($mysqli);
@@ -19,7 +19,7 @@ class MasterTemplateRepository
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = "SELECT DISTINCT fondo,anno,descrizione_fondo,editable,version FROM DATE_storico_template_fondo WHERE id_articolo IS NOT NULL and attivo=1";
+        $sql = "SELECT DISTINCT fondo,anno,descrizione_fondo,editable,version FROM DATE_storico_template_fondo WHERE id_articolo IS NOT NULL and attivo=1 ORDER BY ordinamento ASC";
         $result = $mysqli->query($sql);
         $row = $result->fetch_all(MYSQLI_ASSOC);
         mysqli_close($mysqli);
@@ -30,7 +30,7 @@ class MasterTemplateRepository
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = "SELECT id,fondo,anno,descrizione_fondo,ordinamento,sezione,sottosezione,id_articolo,nome_articolo,sottotitolo_articolo,nota,link,version FROM DATE_storico_template_fondo WHERE id_articolo IS NOT NULL and attivo=0";
+        $sql = "SELECT id,fondo,anno,descrizione_fondo,ordinamento,sezione,sottosezione,id_articolo,nome_articolo,sottotitolo_articolo,nota,link,version FROM DATE_storico_template_fondo WHERE id_articolo IS NOT NULL and attivo=0 ORDER BY ordinamento ASC";
         $result = $mysqli->query($sql);
         $row = $result->fetch_all(MYSQLI_ASSOC);
         mysqli_close($mysqli);

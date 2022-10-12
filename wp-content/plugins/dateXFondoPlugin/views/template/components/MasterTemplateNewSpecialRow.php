@@ -29,10 +29,8 @@ class MasterTemplateNewSpecialRow
                 $('#selectSpRowSezione').change(function () {
                     const section = $('#selectSpRowSezione').val();
                     if (section !== 'Seleziona Sezione') {
-                        $('#selectNewSpRowSottosezione').attr('disabled', false);
                         filterSubsections(section);
                     } else {
-                        $('#selectNewSpRowSottosezione').attr('disabled', true);
                         $('#selectNewSpRowSottosezione').html('');
                     }
                 });
