@@ -148,7 +148,7 @@ class MasterTemplateNewDecurtationRow
                             <select class="custom-select" id="selectNewDecSezione">
                             </select>
                         </div>
-                        <div class="form-group" id="divSeletSottosezione">
+                        <div class="form-group" id="divSelectSottosezione">
                             <br>
                             <div class="btn-group pb-3" role="group" aria-label="Basic example">
                                 <button type="button" class="btn  btn-outline-primary subsDecButtonGroup1"

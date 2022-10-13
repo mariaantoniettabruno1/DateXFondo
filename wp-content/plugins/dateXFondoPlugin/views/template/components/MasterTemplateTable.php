@@ -185,16 +185,6 @@ class MasterTemplateTable
                 renderDataTable(section, subsection);
             }
 
-            function renderDeleteDataTable(id) {
-                let section = '';
-                let subsection = '';
-                const articolo = filteredArticoli.filter(art => art.id === id)[0];
-               // $('.class-template-sottosezione').val(subsection);
-                let index = Object.keys(filteredArticoli).indexOf(articolo);
-                console.log(index)
-                //renderDataTable(section, subsection);
-            }
-
             function resetSubsection() {
                 let subsection = $('.class-template-sottosezione').val();
                 if (subsection !== 'Seleziona Sottosezione') {
@@ -206,9 +196,9 @@ class MasterTemplateTable
 
                 renderDataTable();
                 resetSubsection();
-
+                let section = '';
                 $('.class-accordion-button').click(function () {
-                    let section = $(this).attr('data-section');
+                    section = $(this).attr('data-section');
 
                     renderDataTable(section);
                     $('.class-template-sottosezione').change(function () {
@@ -283,7 +273,8 @@ class MasterTemplateTable
                         success: function (response) {
                             console.log(response);
                             $("#deleteModal").modal('hide');
-                            renderDeleteDataTable(id);
+                            articoli = articoli.filter(art => Number(art.id) !== Number(id));
+                            renderDataTable(section);
                             $(".alert-delete-success").show();
                             $(".alert-delete-success").fadeTo(2000, 500).slideUp(500, function () {
                                 $(".alert-delete-success").slideUp(500);

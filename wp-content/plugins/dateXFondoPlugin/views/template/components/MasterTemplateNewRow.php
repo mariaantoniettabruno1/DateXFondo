@@ -8,14 +8,15 @@ class MasterTemplateNewRow
     {
         ?>
         <script>
-            function renderSectionFilter() {
+            function renderSectionFilterRow() {
+                console.log("Entro");
                 $('#selectNewRowSezione').html('<option>Seleziona Sezione</option>');
                 Object.keys(sezioni).forEach(sez => {
                     $('#selectNewRowSezione').append(`<option>${sez}</option>`);
                 });
             }
 
-            function filterSubsections(section) {
+            function filterSubsectionsRow(section) {
                 $('#selectNewRowSottosezione').html('<option>Seleziona Sottosezione</option>');
                 sezioni[section].forEach(ssez => {
                     $('#selectNewRowSottosezione').append(`<option>${ssez}</option>`);
@@ -23,11 +24,11 @@ class MasterTemplateNewRow
             }
 
             $(document).ready(function () {
-                renderSectionFilter();
+                renderSectionFilterRow();
                 $('#selectNewRowSezione').change(function () {
                     const section = $('#selectNewRowSezione').val();
                     if (section !== 'Seleziona Sezione') {
-                        filterSubsections(section);
+                        filterSubsectionsRow(section);
                     } else {
                         $('#selectNewRowSottosezione').html('');
                     }

@@ -39,7 +39,7 @@ class MasterTemplate
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 
             <script>
-                const articoli = JSON.parse((`<?=json_encode($results_articoli);?>`));
+                let articoli = JSON.parse((`<?=json_encode($results_articoli);?>`));
                 const sezioni = {}
                 articoli.forEach(a => {
                     if (!sezioni[a.sezione]) {

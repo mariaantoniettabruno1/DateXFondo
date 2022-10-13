@@ -8,14 +8,14 @@ class MasterTemplateNewSpecialRow
     {
         ?>
         <script>
-            function renderSectionFilter() {
+            function renderSectionFilterSpRow() {
                 $('#selectSpRowSezione').html('<option>Seleziona Sezione</option>');
                 Object.keys(sezioni).forEach(sez => {
                     $('#selectSpRowSezione').append(`<option>${sez}</option>`);
                 });
             }
 
-            function filterSubsections(section) {
+            function filterSubsectionsSpRow(section) {
                 $('#selectNewSpRowSottosezione').html('<option>Seleziona Sottosezione</option>');
                 sezioni[section].forEach(ssez => {
                     $('#selectNewSpRowSottosezione').append(`<option>${ssez}</option>`);
@@ -24,12 +24,12 @@ class MasterTemplateNewSpecialRow
 
             $(document).ready(function () {
 
-                renderSectionFilter();
+                renderSectionFilterSpRow();
 
                 $('#selectSpRowSezione').change(function () {
                     const section = $('#selectSpRowSezione').val();
                     if (section !== 'Seleziona Sezione') {
-                        filterSubsections(section);
+                        filterSubsectionsSpRow(section);
                     } else {
                         $('#selectNewSpRowSottosezione').html('');
                     }
