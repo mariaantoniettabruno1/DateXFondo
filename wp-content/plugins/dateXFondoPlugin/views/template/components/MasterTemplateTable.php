@@ -107,7 +107,7 @@ class MasterTemplateTable
                                        <td>${nota}</td>
                                        <td>${link}</td>
                                        <td>${heredity}</td>
-  <td><div class="row pr-3">
+                                       <td><div class="row pr-3">
                 <div class="col-3">${button}</div>
                 <div class="col-3">${delete_button}</div>
                 </div></td>
@@ -182,7 +182,17 @@ class MasterTemplateTable
                     }
                 });
                 $('.class-template-sottosezione').val(subsection);
-                renderDataTable(section,subsection);
+                renderDataTable(section, subsection);
+            }
+
+            function renderDeleteDataTable(id) {
+                let section = '';
+                let subsection = '';
+                const articolo = filteredArticoli.filter(art => art.id === id)[0];
+               // $('.class-template-sottosezione').val(subsection);
+                let index = Object.keys(filteredArticoli).indexOf(articolo);
+                console.log(index)
+                //renderDataTable(section, subsection);
             }
 
             function resetSubsection() {
@@ -272,8 +282,8 @@ class MasterTemplateTable
                         type: "POST",
                         success: function (response) {
                             console.log(response);
-                            filteredArticoli = filteredArticoli.filter(art => art.id !== id)
                             $("#deleteModal").modal('hide');
+                            renderDeleteDataTable(id);
                             $(".alert-delete-success").show();
                             $(".alert-delete-success").fadeTo(2000, 500).slideUp(500, function () {
                                 $(".alert-delete-success").slideUp(500);
