@@ -178,10 +178,17 @@ class MasterTemplateTable
                 });
                 renderDataTable();
             }
+            function resetSubsection(){
+                let subsection = $('.class-template-sottosezione').val();
+                if (subsection !== 'Seleziona Sottosezione') {
+                   $('.class-template-sottosezione').val('Seleziona Sottosezione');
+                }
+            }
 
             $(document).ready(function () {
 
                 renderDataTable();
+                resetSubsection();
 
                 $('.class-accordion-button').click(function () {
                     let section = $(this).attr('data-section');
@@ -258,11 +265,13 @@ class MasterTemplateTable
                         type: "POST",
                         success: function (response) {
                             console.log(response);
+                            filteredArticoli = filteredArticoli.filter(art => art.id !== id)
                             $("#deleteModal").modal('hide');
                             $(".alert-delete-success").show();
                             $(".alert-delete-success").fadeTo(2000, 500).slideUp(500, function(){
                                 $(".alert-delete-success").slideUp(500);
                             });
+
                         },
                         error: function (response) {
                             console.error(response);
