@@ -146,11 +146,11 @@ class MasterTemplateNewRow
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="selectSezione"><b>Sezione:</b></label>
+                            <label for="selectRowSezione"><b>Sezione:</b></label>
                             <select class="custom-select" id="selectNewRowSezione">
                             </select>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group"  id="divSelectNewRowSottosezione">
                             <br>
                             <div class="btn-group pb-3" role="group" aria-label="Basic example">
                                 <button type="button" class="btn  btn-outline-primary subsectionButtonGroup1">
@@ -164,7 +164,6 @@ class MasterTemplateNewRow
                                 <select class="custom-select" id="selectNewRowSottosezione">
                                 </select>
                             </div>
-
                         </div>
                         <div class="form-group">
                             <input type="text" class="form-control" id="newRowSottosezione" style="display:none">

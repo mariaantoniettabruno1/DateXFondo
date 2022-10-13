@@ -25,7 +25,8 @@ class MasterTemplateTable
                 $('#dataTemplateTableBody' + index).html('');
                 filteredArticoli = articoli;
                 filteredArticoli = filteredArticoli.filter(art => art.sezione === section)
-                filteredArticoli = filteredArticoli.filter(art => art.sottosezione === subsection)
+                if (subsection)
+                    filteredArticoli = filteredArticoli.filter(art => art.sottosezione === subsection)
 
                 let button = '';
                 let delete_button = '';
@@ -166,6 +167,8 @@ class MasterTemplateTable
             }
 
             function renderEditDataTable(articolo) {
+                let section = '';
+                let subsection = '';
                 filteredArticoli.filter(art => {
                     if (art.id === articolo.id) {
                         art.id_articolo = articolo.id_articolo;
@@ -174,14 +177,18 @@ class MasterTemplateTable
                         art.ordinamento = articolo.ordinamento;
                         art.nota = articolo.nota;
                         art.link = articolo.link;
+                        section = art.sezione;
+                        subsection = art.sottosezione;
                     }
                 });
-                renderDataTable();
+                $('.class-template-sottosezione').val(subsection);
+                renderDataTable(section,subsection);
             }
-            function resetSubsection(){
+
+            function resetSubsection() {
                 let subsection = $('.class-template-sottosezione').val();
                 if (subsection !== 'Seleziona Sottosezione') {
-                   $('.class-template-sottosezione').val('Seleziona Sottosezione');
+                    $('.class-template-sottosezione').val('Seleziona Sottosezione');
                 }
             }
 
@@ -199,7 +206,7 @@ class MasterTemplateTable
                         if (subsection !== 'Seleziona Sottosezione') {
                             renderDataTable(section, subsection);
                         } else {
-                            renderDataTable();
+                            renderDataTable(section);
                         }
                     });
                 });
@@ -238,16 +245,16 @@ class MasterTemplateTable
                             $("#editDecModal").modal('hide');
                             renderEditDataTable(payload);
                             $(".alert-edit-success").show();
-                            $(".alert-edit-success").fadeTo(2000, 500).slideUp(500, function(){
+                            $(".alert-edit-success").fadeTo(2000, 500).slideUp(500, function () {
                                 $(".alert-edit-success").slideUp(500);
                             });
-                         },
+                        },
                         error: function (response) {
                             console.error(response);
                             $("#editModal").modal('hide');
                             $("#editDecModal").modal('hide');
                             $(".alert-edit-wrong").show();
-                            $(".alert-edit-wrong").fadeTo(2000, 500).slideUp(500, function(){
+                            $(".alert-edit-wrong").fadeTo(2000, 500).slideUp(500, function () {
                                 $(".alert-edit-wrong").slideUp(500);
                             });
                         }
@@ -268,7 +275,7 @@ class MasterTemplateTable
                             filteredArticoli = filteredArticoli.filter(art => art.id !== id)
                             $("#deleteModal").modal('hide');
                             $(".alert-delete-success").show();
-                            $(".alert-delete-success").fadeTo(2000, 500).slideUp(500, function(){
+                            $(".alert-delete-success").fadeTo(2000, 500).slideUp(500, function () {
                                 $(".alert-delete-success").slideUp(500);
                             });
 
@@ -277,7 +284,7 @@ class MasterTemplateTable
                             console.error(response);
                             $("#deleteModal").modal('hide');
                             $(".alert-delete-wrong").show();
-                            $(".alert-delete-wrong").fadeTo(2000, 500).slideUp(500, function(){
+                            $(".alert-delete-wrong").fadeTo(2000, 500).slideUp(500, function () {
                                 $(".alert-delete-wrong").slideUp(500);
                             });
                         }
