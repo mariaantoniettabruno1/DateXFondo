@@ -116,10 +116,19 @@ class MasterTemplateToActiveRow
                             $("#activeModal").modal('hide');
                             filteredArticoli = filteredArticoli.filter(art => art.id !== id)
                             filterAnnoFondo();
+                            $(".alert-active-row-success").show();
+                            $(".alert-active-row-success").fadeTo(2000, 500).slideUp(500, function(){
+                                $(".alert-active-row-success").slideUp(500);
+                            });
+
                         },
                         error: function (response) {
                             console.error(response);
                             $("#activeModal").modal('hide');
+                            $(".alert-active-row-wrong").show();
+                            $(".alert-active-row-wrong").fadeTo(2000, 500).slideUp(500, function(){
+                                $(".alert-active-row-wrong").slideUp(500);
+                            });
                         }
                     });
                 });
@@ -184,6 +193,20 @@ class MasterTemplateToActiveRow
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="alert alert-success alert-active-row-success" role="alert"
+             style="position:fixed; top: <?= is_admin_bar_showing() ? 47 : 15 ?>px; right: 15px; display:none">
+            Attivazione riga eseguita correttamente!
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="alert alert-danger alert-active-row-wrong" role="alert"
+             style="position:fixed; top: <?= is_admin_bar_showing() ? 47 : 15 ?>px; right: 15px; display:none">
+            Attivazione riga non riuscita
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
         <?php
         self::render_scripts();

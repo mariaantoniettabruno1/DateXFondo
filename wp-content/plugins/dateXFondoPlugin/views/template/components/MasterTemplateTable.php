@@ -47,8 +47,7 @@ class MasterTemplateTable
                     }
                     if (art.id_articolo != null) {
                         id_articolo = art.id_articolo;
-                    }
-                    else {
+                    } else {
                         id_articolo = '';
                     }
                     // if (art.descrizione_articolo !== null) {
@@ -56,20 +55,17 @@ class MasterTemplateTable
                     // }
                     if (art.sottotitolo_articolo !== null) {
                         sottotitolo = art.sottotitolo_articolo;
-                    }
-                    else {
+                    } else {
                         sottotitolo = '';
                     }
                     if (art.link !== null) {
                         link = art.link;
-                    }
-                    else {
+                    } else {
                         link = '';
                     }
                     if (art.nome_articolo !== null) {
                         nome_articolo = art.nome_articolo;
-                    }
-                    else {
+                    } else {
                         nome_articolo = '';
                     }
 
@@ -234,11 +230,19 @@ class MasterTemplateTable
                             $("#editModal").modal('hide');
                             $("#editDecModal").modal('hide');
                             renderEditDataTable(payload);
-                        },
+                            $(".alert-edit-success").show();
+                            $(".alert-edit-success").fadeTo(2000, 500).slideUp(500, function(){
+                                $(".alert-edit-success").slideUp(500);
+                            });
+                         },
                         error: function (response) {
                             console.error(response);
                             $("#editModal").modal('hide');
                             $("#editDecModal").modal('hide');
+                            $(".alert-edit-wrong").show();
+                            $(".alert-edit-wrong").fadeTo(2000, 500).slideUp(500, function(){
+                                $(".alert-edit-wrong").slideUp(500);
+                            });
                         }
                     });
                 });
@@ -255,10 +259,18 @@ class MasterTemplateTable
                         success: function (response) {
                             console.log(response);
                             $("#deleteModal").modal('hide');
+                            $(".alert-delete-success").show();
+                            $(".alert-delete-success").fadeTo(2000, 500).slideUp(500, function(){
+                                $(".alert-delete-success").slideUp(500);
+                            });
                         },
                         error: function (response) {
                             console.error(response);
                             $("#deleteModal").modal('hide');
+                            $(".alert-delete-wrong").show();
+                            $(".alert-delete-wrong").fadeTo(2000, 500).slideUp(500, function(){
+                                $(".alert-delete-wrong").slideUp(500);
+                            });
                         }
                     });
                 });
@@ -503,7 +515,34 @@ class MasterTemplateTable
             </div>
         </div>
 
-
+        <div class="alert alert-success alert-edit-success" role="alert"
+             style="position:fixed; top: <?= is_admin_bar_showing() ? 47 : 15 ?>px; right: 15px; display:none">
+            Modifica andata a buon fine!
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="alert alert-danger alert-edit-wrong" role="alert"
+             style="position:fixed; top: <?= is_admin_bar_showing() ? 47 : 15 ?>px; right: 15px; display:none">
+            Modifica riga non riuscita
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="alert alert-success alert-delete-success" role="alert"
+             style="position:fixed; top: <?= is_admin_bar_showing() ? 47 : 15 ?>px; right: 15px; display:none">
+            Cancellazione riga andata a buon fine!
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="alert alert-danger alert-delete-wrong" role="alert"
+             style="position:fixed; top: <?= is_admin_bar_showing() ? 47 : 15 ?>px; right: 15px; display:none">
+            Cancellazione riga non riuscita
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
         <?php
         self::render_scripts();
     }

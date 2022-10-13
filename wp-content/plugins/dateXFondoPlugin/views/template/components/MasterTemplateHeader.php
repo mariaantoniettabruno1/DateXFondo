@@ -42,9 +42,17 @@ class MasterTemplateHeader
                             type: "POST",
                             success: function (response) {
                                 console.log(response);
+                                $(".alert-header-success").show();
+                                $(".alert-header-success").fadeTo(2000, 500).slideUp(500, function(){
+                                    $(".alert-header-success").slideUp(500);
+                                });
                             },
                             error: function (response) {
                                 console.error(response);
+                                $(".alert-header-wrong").show();
+                                $(".alert-header-wrong").fadeTo(2000, 500).slideUp(500, function(){
+                                    $(".alert-header-wrong").slideUp(500);
+                                });
                             }
                         });
                         $('#saveInputButton').hide();
@@ -91,6 +99,20 @@ class MasterTemplateHeader
             }
             ?>
 
+        </div>
+        <div class="alert alert-success alert-header-success" role="alert"
+             style="position:fixed; top: <?= is_admin_bar_showing() ? 47 : 15 ?>px; right: 15px; display:none">
+            Modifica eseguita correttamente!
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="alert alert-danger alert-header-wrong" role="alert"
+             style="position:fixed; top: <?= is_admin_bar_showing() ? 47 : 15 ?>px; right: 15px; display:none">
+            Modifica non riuscita
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
         <?php
         self::render_scripts();

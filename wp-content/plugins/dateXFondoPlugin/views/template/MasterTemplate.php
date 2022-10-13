@@ -61,6 +61,7 @@ class MasterTemplate
                 ?>
 
             </div>
+
             <div class="row">
                 <?php
                 MasterTemplateTable::render();

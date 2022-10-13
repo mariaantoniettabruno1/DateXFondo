@@ -34,9 +34,14 @@ class MasterTemplateStopEditingButton
                        type: "POST",
                        success: function (response) {
                            console.log(response);
+                           location.href = '<?= DateXFondoCommon::get_website_url() ?>/visualizza-template-fondo/';
                        },
                        error: function (response) {
                            console.error(response);
+                           $(".alert-block-wrong").show();
+                           $(".alert-block-wrong").fadeTo(2000, 500).slideUp(500, function(){
+                               $(".alert-block-wrong").slideUp(500);
+                           });
                        }
                    });
                 });
@@ -51,6 +56,20 @@ class MasterTemplateStopEditingButton
         ?>
         <button class="btn btn-link" id="stopEditingButton"><i class="fa-solid fa-ban"></i> Blocca la modifica</button>
 
+        <div class="alert alert-success alert-block-success" role="alert"
+             style="position:fixed; top: <?= is_admin_bar_showing() ? 47 : 15 ?>px; right: 15px; display:none">
+            Blocco modifica applicato correttamente!
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="alert alert-danger alert-block-wrong" role="alert"
+             style="position:fixed; top: <?= is_admin_bar_showing() ? 47 : 15 ?>px; right: 15px; display:none">
+            Blocco sulla modifica dei campi non riuscito
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
         <?php
         self::render_scripts();
     }

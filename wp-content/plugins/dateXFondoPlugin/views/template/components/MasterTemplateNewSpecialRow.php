@@ -92,10 +92,18 @@ class MasterTemplateNewSpecialRow
                                     renderEditDataTable(payload);
                                 }
                                 console.log(response);
+                                $(".alert-sp-row-success").show();
+                                $(".alert-sp-row-success").fadeTo(2000, 500).slideUp(500, function(){
+                                    $(".alert-sp-row-success").slideUp(500);
+                                });
                             },
                             error: function (response) {
                                 console.error(response);
                                 $("#addSpecialRowModal").modal('hide');
+                                $(".alert-sp-row-wrong").show();
+                                $(".alert-sp-row-wrong").fadeTo(2000, 500).slideUp(500, function(){
+                                    $(".alert-sp-row-wrong").slideUp(500);
+                                });
 
                             }
                         });
@@ -202,6 +210,20 @@ class MasterTemplateNewSpecialRow
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="alert alert-success alert-sp-row-success" role="alert"
+             style="position:fixed; top: <?= is_admin_bar_showing() ? 47 : 15 ?>px; right: 15px; display:none">
+            Nuova riga aggiunta correttamente!
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="alert alert-danger alert-sp-row-wrong" role="alert"
+             style="position:fixed; top: <?= is_admin_bar_showing() ? 47 : 15 ?>px; right: 15px; display:none">
+            Aggiunta nuova riga non riuscita
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
         <?php
         self::render_scripts();

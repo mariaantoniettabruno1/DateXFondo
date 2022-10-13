@@ -85,9 +85,17 @@ class MasterTemplateNewDecurtationRow
                                 console.log(response);
                                 $("#addRowDecModal").modal('hide');
                                 renderEditDataTable(payload);
+                                $(".alert-add-dec-success").show();
+                                $(".alert-add-dec-success").fadeTo(2000, 500).slideUp(500, function(){
+                                    $(".alert-add-dec-success").slideUp(500);
+                                });
                             },
                             error: function (response) {
                                 console.error(response);
+                                $(".alert-add-dec-wrong").show();
+                                $(".alert-add-dec-wrong").fadeTo(2000, 500).slideUp(500, function(){
+                                    $(".alert-add-dec-wrong").slideUp(500);
+                                });
                             }
                         });
                     }
@@ -200,6 +208,21 @@ class MasterTemplateNewDecurtationRow
                         <button class="btn btn-primary" id="addNewDecurtationButton">Aggiungi riga</button>
                     </div>
                 </div>
+
+        <div class="alert alert-success alert-new-dec-success" role="alert"
+             style="position:fixed; top: <?= is_admin_bar_showing() ? 47 : 15 ?>px; right: 15px; display:none">
+            Nuova riga di decurtazione aggiunta!
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="alert alert-danger alert-new-dec-wrong" role="alert"
+             style="position:fixed; top: <?= is_admin_bar_showing() ? 47 : 15 ?>px; right: 15px; display:none">
+            Aggiunta nuova riga non riuscita
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
         <?php
         self::render_scripts();
 

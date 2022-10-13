@@ -88,10 +88,18 @@ class MasterTemplateNewRow
                                 $("#addRowModal").modal('hide');
                                 renderEditDataTable(payload);
                                 console.log(response);
+                                $(".alert-new-row-success").show();
+                                $(".alert-new-row-success").fadeTo(2000, 500).slideUp(500, function(){
+                                    $(".alert-new-row-success").slideUp(500);
+                                });
                             },
                             error: function (response) {
                                 $("#addRowModal").modal('hide');
                                 console.error(response);
+                                $(".alert-new-row-wrong").show();
+                                $(".alert-new-row-wrong").fadeTo(2000, 500).slideUp(500, function(){
+                                    $(".alert-new-row-wrong").slideUp(500);
+                                });
                             }
                         });
                     }
@@ -198,6 +206,21 @@ class MasterTemplateNewRow
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="alert alert-success alert-new-row-success" role="alert"
+             style="position:fixed; top: <?= is_admin_bar_showing() ? 47 : 15 ?>px; right: 15px; display:none">
+            Nuova riga aggiunta correttamente!
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="alert alert-danger alert-new-row-wrong" role="alert"
+             style="position:fixed; top: <?= is_admin_bar_showing() ? 47 : 15 ?>px; right: 15px; display:none">
+            Aggiunta nuova riga non riuscita
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
         <?php
         self::render_scripts();
