@@ -10,20 +10,16 @@ class MasterJoinTable
         <script>
 
             let id = 0;
-            let filteredArticoli = articoli;
+            let filteredRecord = joined_record;
 
             function renderDataTable(section, subsection) {
 
                 let index = Object.keys(sezioni).indexOf(section);
                 $('#dataTemplateTableBody' + index).html('');
-                filteredArticoli = articoli;
-                filteredFormulas = formulas;
-                filteredFormulas = filteredFormulas.filter(art => art.sezione === section)
-                filteredArticoli = filteredArticoli.filter(art => art.sezione === section)
+                filteredRecord = joined_record;
+                filteredRecord = filteredRecord.filter(art => art.sezione === section)
                 if (subsection) {
-                    filteredFormulas = filteredFormulas.filter(art => art.sottosezione === subsection)
-                    filteredArticoli = filteredArticoli.filter(art => art.sottosezione === subsection)
-
+                    filteredRecord = filteredRecord.filter(art => art.sottosezione === subsection)
                 }
 
                 let heredity = '';
@@ -35,7 +31,7 @@ class MasterJoinTable
                 let nome_articolo = '';
 
 
-                filteredArticoli.forEach(art => {
+                filteredRecord.forEach(art => {
 
                     if (art.nota !== null) {
                         nota = art.nota;
@@ -65,6 +61,19 @@ class MasterJoinTable
                     } else {
                         nome_articolo = '';
                     }
+                    if (art.nome !== undefined) {
+                        nome_articolo = art.nome;
+                    }
+                    if (art.descrizione !== undefined) {
+                        sottotitolo = art.descrizione;
+                    }
+                    if (art.formula !== undefined) {
+                        descrizione = art.formula;
+                    }
+                    if (art.link === undefined)
+                        link = '';
+                    if (art.nota === undefined)
+                        nota = '';
 
                     if (art.heredity === "0") {
                         heredity = "Nè nota nè valore ereditati";
@@ -77,40 +86,25 @@ class MasterJoinTable
 
                     $('#dataTemplateTableBody' + index).append(`
                                  <tr>
-                                       <td>${art.ordinamento}</td>
+                                       <td><div class="row"><div class="col-5"><input type="text" readonly value="${art.ordinamento}" style="width: 50px" id="inputOrdinamentoT${art.id}"></div><div class="col-1"><button class="btn btn-link btn-edit-ord" data-target='T${art.id}'><i class="fa-solid fa-pen"></i></button>
+<button class="btn btn-link btn-save"  data-target='T${art.id}' style="display: none"><i class="fa-solid fa-floppy-disk"></i></button></div></div></td>
                                        <td>${id_articolo}</td>
                                        <td>${nome_articolo}</td>
-                                       <td>${sottotitolo}</td>
-                                        <td></td>
+                                        <td>${sottotitolo}</td>
+                                        <td>${descrizione}</td>
                                        <td>${nota}</td>
                                        <td>${link}</td>
                                        <td>${heredity}</td>
-                                       <td><div class="row pr-3">
-                <div class="col-3"><button class="btn btn-link btn-edit-row-dec" data-id='${art.id}'><i class="fa-solid fa-pen"></i></button></div>
-                </div></td>
-                                 </tr>
-                             `);
-                });
-                filteredFormulas.forEach(form => {
-
-
-                    $('#dataTemplateTableBody' + index).append(`
-                                 <tr>
-                                       <td></td>
-                                       <td><b>Formula: </b></td>
-                                       <td>${form.nome}</td>
-                                       <td>${form.descrizione}</td>
-                                       <td>${form.formula}</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                       <td><div class="row pr-3">
-                <div class="col-3"><button class="btn btn-link btn-edit-row-dec" data-id='${form.id}'><i class="fa-solid fa-pen"></i></button></div>
-                </div></td>
                                  </tr>
                              `);
                 });
 
+                $('.btn-edit-ord').click(function () {
+                    id = $(this).attr('data-id-');
+                    $(this).hide();
+                    $('.btn-save').show();
+                    $('#inputOrdinamento').attr('readonly', false);
+                });
 
             }
 
@@ -121,6 +115,7 @@ class MasterJoinTable
                     $('.class-template-sottosezione').val('Seleziona Sottosezione');
                 }
             }
+
             $(document).ready(function () {
 
                 renderDataTable();
@@ -215,7 +210,6 @@ class MasterJoinTable
                                             <th>Nota</th>
                                             <th>Link</th>
                                             <th>Ereditarietà</th>
-                                            <th>Azioni</th>
                                         </tr>
 
                                         </thead>
