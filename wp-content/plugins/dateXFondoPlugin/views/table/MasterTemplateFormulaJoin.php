@@ -12,11 +12,8 @@ class MasterTemplateFormulaJoin
     public static function render()
     {
         $data = new MasterJoinTableRepository();
-        $articoli_ids = $data->getJoinedIdArticoli();
-        $formula_ids = $data->getJoinedIdFormula();
         $results_articoli = $data->getJoinedArticoli();
         $results_formula = $data->getJoinedFormulas();
-        $data->updateJoinedArticoli($articoli_ids,$formula_ids);
         $results_joined = $data->getJoinedRecords();
 
         ?>
@@ -41,12 +38,22 @@ class MasterTemplateFormulaJoin
             <script>
                 const articoli = JSON.parse((`<?=json_encode($results_articoli);?>`));
                 const formulas = JSON.parse((`<?=json_encode($results_formula);?>`));
+                const joined = JSON.parse((`<?=json_encode($results_joined);?>`));
                 let joined_record = [
                     ...articoli,
-                    ... formulas
+                    ...formulas
                 ];
-                console.log(articoli)
-                console.log(joined_record)
+
+                const joinedIndexes = {}
+                joined.forEach(r => {
+                    if (r.type === "0") {
+                        joinedIndexes["T" + r.external_id] = r
+                    } else {
+                        joinedIndexes["F" + r.external_id] = r
+                    }
+                })
+                console.log(joined_record, joinedIndexes)
+
                 const sezioni = {}
                 articoli.forEach(a => {
                     if (!sezioni[a.sezione]) {

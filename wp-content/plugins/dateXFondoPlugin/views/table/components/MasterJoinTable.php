@@ -1,5 +1,6 @@
 <?php
 
+use dateXFondoPlugin\DateXFondoCommon;
 use dateXFondoPlugin\MasterJoinTableRepository;
 
 class MasterJoinTable
@@ -13,7 +14,6 @@ class MasterJoinTable
             let filteredRecord = joined_record;
 
             function renderDataTable(section, subsection) {
-
                 let index = Object.keys(sezioni).indexOf(section);
                 $('#dataTemplateTableBody' + index).html('');
                 filteredRecord = joined_record;
@@ -30,6 +30,27 @@ class MasterJoinTable
                 let link = '';
                 let nome_articolo = '';
 
+                filteredRecord.sort(function (a, b) {
+                    // GETTING JOIN INDEX KEYS
+                    let aJoinKey
+                    if (a.formula) {
+                        aJoinKey = "F" + a.id
+                    } else {
+                        aJoinKey = "T" + a.id
+                    }
+                    let bJoinKey
+                    if (b.formula) {
+                        bJoinKey = "F" + b.id
+                    } else {
+                        bJoinKey = "T" + b.id
+                    }
+                    // Getting order
+                    const ajoinOrder = joinedIndexes[aJoinKey]?.ordinamento ?? -1
+                    const bjoinOrder = joinedIndexes[bJoinKey]?.ordinamento ?? -1
+                    // Sorting
+                    return ajoinOrder - bjoinOrder
+                })
+
 
                 filteredRecord.forEach(art => {
 
@@ -43,9 +64,6 @@ class MasterJoinTable
                     } else {
                         id_articolo = '';
                     }
-                    // if (art.descrizione_articolo !== null) {
-                    //     descrizione = art.descrizione_articolo;
-                    // }
                     if (art.sottotitolo_articolo !== null) {
                         sottotitolo = art.sottotitolo_articolo;
                     } else {
@@ -69,6 +87,7 @@ class MasterJoinTable
                     }
                     if (art.formula !== undefined) {
                         descrizione = art.formula;
+                        id_articolo = art.nome
                     }
                     if (art.link === undefined)
                         link = '';
@@ -83,27 +102,106 @@ class MasterJoinTable
                         heredity = "Nota e valore ereditati";
                     }
 
+                    let inputId;
+                    let joinKey;
+                    let type
+                    if (art.formula) {
+                        inputId = "inputOrdF" + art.id
+                        joinKey = "F" + art.id
+                        type = 1
+                    } else {
+                        inputId = "inputOrdT" + art.id
+                        joinKey = "T" + art.id
+                        type = 0
+                    }
+                    const joinId = joinedIndexes[joinKey]?.id ?? -1
+                    const joinOrder = joinedIndexes[joinKey]?.ordinamento ?? -1
+
 
                     $('#dataTemplateTableBody' + index).append(`
-                                 <tr>
-                                       <td><div class="row"><div class="col-5"><input type="text" readonly value="${art.ordinamento}" style="width: 50px" id="inputOrdinamentoT${art.id}"></div><div class="col-1"><button class="btn btn-link btn-edit-ord" data-target='T${art.id}'><i class="fa-solid fa-pen"></i></button>
-<button class="btn btn-link btn-save"  data-target='T${art.id}' style="display: none"><i class="fa-solid fa-floppy-disk"></i></button></div></div></td>
-                                       <td>${id_articolo}</td>
-                                       <td>${nome_articolo}</td>
-                                        <td>${sottotitolo}</td>
-                                        <td>${descrizione}</td>
-                                       <td>${nota}</td>
-                                       <td>${link}</td>
-                                       <td>${heredity}</td>
-                                 </tr>
+                         <tr>
+                           <td>
+                            <div class="row">
+                             <div class="col-5">
+                              <input type="text" readonly value="${joinOrder}" style="width: 50px" id="${inputId}" data-join-id="${joinId}" data-join-key="${joinKey}" data-record-id="${art.id}" data-record-type="${type}">
+                             </div>
+                             <div class="col-1">
+                               <button class="btn btn-link btn-edit-ord" data-target='#${inputId}'><i class="fa-solid fa-pen"></i></button>
+                               <button class="btn btn-link btn-save" data-target='#${inputId}' style="display: none"><i class="fa-solid fa-floppy-disk"></i></button>
+                             </div>
+                            </div>
+                           </td>
+                           <td>${id_articolo}</td>
+                           <td>${nome_articolo}</td>
+                           <td>${sottotitolo}</td>
+                           <td>${descrizione}</td>
+                           <td>${nota}</td>
+                           <td>${link}</td>
+                           <td>${heredity}</td>
+                         </tr>
                              `);
                 });
 
                 $('.btn-edit-ord').click(function () {
-                    id = $(this).attr('data-id-');
+                    const targetId = $(this).attr('data-target');
                     $(this).hide();
-                    $('.btn-save').show();
-                    $('#inputOrdinamento').attr('readonly', false);
+                    $(this).next().show();
+                    $(targetId).attr('readonly', false);
+                });
+
+                $('.btn-save').click(function () {
+                    const targetId = $(this).attr('data-target');
+                    $(this).hide();
+                    $(this).prev().show();
+                    const target = $(targetId)
+                    target.attr('readonly', true);
+                    const joinId = target.attr("data-join-id");
+                    const joinKey = target.attr("data-join-key");
+                    const type = target.attr("data-record-type");
+                    const external_id = target.attr("data-record-id");
+                    let ordinamento = target.val();
+                    if (isNaN(Number(ordinamento))) {
+                        ordinamento = -1
+                    }
+                    if (joinId > 0) {
+                        // Handle update
+                        $.ajax({
+                            url: '<?= DateXFondoCommon::get_website_url() ?>/wp-json/datexfondoplugin/v1/join-table',
+                            data: {
+                                id: joinId,
+                                ordinamento
+                            },
+                            type: "POST",
+                            success: function (response) {
+                                console.log(response);
+                                joinedIndexes[joinKey].ordinamento = ordinamento;
+                                renderDataTable(current_section, current_subsection);
+                            },
+                            error: function (response) {
+                                console.error(response);
+                            }
+                        })
+                    } else {
+                        // Handle insert
+                        $.ajax({
+                            url: '<?= DateXFondoCommon::get_website_url() ?>/wp-json/datexfondoplugin/v1/join-table',
+                            data: {
+                                external_id,
+                                type,
+                                ordinamento
+                            },
+                            type: "POST",
+                            success: function (response) {
+                                console.log(response);
+                                joinedIndexes[joinKey] = {id:response["id"], type, ordinamento, external_id};
+                                renderDataTable(current_section, current_subsection);
+                            },
+                            error: function (response) {
+                                console.error(response);
+                            }
+                        })
+                    }
+
                 });
 
             }
@@ -116,6 +214,9 @@ class MasterJoinTable
                 }
             }
 
+            let current_section;
+            let current_subsection;
+
             $(document).ready(function () {
 
                 renderDataTable();
@@ -123,13 +224,16 @@ class MasterJoinTable
 
                 $('.class-accordion-button').click(function () {
                     let section = $(this).attr('data-section');
+                    current_section = section;
 
                     renderDataTable(section);
                     $('.class-template-sottosezione').change(function () {
                         let subsection = $(this).val();
                         if (subsection !== 'Seleziona Sottosezione') {
+                            current_subsection = subsection;
                             renderDataTable(section, subsection);
                         } else {
+                            current_subsection = null;
                             renderDataTable(section);
                         }
                     });
