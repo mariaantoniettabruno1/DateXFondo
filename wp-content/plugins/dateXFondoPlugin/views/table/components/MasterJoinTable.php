@@ -176,9 +176,17 @@ class MasterJoinTable
                                 console.log(response);
                                 joinedIndexes[joinKey].ordinamento = ordinamento;
                                 renderDataTable(current_section, current_subsection);
+                                $(".alert-ordinamento-success").show();
+                                $(".alert-ordinamento-success").fadeTo(2000, 500).slideUp(500, function () {
+                                    $(".alert-ordinamento-success").slideUp(500);
+                                });
                             },
                             error: function (response) {
                                 console.error(response);
+                                $(".alert-ordinamento-fail").show();
+                                $(".alert-ordinamento-fail").fadeTo(2000, 500).slideUp(500, function () {
+                                    $(".alert-ordinamento-fail").slideUp(500);
+                                });
                             }
                         })
                     } else {
@@ -331,7 +339,20 @@ class MasterJoinTable
             }
             ?>
         </div>
-
+        <div class="alert alert-success alert-ordinamento-success" role="alert"
+             style="position:fixed; top: <?= is_admin_bar_showing() ? 47 : 15 ?>px; right: 15px; display:none">
+            Modifica campo andata a buon fine!
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="alert alert-danger alert-ordinamento-fail" role="alert"
+             style="position:fixed; top: <?= is_admin_bar_showing() ? 47 : 15 ?>px; right: 15px; display:none">
+Modifica non andata a buon fine
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
         <?php
         self::render_scripts();
     }
