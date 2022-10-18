@@ -69,9 +69,6 @@ class MasterTemplateNewRow
                 $('#newRowSottotitoloArticolo').val('');
                 $('#newRowNota').val('');
                 $('#newRowLink').val('');
-                $('#inputFondo').val('');
-                $('#inputAnno').val('');
-                $('#inputDescrizioneFondo').val('');
             }
 
             $(document).ready(function () {

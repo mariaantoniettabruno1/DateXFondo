@@ -67,9 +67,6 @@ class MasterTemplateNewDecurtationRow
                 $('#decIdArticolo').val('');
                 $('#decNota').val('');
                 $('#typeDec').attr('checked', false);
-                $('#inputFondo').val('');
-                $('#inputAnno').val('');
-                $('#inputDescrizioneFondo').val('');
             }
 
             $(document).ready(function () {
