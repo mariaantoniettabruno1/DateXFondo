@@ -15,7 +15,7 @@ class MasterJoinTableRepository
         mysqli_close($mysqli);
         return $rows;
     }
-    
+
     public static function getJoinedFormulas()
     {
         $conn = new Connection();

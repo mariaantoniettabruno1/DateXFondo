@@ -8,21 +8,23 @@ class FormulaCard
     public static function render_scripts()
     {
         ?>
-            <style>
+        <style>
 
-                .input-button,#insertCondition, #insertFormula{
-                    border-color:#26282f ;
-                    color: #26282f;
-                }
-                .input-button:hover,.input-button:active,#insertCondition:hover, #insertCondition:active, #insertFormula:hover, #insertFormula:active{
-                    border-color:#870e12 ;
-                    color: #870e12;
-                    background-color: white;
-                }
-                .btn-link, .btn-link:hover{
-                    color: #26282f;
-                }
-            </style>
+            .input-button, #insertCondition, #insertFormula {
+                border-color: #26282f;
+                color: #26282f;
+            }
+
+            .input-button:hover, .input-button:active, #insertCondition:hover, #insertCondition:active, #insertFormula:hover, #insertFormula:active {
+                border-color: #870e12;
+                color: #870e12;
+                background-color: white;
+            }
+
+            .btn-link, .btn-link:hover {
+                color: #26282f;
+            }
+        </style>
         <script>
 
             function renderSectionInput() {
@@ -42,7 +44,7 @@ class FormulaCard
 
             let selectedInput = null;
 
-            function insertIntoFormula(insert, moveCaret = 0){
+            function insertIntoFormula(insert, moveCaret = 0) {
                 if (!selectedInput) return;
                 const id = selectedInput.attr("id");
 
@@ -55,24 +57,22 @@ class FormulaCard
                     selectedInput.val(t + insert);
                 }
                 let nextPosition = cursorPosition + insert.length + moveCaret
-                setCaretPosition(id,nextPosition)
+                setCaretPosition(id, nextPosition)
             }
 
             function setCaretPosition(elemId, caretPos) {
                 var elem = document.getElementById(elemId);
 
-                if(elem != null) {
-                    if(elem.createTextRange) {
+                if (elem != null) {
+                    if (elem.createTextRange) {
                         var range = elem.createTextRange();
                         range.move('character', caretPos);
                         range.select();
-                    }
-                    else {
-                        if(elem.selectionStart) {
+                    } else {
+                        if (elem.selectionStart) {
                             elem.focus();
                             elem.setSelectionRange(caretPos, caretPos);
-                        }
-                        else
+                        } else
                             elem.focus();
                     }
                 }
@@ -81,7 +81,7 @@ class FormulaCard
             function insertDecurtazioneIntoFormula(type, idArticolo) {
                 if (!selectedInput) return;
                 const t = selectedInput.val()
-                if(type === "%") {
+                if (type === "%") {
                     selectedInput.val(`(${t}) * ${idArticolo} / 100`);
                 } else {
                     selectedInput.val(`(${t}) > 0 ? (${t}) : - (${t})`);
@@ -90,6 +90,7 @@ class FormulaCard
             }
 
             let formulaId = 0
+
             function editFormula(fId) {
                 const formula = formule.find(f => f.id === fId);
 
@@ -99,20 +100,42 @@ class FormulaCard
                 $('#inputDescrizioneFormula').val(formula.descrizione);
                 $('#inputCheckboxVisibileFormula').prop('checked', formula.visibile)
                 formulaId = fId;
-                if(Number(formula.condizione) === 0) {
+                if (Number(formula.condizione) === 0) {
                     $('#inputFormula').val(formula.formula);
                 } else {
                     const [cond, vf] = formula.formula.split("?");
                     const [v, f] = vf.split(":");
-                   $('#inputCondizione').val(cond);
-                   $('#inputVero').val(v);
-                   $('#inputFalso').val(f);
+                    $('#inputCondizione').val(cond);
+                    $('#inputVero').val(v);
+                    $('#inputFalso').val(f);
                 }
 
             }
 
+            function clearInputCondition() {
+                $('#inputSelectSezioneFormula').prop('selectedIndex', 0);
+                $('#inputSelectSottosezioneFormula').prop('selectedIndex', -1);
+                $('#inputNomeFormula').val('');
+                $('#inputDescrizioneFormula').val('');
+                $('#inputCondizione').val('');
+                $('#inputVero').val('');
+                $('#inputFalso').val('');
+                $('#inputCheckboxVisibileFormula').prop('checked', false);
+            }
+
+            function clearInputFormula() {
+                $('#inputSelectSezioneFormula').prop('selectedIndex', 0);
+                $('#inputSelectSottosezioneFormula').prop('selectedIndex', -1);
+                $('#inputNomeFormula').val('');
+                $('#inputDescrizioneFormula').val('');
+                $('#inputFormula').val('');
+                $('#inputCheckboxVisibileFormula').prop('checked', false);
+            }
+
             $(document).ready(function () {
                 renderSectionInput();
+                clearInputFormula();
+                clearInputCondition();
                 $('#inputSelectSezioneFormula').change(function () {
                     const section = $('#inputSelectSezioneFormula').val();
                     if (section !== 'Seleziona Sezione') {
@@ -131,7 +154,7 @@ class FormulaCard
                 $(".input-button").click(function () {
                     const insert = $(this).attr("data-input");
                     let moveCaret = $(this).attr("data-move-caret");
-                    if(moveCaret) moveCaret = Number(moveCaret)
+                    if (moveCaret) moveCaret = Number(moveCaret)
                     insertIntoFormula(insert, moveCaret);
                 })
 
@@ -166,19 +189,32 @@ class FormulaCard
                         type: "POST",
                         success: function (response) {
                             console.log(response);
-                            if(!response.updated){
+                            if (!response.updated) {
                                 if (response["id"]) {
                                     formule.push({...payload, id: response["id"]});
                                 }
+                                $(".alert-formula-success").show();
+                                $(".alert-formula-success").fadeTo(2000, 500).slideUp(500, function () {
+                                    $(".alert-formula-success").slideUp(500);
+                                });
                             } else {
                                 formule = formule.filter(f => Number(f.id) !== Number(formulaId));
                                 formule.push({...payload, id: response["id"]});
+                                $(".alert-formula-update-success").show();
+                                $(".alert-formula-update-success").fadeTo(2000, 500).slideUp(500, function () {
+                                    $(".alert-formula-update-success").slideUp(500);
+                                });
                             }
                             formulaId = 0;
                             handleFilter();
+                            clearInputFormula();
                         },
                         error: function (response) {
                             console.error(response);
+                            $(".alert-formula-wrong").show();
+                            $(".alert-formula-wrong").fadeTo(2000, 500).slideUp(500, function () {
+                                $(".alert-formula-wrong").slideUp(500);
+                            });
                         }
                     })
                 });
@@ -218,7 +254,7 @@ class FormulaCard
                             type: "POST",
                             success: function (response) {
                                 console.log(response);
-                                if(!response.updated){
+                                if (!response.updated) {
                                     if (response["id"]) {
                                         formule.push({...payload, id: response["id"]});
                                     }
@@ -228,9 +264,18 @@ class FormulaCard
                                 }
                                 formulaId = 0;
                                 handleFilter();
+                                clearInputCondition();
+                                $(".alert-formula-success").show();
+                                $(".alert-formula-success").fadeTo(2000, 500).slideUp(500, function () {
+                                    $(".alert-formula-success").slideUp(500);
+                                });
                             },
                             error: function (response) {
                                 console.error(response);
+                                $(".alert-formula-wrong").show();
+                                $(".alert-formula-wrong").fadeTo(2000, 500).slideUp(500, function () {
+                                    $(".alert-formula-wrong").slideUp(500);
+                                });
                             }
                         })
                     }
@@ -389,7 +434,8 @@ class FormulaCard
                         </button>
                     </div>
                     <div class="col px-1">
-                        <button id="btnNot" class="btn btn-block btn-outline-primary input-button" data-input=" !(   ) " data-move-caret="-3">
+                        <button id="btnNot" class="btn btn-block btn-outline-primary input-button" data-input=" !(   ) "
+                                data-move-caret="-3">
                             NON
                         </button>
                     </div>
@@ -422,7 +468,27 @@ class FormulaCard
                 </div>
             </div>
         </div>
-
+        <div class="alert alert-success alert-formula-success" role="alert"
+             style="position:fixed; top: <?= is_admin_bar_showing() ? 47 : 15 ?>px; right: 15px; display:none">
+            Nuova formula aggiunta correttamente!
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="alert alert-success alert-formula-update-success" role="alert"
+             style="position:fixed; top: <?= is_admin_bar_showing() ? 47 : 15 ?>px; right: 15px; display:none">
+            Formula aggiornata correttamente!
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="alert alert-danger alert-formula-wrong" role="alert"
+             style="position:fixed; top: <?= is_admin_bar_showing() ? 47 : 15 ?>px; right: 15px; display:none">
+          Operazione non andata a buon fine
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
 
         <?php
         self::render_scripts();
