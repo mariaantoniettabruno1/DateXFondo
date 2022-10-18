@@ -96,9 +96,9 @@ class MasterTemplateTable
                     } else {
                         nome_articolo = '';
                     }
-
+                    console.log(art.editable)
                     if (art.row_type === 'decurtazione') {
-                        if (art.editable === '0') {
+                        if (Number(art.editable) === 0) {
                             delete_button = ` <button class="btn btn-link btn-delete-row" data-id='${art.id}' data-toggle="modal" data-target="#deleteModal" disabled><i class="fa-solid fa-trash"></i></button>`;
                             button = ` <button class="btn btn-link btn-edit-row-dec" data-id='${art.id}' data-toggle="modal" data-target="#editDecModal" disabled><i class="fa-solid fa-pen"></i></button>`;
 
@@ -107,7 +107,7 @@ class MasterTemplateTable
                             delete_button = ` <button class="btn btn-link btn-delete-row" data-id='${art.id}' data-toggle="modal" data-target="#deleteModal"><i class="fa-solid fa-trash"></i></button>`;
                         }
                     } else {
-                        if (art.editable === '0') {
+                        if (Number(art.editable) === 0) {
                             button = ` <button class="btn btn-link btn-edit-row" data-id='${art.id}' data-toggle="modal" data-target="#editModal" disabled><i class="fa-solid fa-pen"></i></button>`;
                             delete_button = ` <button class="btn btn-link btn-delete-row" data-id='${art.id}' data-toggle="modal" data-target="#deleteModal" disabled><i class="fa-solid fa-trash"></i></button>`;
                         } else {
@@ -115,11 +115,11 @@ class MasterTemplateTable
                             delete_button = ` <button class="btn btn-link btn-delete-row" data-id='${art.id}' data-toggle="modal" data-target="#deleteModal"><i class="fa-solid fa-trash"></i></button>`;
                         }
                     }
-                    if (art.heredity === "0") {
+                    if (Number(art.heredity) === 0) {
                         heredity = "Nè nota nè valore ereditati";
-                    } else if (art.heredity === "1") {
+                    } else if (Number(art.heredity) === 1) {
                         heredity = "Valore ereditato";
-                    } else if (art.heredity === "2") {
+                    } else if (Number(art.heredity) === 2) {
                         heredity = "Nota e valore ereditati";
                     }
 
