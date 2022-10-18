@@ -9,35 +9,40 @@ class MasterTemplateNewSpecialRow
         ?>
         <style>
             #btnSpecialRow {
-                border-color:#26282f ;
+                border-color: #26282f;
                 color: #26282f;
             }
-            #btnSpecialRow:hover{
-                border-color:#870e12 ;
+
+            #btnSpecialRow:hover {
+                border-color: #870e12;
                 color: #870e12;
                 background-color: white;
             }
+
             #addNewSpecialRowButton {
 
                 border-color: #26282f;
                 background-color: #26282f;
 
             }
-            #addNewSpecialRowButton:hover{
-                border-color:#870e12 ;
+
+            #addNewSpecialRowButton:hover {
+                border-color: #870e12;
                 background-color: #870e12;
             }
 
-            .subsSpButtonGroup1, .subsSpButtonGroup2{
-                border-color:#26282f ;
+            .subsSpButtonGroup1, .subsSpButtonGroup2 {
+                border-color: #26282f;
                 color: #26282f;
                 background-color: white;
 
-            } .subsSpButtonGroup1:active, .subsSpButtonGroup2:active,.subsSpButtonGroup2:hover, .subsSpButtonGroup2:hover{
-                  border-color:#26282f ;
-                  color: #26282f;
-                  background-color: white;
-              }
+            }
+
+            .subsSpButtonGroup1:active, .subsSpButtonGroup2:active, .subsSpButtonGroup2:hover, .subsSpButtonGroup2:hover {
+                border-color: #26282f;
+                color: #26282f;
+                background-color: white;
+            }
         </style>
         <script>
             function renderSectionFilterSpRow() {
@@ -54,8 +59,22 @@ class MasterTemplateNewSpecialRow
                 });
             }
 
-            $(document).ready(function () {
+            function clearInputSpecialRow() {
+                $('#selectSpRowSezione').prop('selectedIndex', 0);
+                $('#selectNewSpRowSottosezione').prop('selectedIndex', -1);
+                $('#spNewSottosezione').val('');
+                $('#newRowSpIdArticolo').val('');
+                $('#newRowSpNomeArticolo').val('');
+                $('#newRowSpSottotitoloArticolo').val('');
+                $('#newRowSpNota').val('');
+                $('#newRowSpLink').val('');
+                $('#inputFondo').val('');
+                $('#inputAnno').val('');
+                $('#inputDescrizioneFondo').val('');
+            }
 
+            $(document).ready(function () {
+                clearInputSpecialRow();
                 renderSectionFilterSpRow();
 
                 $('#selectSpRowSezione').change(function () {
@@ -79,7 +98,7 @@ class MasterTemplateNewSpecialRow
                         $("#errorIDArticoloSp").attr('style', 'display:none');
                         //inserire validazione campi obbligatori
                         let id = $('#newRowSpIdArticolo').val();
-                        let nome = ($('#newRowSpNomeArticolo').val());
+                        let nome = $('#newRowSpNomeArticolo').val();
                         let sottotitolo = $('#newRowSpSottotitoloArticolo').val();
                         let sezione = '';
                         if (sezione !== 'Seleziona Sezione') {
@@ -97,49 +116,49 @@ class MasterTemplateNewSpecialRow
                         let anno = $('#inputAnno').val();
                         let descrizione_fondo = $('#inputDescrizioneFondo').val();
                         let row_type = 'special';
-                        if(articoli.find(art => art.id_articolo === id) === undefined) {
+                        if (articoli.find(art => art.id_articolo === id) === undefined) {
 
-                        const payload = {
-                            fondo,
-                            anno,
-                            descrizione_fondo,
-                            id,
-                            nome,
-                            sottotitolo,
-                            sezione,
-                            sottosezione,
-                            nota,
-                            link,
-                            row_type
-                        }
-                        console.log(payload)
-                        $.ajax({
-                            url: '<?= DateXFondoCommon::get_website_url() ?>/wp-json/datexfondoplugin/v1/newrowsp',
-                            data: payload,
-                            type: "POST",
-                            success: function (response) {
-                                if (response["id"]) {
-                                    articoli.push(response);
-                                    $("#addSpecialRowModal").modal('hide');
-                                    renderEditDataTable(payload);
-                                }
-                                console.log(response);
-                                $(".alert-sp-row-success").show();
-                                $(".alert-sp-row-success").fadeTo(2000, 500).slideUp(500, function () {
-                                    $(".alert-sp-row-success").slideUp(500);
-                                });
-                            },
-                            error: function (response) {
-                                console.error(response);
-                                $("#addSpecialRowModal").modal('hide');
-                                $(".alert-sp-row-wrong").show();
-                                $(".alert-sp-row-wrong").fadeTo(2000, 500).slideUp(500, function () {
-                                    $(".alert-sp-row-wrong").slideUp(500);
-                                });
-
+                            const payload = {
+                                fondo,
+                                anno,
+                                descrizione_fondo,
+                                id,
+                                nome,
+                                sottotitolo,
+                                sezione,
+                                sottosezione,
+                                nota,
+                                link,
+                                row_type
                             }
-                        });}
-                        else {
+                            console.log(payload)
+                            $.ajax({
+                                url: '<?= DateXFondoCommon::get_website_url() ?>/wp-json/datexfondoplugin/v1/newrowsp',
+                                data: payload,
+                                type: "POST",
+                                success: function (response) {
+                                    if (response["id"]) {
+                                        articoli.push(response);
+                                        $("#addSpecialRowModal").modal('hide');
+                                        renderEditDataTable(payload);
+                                    }
+                                    console.log(response);
+                                    $(".alert-sp-row-success").show();
+                                    $(".alert-sp-row-success").fadeTo(2000, 500).slideUp(500, function () {
+                                        $(".alert-sp-row-success").slideUp(500);
+                                    });
+                                },
+                                error: function (response) {
+                                    console.error(response);
+                                    $("#addSpecialRowModal").modal('hide');
+                                    $(".alert-sp-row-wrong").show();
+                                    $(".alert-sp-row-wrong").fadeTo(2000, 500).slideUp(500, function () {
+                                        $(".alert-sp-row-wrong").slideUp(500);
+                                    });
+
+                                }
+                            });
+                        } else {
                             $("#errorIDArticoloSp").attr('style', 'display:block');
 
                         }
@@ -212,7 +231,8 @@ class MasterTemplateNewSpecialRow
                         <div class="form-group">
                             <label for="inputIdArticolo"><b>Id Articolo:</b></label>
                             <input type="text" class="form-control" id="newRowSpIdArticolo">
-                            <small id="errorIDArticoloSp" class="form-text text-danger" style="display: none">Id Articolo già presente</small>
+                            <small id="errorIDArticoloSp" class="form-text text-danger" style="display: none">Id
+                                Articolo già presente</small>
                         </div>
                         <div class="form-group">
                             <label for="idNomeArticolo"><b>Articolo:</b> </label>

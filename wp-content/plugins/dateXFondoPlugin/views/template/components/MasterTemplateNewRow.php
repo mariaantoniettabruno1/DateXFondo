@@ -7,37 +7,42 @@ class MasterTemplateNewRow
     public static function render_scripts()
     {
         ?>
-            <style>
-                #idAddRow {
-                    border-color:#26282f ;
-                    color: #26282f;
-                }
-                #idAddRow:hover, #idAddRow:active {
-                    border-color:#870e12 ;
-                    color: #870e12;
-                    background-color: white;
-                }
+        <style>
+            #idAddRow {
+                border-color: #26282f;
+                color: #26282f;
+            }
 
-                #addNewRowButton {
-                    border-color:#26282f ;
-                    background-color: #26282f;
+            #idAddRow:hover, #idAddRow:active {
+                border-color: #870e12;
+                color: #870e12;
+                background-color: white;
+            }
 
-                }
-                #addNewRowButton:hover{
-                    border-color:#870e12 ;
-                    background-color: #870e12;
-                }
-                .subsectionButtonGroup1, .subsectionButtonGroup2{
-                    border-color:#26282f ;
-                    color: #26282f;
-                    background-color: white;
+            #addNewRowButton {
+                border-color: #26282f;
+                background-color: #26282f;
 
-                } .subsectionButtonGroup1:active, .subsectionButtonGroup2:active,.subsectionButtonGroup1:hover, .subsectionButtonGroup2:hover{
-                    border-color:#26282f ;
-                    color: #26282f;
-                    background-color: white;
-                }
-            </style>
+            }
+
+            #addNewRowButton:hover {
+                border-color: #870e12;
+                background-color: #870e12;
+            }
+
+            .subsectionButtonGroup1, .subsectionButtonGroup2 {
+                border-color: #26282f;
+                color: #26282f;
+                background-color: white;
+
+            }
+
+            .subsectionButtonGroup1:active, .subsectionButtonGroup2:active, .subsectionButtonGroup1:hover, .subsectionButtonGroup2:hover {
+                border-color: #26282f;
+                color: #26282f;
+                background-color: white;
+            }
+        </style>
         <script>
 
 
@@ -55,7 +60,22 @@ class MasterTemplateNewRow
                 });
             }
 
+            function clearInputRow() {
+                $('#selectNewRowSezione').prop('selectedIndex', 0);
+                $('#selectNewRowSottosezione').prop('selectedIndex', -1);
+                $('#newRowSottosezione').val('');
+                $('#newRowIdArticolo').val('');
+                $('#newRowNomeArticolo').val();
+                $('#newRowSottotitoloArticolo').val('');
+                $('#newRowNota').val('');
+                $('#newRowLink').val('');
+                $('#inputFondo').val('');
+                $('#inputAnno').val('');
+                $('#inputDescrizioneFondo').val('');
+            }
+
             $(document).ready(function () {
+                clearInputRow();
                 renderSectionFilterRow();
                 $('#selectNewRowSezione').change(function () {
                     const section = $('#selectNewRowSezione').val();
@@ -76,7 +96,7 @@ class MasterTemplateNewRow
                 $('#addNewRowButton').click(function () {
                     {
                         $("#errorIDArticolo").attr('style', 'display:none');
-                       <?php //inserire validazione campi obbligatori ?>
+                        <?php //inserire validazione campi obbligatori ?>
 
                         let id = $('#newRowIdArticolo').val();
                         let nome = $('#newRowNomeArticolo').val();
@@ -97,7 +117,7 @@ class MasterTemplateNewRow
                         let anno = $('#inputAnno').val();
                         let descrizione_fondo = $('#inputDescrizioneFondo').val();
                         let row_type = 'basic';
-                        if(articoli.find(art => art.id_articolo === id) === undefined){
+                        if (articoli.find(art => art.id_articolo === id) === undefined) {
                             const payload = {
                                 fondo,
                                 anno,
@@ -121,21 +141,21 @@ class MasterTemplateNewRow
                                     renderEditDataTable(payload);
                                     console.log(response);
                                     $(".alert-new-row-success").show();
-                                    $(".alert-new-row-success").fadeTo(2000, 500).slideUp(500, function(){
+                                    $(".alert-new-row-success").fadeTo(2000, 500).slideUp(500, function () {
                                         $(".alert-new-row-success").slideUp(500);
                                     });
+                                    clearInputRow();
                                 },
                                 error: function (response) {
                                     $("#addRowModal").modal('hide');
                                     console.error(response);
                                     $(".alert-new-row-wrong").show();
-                                    $(".alert-new-row-wrong").fadeTo(2000, 500).slideUp(500, function(){
+                                    $(".alert-new-row-wrong").fadeTo(2000, 500).slideUp(500, function () {
                                         $(".alert-new-row-wrong").slideUp(500);
                                     });
                                 }
                             });
-                        }
-                        else {
+                        } else {
                             $("#errorIDArticolo").attr('style', 'display:block');
                         }
 
@@ -156,7 +176,8 @@ class MasterTemplateNewRow
 
         } else {
             $results_articoli = $data->getArticoli();
-        }        if ($results_articoli[0]['editable'] == '1') {
+        }
+        if ($results_articoli[0]['editable'] == '1') {
             ?>
             <button class="btn btn-outline-primary" data-toggle="modal"
                     data-target="#addRowModal" id="idAddRow">Aggiungi riga
@@ -188,7 +209,7 @@ class MasterTemplateNewRow
                             <select class="custom-select" id="selectNewRowSezione">
                             </select>
                         </div>
-                        <div class="form-group"  id="divSelectNewRowSottosezione">
+                        <div class="form-group" id="divSelectNewRowSottosezione">
                             <br>
                             <div class="btn-group pb-3" role="group" aria-label="Basic example">
                                 <button type="button" class="btn  btn-outline-primary subsectionButtonGroup1">
@@ -209,7 +230,8 @@ class MasterTemplateNewRow
                         <div class="form-group">
                             <label for="inputIdArticolo"><b>Id Articolo:</b></label>
                             <input type="text" class="form-control" id="newRowIdArticolo">
-                            <small id="errorIDArticolo" class="form-text text-danger" style="display: none">Id Articolo già presente</small>
+                            <small id="errorIDArticolo" class="form-text text-danger" style="display: none">Id Articolo
+                                già presente</small>
                         </div>
                         <div class="form-group">
                             <label for="inputNomeArticolo"><b>Articolo:</b> </label>

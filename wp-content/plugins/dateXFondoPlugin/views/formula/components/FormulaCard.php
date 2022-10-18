@@ -133,9 +133,9 @@ class FormulaCard
             }
 
             $(document).ready(function () {
-                renderSectionInput();
                 clearInputFormula();
                 clearInputCondition();
+                renderSectionInput();
                 $('#inputSelectSezioneFormula').change(function () {
                     const section = $('#inputSelectSezioneFormula').val();
                     if (section !== 'Seleziona Sezione') {
