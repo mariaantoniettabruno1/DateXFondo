@@ -44,3 +44,25 @@ function esegui_creazione_formula($params)
 }
 
 add_action('rest_api_init', 'create_endpoint_datefondo_creazione_formula');
+
+function create_endpoint_datefondo_delete_formula()
+{
+
+    register_rest_route('datexfondoplugin/v1', 'deleteformula', array(
+        'methods' => 'POST',
+        'callback' => 'esegui_cancellazione_formula'
+    ));
+
+
+}
+
+function esegui_cancellazione_formula($params)
+{
+    $bool_res = FormulaRepository::delete_formula($params);
+    $data = ['deleted formula' => $bool_res, 'message' => 'Formula cancellata correttamente'];
+    $response = new WP_REST_Response($data);
+    $response->set_status(201);
+    return $response;
+}
+
+add_action('rest_api_init', 'create_endpoint_datefondo_delete_formula');

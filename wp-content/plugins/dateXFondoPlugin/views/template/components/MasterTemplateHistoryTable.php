@@ -7,6 +7,35 @@ class MasterTemplateHistoryTable
     public static function render_scripts()
     {
         ?>
+        <style>
+            .btn-duplicate-template {
+                color: #26282f;
+
+            }
+
+            .btn-duplicate-template:hover {
+                color: #26282f;
+
+            }
+
+            .btn-visualize-template {
+                color: #26282f;
+            }
+
+            .btn-visualize-template:hover {
+                color: #26282f;
+            }
+
+            #duplicateTemplateButton {
+                border-color: #26282f;
+                background-color: #26282f;
+            }
+            #duplicateTemplateButton:hover{
+                border-color:#870e12 ;
+                background-color: #870e12;
+            }
+
+        </style>
         <script>
             let fondo = '';
             let anno = 0;
@@ -23,8 +52,8 @@ class MasterTemplateHistoryTable
                                        <td >${art.descrizione_fondo}</td>
                                        <td >${art.version}</td>
                                            <td>
-                <button class="btn btn-primary btn-duplicate-template" data-fondo='${art.fondo}' data-anno='${art.anno}' data-desc ='${art.descrizione_fondo}' data-version='${art.version}' data-toggle="modal" data-target="#duplicateModal">Duplica</button>
-                <button class="btn btn-primary btn-visualize-template" data-fondo='${art.fondo}' data-anno='${art.anno}' data-desc ='${art.descrizione_fondo}' data-version='${art.version}'>Visualizza</button>
+                <button class="btn btn-link btn-duplicate-template" data-fondo='${art.fondo}' data-anno='${art.anno}' data-desc ='${art.descrizione_fondo}' data-version='${art.version}' data-toggle="modal" data-target="#duplicateModal"><i class="fa-regular fa-copy"></i></button>
+                <button class="btn btn-link btn-visualize-template" data-fondo='${art.fondo}' data-anno='${art.anno}' data-desc ='${art.descrizione_fondo}' data-version='${art.version}'><i class="fa-regular fa-eye"></i></button>
                 </td>
                 </tr>
                              `);
@@ -73,7 +102,7 @@ class MasterTemplateHistoryTable
                     });
                 });
                 $('.btn-visualize-template').click(function () {
-                    location.href = '<?= DateXFondoCommon::get_website_url()?>/visualizza-template-fondo/?fondo='+fondo+'&anno='+anno+'&descrizione='+descrizione+'&version='+version;
+                    location.href = '<?= DateXFondoCommon::get_website_url()?>/visualizza-template-fondo/?fondo=' + fondo + '&anno=' + anno + '&descrizione=' + descrizione + '&version=' + version;
                 });
             });
         </script>
@@ -90,7 +119,7 @@ class MasterTemplateHistoryTable
                 <th style="width: 100px">Anno</th>
                 <th>Descrizione fondo</th>
                 <th style="width: 100px">Versione</th>
-                <th style="width: 202px">Azioni</th>
+                <th style="width: 12.625rem">Azioni</th>
             </tr>
 
             </thead>

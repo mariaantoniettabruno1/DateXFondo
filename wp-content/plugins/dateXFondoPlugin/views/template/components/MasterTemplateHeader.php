@@ -7,6 +7,21 @@ class MasterTemplateHeader
     public static function render_scripts()
     {
         ?>
+        <style>
+
+            #editInputButton {
+                color: #26282f;
+            }
+
+            #saveInputButton {
+                color: #26282f;
+            }
+            #deleteEditButton{
+                color: #26282f;
+            }
+
+
+        </style>
 
         <script>
             $(document).ready(function () {
@@ -17,9 +32,16 @@ class MasterTemplateHeader
                 $("#editInputButton").click(function () {
                     $(this).hide();
                     $('#saveInputButton').show();
+                    $('#deleteEditButton').show();
                     $('#inputFondo').attr('readonly', false);
                     $('#inputAnno').attr('readonly', false);
                     $('#inputDescrizioneFondo').attr('readonly', false);
+                });
+                $("#deleteEditButton").click(function (){
+                    $(this).hide();
+                    $('#saveInputButton').hide();
+                    $('#editInputButton').show();
+
                 });
                 $('#saveInputButton').click(function () {
                     {
@@ -56,7 +78,9 @@ class MasterTemplateHeader
                             }
                         });
                         $('#saveInputButton').hide();
+                        $('#deleteEditButton').hide();
                         $('#editInputButton').show();
+
                     }
                 });
             });
@@ -89,12 +113,15 @@ class MasterTemplateHeader
                 <button class="btn btn-link" id="editInputButton"><i class="fa-solid fa-pen"></i></button>
                 <button class="btn btn-link" id="saveInputButton" style="display: none"><i
                             class="fa-solid fa-floppy-disk"></i></button>
+                <button class="btn btn-link" id="deleteEditButton" style="display: none"> Annulla </button>
+
                 <?php
             } else {
                 ?>
                 <button class="btn btn-link" id="editInputButton" disabled><i class="fa-solid fa-pen"></i></button>
                 <button class="btn btn-link" id="saveInputButton" style="display: none"><i
                             class="fa-solid fa-floppy-disk"></i></button>
+                <button class="btn btn-link" id="deleteEditButton" style="display: none"> Annulla </button>
                 <?php
             }
             ?>

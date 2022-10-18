@@ -10,9 +10,9 @@ class MasterTemplateRowRepository
         $mysqli = $conn->connect();
 //TODO aggiungere descrizione articolo
         $sql = "INSERT INTO DATE_template_fondo (fondo,anno,descrizione_fondo,sezione,sottosezione,id_articolo,nome_articolo,
-                                 sottotitolo_articolo,nota,link,row_type,ordinamento) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
+                                 sottotitolo_articolo,nota,link,row_type) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("sisssssssssi",
+        $stmt->bind_param("sisssssssss",
             $request["fondo"],
             $request["anno"],
             $request["descrizione_fondo"],
@@ -23,8 +23,7 @@ class MasterTemplateRowRepository
             $request["sottotitolo"],
             $request["nota"],
             $request["link"],
-            $request["row_type"],
-            $request["ordinamento"]);
+            $request["row_type"]);
         $res = $stmt->execute();
         $mysqli->close();
         return $stmt->insert_id;
@@ -41,9 +40,9 @@ class MasterTemplateRowRepository
                                  sezione,
                                  sottosezione,
                                  id_articolo,
-                                 descrizione_fondo,nota,link,row_type,ordinamento) VALUES(?,?,?,?,?,?,?,?,?,?)";
+                                 descrizione_fondo,nota,link,row_type) VALUES(?,?,?,?,?,?,?,?,?)";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("sisssssssi",
+        $stmt->bind_param("sisssssss",
             $request['fondo'],
             $request['anno'],
             $request["sezione"],
@@ -52,8 +51,7 @@ class MasterTemplateRowRepository
             $request['descrizione_fondo'],
             $request['nota'],
             $request["link"],
-            $request["row_type"],
-            $request["ordinamento"]);
+            $request["row_type"]);
         $res = $stmt->execute();
         $mysqli->close();
         return $stmt->insert_id;

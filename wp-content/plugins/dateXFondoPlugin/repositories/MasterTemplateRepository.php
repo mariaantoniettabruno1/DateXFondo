@@ -59,18 +59,16 @@ class MasterTemplateRepository
                                nome_articolo=?,
                                descrizione_articolo=?,
                                sottotitolo_articolo=?,
-                               ordinamento=?,
                                nota=?,
                                link=?,
                                heredity=?
 WHERE id=?";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("ssssissii",
+        $stmt->bind_param("sssssis",
             $request['id_articolo'],
             $request['nome'],
             $request['descrizione'],
             $request['sottotitolo'],
-            $request['ordinamento'],
             $request['nota'],
             $request['link'],
             $request['heredity'],

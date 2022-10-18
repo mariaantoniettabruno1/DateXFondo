@@ -8,6 +8,7 @@ class FormulaSidebar
     {
         ?>
         <script>
+            let id = 0;
             function renderDataTable(section, subsection) {
                 $('#dataTableBody').html('');
                 let filteredArticoli = articoli;
@@ -71,9 +72,13 @@ class FormulaSidebar
                           <td>
                             <button type="button" class="btn btn-sm btn-outline-primary" title="Aggiungi ${f.nome} alla formula" onclick="insertIntoFormula('${f.nome}')"><i class="fa-solid fa-plus"></i></button>
                             <button type="button" class="btn btn-sm btn-outline-secondary" title="Visualizza" onclick="editFormula('${f.id}')"><i class="fa-solid fa-pencil"></i></button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary btn-delete-formula" title="Elimina" data-id="${f.id}" data-toggle="modal" data-target="#deleteFormulaModal"><i class="fa-solid fa-trash"></i></button>
                           </td>
                         </tr>
                     `);
+                    $('.btn-delete-formula').click(function () {
+                        id = $(this).attr('data-id');
+                    });
                 });
             }
 
@@ -128,6 +133,36 @@ class FormulaSidebar
                 $('#inputSelectSottosezione').change(function () {
                     handleFilter();
                 });
+                $("#deleteFormulaButton").click(function (){
+                    const payload = {
+                        id
+                    }
+
+                    $.ajax({
+                        url: '<?= DateXFondoCommon::get_website_url() ?>/wp-json/datexfondoplugin/v1/deleteformula',
+                        data: payload,
+                        type: "POST",
+                        success: function (response) {
+                            console.log(response);
+                            $("#deleteFormulaModal").modal('hide');
+                            formule = formule.filter(art => Number(art.id) !== Number(id));
+                            renderFormulaTables();
+                            $(".alert-delete-formula-success").show();
+                            $(".alert-delete-formula-success").fadeTo(2000, 500).slideUp(500, function () {
+                                $(".alert-delete-formula-success").slideUp(500);
+                            });
+
+                        },
+                        error: function (response) {
+                            console.error(response);
+                            $("#deleteFormulaModal").modal('hide');
+                            $(".alert-delete-formula-wrong").show();
+                            $(".alert-delete-formula-wrong").fadeTo(2000, 500).slideUp(500, function () {
+                                $(".alert-delete-formula-wrong").slideUp(500);
+                            });
+                        }
+                    });
+                })
             })
         </script>
         <?php
@@ -237,6 +272,40 @@ class FormulaSidebar
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="modal fade" id="deleteFormulaModal" tabindex="-1" role="dialog" aria-labelledby="deleteFormulaModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteFormulaModalLabel">Cancella formula </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Vuoi veramente eliminare questa formula?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
+                        <button type="button" class="btn btn-primary" id="deleteFormulaButton">Cancella</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="alert alert-success alert-delete-formula-success" role="alert"
+             style="position:fixed; top: <?= is_admin_bar_showing() ? 47 : 15 ?>px; right: 15px; display:none">
+            Cancellazione formula andata a buon fine!
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="alert alert-danger alert-delete-formula-wrong" role="alert"
+             style="position:fixed; top: <?= is_admin_bar_showing() ? 47 : 15 ?>px; right: 15px; display:none">
+            Cancellazione formula non riuscita
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
         <?php
         self::render_scripts();

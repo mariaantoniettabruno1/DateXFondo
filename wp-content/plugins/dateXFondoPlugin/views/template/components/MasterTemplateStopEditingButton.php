@@ -8,6 +8,12 @@ class MasterTemplateStopEditingButton
     public static function render_scripts()
     {
         ?>
+        <style>
+            #stopEditingButton {
+                color: #26282f;
+            }
+
+        </style>
         <script>
             $(document).ready(function () {
 
@@ -54,7 +60,7 @@ class MasterTemplateStopEditingButton
     public static function render()
     {
         ?>
-        <button class="btn btn-link" id="stopEditingButton"><i class="fa-solid fa-ban"></i> Blocca la modifica</button>
+        <button class="btn btn-link" id="stopEditingButton"><i class="fa-solid fa-ban stopIcon"></i> Blocca la modifica</button>
 
         <div class="alert alert-success alert-block-success" role="alert"
              style="position:fixed; top: <?= is_admin_bar_showing() ? 47 : 15 ?>px; right: 15px; display:none">

@@ -21,7 +21,7 @@ class FormulaRepository
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = "SELECT * FROM DATE_formula";
+        $sql = "SELECT * FROM DATE_formula WHERE attivo = 1";
         $result = $mysqli->query($sql);
         $row = $result->fetch_all(MYSQLI_ASSOC);
         mysqli_close($mysqli);
@@ -65,5 +65,15 @@ class FormulaRepository
         $stmt->execute();
         mysqli_close($mysqli);
         return $stmt->affected_rows;
+    }
+    public static function delete_formula($request){
+        $conn = new Connection();
+        $mysqli = $conn->connect();
+        $sql = "UPDATE DATE_formula SET attivo=0  WHERE id=?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("i", $request['id']);
+        $res = $stmt->execute();
+        $mysqli->close();
+        return $res;
     }
 }

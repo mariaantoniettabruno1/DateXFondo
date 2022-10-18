@@ -7,6 +7,38 @@ class MasterTemplateNewSpecialRow
     public static function render_scripts()
     {
         ?>
+        <style>
+            #btnSpecialRow {
+                border-color:#26282f ;
+                color: #26282f;
+            }
+            #btnSpecialRow:hover{
+                border-color:#870e12 ;
+                color: #870e12;
+                background-color: white;
+            }
+            #addNewSpecialRowButton {
+
+                border-color: #26282f;
+                background-color: #26282f;
+
+            }
+            #addNewSpecialRowButton:hover{
+                border-color:#870e12 ;
+                background-color: #870e12;
+            }
+
+            .subsSpButtonGroup1, .subsSpButtonGroup2{
+                border-color:#26282f ;
+                color: #26282f;
+                background-color: white;
+
+            } .subsSpButtonGroup1:active, .subsSpButtonGroup2:active,.subsSpButtonGroup2:hover, .subsSpButtonGroup2:hover{
+                  border-color:#26282f ;
+                  color: #26282f;
+                  background-color: white;
+              }
+        </style>
         <script>
             function renderSectionFilterSpRow() {
                 $('#selectSpRowSezione').html('<option>Seleziona Sezione</option>');
@@ -44,13 +76,14 @@ class MasterTemplateNewSpecialRow
                 });
                 $('#addNewSpecialRowButton').click(function () {
                     {
+                        $("#errorIDArticoloSp").attr('style', 'display:none');
                         //inserire validazione campi obbligatori
                         let id = $('#newRowSpIdArticolo').val();
-                        let nome = parseInt($('#newRowSpNomeArticolo').val());
+                        let nome = ($('#newRowSpNomeArticolo').val());
                         let sottotitolo = $('#newRowSpSottotitoloArticolo').val();
                         let sezione = '';
                         if (sezione !== 'Seleziona Sezione') {
-                            sezione = $('#selectNewSpRowSezione').val();
+                            sezione = $('#selectSpRowSezione').val();
                         }
                         let sottosezione = '';
                         if ($('#selectNewSpRowSottosezione').val() != null || $('#selectNewSpRowSottosezione').val() !== 'Seleziona Sottosezione') {
@@ -60,17 +93,16 @@ class MasterTemplateNewSpecialRow
                         }
                         let nota = $('#newRowSpNota').val();
                         let link = $('#newRowSpLink').val();
-                        let ordinamento = $('#newRowSpOrdinamento').val();
                         let fondo = $('#inputFondo').val();
                         let anno = $('#inputAnno').val();
                         let descrizione_fondo = $('#inputDescrizioneFondo').val();
                         let row_type = 'special';
+                        if(articoli.find(art => art.id_articolo === id) === undefined) {
 
                         const payload = {
                             fondo,
                             anno,
                             descrizione_fondo,
-                            ordinamento,
                             id,
                             nome,
                             sottotitolo,
@@ -93,7 +125,7 @@ class MasterTemplateNewSpecialRow
                                 }
                                 console.log(response);
                                 $(".alert-sp-row-success").show();
-                                $(".alert-sp-row-success").fadeTo(2000, 500).slideUp(500, function(){
+                                $(".alert-sp-row-success").fadeTo(2000, 500).slideUp(500, function () {
                                     $(".alert-sp-row-success").slideUp(500);
                                 });
                             },
@@ -101,12 +133,16 @@ class MasterTemplateNewSpecialRow
                                 console.error(response);
                                 $("#addSpecialRowModal").modal('hide');
                                 $(".alert-sp-row-wrong").show();
-                                $(".alert-sp-row-wrong").fadeTo(2000, 500).slideUp(500, function(){
+                                $(".alert-sp-row-wrong").fadeTo(2000, 500).slideUp(500, function () {
                                     $(".alert-sp-row-wrong").slideUp(500);
                                 });
 
                             }
-                        });
+                        });}
+                        else {
+                            $("#errorIDArticoloSp").attr('style', 'display:block');
+
+                        }
                     }
                 });
             })
@@ -122,7 +158,8 @@ class MasterTemplateNewSpecialRow
 
         } else {
             $results_articoli = $data->getArticoli();
-        }        if ($results_articoli[0]['editable'] == '1') {
+        }
+        if ($results_articoli[0]['editable'] == '1') {
             ?>
             <button class="btn btn-outline-primary" id="btnSpecialRow" data-toggle="modal"
                     data-target="#addSpecialRowModal">Aggiungi riga speciale
@@ -173,12 +210,9 @@ class MasterTemplateNewSpecialRow
                             <input type="text" class="form-control" id="spNewSottosezione" style="display:none">
                         </div>
                         <div class="form-group">
-                            <label for="ordinamento"><b>Ordinamento:</b></label>
-                            <input type="text" class="form-control" id="newRowSpOrdinamento">
-                        </div>
-                        <div class="form-group">
                             <label for="inputIdArticolo"><b>Id Articolo:</b></label>
                             <input type="text" class="form-control" id="newRowSpIdArticolo">
+                            <small id="errorIDArticoloSp" class="form-text text-danger" style="display: none">Id Articolo già presente</small>
                         </div>
                         <div class="form-group">
                             <label for="idNomeArticolo"><b>Articolo:</b> </label>

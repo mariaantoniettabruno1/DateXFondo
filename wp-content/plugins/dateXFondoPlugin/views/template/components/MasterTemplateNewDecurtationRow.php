@@ -7,6 +7,38 @@ class MasterTemplateNewDecurtationRow
     public static function render_scripts()
     {
         ?>
+        <style>
+            #btnDecurtazione {
+                border-color:#26282f ;
+                color: #26282f;
+            }
+            #btnDecurtazione:hover, #btnDecurtazione:active{
+                border-color:#870e12 ;
+                color: #870e12;
+                background-color: white;
+            }
+            #addNewDecurtationButton {
+
+                border-color: #26282f;
+                background-color: #26282f;
+
+            }
+            #addNewDecurtationButton:hover{
+                border-color:#870e12 ;
+                background-color: #870e12;
+            }
+            .subsDecButtonGroup1, .subsDecButtonGroup2{
+                border-color:#26282f ;
+                color: #26282f;
+                background-color: white;
+
+            } .subsDecButtonGroup1:active, .subsDecButtonGroup2:active,.subsDecButtonGroup1:hover, .subsDecButtonGroup2:hover{
+                  border-color:#26282f ;
+                  color: #26282f;
+                  background-color: white;
+              }
+
+        </style>
         <script>
             function renderSectionFilter() {
                 $('#selectNewDecSezione').html('<option>Seleziona Sezione</option>');
@@ -42,6 +74,7 @@ class MasterTemplateNewDecurtationRow
                 });
                 $('#addNewDecurtationButton').click(function () {
                     {
+                        $("#errorIDArticoloDec").attr('style', 'display:none');
                         //inserire validazione campi obbligatori
                         //inserire anche il campo descrizione articolo
                         let id = $('#decIdArticolo').val();
@@ -58,46 +91,49 @@ class MasterTemplateNewDecurtationRow
                         }
                         let nota = $('#decNota').val();
                         let link = $('#typeDec:checked').val();
-                        let ordinamento = $('#decOrdinamento').val();
                         let fondo = $('#inputFondo').val();
                         let anno = $('#inputAnno').val();
                         let descrizione_fondo = $('#inputDescrizioneFondo').val();
                         let row_type = 'decurtazione';
-
-                        const payload = {
-                            fondo,
-                            anno,
-                            descrizione_fondo,
-                            ordinamento,
-                            id,
-                            sezione,
-                            sottosezione,
-                            nota,
-                            link,
-                            row_type
-                        }
-                        console.log(payload)
-                        $.ajax({
-                            url: '<?= DateXFondoCommon::get_website_url() ?>/wp-json/datexfondoplugin/v1/newdec',
-                            data: payload,
-                            type: "POST",
-                            success: function (response) {
-                                console.log(response);
-                                $("#addRowDecModal").modal('hide');
-                                renderEditDataTable(payload);
-                                $(".alert-add-dec-success").show();
-                                $(".alert-add-dec-success").fadeTo(2000, 500).slideUp(500, function(){
-                                    $(".alert-add-dec-success").slideUp(500);
-                                });
-                            },
-                            error: function (response) {
-                                console.error(response);
-                                $(".alert-add-dec-wrong").show();
-                                $(".alert-add-dec-wrong").fadeTo(2000, 500).slideUp(500, function(){
-                                    $(".alert-add-dec-wrong").slideUp(500);
-                                });
+                        if(articoli.find(art => art.id_articolo === id) === undefined) {
+                            const payload = {
+                                fondo,
+                                anno,
+                                descrizione_fondo,
+                                id,
+                                sezione,
+                                sottosezione,
+                                nota,
+                                link,
+                                row_type
                             }
-                        });
+                            console.log(payload)
+                            $.ajax({
+                                url: '<?= DateXFondoCommon::get_website_url() ?>/wp-json/datexfondoplugin/v1/newdec',
+                                data: payload,
+                                type: "POST",
+                                success: function (response) {
+                                    console.log(response);
+                                    $("#addRowDecModal").modal('hide');
+                                    renderEditDataTable(payload);
+                                    $(".alert-add-dec-success").show();
+                                    $(".alert-add-dec-success").fadeTo(2000, 500).slideUp(500, function () {
+                                        $(".alert-add-dec-success").slideUp(500);
+                                    });
+                                },
+                                error: function (response) {
+                                    console.error(response);
+                                    $(".alert-add-dec-wrong").show();
+                                    $(".alert-add-dec-wrong").fadeTo(2000, 500).slideUp(500, function () {
+                                        $(".alert-add-dec-wrong").slideUp(500);
+                                    });
+                                }
+                            });
+                        }
+                        else{
+                            $("#errorIDArticoloDec").attr('style', 'display:block');
+
+                        }
                     }
                 });
             })
@@ -167,13 +203,9 @@ class MasterTemplateNewDecurtationRow
                             <input type="text" class="form-control" id="decNewSottosezione" style="display:none">
                         </div>
                         <div class="form-group">
-                            <label for="ordinamento"><b>Ordinamento: </b></label>
-                            <input type="text" class="form-control" id="decOrdinamento"
-                                   value='' name="decOrdinamento">
-                        </div>
-                        <div class="form-group">
                             <label for="idArticolo"><b>Id Articolo: </b></label>
                             <input type="text" class="form-control" id="decIdArticolo">
+                            <small id="errorIDArticoloDec" class="form-text text-danger" style="display: none">Id Articolo già presente</small>
                         </div>
                         <label for="inputNota"><b>Tipologia decurtazione:</b> </label>
                         <div class="form-check">

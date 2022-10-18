@@ -8,6 +8,12 @@ class MasterJoinTable
     public static function render_scripts()
     {
         ?>
+        <style>
+            .btn-edit-ord, .btn-save,.class-accordion-button, .btn-edit-ord:hover, .btn-save:hover,.class-accordion-button:hover {
+                color: #26282f;
+            }
+
+        </style>
         <script>
 
             let id = 0;
@@ -201,7 +207,7 @@ class MasterJoinTable
                             type: "POST",
                             success: function (response) {
                                 console.log(response);
-                                joinedIndexes[joinKey] = {id:response["id"], type, ordinamento, external_id};
+                                joinedIndexes[joinKey] = {id: response["id"], type, ordinamento, external_id};
                                 renderDataTable(current_section, current_subsection);
                             },
                             error: function (response) {
@@ -348,7 +354,7 @@ class MasterJoinTable
         </div>
         <div class="alert alert-danger alert-ordinamento-fail" role="alert"
              style="position:fixed; top: <?= is_admin_bar_showing() ? 47 : 15 ?>px; right: 15px; display:none">
-Modifica non andata a buon fine
+            Modifica non andata a buon fine
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>

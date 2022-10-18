@@ -7,6 +7,33 @@ class MasterTemplateTable
     public static function render_scripts()
     {
         ?>
+        <style>
+            .class-accordion-button {
+                color: #26282f;
+            }
+            .class-accordion-button:hover {
+                color: #26282f;
+            }
+            .btn-delete-row, .btn-delete-row:hover {
+                color: #870e12;
+            }
+
+            .btn-edit-row-dec, .btn-edit-row-dec:hover {
+                color: #26282f;
+            }
+            .btn-edit-row, .btn-edit-row:hover {
+                color: #26282f;
+            }
+            #editRowButton, #deleteRowButton{
+
+                border-color: #26282f;
+                background-color: #26282f;
+            }
+            #editRowButton:hover, #deleteRowButton:hover{
+                border-color:#870e12 ;
+                background-color: #870e12;
+            }
+        </style>
         <script>
 
             let id = 0;
@@ -122,7 +149,6 @@ class MasterTemplateTable
                     id = $(this).attr('data-id');
                     let articolo = renderEditData(id);
                     $('#idArticolo').val(articolo[0].id_articolo)
-                    $('#ordinamento').val(articolo[0].ordinamento)
                     $('#idNomeArticolo').val(articolo[0].nome_articolo)
                     $('#idSottotitoloArticolo').val(articolo[0].sottotitolo_articolo)
                     //togliere commento quando verranno sistemati i caratteri speciali per le descrizioni
@@ -142,7 +168,6 @@ class MasterTemplateTable
                     id = $(this).attr('data-id');
                     let articolo = renderEditData(id);
                     $('#idDecArticolo').val(articolo[0].id_articolo)
-                    $('#decRowOrdinamento').val(articolo[0].ordinamento)
                     //togliere commento quando verranno sistemati i caratteri speciali per le descrizioni
                     // $('#decRowDescrizioneArticolo').val(articolo[0].descrizione_articolo)
                     $('#decRowNotaArticolo').val(articolo[0].nota)
@@ -174,7 +199,6 @@ class MasterTemplateTable
                         art.id_articolo = articolo.id_articolo;
                         art.nome_articolo = articolo.nome;
                         art.sottotitolo_articolo = articolo.sottotitolo;
-                        art.ordinamento = articolo.ordinamento;
                         art.nota = articolo.nota;
                         art.link = articolo.link;
                         section = art.sezione;
@@ -217,7 +241,6 @@ class MasterTemplateTable
                     // let descrizione = $('#idDescrizioneArticolo').val();
                     let descrizione = '';
                     let sottotitolo = $('#idSottotitoloArticolo').val();
-                    let ordinamento = $('#ordinamento').val();
                     let nota = $('#idNotaArticolo').val();
                     let link = $('#idLinkAssociato').val();
                     let heredity = $("input:radio[name=heredityRadioButton]:checked").val();
@@ -225,7 +248,6 @@ class MasterTemplateTable
                     const payload = {
                         id,
                         id_articolo,
-                        ordinamento,
                         nome,
                         sottotitolo,
                         descrizione,
@@ -425,9 +447,6 @@ class MasterTemplateTable
                     </div>
 
                     <div class="modal-body">
-                        <!--  Inserire check per cambiare la view del modale a seconda del type row -->
-                        <label>Ordinamento</label>
-                        <input type="text" class="form-control" id="ordinamento">
                         <label>Id Articolo</label>
                         <input type="text" class="form-control" id="idArticolo">
 
@@ -492,9 +511,6 @@ class MasterTemplateTable
                     </div>
 
                     <div class="modal-body">
-                        <label>Ordinamento</label>
-                        <input type="text" class="form-control" id="decRowOrdinamento">
-
                         <label>Id Decurtazione</label>
                         <input type="text" class="form-control" id="idDecArticolo">
 

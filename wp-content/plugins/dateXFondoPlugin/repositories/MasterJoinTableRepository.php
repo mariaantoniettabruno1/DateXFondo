@@ -15,30 +15,7 @@ class MasterJoinTableRepository
         mysqli_close($mysqli);
         return $rows;
     }
-
-//    public static function getJoinedIdArticoli()
-//    {
-//        $conn = new Connection();
-//        $mysqli = $conn->connect();
-//        $sql = "SELECT id FROM DATE_template_fondo  WHERE attivo =1";
-//        $result = $mysqli->query($sql);
-//        $rows = $result->fetch_all(MYSQLI_ASSOC);
-//        mysqli_close($mysqli);
-//        return $rows;
-//    }
-//
-//    public static function getJoinedIdFormula()
-//    {
-//        $conn = new Connection();
-//        $mysqli = $conn->connect();
-//        $sql = "SELECT id FROM DATE_formula  WHERE attivo =1";
-//        $result = $mysqli->query($sql);
-//        $rows = $result->fetch_all(MYSQLI_ASSOC);
-//        mysqli_close($mysqli);
-//        return $rows;
-//    }
-
-
+    
     public static function getJoinedFormulas()
     {
         $conn = new Connection();

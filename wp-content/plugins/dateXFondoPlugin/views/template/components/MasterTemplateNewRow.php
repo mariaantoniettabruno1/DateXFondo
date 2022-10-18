@@ -7,9 +7,41 @@ class MasterTemplateNewRow
     public static function render_scripts()
     {
         ?>
+            <style>
+                #idAddRow {
+                    border-color:#26282f ;
+                    color: #26282f;
+                }
+                #idAddRow:hover, #idAddRow:active {
+                    border-color:#870e12 ;
+                    color: #870e12;
+                    background-color: white;
+                }
+
+                #addNewRowButton {
+                    border-color:#26282f ;
+                    background-color: #26282f;
+
+                }
+                #addNewRowButton:hover{
+                    border-color:#870e12 ;
+                    background-color: #870e12;
+                }
+                .subsectionButtonGroup1, .subsectionButtonGroup2{
+                    border-color:#26282f ;
+                    color: #26282f;
+                    background-color: white;
+
+                } .subsectionButtonGroup1:active, .subsectionButtonGroup2:active,.subsectionButtonGroup1:hover, .subsectionButtonGroup2:hover{
+                    border-color:#26282f ;
+                    color: #26282f;
+                    background-color: white;
+                }
+            </style>
         <script>
+
+
             function renderSectionFilterRow() {
-                console.log("Entro");
                 $('#selectNewRowSezione').html('<option>Seleziona Sezione</option>');
                 Object.keys(sezioni).forEach(sez => {
                     $('#selectNewRowSezione').append(`<option>${sez}</option>`);
@@ -43,10 +75,11 @@ class MasterTemplateNewRow
                 });
                 $('#addNewRowButton').click(function () {
                     {
+                        $("#errorIDArticolo").attr('style', 'display:none');
                        <?php //inserire validazione campi obbligatori ?>
 
                         let id = $('#newRowIdArticolo').val();
-                        let nome = parseInt($('#newRowNomeArticolo').val());
+                        let nome = $('#newRowNomeArticolo').val();
                         let sottotitolo = $('#newRowSottotitoloArticolo').val();
                         let sezione = '';
                         if (sezione !== 'Seleziona Sezione') {
@@ -60,49 +93,53 @@ class MasterTemplateNewRow
                         }
                         let nota = $('#newRowNota').val();
                         let link = $('#newRowLink').val();
-                        let ordinamento = $('#newRowOrdinamento').val();
                         let fondo = $('#inputFondo').val();
                         let anno = $('#inputAnno').val();
                         let descrizione_fondo = $('#inputDescrizioneFondo').val();
                         let row_type = 'basic';
-
-                        const payload = {
-                            fondo,
-                            anno,
-                            descrizione_fondo,
-                            ordinamento,
-                            id,
-                            nome,
-                            sottotitolo,
-                            sezione,
-                            sottosezione,
-                            nota,
-                            link,
-                            row_type
-                        }
-                        console.log(payload)
-                        $.ajax({
-                            url: '<?= DateXFondoCommon::get_website_url() ?>/wp-json/datexfondoplugin/v1/newrow',
-                            data: payload,
-                            type: "POST",
-                            success: function (response) {
-                                $("#addRowModal").modal('hide');
-                                renderEditDataTable(payload);
-                                console.log(response);
-                                $(".alert-new-row-success").show();
-                                $(".alert-new-row-success").fadeTo(2000, 500).slideUp(500, function(){
-                                    $(".alert-new-row-success").slideUp(500);
-                                });
-                            },
-                            error: function (response) {
-                                $("#addRowModal").modal('hide');
-                                console.error(response);
-                                $(".alert-new-row-wrong").show();
-                                $(".alert-new-row-wrong").fadeTo(2000, 500).slideUp(500, function(){
-                                    $(".alert-new-row-wrong").slideUp(500);
-                                });
+                        if(articoli.find(art => art.id_articolo === id) === undefined){
+                            const payload = {
+                                fondo,
+                                anno,
+                                descrizione_fondo,
+                                id,
+                                nome,
+                                sottotitolo,
+                                sezione,
+                                sottosezione,
+                                nota,
+                                link,
+                                row_type
                             }
-                        });
+                            console.log(payload)
+                            $.ajax({
+                                url: '<?= DateXFondoCommon::get_website_url() ?>/wp-json/datexfondoplugin/v1/newrow',
+                                data: payload,
+                                type: "POST",
+                                success: function (response) {
+                                    $("#addRowModal").modal('hide');
+                                    renderEditDataTable(payload);
+                                    console.log(response);
+                                    $(".alert-new-row-success").show();
+                                    $(".alert-new-row-success").fadeTo(2000, 500).slideUp(500, function(){
+                                        $(".alert-new-row-success").slideUp(500);
+                                    });
+                                },
+                                error: function (response) {
+                                    $("#addRowModal").modal('hide');
+                                    console.error(response);
+                                    $(".alert-new-row-wrong").show();
+                                    $(".alert-new-row-wrong").fadeTo(2000, 500).slideUp(500, function(){
+                                        $(".alert-new-row-wrong").slideUp(500);
+                                    });
+                                }
+                            });
+                        }
+                        else {
+                            $("#errorIDArticolo").attr('style', 'display:block');
+                        }
+
+
                     }
                 });
             })
@@ -170,12 +207,9 @@ class MasterTemplateNewRow
                             <input type="text" class="form-control" id="newRowSottosezione" style="display:none">
                         </div>
                         <div class="form-group">
-                            <label for="ordinamento"><b>Ordinamento:</b></label>
-                            <input type="text" class="form-control" id="newRowOrdinamento">
-                        </div>
-                        <div class="form-group">
                             <label for="inputIdArticolo"><b>Id Articolo:</b></label>
                             <input type="text" class="form-control" id="newRowIdArticolo">
+                            <small id="errorIDArticolo" class="form-text text-danger" style="display: none">Id Articolo già presente</small>
                         </div>
                         <div class="form-group">
                             <label for="inputNomeArticolo"><b>Articolo:</b> </label>
