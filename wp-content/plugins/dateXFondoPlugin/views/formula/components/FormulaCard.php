@@ -92,9 +92,10 @@ class FormulaCard
             let formulaId = 0
 
             function editFormula(fId) {
-                const formula = formule.find(f => f.id === fId);
+                const formula = formule.find(f => Number(f.id) === Number(fId));
 
                 $('#inputSelectSezioneFormula').val(formula.sezione);
+                renderSubsectionInput(formula.sezione);
                 $('#inputSelectSottosezioneFormula').val(formula.sottosezione);
                 $('#inputNomeFormula').val(formula.nome);
                 $('#inputDescrizioneFormula').val(formula.descrizione);

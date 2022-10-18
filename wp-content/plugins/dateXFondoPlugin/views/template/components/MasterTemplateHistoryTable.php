@@ -44,6 +44,7 @@ class MasterTemplateHistoryTable
 
             function renderDataTable() {
                 $('#dataTemplateTableBody').html('');
+
                 articoli.forEach(art => {
                     $('#dataTemplateTableBody').append(`
                                  <tr>

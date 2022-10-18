@@ -19,22 +19,16 @@ class MasterTemplateToActiveRow
             </style>
         <script>
             let id = 0;
-            let filteredArticoli = articoli;
+
             let fondo = '';
             let anno = 0;
             let descrizione = '';
             let version = 0;
 
 
-            function renderDataTable(fondo, anno) {
+            function renderDataTable() {
                 $('#dataTemplateTableBody').html('');
-                if (fondo) {
-                    filteredArticoli = filteredArticoli.filter(art => art.anno === anno)
-                }
-                if (anno) {
-                    filteredArticoli = filteredArticoli.filter(art => art.fondo === fondo)
-                }
-                filteredArticoli.forEach(art => {
+                articoli.forEach(art => {
                     $('#dataTemplateTableBody').append(`
                                  <tr>
                                        <td>${art.sezione}</td>
@@ -68,45 +62,12 @@ class MasterTemplateToActiveRow
                 version = articolo[0].version;
             }
 
-            function renderFondoFilter() {
-                $('#inputSelectFondo').html('<option>Seleziona Fondo</option>');
-                Object.keys(fondi).forEach(fondo => {
-                    $('#inputSelectFondo').append(`<option>${fondo}</option>`);
-                });
-            }
 
-            function renderAnnoFilter() {
-                $('#inputSelectAnno').html('<option>Seleziona Anno</option>');
-                Object.keys(years).forEach(year => {
-                    $('#inputSelectAnno').append(`<option>${year}</option>`);
-                });
-            }
-
-            function filterAnnoFondo() {
-
-                let anno = $('#inputSelectAnno').val();
-                if (anno === 'Seleziona Anno') {
-                    anno = null;
-                }
-                let fondo = $('#inputSelectFondo').val();
-                if (fondo === 'Seleziona Fondo') {
-                    fondo = null;
-                }
-                renderDataTable(fondo, anno);
-            }
 
             $(document).ready(function () {
 
                 renderDataTable();
-                renderAnnoFilter();
-                renderFondoFilter();
 
-                $('#inputSelectAnno').change(function () {
-                    filterAnnoFondo();
-                });
-                $('#inputSelectFondo').change(function () {
-                    filterAnnoFondo();
-                });
                 $('#activeRowButton').click(function () {
                     const payload = {
                         id,
@@ -124,8 +85,8 @@ class MasterTemplateToActiveRow
                         success: function (response) {
                             console.log(response);
                             $("#activeModal").modal('hide');
-                            filteredArticoli = filteredArticoli.filter(art => art.id !== id)
-                            filterAnnoFondo();
+                            articoli = articoli.filter(art => art.id !== id)
+                            renderDataTable();
                             $(".alert-active-row-success").show();
                             $(".alert-active-row-success").fadeTo(2000, 500).slideUp(500, function(){
                                 $(".alert-active-row-success").slideUp(500);
@@ -149,14 +110,6 @@ class MasterTemplateToActiveRow
 
     public static function render()
     { ?>
-        <div class="col-6 pb-3">
-            <select class="custom-select" id="inputSelectFondo">
-            </select>
-        </div>
-        <div class="col-6 pb-3">
-            <select class="custom-select" id="inputSelectAnno">
-            </select>
-        </div>
         <table class="table">
             <thead>
             <tr>

@@ -30,13 +30,7 @@ class MasterTemplateToActive
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 
             <script>
-                const articoli = JSON.parse((`<?=json_encode($results_articoli);?>`));
-                const fondi = {};
-                const years = {};
-                articoli.forEach(a => {
-                    fondi[a.fondo] = true;
-                    years[a.anno] = true;
-                });
+                let articoli = JSON.parse((`<?=json_encode($results_articoli);?>`));
 
             </script>
         </head>
