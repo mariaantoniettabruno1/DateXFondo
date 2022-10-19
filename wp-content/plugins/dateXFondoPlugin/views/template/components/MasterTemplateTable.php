@@ -11,9 +11,11 @@ class MasterTemplateTable
             .class-accordion-button {
                 color: #26282f;
             }
+
             .class-accordion-button:hover {
                 color: #26282f;
             }
+
             .btn-delete-row, .btn-delete-row:hover {
                 color: #870e12;
             }
@@ -21,16 +23,19 @@ class MasterTemplateTable
             .btn-edit-row-dec, .btn-edit-row-dec:hover {
                 color: #26282f;
             }
+
             .btn-edit-row, .btn-edit-row:hover {
                 color: #26282f;
             }
-            #editRowButton, #deleteRowButton{
+
+            #editRowButton, #deleteRowButton {
 
                 border-color: #26282f;
                 background-color: #26282f;
             }
-            #editRowButton:hover, #deleteRowButton:hover{
-                border-color:#870e12 ;
+
+            #editRowButton:hover, #deleteRowButton:hover {
+                border-color: #870e12;
                 background-color: #870e12;
             }
         </style>
@@ -321,13 +326,14 @@ class MasterTemplateTable
     }
 
     public static function render()
+
     {
         $data = new MasterTemplateRepository();
         if (isset($_GET['fondo']) || isset($_GET['anno']) || isset($_GET['descrizione']) || isset($_GET['version'])) {
             $results_articoli = $data->visualize_template($_GET['fondo'], $_GET['anno'], $_GET['descrizione'], $_GET['version']);
 
         } else {
-            $results_articoli = $data->getArticoli();
+            $results_articoli = $data->getArticoli($_GET['template_name']);
         }
         $sezioni = [];
         $tot_array = [];
@@ -345,7 +351,6 @@ class MasterTemplateTable
                 }
             }
         }
-
 
         ?>
         <div class="accordion mt-2" id="accordionTemplateTable">

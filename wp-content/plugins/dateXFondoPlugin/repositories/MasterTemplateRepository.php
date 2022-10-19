@@ -4,13 +4,18 @@ namespace dateXFondoPlugin;
 
 class MasterTemplateRepository
 {
-    public static function getArticoli()
+    public static function getArticoli($template_name)
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = "SELECT id,fondo,anno,descrizione_fondo,ordinamento,sezione,sottosezione,id_articolo,nome_articolo,sottotitolo_articolo,nota,link,editable,version,row_type,heredity FROM DATE_template_fondo WHERE id_articolo IS NOT NULL and attivo=1 ORDER BY ordinamento ASC";
-        $result = $mysqli->query($sql);
-        $rows = $result->fetch_all(MYSQLI_ASSOC);
+        $sql = "SELECT id,fondo,anno,descrizione_fondo,ordinamento,sezione,sottosezione,id_articolo,nome_articolo,sottotitolo_articolo,nota,link,editable,version,row_type,heredity,template_name FROM DATE_template_fondo WHERE id_articolo IS NOT NULL and attivo=1 and template_name=? ORDER BY ordinamento ASC";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("s", $template_name);
+        $res = $stmt->execute();
+        if ($res = $stmt->get_result()) {
+            $rows = $res->fetch_all(MYSQLI_ASSOC);
+        } else
+            $rows = [];
         mysqli_close($mysqli);
         return $rows;
     }
@@ -36,15 +41,25 @@ class MasterTemplateRepository
         mysqli_close($mysqli);
         return $row;
     }
+    public static function getAllTemplate()
+    {
+        $conn = new Connection();
+        $mysqli = $conn->connect();
+        $sql = "SELECT DISTINCT fondo,anno,descrizione_fondo,template_name FROM DATE_template_fondo  ORDER BY ordinamento ASC";
+        $result = $mysqli->query($sql);
+        $row = $result->fetch_all(MYSQLI_ASSOC);
+        mysqli_close($mysqli);
+        return $row;
+    }
 
     public static function edit_header_template($request)
     {
 
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = "UPDATE DATE_template_fondo SET fondo=?,anno=?,descrizione_fondo=?";
+        $sql = "UPDATE DATE_template_fondo SET fondo=?,anno=?,descrizione_fondo=?,template_name=? WHERE template_name=?";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("sss", $request['fondo'], $request['anno'], $request['descrizione_fondo']);
+        $stmt->bind_param("sssss", $request['fondo'], $request['anno'], $request['descrizione_fondo'], $request['template_name'], $request['old_template_name']);
         $stmt->execute();
         $mysqli->close();
     }
@@ -118,9 +133,11 @@ FROM DATE_template_fondo";
 
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = " TRUNCATE table DATE_template_fondo";
-        $stmt = $mysqli->prepare($sql);
-        $stmt->execute();
+        // inserirlo quando si diffonde il template
+//        $sql = " TRUNCATE table DATE_template_fondo";
+//        $stmt = $mysqli->prepare($sql);
+//        $stmt->execute();
+        //quando blocco la modifica elimino tutti i dati dalla tabella con la modifica bloccata
         $sql = "SELECT fondo,anno,descrizione_fondo,ordinamento,id_articolo,sezione,sottosezione,
                      nome_articolo,descrizione_articolo,sottotitolo_articolo,valore,valore_anno_precedente,nota,link,attivo,version,row_type,heredity
 FROM DATE_storico_template_fondo WHERE fondo=? AND anno=? AND descrizione_fondo=? AND version=? AND id_articolo IS NOT NULL AND attivo=1";

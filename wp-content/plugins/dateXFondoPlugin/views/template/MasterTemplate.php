@@ -16,8 +16,9 @@ class MasterTemplate
             $results_articoli = $data->visualize_template($_GET['fondo'], $_GET['anno'], $_GET['descrizione'], $_GET['version']);
 
         } else {
-            $results_articoli = $data->getArticoli();
+            $results_articoli = $data->getArticoli($_GET['template_name']);
         }
+
         ?>
 
         <!DOCTYPE html>

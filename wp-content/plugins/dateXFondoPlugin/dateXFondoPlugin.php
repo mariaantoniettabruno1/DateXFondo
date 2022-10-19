@@ -21,10 +21,12 @@ require_once(plugin_dir_path(__FILE__) . 'views/table/live_edit.php');
 require_once(plugin_dir_path(__FILE__) . 'views/table/MasterTemplateFormulaJoin.php');
 require_once(plugin_dir_path(__FILE__) . 'views/table/components/MasterJoinTable.php');
 require_once(plugin_dir_path(__FILE__) . 'views/template/MasterTemplate.php');
+require_once(plugin_dir_path(__FILE__) . 'views/template/MasterAllTemplate.php');
 require_once(plugin_dir_path(__FILE__) . 'views/template/MasterTemplateToActive.php');
 require_once(plugin_dir_path(__FILE__) . 'views/template/MasterTemplateHistory.php');
 require_once(plugin_dir_path(__FILE__) . 'views/template/components/MasterTemplateHeader.php');
 require_once(plugin_dir_path(__FILE__) . 'views/template/components/MasterTemplateTable.php');
+require_once(plugin_dir_path(__FILE__) . 'views/template/components/MasterAllTemplateTable.php');
 require_once(plugin_dir_path(__FILE__) . 'views/template/components/MasterTemplateHistoryTable.php');
 require_once(plugin_dir_path(__FILE__) . 'views/template/components/MasterTemplateNewRow.php');
 require_once(plugin_dir_path(__FILE__) . 'views/template/components/MasterTemplateNewDecurtationRow.php');
@@ -68,6 +70,7 @@ function shortcodes_init()
     add_shortcode('post_create_fondo', 'create_new_fondo');
    // add_shortcode('post_duplicate_old_template', 'duplicate_old_template');
     add_shortcode('post_visualize_master_template', 'visualize_master_template');
+    add_shortcode('post_visualize_master_all_template', 'visualize_master_all_template');
     add_shortcode('post_visualize_history_template', 'visualize_history_template');
     add_shortcode('post_visualize_disabled_template_row', 'visualize_disabled_template_row');
     add_shortcode('post_visualize_formula_template', 'visualize_formula_template');
@@ -93,6 +96,11 @@ function create_new_fondo()
 
 }
 
+function visualize_master_all_template()
+{
+    \dateXFondoPlugin\MasterAllTemplate::render();
+
+}
 function visualize_master_template()
 {
     \dateXFondoPlugin\MasterTemplate::render();

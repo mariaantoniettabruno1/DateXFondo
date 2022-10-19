@@ -25,9 +25,12 @@ class MasterTemplateHeader
 
         <script>
             $(document).ready(function () {
+                console.log(articoli)
                 $('#inputFondo').val(`${articoli[0].fondo}`);
                 $('#inputAnno').val(`${articoli[0].anno}`);
                 $('#inputDescrizioneFondo').val(`${articoli[0].descrizione_fondo}`);
+                $('#inputNomeTemplate').val(`${articoli[0].template_name}`);
+                let old_template_name = $('#inputNomeTemplate').val();
 
                 $("#editInputButton").click(function () {
                     $(this).hide();
@@ -36,6 +39,8 @@ class MasterTemplateHeader
                     $('#inputFondo').attr('readonly', false);
                     $('#inputAnno').attr('readonly', false);
                     $('#inputDescrizioneFondo').attr('readonly', false);
+                    $('#inputNomeTemplate').attr('readonly', false);
+
                 });
                 $("#deleteEditButton").click(function (){
                     $(this).hide();
@@ -48,14 +53,18 @@ class MasterTemplateHeader
                         let fondo = $('#inputFondo').val();
                         let anno = parseInt($('#inputAnno').val());
                         let descrizione_fondo = $('#inputDescrizioneFondo').val();
+                        let template_name = $('#inputNomeTemplate').val();
                         $('#inputFondo').attr('readonly', true);
                         $('#inputAnno').attr('readonly', true);
                         $('#inputDescrizioneFondo').attr('readonly', true);
+                        $('#inputNomeTemplate').attr('readonly', true);
 
                         const payload = {
                             fondo,
                             anno,
-                            descrizione_fondo
+                            descrizione_fondo,
+                            template_name,
+                            old_template_name
                         }
                         console.log(payload)
                         $.ajax({
@@ -95,16 +104,19 @@ class MasterTemplateHeader
             $results_articoli = $data->visualize_template($_GET['fondo'], $_GET['anno'], $_GET['descrizione'], $_GET['version']);
 
         } else {
-            $results_articoli = $data->getArticoli();
+            $results_articoli = $data->getArticoli($_GET['template_name']);
         }        ?>
-        <div class="col-3">
+        <div class="col-2">
             <input type="text" placeholder="Fondo" id="inputFondo" readonly>
         </div>
-        <div class="col-3">
+        <div class="col-1">
             <input type="text" placeholder="Anno" id="inputAnno" readonly>
         </div>
         <div class="col-3">
             <input type="text" placeholder="Descrizione Fondo" id="inputDescrizioneFondo" readonly>
+        </div>
+        <div class="col-3">
+            <input type="text" placeholder="Nome Template" id="inputNomeTemplate" readonly>
         </div>
         <div class="col-3">
             <?php
