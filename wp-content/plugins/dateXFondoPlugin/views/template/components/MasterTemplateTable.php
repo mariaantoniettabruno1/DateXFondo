@@ -196,23 +196,7 @@ class MasterTemplateTable
 
             }
 
-            function renderEditDataTable(articolo) {
-                let section = '';
-                let subsection = '';
-                filteredArticoli.filter(art => {
-                    if (art.id === articolo.id) {
-                        art.id_articolo = articolo.id_articolo;
-                        art.nome_articolo = articolo.nome;
-                        art.sottotitolo_articolo = articolo.sottotitolo;
-                        art.nota = articolo.nota;
-                        art.link = articolo.link;
-                        section = art.sezione;
-                        subsection = art.sottosezione;
-                    }
-                });
-                $('.class-template-sottosezione').val(subsection);
-                renderDataTable(section, subsection);
-            }
+
 
             function resetSubsection() {
                 let subsection = $('.class-template-sottosezione').val();
@@ -270,7 +254,9 @@ class MasterTemplateTable
                             console.log(response);
                             $("#editModal").modal('hide');
                             $("#editDecModal").modal('hide');
-                            renderEditDataTable(payload);
+                            articoli = articoli.filter(art => Number(art.id) !== Number(id));
+                            articoli.push({...payload, id: id});
+                            renderDataTable();
                             $(".alert-edit-success").show();
                             $(".alert-edit-success").fadeTo(2000, 500).slideUp(500, function () {
                                 $(".alert-edit-success").slideUp(500);

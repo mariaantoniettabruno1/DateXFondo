@@ -10,20 +10,21 @@ class MasterTemplateRowRepository
         $mysqli = $conn->connect();
 //TODO aggiungere descrizione articolo
         $sql = "INSERT INTO DATE_template_fondo (fondo,anno,descrizione_fondo,sezione,sottosezione,id_articolo,nome_articolo,
-                                 sottotitolo_articolo,nota,link,row_type) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+                                 sottotitolo_articolo,nota,link,row_type,template_name) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("sisssssssss",
+        $stmt->bind_param("sissssssssss",
             $request["fondo"],
             $request["anno"],
             $request["descrizione_fondo"],
             $request["sezione"],
             $request["sottosezione"],
-            $request["id"],
-            $request["nome"],
-            $request["sottotitolo"],
+            $request["id_articolo"],
+            $request["nome_articolo"],
+            $request["sottotitolo_articolo"],
             $request["nota"],
             $request["link"],
-            $request["row_type"]);
+            $request["row_type"],
+            $request["template_name"]);
         $res = $stmt->execute();
         $mysqli->close();
         return $stmt->insert_id;
@@ -40,18 +41,19 @@ class MasterTemplateRowRepository
                                  sezione,
                                  sottosezione,
                                  id_articolo,
-                                 descrizione_fondo,nota,link,row_type) VALUES(?,?,?,?,?,?,?,?,?)";
+                                 descrizione_fondo,nota,link,row_type,template_name) VALUES(?,?,?,?,?,?,?,?,?,?)";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("sisssssss",
+        $stmt->bind_param("sissssssss",
             $request['fondo'],
             $request['anno'],
             $request["sezione"],
             $request["sottosezione"],
-            $request["id"],
+            $request["id_articolo"],
             $request['descrizione_fondo'],
-            $request['nota'],
+            $request['nome_articolo'],
             $request["link"],
-            $request["row_type"]);
+            $request["row_type"],
+            $request['template_name']);
         $res = $stmt->execute();
         $mysqli->close();
         return $stmt->insert_id;

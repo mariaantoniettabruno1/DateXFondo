@@ -94,9 +94,9 @@ class MasterTemplateNewSpecialRow
                     {
                         $("#errorIDArticoloSp").attr('style', 'display:none');
                         //inserire validazione campi obbligatori
-                        let id = $('#newRowSpIdArticolo').val();
-                        let nome = $('#newRowSpNomeArticolo').val();
-                        let sottotitolo = $('#newRowSpSottotitoloArticolo').val();
+                        let id_articolo = $('#newRowSpIdArticolo').val();
+                        let nome_articolo = $('#newRowSpNomeArticolo').val();
+                        let sottotitolo_articolo = $('#newRowSpSottotitoloArticolo').val();
                         let sezione = '';
                         if (sezione !== 'Seleziona Sezione') {
                             sezione = $('#selectSpRowSezione').val();
@@ -112,21 +112,24 @@ class MasterTemplateNewSpecialRow
                         let fondo = $('#inputFondo').val();
                         let anno = $('#inputAnno').val();
                         let descrizione_fondo = $('#inputDescrizioneFondo').val();
+                        let template_name = $('#inputNomeTemplate').val();
                         let row_type = 'special';
-                        if (articoli.find(art => art.id_articolo === id) === undefined) {
+                        if (articoli.find(art => art.id_articolo === id_articolo) === undefined) {
 
                             const payload = {
                                 fondo,
                                 anno,
                                 descrizione_fondo,
-                                id,
-                                nome,
-                                sottotitolo,
+                                id_articolo,
+                                nome_articolo,
+                                sottotitolo_articolo,
                                 sezione,
                                 sottosezione,
                                 nota,
                                 link,
-                                row_type
+                                row_type,
+                                template_name,
+                                ordinamento: -1
                             }
                             console.log(payload)
                             $.ajax({
@@ -135,9 +138,9 @@ class MasterTemplateNewSpecialRow
                                 type: "POST",
                                 success: function (response) {
                                     if (response["id"]) {
-                                        articoli.push(response);
+                                        articoli.push({...payload, id: response['id']});
                                         $("#addSpecialRowModal").modal('hide');
-                                        renderEditDataTable(payload);
+                                        renderDataTable(sezione);
                                     }
                                     console.log(response);
                                     $(".alert-sp-row-success").show();

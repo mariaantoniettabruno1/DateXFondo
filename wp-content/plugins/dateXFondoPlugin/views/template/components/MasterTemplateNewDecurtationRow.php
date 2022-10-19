@@ -93,7 +93,7 @@ class MasterTemplateNewDecurtationRow
                         $("#errorIDArticoloDec").attr('style', 'display:none');
                         //inserire validazione campi obbligatori
                         //inserire anche il campo descrizione articolo
-                        let id = $('#decIdArticolo').val();
+                        let id_articolo = $('#decIdArticolo').val();
                         let sezione = '';
                         if (sezione !== 'Seleziona Sezione') {
                             sezione = $('#selectNewDecSezione').val();
@@ -105,22 +105,28 @@ class MasterTemplateNewDecurtationRow
                             sottosezione = $('#decNewSottosezione').val();
                         }
                         let nota = $('#decNota').val();
-                        let link = $('#typeDec:checked').val();
+                        let link = $('input:radio[name=typeDec]:checked').val();
                         let fondo = $('#inputFondo').val();
                         let anno = $('#inputAnno').val();
                         let descrizione_fondo = $('#inputDescrizioneFondo').val();
+                        let template_name = $('#inputNomeTemplate').val();
                         let row_type = 'decurtazione';
-                        if (articoli.find(art => art.id_articolo === id) === undefined) {
+                        console.log($('#typeDec:checked').val())
+                        if (articoli.find(art => art.id_articolo === id_articolo) === undefined) {
                             const payload = {
                                 fondo,
                                 anno,
                                 descrizione_fondo,
-                                id,
+                                id_articolo,
+                                nome_articolo : '',
+                                sottotitolo_articolo: '',
                                 sezione,
                                 sottosezione,
                                 nota,
                                 link,
-                                row_type
+                                row_type,
+                                template_name,
+                                ordinamento:-1
                             }
                             console.log(payload)
                             $.ajax({
@@ -130,7 +136,10 @@ class MasterTemplateNewDecurtationRow
                                 success: function (response) {
                                     console.log(response);
                                     $("#addRowDecModal").modal('hide');
-                                    renderEditDataTable(payload);
+                                    if (response["id"]) {
+                                        articoli.push({...payload, id: response['id']});
+                                        renderDataTable(sezione);
+                                    }
                                     $(".alert-add-dec-success").show();
                                     $(".alert-add-dec-success").fadeTo(2000, 500).slideUp(500, function () {
                                         $(".alert-add-dec-success").slideUp(500);
@@ -224,7 +233,7 @@ class MasterTemplateNewDecurtationRow
                         presente</small>
                 </div>
                 <label for="inputNota"><b>Tipologia decurtazione:</b> </label>
-                <div class="form-check">
+                <div class="form-check dec-checked">
                     <input class="form-check-input" type="radio" name="typeDec" id="percentualeSelected"
                            value="%">
                     <label class="form-check-label" for="percentualeSelected">

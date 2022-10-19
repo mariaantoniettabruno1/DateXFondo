@@ -95,9 +95,9 @@ class MasterTemplateNewRow
                         $("#errorIDArticolo").attr('style', 'display:none');
                         <?php //inserire validazione campi obbligatori ?>
 
-                        let id = $('#newRowIdArticolo').val();
-                        let nome = $('#newRowNomeArticolo').val();
-                        let sottotitolo = $('#newRowSottotitoloArticolo').val();
+                        let id_articolo = $('#newRowIdArticolo').val();
+                        let nome_articolo = $('#newRowNomeArticolo').val();
+                        let sottotitolo_articolo = $('#newRowSottotitoloArticolo').val();
                         let sezione = '';
                         if (sezione !== 'Seleziona Sezione') {
                             sezione = $('#selectNewRowSezione').val();
@@ -113,20 +113,23 @@ class MasterTemplateNewRow
                         let fondo = $('#inputFondo').val();
                         let anno = $('#inputAnno').val();
                         let descrizione_fondo = $('#inputDescrizioneFondo').val();
+                        let template_name = $('#inputNomeTemplate').val();
                         let row_type = 'basic';
-                        if (articoli.find(art => art.id_articolo === id) === undefined) {
+                        if (articoli.find(art => art.id_articolo === id_articolo) === undefined) {
                             const payload = {
                                 fondo,
                                 anno,
                                 descrizione_fondo,
-                                id,
-                                nome,
-                                sottotitolo,
+                                id_articolo,
+                                nome_articolo,
+                                sottotitolo_articolo,
                                 sezione,
                                 sottosezione,
                                 nota,
                                 link,
-                                row_type
+                                row_type,
+                                template_name,
+                                ordinamento: -1
                             }
                             console.log(payload)
                             $.ajax({
@@ -135,7 +138,9 @@ class MasterTemplateNewRow
                                 type: "POST",
                                 success: function (response) {
                                     $("#addRowModal").modal('hide');
-                                    renderEditDataTable(payload);
+                                    articoli.push({...payload, id: response['id']});
+                                    renderDataTable(sezione);
+                                    console.log(articoli)
                                     console.log(response);
                                     $(".alert-new-row-success").show();
                                     $(".alert-new-row-success").fadeTo(2000, 500).slideUp(500, function () {
