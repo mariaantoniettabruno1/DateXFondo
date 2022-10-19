@@ -40,6 +40,7 @@ class MasterTemplateHistoryTable
             let fondo = '';
             let anno = 0;
             let descrizione = '';
+            let template_name = '';
             let version = 0;
 
             function renderDataTable() {
@@ -53,8 +54,8 @@ class MasterTemplateHistoryTable
                                        <td >${art.descrizione_fondo}</td>
                                        <td >${art.version}</td>
                                            <td>
-                <button class="btn btn-link btn-duplicate-template" data-fondo='${art.fondo}' data-anno='${art.anno}' data-desc ='${art.descrizione_fondo}' data-version='${art.version}' data-toggle="modal" data-target="#duplicateModal"><i class="fa-regular fa-copy"></i></button>
-                <button class="btn btn-link btn-visualize-template" data-fondo='${art.fondo}' data-anno='${art.anno}' data-desc ='${art.descrizione_fondo}' data-version='${art.version}'><i class="fa-regular fa-eye"></i></button>
+                <button class="btn btn-link btn-duplicate-template" data-fondo='${art.fondo}' data-anno='${art.anno}' data-desc ='${art.descrizione_fondo}' data-version='${art.version}' data-template='${art.template_name}' data-toggle="modal" data-target="#duplicateModal"><i class="fa-regular fa-copy"></i></button>
+                <button class="btn btn-link btn-visualize-template" data-fondo='${art.fondo}' data-anno='${art.anno}' data-desc ='${art.descrizione_fondo}' data-version='${art.version}' ><i class="fa-regular fa-eye"></i></button>
                 </td>
                 </tr>
                              `);
@@ -65,6 +66,9 @@ class MasterTemplateHistoryTable
                     anno = $(this).attr('data-anno');
                     descrizione = $(this).attr('data-desc');
                     version = $(this).attr('data-version');
+                    template_name = $(this).attr('data-template');
+                    console.log(template_name)
+
                 });
                 $('.btn-visualize-template').click(function () {
                     fondo = $(this).attr('data-fondo');
@@ -72,7 +76,6 @@ class MasterTemplateHistoryTable
                     descrizione = $(this).attr('data-desc');
                     version = $(this).attr('data-version');
                 });
-                console.log(articoli);
             }
 
             $(document).ready(function () {
@@ -86,7 +89,6 @@ class MasterTemplateHistoryTable
                         version
                     }
                     console.log(payload)
-
                     $.ajax({
                         url: '<?= DateXFondoCommon::get_website_url() ?>/wp-json/datexfondoplugin/v1/duplicatetemplate',
                         data: payload,
@@ -94,7 +96,7 @@ class MasterTemplateHistoryTable
                         success: function (response) {
                             console.log(response);
                             $("#duplicateModal").modal('hide');
-                            location.href = '<?= DateXFondoCommon::get_website_url() ?>/visualizza-template-fondo/';
+                            location.href = '<?= DateXFondoCommon::get_website_url() ?>/visualizza-template-fondo/?template_name='+template_name;
                         },
                         error: function (response) {
                             console.error(response);

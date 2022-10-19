@@ -24,7 +24,7 @@ class MasterTemplateRepository
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = "SELECT DISTINCT fondo,anno,descrizione_fondo,editable,version FROM DATE_storico_template_fondo WHERE id_articolo IS NOT NULL and attivo=1 ORDER BY ordinamento ASC";
+        $sql = "SELECT DISTINCT fondo,anno,descrizione_fondo,editable,version,template_name FROM DATE_storico_template_fondo WHERE id_articolo IS NOT NULL and attivo=1 ORDER BY ordinamento ASC";
         $result = $mysqli->query($sql);
         $row = $result->fetch_all(MYSQLI_ASSOC);
         mysqli_close($mysqli);
@@ -102,11 +102,16 @@ WHERE id=?";
         $res = $stmt->execute();
         $sql = "INSERT INTO DATE_storico_template_fondo 
                     (fondo,anno,descrizione_fondo,ordinamento,id_articolo,sezione,sottosezione,
-                     nome_articolo,descrizione_articolo,sottotitolo_articolo,valore,valore_anno_precedente,nota,link,attivo,version,row_type,editable,heredity)
+                     nome_articolo,descrizione_articolo,sottotitolo_articolo,valore,valore_anno_precedente,nota,link,attivo,version,row_type,editable,heredity,template_name)
                         SELECT  fondo,anno,descrizione_fondo,ordinamento,id_articolo,sezione,sottosezione,
-                     nome_articolo,descrizione_articolo,sottotitolo_articolo,valore,valore_anno_precedente,nota,link,attivo,version,row_type,editable,heredity
-FROM DATE_template_fondo";
+                     nome_articolo,descrizione_articolo,sottotitolo_articolo,valore,valore_anno_precedente,nota,link,attivo,version,row_type,editable,heredity,template_name 
+FROM DATE_template_fondo WHERE template_name=? AND version=?";
         $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("si", $request['template_name'],$request['version']);
+        $res = $stmt->execute();
+        $sql = "DELETE FROM DATE_template_fondo WHERE template_name=?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("i", $request['template_name']);
         $res = $stmt->execute();
         mysqli_close($mysqli);
         return $res;
@@ -133,13 +138,8 @@ FROM DATE_template_fondo";
 
         $conn = new Connection();
         $mysqli = $conn->connect();
-        // inserirlo quando si diffonde il template
-//        $sql = " TRUNCATE table DATE_template_fondo";
-//        $stmt = $mysqli->prepare($sql);
-//        $stmt->execute();
-        //quando blocco la modifica elimino tutti i dati dalla tabella con la modifica bloccata
         $sql = "SELECT fondo,anno,descrizione_fondo,ordinamento,id_articolo,sezione,sottosezione,
-                     nome_articolo,descrizione_articolo,sottotitolo_articolo,valore,valore_anno_precedente,nota,link,attivo,version,row_type,heredity
+                     nome_articolo,descrizione_articolo,sottotitolo_articolo,valore,valore_anno_precedente,nota,link,attivo,version,row_type,heredity,template_name
 FROM DATE_storico_template_fondo WHERE fondo=? AND anno=? AND descrizione_fondo=? AND version=? AND id_articolo IS NOT NULL AND attivo=1";
         $stmt = $mysqli->prepare($sql);
         $stmt->bind_param("sisi", $request['fondo'], $request['anno'], $request['descrizione'], $request['version']);
@@ -150,14 +150,14 @@ FROM DATE_storico_template_fondo WHERE fondo=? AND anno=? AND descrizione_fondo=
             $rows = [];
         $sql = "INSERT INTO DATE_template_fondo 
                     (fondo,anno,descrizione_fondo,ordinamento,id_articolo,sezione,sottosezione,
-                     nome_articolo,descrizione_articolo,sottotitolo_articolo,valore,valore_anno_precedente,nota,link,attivo,version,row_type,heredity) 
-                     VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                     nome_articolo,descrizione_articolo,sottotitolo_articolo,valore,valore_anno_precedente,nota,link,attivo,version,row_type,heredity,template_name) 
+                     VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         $stmt = $mysqli->prepare($sql);
         $version = $rows[0]['version'] + 1;
         foreach ($rows as $entry) {
-            $stmt->bind_param("sisissssssiissiisi", $entry['fondo'], $entry['anno'], $entry['descrizione_fondo'], $entry['ordinamento'], $entry['id_articolo'],
+            $stmt->bind_param("sisissssssiissiisis", $entry['fondo'], $entry['anno'], $entry['descrizione_fondo'], $entry['ordinamento'], $entry['id_articolo'],
                 $entry['sezione'], $entry['sottosezione'], $entry['nome_articolo'], $entry['descrizione_articolo'], $entry['sottotitolo_articolo'], $entry['valore'],
-                $entry['valore_anno_precedente'], $entry['nota'], $entry['link'], $entry['attivo'], $version, $entry['row_type'], $entry['heredity']);
+                $entry['valore_anno_precedente'], $entry['nota'], $entry['link'], $entry['attivo'], $version, $entry['row_type'], $entry['heredity'],$entry['template_name']);
             $res = $stmt->execute();
         }
         mysqli_close($mysqli);
