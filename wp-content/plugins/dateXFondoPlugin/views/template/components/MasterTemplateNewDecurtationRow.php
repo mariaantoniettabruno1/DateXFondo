@@ -91,8 +91,7 @@ class MasterTemplateNewDecurtationRow
                 $('#addNewDecurtationButton').click(function () {
                     {
                         $("#errorIDArticoloDec").attr('style', 'display:none');
-                        //inserire validazione campi obbligatori
-                        //inserire anche il campo descrizione articolo
+
                         let id_articolo = $('#decIdArticolo').val();
                         let sezione = '';
                         if (sezione !== 'Seleziona Sezione') {
@@ -105,6 +104,7 @@ class MasterTemplateNewDecurtationRow
                             sottosezione = $('#decNewSottosezione').val();
                         }
                         let nota = $('#decNota').val();
+                        let descrizione_articolo = $('#decDescrizioneArticolo').val();
                         let link = $('input:radio[name=typeDec]:checked').val();
                         let fondo = $('#inputFondo').val();
                         let anno = $('#inputAnno').val();
@@ -122,6 +122,7 @@ class MasterTemplateNewDecurtationRow
                                 sottotitolo_articolo: '',
                                 sezione,
                                 sottosezione,
+                                descrizione_articolo,
                                 nota,
                                 link,
                                 row_type,

@@ -59,16 +59,17 @@ class MasterTemplateNewSpecialRow
                 });
             }
 
-            function clearInputSpecialRow() {
-                $('#selectSpRowSezione').prop('selectedIndex', 0);
-                $('#selectNewSpRowSottosezione').prop('selectedIndex', -1);
-                $('#spNewSottosezione').val('');
-                $('#newRowSpIdArticolo').val('');
-                $('#newRowSpNomeArticolo').val('');
-                $('#newRowSpSottotitoloArticolo').val('');
-                $('#newRowSpNota').val('');
-                $('#newRowSpLink').val('');
-            }
+             function clearInputSpecialRow() {
+                 $('#selectSpRowSezione').prop('selectedIndex', 0);
+                 $('#selectNewSpRowSottosezione').prop('selectedIndex', -1);
+                 $('#spNewSottosezione').val('');
+                 $('#newRowSpIdArticolo').val('');
+                 $('#newRowSpNomeArticolo').val('');
+                 $('#newRowSpDescrizioneArticolo').val('');
+                 $('#newRowSpSottotitoloArticolo').val('');
+                 $('#newRowSpNota').val('');
+                 $('#newRowSpLink').val('');
+             }
 
             $(document).ready(function () {
                 clearInputSpecialRow();
@@ -93,10 +94,10 @@ class MasterTemplateNewSpecialRow
                 $('#addNewSpecialRowButton').click(function () {
                     {
                         $("#errorIDArticoloSp").attr('style', 'display:none');
-                        //inserire validazione campi obbligatori
                         let id_articolo = $('#newRowSpIdArticolo').val();
                         let nome_articolo = $('#newRowSpNomeArticolo').val();
                         let sottotitolo_articolo = $('#newRowSpSottotitoloArticolo').val();
+                        let descrizione_articolo = $('#newRowSpDescrizioneArticolo').val();
                         let sezione = '';
                         if (sezione !== 'Seleziona Sezione') {
                             sezione = $('#selectSpRowSezione').val();
@@ -123,6 +124,7 @@ class MasterTemplateNewSpecialRow
                                 id_articolo,
                                 nome_articolo,
                                 sottotitolo_articolo,
+                                descrizione_articolo,
                                 sezione,
                                 sottosezione,
                                 nota,
@@ -172,6 +174,7 @@ class MasterTemplateNewSpecialRow
     public static function render()
     {
         $data = new MasterTemplateRepository();
+        $results = $data->getAllArticles();
         if (isset($_GET['fondo']) || isset($_GET['anno']) || isset($_GET['descrizione']) || isset($_GET['version'])) {
             $results_articoli = $data->visualize_template($_GET['fondo'], $_GET['anno'], $_GET['descrizione'], $_GET['version']);
 
@@ -256,7 +259,15 @@ class MasterTemplateNewSpecialRow
                         </div>
                         <div class="form-group">
                             <label for="idLinkAssociato"><b>Link associato: </b></label>
-                            <input type="text" class="form-control" id="newRowSpLink">
+                            <select name="newRowSpLink" id="newRowSpLink">
+                                <?php
+                                foreach ($results as $res) {
+                                    ?>
+                                    <option><?= $res[0] ?></option>
+
+                                <?php }
+                                ?>
+                            </select>
                         </div>
                         <div class="modal-footer">
                             <button class="btn btn-primary" id="addNewSpecialRowButton">Aggiungi Riga</button>

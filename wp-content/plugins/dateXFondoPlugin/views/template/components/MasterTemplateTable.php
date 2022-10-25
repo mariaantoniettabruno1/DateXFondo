@@ -45,11 +45,6 @@ class MasterTemplateTable
             let filteredArticoli = articoli;
             let heredity = null;
 
-            function renderEditData(id) {
-                let articolo = articoli;
-                articolo = articolo.filter(art => art.id === id)
-                return articolo;
-            }
 
             function renderDataTable(section, subsection) {
 
@@ -83,9 +78,11 @@ class MasterTemplateTable
                     } else {
                         id_articolo = '';
                     }
-                    // if (art.descrizione_articolo !== null) {
-                    //     descrizione = art.descrizione_articolo;
-                    // }
+                    if (art.descrizione_articolo !== null) {
+                        descrizione = art.descrizione_articolo;
+                    } else {
+                        descrizione = '';
+                    }
                     if (art.sottotitolo_articolo !== null) {
                         sottotitolo = art.sottotitolo_articolo;
                     } else {
@@ -135,7 +132,7 @@ class MasterTemplateTable
                                        <td>${id_articolo}</td>
                                        <td>${nome_articolo}</td>
                                        <td>${sottotitolo}</td>
-                                        <td></td>
+                                        <td>${descrizione}</td>
                                        <td>${nota}</td>
                                        <td>${link}</td>
                                        <td>${heredity}</td>
@@ -152,33 +149,31 @@ class MasterTemplateTable
                 });
                 $('.btn-edit-row').click(function () {
                     id = $(this).attr('data-id');
-                    let articolo = renderEditData(id);
-                    $('#idArticolo').val(articolo[0].id_articolo)
-                    $('#idNomeArticolo').val(articolo[0].nome_articolo)
-                    $('#idSottotitoloArticolo').val(articolo[0].sottotitolo_articolo)
-                    //togliere commento quando verranno sistemati i caratteri speciali per le descrizioni
-                    // $('#idDescrizioneArticolo').val(articolo[0].descrizione_articolo)
-                    $('#idNotaArticolo').val(articolo[0].nota)
-                    $('#idLinkAssociato').val(articolo[0].link)
+                    articoli = articoli.filter(art => Number(art.id) === Number(id))
+                    $('#idArticolo').val(articoli[0].id_articolo)
+                    $('#idNomeArticolo').val(articoli[0].nome_articolo)
+                    $('#idSottotitoloArticolo').val(articoli[0].sottotitolo_articolo)
+                    $('#idDescrizioneArticolo').val(articoli[0].descrizione_articolo)
+                    $('#idNotaArticolo').val(articoli[0].nota)
+                    $('#idLinkAssociato').val(articoli[0].link)
 
-                    if (articolo[0].heredity === "2") {
+                    if (articoli[0].heredity === 2) {
                         $(".btn-value-note").prop('checked', true);
-                    } else if (articolo[0].heredity === "1") {
+                    } else if (articoli[0].heredity === 1) {
                         $(".btn-value").prop('checked', true);
-                    } else if (articolo[0].heredity === '0') {
+                    } else if (articoli[0].heredity === 0) {
                         $(".btn-none").prop('checked', true);
                     }
                 });
                 $('.btn-edit-row-dec').click(function () {
                     id = $(this).attr('data-id');
-                    let articolo = renderEditData(id);
-                    $('#idDecArticolo').val(articolo[0].id_articolo)
-                    //togliere commento quando verranno sistemati i caratteri speciali per le descrizioni
-                    // $('#decRowDescrizioneArticolo').val(articolo[0].descrizione_articolo)
-                    $('#decRowNotaArticolo').val(articolo[0].nota)
-                    if (articolo[0].link === '%') {
+                    articoli = articoli.filter(art => Number(art.id) === Number(id))
+                    $('#idDecArticolo').val(articoli[0].id_articolo)
+                    $('#decRowDescrizioneArticolo').val(articoli[0].descrizione_articolo)
+                    $('#decRowNotaArticolo').val(articoli[0].nota)
+                    if (articoli[0].link === '%') {
                         $('#percentualeSelected').prop('checked', true);
-                    } else if (articolo[0].link === 'ValoreAssoluto') {
+                    } else if (articoli[0].link === 'ValoreAssoluto') {
                         $('#valAbsSelected').prop('checked', true);
                     }
 
@@ -197,12 +192,26 @@ class MasterTemplateTable
             }
 
 
-
             function resetSubsection() {
                 let subsection = $('.class-template-sottosezione').val();
                 if (subsection !== 'Seleziona Sottosezione') {
                     $('.class-template-sottosezione').val('Seleziona Sottosezione');
                 }
+            }
+
+            function renderEditArticle() {
+
+                articoli.find(art => {
+                    if (art.id === Number(id)) {
+                        art.id_articolo = $('#idArticolo').val();
+                        art.nome_articolo = $('#idNomeArticolo').val();
+                        art.sottotitolo_articolo = $('#idSottotitoloArticolo').val();
+                        art.descrizione_articolo = $('#idDescrizioneArticolo').val();
+                        art.nota = $('#idNotaArticolo').val();
+                        art.link = $('#idLinkAssociato').val();
+                        art.heredity = $("input:radio[name=heredityRadioButton]:checked").val();
+                    }
+                });
             }
 
             $(document).ready(function () {
@@ -226,10 +235,9 @@ class MasterTemplateTable
 
                 $('#editRowButton').click(function () {
                     let id_articolo = $('#idArticolo').val();
-                    let nome = $('#idNomeArticolo').val();
-                    // let descrizione = $('#idDescrizioneArticolo').val();
-                    let descrizione = '';
-                    let sottotitolo = $('#idSottotitoloArticolo').val();
+                    let nome_articolo = $('#idNomeArticolo').val();
+                    let descrizione_articolo = $('#idDescrizioneArticolo').val();
+                    let sottotitolo_articolo = $('#idSottotitoloArticolo').val();
                     let nota = $('#idNotaArticolo').val();
                     let link = $('#idLinkAssociato').val();
                     let heredity = $("input:radio[name=heredityRadioButton]:checked").val();
@@ -237,9 +245,9 @@ class MasterTemplateTable
                     const payload = {
                         id,
                         id_articolo,
-                        nome,
-                        sottotitolo,
-                        descrizione,
+                        nome_articolo,
+                        descrizione_articolo,
+                        sottotitolo_articolo,
                         nota,
                         link,
                         heredity
@@ -254,9 +262,7 @@ class MasterTemplateTable
                             console.log(response);
                             $("#editModal").modal('hide');
                             $("#editDecModal").modal('hide');
-                            articoli = articoli.filter(art => Number(art.id) !== Number(id));
-                            articoli.push({...payload, id: id});
-                            renderDataTable();
+                            renderEditArticle();
                             $(".alert-edit-success").show();
                             $(".alert-edit-success").fadeTo(2000, 500).slideUp(500, function () {
                                 $(".alert-edit-success").slideUp(500);
@@ -337,6 +343,8 @@ class MasterTemplateTable
                 }
             }
         }
+        $results = $data->getAllArticles();
+
 
         ?>
         <div class="accordion mt-2" id="accordionTemplateTable">
@@ -456,7 +464,16 @@ class MasterTemplateTable
                         <textarea class="form-control"
                                   id="idNotaArticolo"></textarea>
                         <label>Link associato</label>
-                        <input type="text" class="form-control" id="idLinkAssociato">
+
+                        <select name="linkAssociato" id="idLinkAssociato">
+                            <?php
+                          foreach ($results as $res) {
+                              ?>
+                                <option><?= $res[0] ?></option>
+
+                            <?php }
+                          ?>
+                   </select>
                         <label>Ereditarietà</label>
                         <div class="container">
                             <div class="form-check">

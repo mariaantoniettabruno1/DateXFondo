@@ -36,7 +36,7 @@ class MasterTemplateToActiveRow
                                        <td>${art.id_articolo}</td>
                                        <td>${art.nome_articolo}</td>
                                        <td>${art.sottotitolo_articolo}</td>
-                                       <td></td>
+                                       <td>${art.descrizione_articolo}</td>
                                        <td>${art.nota}</td>
                                        <td>${art.link}</td>
                                            <td>

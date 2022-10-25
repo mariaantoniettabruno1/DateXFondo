@@ -19,6 +19,9 @@ class MasterTemplate
             $results_articoli = $data->getArticoli($_GET['template_name']);
         }
 
+
+
+
         ?>
 
         <!DOCTYPE html>
@@ -50,7 +53,6 @@ class MasterTemplate
                         sezioni[a.sezione].push(a.sottosezione);
                     }
                 });
-                console.log(articoli)
             </script>
         </head>
 

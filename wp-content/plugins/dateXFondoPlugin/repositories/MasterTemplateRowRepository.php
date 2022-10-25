@@ -9,10 +9,10 @@ class MasterTemplateRowRepository
         $conn = new Connection();
         $mysqli = $conn->connect();
 //TODO aggiungere descrizione articolo
-        $sql = "INSERT INTO DATE_template_fondo (fondo,anno,descrizione_fondo,sezione,sottosezione,id_articolo,nome_articolo,
-                                 sottotitolo_articolo,nota,link,row_type,template_name) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
+        $sql = "INSERT INTO DATE_template_fondo (fondo,anno,descrizione_fondo,sezione,sottosezione,id_articolo,nome_articolo,descrizione_articolo,
+                                 sottotitolo_articolo,nota,link,row_type,template_name) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("sissssssssss",
+        $stmt->bind_param("sisssssssssss",
             $request["fondo"],
             $request["anno"],
             $request["descrizione_fondo"],
@@ -20,6 +20,7 @@ class MasterTemplateRowRepository
             $request["sottosezione"],
             $request["id_articolo"],
             $request["nome_articolo"],
+            $request["descrizione_articolo"],
             $request["sottotitolo_articolo"],
             $request["nota"],
             $request["link"],

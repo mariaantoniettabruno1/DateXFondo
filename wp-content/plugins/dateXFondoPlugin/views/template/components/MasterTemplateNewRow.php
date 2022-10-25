@@ -65,7 +65,8 @@ class MasterTemplateNewRow
                 $('#selectNewRowSottosezione').prop('selectedIndex', -1);
                 $('#newRowSottosezione').val('');
                 $('#newRowIdArticolo').val('');
-                $('#newRowNomeArticolo').val();
+                $('#newRowNomeArticolo').val('');
+                $('#newRowDescrizioneArticolo').val('');
                 $('#newRowSottotitoloArticolo').val('');
                 $('#newRowNota').val('');
                 $('#newRowLink').val('');
@@ -98,6 +99,7 @@ class MasterTemplateNewRow
                         let id_articolo = $('#newRowIdArticolo').val();
                         let nome_articolo = $('#newRowNomeArticolo').val();
                         let sottotitolo_articolo = $('#newRowSottotitoloArticolo').val();
+                        let descrizione_articolo = $('#newRowDescrizioneArticolo').val();
                         let sezione = '';
                         if (sezione !== 'Seleziona Sezione') {
                             sezione = $('#selectNewRowSezione').val();
@@ -123,6 +125,7 @@ class MasterTemplateNewRow
                                 id_articolo,
                                 nome_articolo,
                                 sottotitolo_articolo,
+                                descrizione_articolo,
                                 sezione,
                                 sottosezione,
                                 nota,
@@ -140,8 +143,6 @@ class MasterTemplateNewRow
                                     $("#addRowModal").modal('hide');
                                     articoli.push({...payload, id: response['id']});
                                     renderDataTable(sezione);
-                                    console.log(articoli)
-                                    console.log(response);
                                     $(".alert-new-row-success").show();
                                     $(".alert-new-row-success").fadeTo(2000, 500).slideUp(500, function () {
                                         $(".alert-new-row-success").slideUp(500);
@@ -173,6 +174,7 @@ class MasterTemplateNewRow
     public static function render()
     {
         $data = new MasterTemplateRepository();
+        $results = $data->getAllArticles();
         if (isset($_GET['fondo']) || isset($_GET['anno']) || isset($_GET['descrizione']) || isset($_GET['version'])) {
             $results_articoli = $data->visualize_template($_GET['fondo'], $_GET['anno'], $_GET['descrizione'], $_GET['version']);
 
@@ -256,7 +258,17 @@ class MasterTemplateNewRow
                         </div>
                         <div class="form-group">
                             <label for="idLinkAssociato"><b>Link associato: </b></label>
-                            <input type="text" class="form-control" id="newRowLink">
+
+                            <select name="newRowLink" id="newRowLink">
+                                <?php
+                                foreach ($results as $res) {
+                                    ?>
+                                    <option><?= $res[0] ?></option>
+
+                                <?php }
+                                ?>
+                            </select>
+
                         </div>
                         <div class="modal-footer">
                             <button class="btn btn-primary" id="addNewRowButton">Aggiungi riga</button>

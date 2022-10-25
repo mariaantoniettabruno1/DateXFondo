@@ -8,7 +8,7 @@ class MasterTemplateRepository
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = "SELECT id,fondo,anno,descrizione_fondo,ordinamento,sezione,sottosezione,id_articolo,nome_articolo,sottotitolo_articolo,nota,link,editable,version,row_type,heredity,template_name FROM DATE_template_fondo WHERE id_articolo IS NOT NULL and attivo=1 and template_name=? ORDER BY ordinamento ASC";
+        $sql = "SELECT id,fondo,anno,descrizione_fondo,ordinamento,sezione,sottosezione,id_articolo,nome_articolo,sottotitolo_articolo,descrizione_articolo,nota,link,editable,version,row_type,heredity,template_name FROM DATE_template_fondo WHERE id_articolo IS NOT NULL and attivo=1 and template_name=? ORDER BY ordinamento ASC";
         $stmt = $mysqli->prepare($sql);
         $stmt->bind_param("s", $template_name);
         $res = $stmt->execute();
@@ -35,7 +35,7 @@ class MasterTemplateRepository
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = "SELECT id,fondo,anno,descrizione_fondo,ordinamento,sezione,sottosezione,id_articolo,nome_articolo,sottotitolo_articolo,nota,link,version FROM DATE_template_fondo WHERE attivo = 0 ORDER BY ordinamento ASC";
+        $sql = "SELECT id,fondo,anno,descrizione_fondo,ordinamento,sezione,sottosezione,id_articolo,nome_articolo,sottotitolo_articolo,descrizione_articolo,nota,link,version FROM DATE_template_fondo WHERE attivo = 0 ORDER BY ordinamento ASC";
         $result = $mysqli->query($sql);
         $row = $result->fetch_all(MYSQLI_ASSOC);
         mysqli_close($mysqli);
@@ -48,6 +48,16 @@ class MasterTemplateRepository
         $sql = "SELECT DISTINCT fondo,anno,descrizione_fondo,template_name FROM DATE_template_fondo  ORDER BY ordinamento ASC";
         $result = $mysqli->query($sql);
         $row = $result->fetch_all(MYSQLI_ASSOC);
+        mysqli_close($mysqli);
+        return $row;
+    }
+    public static function getAllArticles()
+    {
+        $conn = new Connection();
+        $mysqli = $conn->connect();
+        $sql = "SELECT post_title FROM wp_posts WHERE post_type='post' ";
+        $result = $mysqli->query($sql);
+        $row = $result->fetch_all();
         mysqli_close($mysqli);
         return $row;
     }
@@ -79,11 +89,11 @@ class MasterTemplateRepository
                                heredity=?
 WHERE id=?";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("sssssis",
+        $stmt->bind_param("ssssssii",
             $request['id_articolo'],
-            $request['nome'],
-            $request['descrizione'],
-            $request['sottotitolo'],
+            $request['nome_articolo'],
+            $request['descrizione_articolo'],
+            $request['sottotitolo_articolo'],
             $request['nota'],
             $request['link'],
             $request['heredity'],
@@ -169,7 +179,7 @@ FROM DATE_storico_template_fondo WHERE fondo=? AND anno=? AND descrizione_fondo=
         $conn = new Connection();
         $mysqli = $conn->connect();
         $sql = "SELECT fondo,anno,descrizione_fondo,ordinamento,id_articolo,sezione,sottosezione,
-                     nome_articolo,sottotitolo_articolo,valore,valore_anno_precedente,nota,link,attivo,version,row_type,editable,heredity
+                     nome_articolo,sottotitolo_articolo,descrizione_articolo,valore,valore_anno_precedente,nota,link,attivo,version,row_type,editable,heredity
 FROM DATE_storico_template_fondo WHERE fondo=? AND anno=? AND descrizione_fondo=? AND version=?";
         $stmt = $mysqli->prepare($sql);
         $stmt->bind_param("sisi", $fondo, $anno, $descrizione, $version);
