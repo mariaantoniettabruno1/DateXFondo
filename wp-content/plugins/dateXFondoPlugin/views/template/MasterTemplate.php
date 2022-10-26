@@ -41,6 +41,7 @@ class MasterTemplate
                   integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
                   crossorigin="anonymous" referrerpolicy="no-referrer"/>
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+            <link rel="stylesheet" href="<?=DateXFondoCommon::get_base_url() ?>/assets/styles/main.css">
 
             <script>
                 let articoli = JSON.parse((`<?=json_encode($results_articoli);?>`));
@@ -58,11 +59,10 @@ class MasterTemplate
 
         <body>
         <div class="container-fluid">
-            <div class="row">
+            <div class="row pb-2">
                 <?php
                 MasterTemplateHeader::render();
                 ?>
-
             </div>
 
             <div class="row">
@@ -70,26 +70,25 @@ class MasterTemplate
                 MasterTemplateTable::render();
                 ?>
             </div>
-            <div class="row pt-2 justify-content-end">
-                <div class="col align-self-start">
+            <div class="d-flex justify-content-between pt-3">
+                <div>
                     <?php
                     MasterTemplateStopEditingButton::render();
                     ?>
                 </div>
-                <div class="pr-2">
+                <div>
                     <?php
                     MasterTemplateNewRow::render();
                     ?>
-                </div>
-                <div class="pr-2">
+
                     <?php
                     MasterTemplateNewSpecialRow::render();
                     ?>
-                </div>
-                <div class="pr-2">
                     <?php
                     MasterTemplateNewDecurtationRow::render();
                     ?>
+                </div>
+
                 </div>
             </div>
         </body>
