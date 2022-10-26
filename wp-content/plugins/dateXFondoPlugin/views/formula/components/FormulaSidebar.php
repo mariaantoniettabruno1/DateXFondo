@@ -40,7 +40,7 @@ class FormulaSidebar
                           </td>
                           <td>
                             ${button}
-                            <button type="button" class="btn btn-sm btn-outline-secondary" title="Visualizza"><i class="fa-solid fa-eye"></i></button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary" title="Visualizza" data-toggle="modal" data-target="#modalPreviewArticolo" data-id="${art.id}"><i class="fa-solid fa-eye"></i></button>
                           </td>
                         </tr>
                     `);

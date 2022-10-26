@@ -34,6 +34,7 @@ class Formula
 
             <script>
                 let articoli = JSON.parse((`<?=json_encode($result_articoli);?>`));
+                console.log(articoli)
                 let formule = JSON.parse((`<?=json_encode($result_formule);?>`));
                 let sezioni = {}
                 articoli.forEach(a => {
@@ -60,9 +61,11 @@ class Formula
                         FormulaSidebar::render();
                         ?>
                     </div>
-                    </div>
                 </div>
+                <?php PreviewArticolo::render(); ?>
+
             </div>
+
         </body>
         </html lang="en">
 
