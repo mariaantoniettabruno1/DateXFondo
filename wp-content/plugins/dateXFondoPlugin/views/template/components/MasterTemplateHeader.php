@@ -109,16 +109,16 @@ class MasterTemplateHeader
         <div class="col-2">
             <input type="text" placeholder="Fondo" id="inputFondo" readonly>
         </div>
-        <div class="col-1">
+        <div class="col-1 pl-0">
             <input type="text" placeholder="Anno" id="inputAnno" readonly>
         </div>
-        <div class="col-3">
+        <div class="col-4 pl-0">
             <input type="text" placeholder="Descrizione Fondo" id="inputDescrizioneFondo" readonly>
         </div>
-        <div class="col-3">
+        <div class="col-3 pl-0">
             <input type="text" placeholder="Nome Template" id="inputNomeTemplate" readonly>
         </div>
-        <div class="col-3">
+        <div class="col-2 pl-0">
             <?php
             if ($results_articoli[0]['editable'] == '1') {
                 ?>

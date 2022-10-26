@@ -94,8 +94,6 @@ class MasterTemplateNewRow
                 $('#addNewRowButton').click(function () {
                     {
                         $("#errorIDArticolo").attr('style', 'display:none');
-                        <?php //inserire validazione campi obbligatori ?>
-
                         let id_articolo = $('#newRowIdArticolo').val();
                         let nome_articolo = $('#newRowNomeArticolo').val();
                         let sottotitolo_articolo = $('#newRowSottotitoloArticolo').val();
@@ -105,7 +103,7 @@ class MasterTemplateNewRow
                             sezione = $('#selectNewRowSezione').val();
                         }
                         let sottosezione = '';
-                        if ($('#selectNewRowSottosezione').val() != null || $('#selectNewRowSottosezione').val() !== 'Seleziona Sottosezione') {
+                        if ($('#selectNewRowSottosezione').val() != null && $('#selectNewRowSottosezione').val() !== 'Seleziona Sottosezione') {
                             sottosezione = $('#selectNewRowSottosezione').val();
                         } else if ($('#newRowSottosezione').val() != null) {
                             sottosezione = $('#newRowSottosezione').val();
@@ -117,7 +115,7 @@ class MasterTemplateNewRow
                         let descrizione_fondo = $('#inputDescrizioneFondo').val();
                         let template_name = $('#inputNomeTemplate').val();
                         let row_type = 'basic';
-                        if (articoli.find(art => art.id_articolo === id_articolo) === undefined) {
+                        if (articoli.find(art => art.id_articolo === id_articolo) === undefined && sezione !== 'Seleziona Sezione' && sottosezione!=='Seleziona Sottosezione') {
                             const payload = {
                                 fondo,
                                 anno,
@@ -158,10 +156,15 @@ class MasterTemplateNewRow
                                     });
                                 }
                             });
-                        } else {
+                        } else if (articoli.find(art => art.id_articolo === id_articolo) !== undefined) {
                             $("#errorIDArticolo").attr('style', 'display:block');
+                        } else if (sezione !== 'Seleziona Sezione') {
+                            $("#errorSection").attr('style', 'display:block');
                         }
+                        else if(sottosezione !== 'Seleziona Sottosezione'){
+                            $("#errorSubsection").attr('style', 'display:block');
 
+                        }
 
                     }
                 });
@@ -212,6 +215,8 @@ class MasterTemplateNewRow
                             <label for="selectRowSezione"><b>Sezione:</b></label>
                             <select class="custom-select" id="selectNewRowSezione">
                             </select>
+                            <small id="errorSection" class="form-text text-danger" style="display: none">Campo
+                                Obbligatorio</small>
                         </div>
                         <div class="form-group" id="divSelectNewRowSottosezione">
                             <br>
@@ -226,16 +231,20 @@ class MasterTemplateNewRow
                             <div class="form-group">
                                 <select class="custom-select" id="selectNewRowSottosezione">
                                 </select>
+                                <small id="errorSubsection" class="form-text text-danger" style="display: none">Campo
+                                    Obbligatorio</small>
                             </div>
                         </div>
                         <div class="form-group">
                             <input type="text" class="form-control" id="newRowSottosezione" style="display:none">
+                            <small id="errorSubsection" class="form-text text-danger" style="display: none">Campo
+                                Obbligatorio</small>
                         </div>
                         <div class="form-group">
                             <label for="inputIdArticolo"><b>Id Articolo:</b></label>
                             <input type="text" class="form-control" id="newRowIdArticolo">
                             <small id="errorIDArticolo" class="form-text text-danger" style="display: none">Id Articolo
-                                già presente</small>
+                                già presente o non iserito</small>
                         </div>
                         <div class="form-group">
                             <label for="inputNomeArticolo"><b>Articolo:</b> </label>

@@ -112,7 +112,7 @@ class MasterTemplateNewDecurtationRow
                         let template_name = $('#inputNomeTemplate').val();
                         let row_type = 'decurtazione';
                         console.log($('#typeDec:checked').val())
-                        if (articoli.find(art => art.id_articolo === id_articolo) === undefined) {
+                        if (articoli.find(art => art.id_articolo === id_articolo) === undefined && sezione !== 'Seleziona Sezione' && sottosezione!=='Seleziona Sottosezione') {
                             const payload = {
                                 fondo,
                                 anno,
@@ -155,8 +155,14 @@ class MasterTemplateNewDecurtationRow
                                     });
                                 }
                             });
-                        } else {
+                        }
+                        else if (articoli.find(art => art.id_articolo === id_articolo) !== undefined) {
                             $("#errorIDArticoloDec").attr('style', 'display:block');
+                        } else if (sezione !== 'Seleziona Sezione') {
+                            $("#errorSectionDec").attr('style', 'display:block');
+                        }
+                        else if(sottosezione !== 'Seleziona Sottosezione'){
+                            $("#errorSubsectionDec").attr('style', 'display:block');
 
                         }
                     }
@@ -208,6 +214,8 @@ class MasterTemplateNewDecurtationRow
                     <label for="selectSezione"><b>Sezione: </b></label>
                     <select class="custom-select" id="selectNewDecSezione">
                     </select>
+                    <small id="errorSectionDec" class="form-text text-danger" style="display: none">Campo
+                        Obbligatorio</small>
                 </div>
                 <div class="form-group" id="divSelectSottosezione">
                     <br>
@@ -222,16 +230,20 @@ class MasterTemplateNewDecurtationRow
                     <div class="form-group">
                         <select class="custom-select" id="selectNewDecSottosezione">
                         </select>
+                        <small id="errorSubsectionDec" class="form-text text-danger" style="display: none">Campo
+                            Obbligatorio</small>
                     </div>
                 </div>
                 <div class="form-group">
                     <input type="text" class="form-control" id="decNewSottosezione" style="display:none">
+                    <small id="errorSubsectionDec" class="form-text text-danger" style="display: none">Campo
+                        Obbligatorio</small>
                 </div>
                 <div class="form-group">
                     <label for="idArticolo"><b>Id Articolo: </b></label>
                     <input type="text" class="form-control" id="decIdArticolo">
                     <small id="errorIDArticoloDec" class="form-text text-danger" style="display: none">Id Articolo già
-                        presente</small>
+                        presente o non inserito</small>
                 </div>
                 <label for="inputNota"><b>Tipologia decurtazione:</b> </label>
                 <div class="form-check dec-checked">

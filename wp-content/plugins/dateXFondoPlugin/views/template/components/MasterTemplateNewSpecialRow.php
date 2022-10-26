@@ -59,17 +59,17 @@ class MasterTemplateNewSpecialRow
                 });
             }
 
-             function clearInputSpecialRow() {
-                 $('#selectSpRowSezione').prop('selectedIndex', 0);
-                 $('#selectNewSpRowSottosezione').prop('selectedIndex', -1);
-                 $('#spNewSottosezione').val('');
-                 $('#newRowSpIdArticolo').val('');
-                 $('#newRowSpNomeArticolo').val('');
-                 $('#newRowSpDescrizioneArticolo').val('');
-                 $('#newRowSpSottotitoloArticolo').val('');
-                 $('#newRowSpNota').val('');
-                 $('#newRowSpLink').val('');
-             }
+            function clearInputSpecialRow() {
+                $('#selectSpRowSezione').prop('selectedIndex', 0);
+                $('#selectNewSpRowSottosezione').prop('selectedIndex', -1);
+                $('#spNewSottosezione').val('');
+                $('#newRowSpIdArticolo').val('');
+                $('#newRowSpNomeArticolo').val('');
+                $('#newRowSpDescrizioneArticolo').val('');
+                $('#newRowSpSottotitoloArticolo').val('');
+                $('#newRowSpNota').val('');
+                $('#newRowSpLink').val('');
+            }
 
             $(document).ready(function () {
                 clearInputSpecialRow();
@@ -93,11 +93,7 @@ class MasterTemplateNewSpecialRow
                 });
                 $('#addNewSpecialRowButton').click(function () {
                     {
-                        $("#errorIDArticoloSp").attr('style', 'display:none');
                         let id_articolo = $('#newRowSpIdArticolo').val();
-                        let nome_articolo = $('#newRowSpNomeArticolo').val();
-                        let sottotitolo_articolo = $('#newRowSpSottotitoloArticolo').val();
-                        let descrizione_articolo = $('#newRowSpDescrizioneArticolo').val();
                         let sezione = '';
                         if (sezione !== 'Seleziona Sezione') {
                             sezione = $('#selectSpRowSezione').val();
@@ -108,6 +104,21 @@ class MasterTemplateNewSpecialRow
                         } else if ($('#spNewSottosezione').val() != null) {
                             sottosezione = $('#spNewSottosezione').val();
                         }
+                        if (articoli.find(art => art.id_articolo === id_articolo) !== undefined) {
+                            $("#errorIDArticoloSp").attr('style', 'display:block');
+                            return;
+                        }
+                        if (sezione !== 'Seleziona Sezione') {
+                            $("#errorSectionSp").attr('style', 'display:block');
+                            return;
+                        }
+                        if (sottosezione !== 'Seleziona Sottosezione') {
+                            $("#errorSubsectionSp").attr('style', 'display:block');
+                            return;
+                        }
+                        let nome_articolo = $('#newRowSpNomeArticolo').val();
+                        let sottotitolo_articolo = $('#newRowSpSottotitoloArticolo').val();
+                        let descrizione_articolo = $('#newRowSpDescrizioneArticolo').val();
                         let nota = $('#newRowSpNota').val();
                         let link = $('#newRowSpLink').val();
                         let fondo = $('#inputFondo').val();
@@ -115,57 +126,55 @@ class MasterTemplateNewSpecialRow
                         let descrizione_fondo = $('#inputDescrizioneFondo').val();
                         let template_name = $('#inputNomeTemplate').val();
                         let row_type = 'special';
-                        if (articoli.find(art => art.id_articolo === id_articolo) === undefined) {
 
-                            const payload = {
-                                fondo,
-                                anno,
-                                descrizione_fondo,
-                                id_articolo,
-                                nome_articolo,
-                                sottotitolo_articolo,
-                                descrizione_articolo,
-                                sezione,
-                                sottosezione,
-                                nota,
-                                link,
-                                row_type,
-                                template_name,
-                                ordinamento: -1
-                            }
-                            console.log(payload)
-                            $.ajax({
-                                url: '<?= DateXFondoCommon::get_website_url() ?>/wp-json/datexfondoplugin/v1/newrowsp',
-                                data: payload,
-                                type: "POST",
-                                success: function (response) {
-                                    if (response["id"]) {
-                                        articoli.push({...payload, id: response['id']});
-                                        $("#addSpecialRowModal").modal('hide');
-                                        renderDataTable(sezione);
-                                    }
-                                    console.log(response);
-                                    $(".alert-sp-row-success").show();
-                                    $(".alert-sp-row-success").fadeTo(2000, 500).slideUp(500, function () {
-                                        $(".alert-sp-row-success").slideUp(500);
-                                    });
-                                },
-                                error: function (response) {
-                                    console.error(response);
-                                    $("#addSpecialRowModal").modal('hide');
-                                    $(".alert-sp-row-wrong").show();
-                                    $(".alert-sp-row-wrong").fadeTo(2000, 500).slideUp(500, function () {
-                                        $(".alert-sp-row-wrong").slideUp(500);
-                                    });
 
-                                }
-                            });
-                        } else {
-                            $("#errorIDArticoloSp").attr('style', 'display:block');
-
+                        const payload = {
+                            fondo,
+                            anno,
+                            descrizione_fondo,
+                            id_articolo,
+                            nome_articolo,
+                            sottotitolo_articolo,
+                            descrizione_articolo,
+                            sezione,
+                            sottosezione,
+                            nota,
+                            link,
+                            row_type,
+                            template_name,
+                            ordinamento: -1
                         }
+                        console.log(payload)
+                        $.ajax({
+                            url: '<?= DateXFondoCommon::get_website_url() ?>/wp-json/datexfondoplugin/v1/newrowsp',
+                            data: payload,
+                            type: "POST",
+                            success: function (response) {
+                                if (response["id"]) {
+                                    articoli.push({...payload, id: response['id']});
+                                    $("#addSpecialRowModal").modal('hide');
+                                    renderDataTable(sezione);
+                                }
+                                console.log(response);
+                                $(".alert-sp-row-success").show();
+                                $(".alert-sp-row-success").fadeTo(2000, 500).slideUp(500, function () {
+                                    $(".alert-sp-row-success").slideUp(500);
+                                });
+                            },
+                            error: function (response) {
+                                console.error(response);
+                                $("#addSpecialRowModal").modal('hide');
+                                $(".alert-sp-row-wrong").show();
+                                $(".alert-sp-row-wrong").fadeTo(2000, 500).slideUp(500, function () {
+                                    $(".alert-sp-row-wrong").slideUp(500);
+                                });
+
+                            }
+                        });
+
                     }
-                });
+                }
+            });
             })
         </script>
         <?php
@@ -212,6 +221,8 @@ class MasterTemplateNewSpecialRow
                             <label for="selectSezione"><b>Sezione: </b></label>
                             <select class="custom-select" id="selectSpRowSezione">
                             </select>
+                            <small id="errorSectionSp" class="form-text text-danger" style="display: none">Campo
+                                Obbligatorio</small>
                         </div>
                         <div class="form-group" id="divSelectSpSottosezione">
                             <br>
@@ -226,16 +237,20 @@ class MasterTemplateNewSpecialRow
                             <div class="form-group">
                                 <select class="custom-select" id="selectNewSpRowSottosezione">
                                 </select>
+                                <small id="errorSubsectionSp" class="form-text text-danger" style="display: none">Campo
+                                    Obbligatorio</small>
                             </div>
                         </div>
                         <div class="form-group">
                             <input type="text" class="form-control" id="spNewSottosezione" style="display:none">
+                            <small id="errorSubsectionSp" class="form-text text-danger" style="display: none">Campo
+                                Obbligatorio</small>
                         </div>
                         <div class="form-group">
                             <label for="inputIdArticolo"><b>Id Articolo:</b></label>
                             <input type="text" class="form-control" id="newRowSpIdArticolo">
                             <small id="errorIDArticoloSp" class="form-text text-danger" style="display: none">Id
-                                Articolo già presente</small>
+                                Articolo già presente o non inserito</small>
                         </div>
                         <div class="form-group">
                             <label for="idNomeArticolo"><b>Articolo:</b> </label>

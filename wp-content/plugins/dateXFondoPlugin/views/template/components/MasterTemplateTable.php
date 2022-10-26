@@ -54,7 +54,6 @@ class MasterTemplateTable
                 filteredArticoli = filteredArticoli.filter(art => art.sezione === section)
                 if (subsection)
                     filteredArticoli = filteredArticoli.filter(art => art.sottosezione === subsection)
-
                 let button = '';
                 let delete_button = '';
                 let heredity = '';
@@ -98,7 +97,6 @@ class MasterTemplateTable
                     } else {
                         nome_articolo = '';
                     }
-                    console.log(art.editable)
                     if (art.row_type === 'decurtazione') {
                         if (Number(art.editable) === 0) {
                             delete_button = ` <button class="btn btn-link btn-delete-row" data-id='${art.id}' data-toggle="modal" data-target="#deleteModal" disabled><i class="fa-solid fa-trash"></i></button>`;
@@ -149,31 +147,32 @@ class MasterTemplateTable
                 });
                 $('.btn-edit-row').click(function () {
                     id = $(this).attr('data-id');
-                    articoli = articoli.filter(art => Number(art.id) === Number(id))
-                    $('#idArticolo').val(articoli[0].id_articolo)
-                    $('#idNomeArticolo').val(articoli[0].nome_articolo)
-                    $('#idSottotitoloArticolo').val(articoli[0].sottotitolo_articolo)
-                    $('#idDescrizioneArticolo').val(articoli[0].descrizione_articolo)
-                    $('#idNotaArticolo').val(articoli[0].nota)
-                    $('#idLinkAssociato').val(articoli[0].link)
+                    const articolo = articoli.find(art => Number(art.id) === Number(id))
+                    if (!articolo) return;
+                    $('#idArticolo').val(articolo.id_articolo)
+                    $('#idNomeArticolo').val(articolo.nome_articolo)
+                    $('#idSottotitoloArticolo').val(articolo.sottotitolo_articolo)
+                    $('#idDescrizioneArticolo').val(articolo.descrizione_articolo)
+                    $('#idNotaArticolo').val(articolo.nota)
+                    $('#idLinkAssociato').val(articolo.link)
 
-                    if (articoli[0].heredity === 2) {
+                    if (articolo.heredity === 2) {
                         $(".btn-value-note").prop('checked', true);
-                    } else if (articoli[0].heredity === 1) {
+                    } else if (articolo.heredity === 1) {
                         $(".btn-value").prop('checked', true);
-                    } else if (articoli[0].heredity === 0) {
+                    } else if (articolo.heredity === 0) {
                         $(".btn-none").prop('checked', true);
                     }
                 });
                 $('.btn-edit-row-dec').click(function () {
                     id = $(this).attr('data-id');
-                    articoli = articoli.filter(art => Number(art.id) === Number(id))
-                    $('#idDecArticolo').val(articoli[0].id_articolo)
-                    $('#decRowDescrizioneArticolo').val(articoli[0].descrizione_articolo)
-                    $('#decRowNotaArticolo').val(articoli[0].nota)
-                    if (articoli[0].link === '%') {
+                    const articolo = articoli.find(art => Number(art.id) === Number(id))
+                    $('#idDecArticolo').val(articolo.id_articolo)
+                    $('#decRowDescrizioneArticolo').val(articolo.descrizione_articolo)
+                    $('#decRowNotaArticolo').val(articolo.nota)
+                    if (articolo.link === '%') {
                         $('#percentualeSelected').prop('checked', true);
-                    } else if (articoli[0].link === 'ValoreAssoluto') {
+                    } else if (articolo.link === 'ValoreAssoluto') {
                         $('#valAbsSelected').prop('checked', true);
                     }
 
@@ -201,17 +200,14 @@ class MasterTemplateTable
 
             function renderEditArticle() {
 
-                articoli.find(art => {
-                    if (art.id === Number(id)) {
-                        art.id_articolo = $('#idArticolo').val();
-                        art.nome_articolo = $('#idNomeArticolo').val();
-                        art.sottotitolo_articolo = $('#idSottotitoloArticolo').val();
-                        art.descrizione_articolo = $('#idDescrizioneArticolo').val();
-                        art.nota = $('#idNotaArticolo').val();
-                        art.link = $('#idLinkAssociato').val();
-                        art.heredity = $("input:radio[name=heredityRadioButton]:checked").val();
-                    }
-                });
+                const updateArticolo = articoli.find(art => art.id === Number(id));
+                updateArticolo.id_articolo = $('#idArticolo').val();
+                updateArticolo.nome_articolo = $('#idNomeArticolo').val();
+                updateArticolo.sottotitolo_articolo = $('#idSottotitoloArticolo').val();
+                updateArticolo.descrizione_articolo = $('#idDescrizioneArticolo').val();
+                updateArticolo.nota = $('#idNotaArticolo').val();
+                updateArticolo.link = $('#idLinkAssociato').val();
+                updateArticolo.heredity = $("input:radio[name=heredityRadioButton]:checked").val();
             }
 
             $(document).ready(function () {
@@ -263,6 +259,8 @@ class MasterTemplateTable
                             $("#editModal").modal('hide');
                             $("#editDecModal").modal('hide');
                             renderEditArticle();
+                            renderDataTable(section);
+                            console.log(section);
                             $(".alert-edit-success").show();
                             $(".alert-edit-success").fadeTo(2000, 500).slideUp(500, function () {
                                 $(".alert-edit-success").slideUp(500);
@@ -347,7 +345,7 @@ class MasterTemplateTable
 
 
         ?>
-        <div class="accordion mt-2" id="accordionTemplateTable">
+        <div class="accordion mt-2 col" id="accordionTemplateTable" >
             <?php
             $section_index = 0;
             foreach ($tot_array as $sezione => $sottosezioni) {
@@ -364,8 +362,8 @@ class MasterTemplateTable
                     <div id="collapseTemplate<?= $section_index ?>" class="collapse"
                          aria-labelledby="headingTemplateTable<?= $section_index ?>"
                          data-parent="#accordionTemplateTable">
-                        <div class="car-body">
-                            <div class="row pl-2 pb-2 pt-2">
+                        <div class="card-body">
+                            <div class="row pb-2 pt-2">
                                 <div class="col-3">
                                     <select class="custom-select class-template-sottosezione"
                                             id="select <?= $sezione ?>">
@@ -380,9 +378,7 @@ class MasterTemplateTable
                                     </select>
                                 </div>
                             </div>
-                            <div class="row pl-5">
-                                <div class="col-11">
-                                    <table class="table">
+                                    <table class="table datetable">
                                         <thead>
                                         <tr>
                                             <th>Ordinamento</th>
@@ -400,8 +396,6 @@ class MasterTemplateTable
                                         <tbody id="dataTemplateTableBody<?= $section_index ?>">
                                         </tbody>
                                     </table>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -467,13 +461,12 @@ class MasterTemplateTable
 
                         <select name="linkAssociato" id="idLinkAssociato">
                             <?php
-                          foreach ($results as $res) {
-                              ?>
-                                <option><?= $res[0] ?></option>
-
+                            foreach ($results as $res) {
+                                ?>
+                                <option><?= strlen($res[0]) < 40 ? $res[0] : substr($res[0], 0,37)."..."?></option>
                             <?php }
-                          ?>
-                   </select>
+                            ?>
+                        </select>
                         <label>Ereditarietà</label>
                         <div class="container">
                             <div class="form-check">
