@@ -37,7 +37,7 @@ class FormulaCard
 
             function renderSubsectionInput(section) {
                 $('#inputSelectSottosezioneFormula').html('<option>Seleziona Sottosezione</option>');
-                sezioni[section].forEach(ssez => {
+                sezioni[section]?.forEach(ssez => {
                     $('#inputSelectSottosezioneFormula').append(`<option>${ssez}</option>`);
                 });
             }

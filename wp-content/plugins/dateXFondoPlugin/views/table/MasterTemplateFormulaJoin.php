@@ -15,6 +15,13 @@ class MasterTemplateFormulaJoin
         $results_articoli = $data->getJoinedArticoli();
         $results_formula = $data->getJoinedFormulas();
         $results_joined = $data->getJoinedRecords();
+        foreach ($results_formula as $key => $value){
+            $results_formula[$key]["formula"] = str_replace('"','\"' ,$value["formula"]);
+        }
+        foreach ($results_articoli as $key => $value){
+            $results_articoli[$key]["sottotitolo_articolo"] = str_replace('"','\"' ,$value["sottotitolo_articolo"]);
+            $results_articoli[$key]["descrizione"] = str_replace('"','\"' ,$value["descrizione"]);
+        }
 
         ?>
         <!DOCTYPE html>
@@ -36,9 +43,9 @@ class MasterTemplateFormulaJoin
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 
             <script>
-                const articoli = JSON.parse((`<?=json_encode($results_articoli);?>`));
-                const formulas = JSON.parse((`<?=json_encode($results_formula);?>`));
-                const joined = JSON.parse((`<?=json_encode($results_joined);?>`));
+                const articoli = JSON.parse(`<?=json_encode($results_articoli);?>`);
+                const formulas = JSON.parse(`<?=json_encode($results_formula );?>`);
+                const joined = JSON.parse(`<?=json_encode($results_joined);?>`);
                 let joined_record = [
                     ...articoli,
                     ...formulas

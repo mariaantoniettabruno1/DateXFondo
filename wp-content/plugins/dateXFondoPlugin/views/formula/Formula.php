@@ -15,6 +15,14 @@ class Formula
         $data = new FormulaRepository();
         $result_articoli = $data->getArticoli();
         $result_formule = $data->getFormule();
+
+        foreach ($result_formule as $key => $value){
+            $result_formule[$key]["formula"] = str_replace('"','\"' ,$value["formula"]);
+        }
+        foreach ($result_articoli as $key => $value){
+            $result_articoli[$key]["sottotitolo_articolo"] = str_replace('"','\"' ,$value["sottotitolo_articolo"]);
+            $result_articoli[$key]["descrizione"] = str_replace('"','\"' ,$value["descrizione"]);
+        }
         ?>
 
 
@@ -33,8 +41,9 @@ class Formula
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 
             <script>
+                console.log((`<?=json_encode($result_formule);?>`));
+
                 let articoli = JSON.parse((`<?=json_encode($result_articoli);?>`));
-                console.log(articoli)
                 let formule = JSON.parse((`<?=json_encode($result_formule);?>`));
                 let sezioni = {}
                 articoli.forEach(a => {

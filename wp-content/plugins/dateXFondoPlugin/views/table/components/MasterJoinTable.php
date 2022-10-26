@@ -9,7 +9,7 @@ class MasterJoinTable
     {
         ?>
         <style>
-            .btn-edit-ord, .btn-save,.class-accordion-button, .btn-edit-ord:hover, .btn-save:hover,.class-accordion-button:hover {
+            .btn-edit-ord, .btn-save, .class-accordion-button, .btn-edit-ord:hover, .btn-save:hover, .class-accordion-button:hover {
                 color: #26282f;
             }
 
@@ -59,46 +59,24 @@ class MasterJoinTable
 
 
                 filteredRecord.forEach(art => {
-
-                    if (art.nota !== null) {
-                        nota = art.nota;
-                    } else {
-                        nota = '';
-                    }
-                    if (art.id_articolo != null) {
-                        id_articolo = art.id_articolo;
-                    } else {
-                        id_articolo = '';
-                    }
-                    if (art.sottotitolo_articolo !== null) {
-                        sottotitolo = art.sottotitolo_articolo;
-                    } else {
-                        sottotitolo = '';
-                    }
-                    if (art.link !== null) {
-                        link = art.link;
-                    } else {
-                        link = '';
-                    }
-                    if (art.nome_articolo !== null) {
-                        nome_articolo = art.nome_articolo;
-                    } else {
-                        nome_articolo = '';
-                    }
-                    if (art.nome !== undefined) {
-                        nome_articolo = art.nome;
-                    }
-                    if (art.descrizione !== undefined) {
-                        sottotitolo = art.descrizione;
-                    }
+                    nota = art.nota ?? ""
+                    id_articolo = art.id_articolo ?? "";
+                    sottotitolo = art.sottotitolo_articolo ?? "";
+                    link = art.link ?? "";
+                    nome_articolo = art.nome_articolo ?? "";
+                    descrizione = art.descrizione ?? ""
+                    nota = art.nota ?? ""
                     if (art.formula !== undefined) {
-                        descrizione = art.formula;
-                        id_articolo = art.nome
+                        if (Number(art.condizione) === 1) {
+                            const [cond, vf] = art.formula.split("?");
+                            const [v, f] = vf.split(":");
+                            descrizione = "Se " + cond + " allora " + v + " altrimenti " + f
+                        } else {
+                            descrizione = art.formula;
+                        }
+                        id_articolo = art.nome ?? ""
+                        nome_articolo = art.nome ?? "";
                     }
-                    if (art.link === undefined)
-                        link = '';
-                    if (art.nota === undefined)
-                        nota = '';
 
                     if (art.heredity === "0") {
                         heredity = "Nè nota nè valore ereditati";
@@ -282,7 +260,7 @@ class MasterJoinTable
 
 
         ?>
-        <div class="accordion mt-2" id="accordionTemplateTable">
+        <div class="accordion mt-2 col" id="accordionTemplateTable">
             <?php
             $section_index = 0;
             foreach ($tot_array as $sezione => $sottosezioni) {
@@ -299,8 +277,8 @@ class MasterJoinTable
                     <div id="collapseTemplate<?= $section_index ?>" class="collapse"
                          aria-labelledby="headingTemplateTable<?= $section_index ?>"
                          data-parent="#accordionTemplateTable">
-                        <div class="car-body">
-                            <div class="row pl-2 pb-2 pt-2">
+                        <div class="card-body">
+                            <div class="row pb-2 pt-2">
                                 <div class="col-3">
                                     <select class="custom-select class-template-sottosezione"
                                             id="select <?= $sezione ?>">
@@ -315,27 +293,25 @@ class MasterJoinTable
                                     </select>
                                 </div>
                             </div>
-                            <div class="row pl-5">
-                                <div class="col-11">
-                                    <table class="table">
-                                        <thead>
-                                        <tr>
-                                            <th>Ordinamento</th>
-                                            <th>Id Articolo</th>
-                                            <th>Nome Articolo</th>
-                                            <th>Sottotitolo Articolo</th>
-                                            <th>Descrizione Articolo</th>
-                                            <th>Nota</th>
-                                            <th>Link</th>
-                                            <th>Ereditarietà</th>
-                                        </tr>
 
-                                        </thead>
-                                        <tbody id="dataTemplateTableBody<?= $section_index ?>">
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
+                            <table class="table datetable">
+                                <thead>
+                                <tr>
+                                    <th>Ordinamento</th>
+                                    <th>Id Articolo</th>
+                                    <th>Nome Articolo</th>
+                                    <th>Sottotitolo Articolo</th>
+                                    <th>Descrizione Articolo</th>
+                                    <th>Nota</th>
+                                    <th>Link</th>
+                                    <th>Ereditarietà</th>
+                                </tr>
+
+                                </thead>
+                                <tbody id="dataTemplateTableBody<?= $section_index ?>">
+                                </tbody>
+                            </table>
+
                         </div>
                     </div>
                 </div>
