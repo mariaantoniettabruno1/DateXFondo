@@ -12,15 +12,16 @@ class MasterTemplate
     {
 
         $data = new MasterTemplateRepository();
-        if (isset($_GET['fondo']) || isset($_GET['anno']) || isset($_GET['descrizione']) || isset($_GET['version'])) {
-            $results_articoli = $data->visualize_template($_GET['fondo'], $_GET['anno'], $_GET['descrizione'], $_GET['version']);
+        if (isset($_GET['fondo']) && isset($_GET['anno']) && isset($_GET['descrizione']) && isset($_GET['version']) && isset($_GET['template_name'])) {
+            $results_articoli = $data->visualize_template($_GET['fondo'], $_GET['anno'], $_GET['descrizione'], $_GET['version'], $_GET['template_name']);
 
         } else {
             $results_articoli = $data->getArticoli($_GET['template_name']);
         }
-
-
-
+        foreach ($results_articoli as $key => $value){
+            $results_articoli[$key]["sottotitolo_articolo"] = str_replace('"','\"' ,$value["sottotitolo_articolo"]);
+            $results_articoli[$key]["descrizione_articolo"] = str_replace('"','\"' ,$value["descrizione_articolo"]);
+        }
 
         ?>
 
@@ -41,10 +42,11 @@ class MasterTemplate
                   integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
                   crossorigin="anonymous" referrerpolicy="no-referrer"/>
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-            <link rel="stylesheet" href="<?=DateXFondoCommon::get_base_url() ?>/assets/styles/main.css">
+            <link rel="stylesheet" href="<?= DateXFondoCommon::get_base_url() ?>/assets/styles/main.css">
 
             <script>
                 let articoli = JSON.parse((`<?=json_encode($results_articoli);?>`));
+                console.log(articoli)
                 const sezioni = {}
                 articoli.forEach(a => {
                     if (!sezioni[a.sezione]) {
@@ -89,8 +91,8 @@ class MasterTemplate
                     ?>
                 </div>
 
-                </div>
             </div>
+        </div>
         </body>
         </html lang="en">
 

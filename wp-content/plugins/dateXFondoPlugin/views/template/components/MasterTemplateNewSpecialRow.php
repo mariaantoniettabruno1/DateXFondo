@@ -91,8 +91,8 @@ class MasterTemplateNewSpecialRow
                     $('#spNewSottosezione').attr('style', 'display:block');
                     $('#selectNewSpRowSottosezione').hide();
                 });
-                $('#addNewSpecialRowButton').click(function () {
-                    {
+                $('#addNewSpecialRowButton').click(function (){
+
                         let id_articolo = $('#newRowSpIdArticolo').val();
                         let sezione = '';
                         if (sezione !== 'Seleziona Sezione') {
@@ -168,12 +168,9 @@ class MasterTemplateNewSpecialRow
                                 $(".alert-sp-row-wrong").fadeTo(2000, 500).slideUp(500, function () {
                                     $(".alert-sp-row-wrong").slideUp(500);
                                 });
-
                             }
                         });
 
-                    }
-                }
             });
             })
         </script>
@@ -185,7 +182,7 @@ class MasterTemplateNewSpecialRow
         $data = new MasterTemplateRepository();
         $results = $data->getAllArticles();
         if (isset($_GET['fondo']) || isset($_GET['anno']) || isset($_GET['descrizione']) || isset($_GET['version'])) {
-            $results_articoli = $data->visualize_template($_GET['fondo'], $_GET['anno'], $_GET['descrizione'], $_GET['version']);
+            $results_articoli = $data->visualize_template($_GET['fondo'], $_GET['anno'], $_GET['descrizione'], $_GET['version'], $_GET['template_name']);
 
         } else {
             $results_articoli = $data->getArticoli($_GET['template_name']);

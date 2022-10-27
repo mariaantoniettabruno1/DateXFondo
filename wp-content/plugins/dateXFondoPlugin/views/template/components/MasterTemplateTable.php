@@ -47,7 +47,6 @@ class MasterTemplateTable
 
 
             function renderDataTable(section, subsection) {
-
                 let index = Object.keys(sezioni).indexOf(section);
                 $('#dataTemplateTableBody' + index).html('');
                 filteredArticoli = articoli;
@@ -67,36 +66,13 @@ class MasterTemplateTable
 
                 filteredArticoli.forEach(art => {
 
-                    if (art.nota !== null) {
-                        nota = art.nota;
-                    } else {
-                        nota = '';
-                    }
-                    if (art.id_articolo != null) {
-                        id_articolo = art.id_articolo;
-                    } else {
-                        id_articolo = '';
-                    }
-                    if (art.descrizione_articolo !== null) {
-                        descrizione = art.descrizione_articolo;
-                    } else {
-                        descrizione = '';
-                    }
-                    if (art.sottotitolo_articolo !== null) {
-                        sottotitolo = art.sottotitolo_articolo;
-                    } else {
-                        sottotitolo = '';
-                    }
-                    if (art.link !== null) {
-                        link = art.link;
-                    } else {
-                        link = '';
-                    }
-                    if (art.nome_articolo !== null) {
-                        nome_articolo = art.nome_articolo;
-                    } else {
-                        nome_articolo = '';
-                    }
+                    nota = art.nota ?? '';
+                    id_articolo = art.id_articolo ?? '';
+                    descrizione = art.descrizione_articolo ?? '';
+                    sottotitolo = art.sottotitolo_articolo ?? '';
+                    link = art.link ?? '';
+                    nome_articolo = art.nome_articolo ?? '';
+
                     if (art.row_type === 'decurtazione') {
                         if (Number(art.editable) === 0) {
                             delete_button = ` <button class="btn btn-link btn-delete-row" data-id='${art.id}' data-toggle="modal" data-target="#deleteModal" disabled><i class="fa-solid fa-trash"></i></button>`;
@@ -111,7 +87,7 @@ class MasterTemplateTable
                             button = ` <button class="btn btn-link btn-edit-row" data-id='${art.id}' data-toggle="modal" data-target="#editModal" disabled><i class="fa-solid fa-pen"></i></button>`;
                             delete_button = ` <button class="btn btn-link btn-delete-row" data-id='${art.id}' data-toggle="modal" data-target="#deleteModal" disabled><i class="fa-solid fa-trash"></i></button>`;
                         } else {
-                            button = ` <button class="btn btn-link btn-edit-row" data-id='${art.id}' data-toggle="modal" data-target="#editModal"><i class="fa-solid fa-pen"></i></button>`;
+                            button = ` <button class="btn btn-link btn-edit-row"  data-toggle="modal" data-target="#editModal"><i class="fa-solid fa-pen"></i></button>`;
                             delete_button = ` <button class="btn btn-link btn-delete-row" data-id='${art.id}' data-toggle="modal" data-target="#deleteModal"><i class="fa-solid fa-trash"></i></button>`;
                         }
                     }
@@ -129,8 +105,14 @@ class MasterTemplateTable
                                        <td>${art.ordinamento}</td>
                                        <td>${id_articolo}</td>
                                        <td>${nome_articolo}</td>
-                                       <td>${sottotitolo}</td>
-                                        <td>${descrizione}</td>
+                                       <td>
+                                           <span style='display:none' class="sottotitoloFull">${sottotitolo}</span>
+                                           <span style="display:block" class='sottotitoloCut'>${sottotitolo.substr(0, 50).concat('...')}</span>
+                                           </td>
+                                        <td>
+                                           <span style='display:none' class="descrizioneFull">${descrizione}</span>
+                                           <span style="display:block" class='descrizioneCut'>${descrizione.substr(0, 50).concat('...')}</span>
+                                        </td>
                                        <td>${nota}</td>
                                        <td>${link}</td>
                                        <td>${heredity}</td>
@@ -141,7 +123,22 @@ class MasterTemplateTable
                                  </tr>
                              `);
                 });
-
+                $('.sottotitoloCut').click(function () {
+                    $(this).attr("style", "display:none");
+                    $(this).prev().attr("style", "display:block");
+                });
+                $('.sottotitoloFull').click(function () {
+                    $(this).attr("style", "display:none");
+                    $(this).next().attr("style", "display:block");
+                });
+                $('.descrizioneCut').click(function () {
+                    $(this).attr("style", "display:none");
+                    $(this).prev().attr("style", "display:block");
+                });
+                $('.descrizioneFull').click(function () {
+                    $(this).attr("style", "display:none");
+                    $(this).next().attr("style", "display:block");
+                });
                 $('.btn-delete-row').click(function () {
                     id = $(this).attr('data-id');
                 });
@@ -320,7 +317,7 @@ class MasterTemplateTable
     {
         $data = new MasterTemplateRepository();
         if (isset($_GET['fondo']) || isset($_GET['anno']) || isset($_GET['descrizione']) || isset($_GET['version'])) {
-            $results_articoli = $data->visualize_template($_GET['fondo'], $_GET['anno'], $_GET['descrizione'], $_GET['version']);
+            $results_articoli = $data->visualize_template($_GET['fondo'], $_GET['anno'], $_GET['descrizione'], $_GET['version'], $_GET['template_name']);
 
         } else {
             $results_articoli = $data->getArticoli($_GET['template_name']);
@@ -345,7 +342,7 @@ class MasterTemplateTable
 
 
         ?>
-        <div class="accordion mt-2 col" id="accordionTemplateTable" >
+        <div class="accordion mt-2 col" id="accordionTemplateTable">
             <?php
             $section_index = 0;
             foreach ($tot_array as $sezione => $sottosezioni) {
@@ -378,24 +375,24 @@ class MasterTemplateTable
                                     </select>
                                 </div>
                             </div>
-                                    <table class="table datetable">
-                                        <thead>
-                                        <tr>
-                                            <th>Ordinamento</th>
-                                            <th>Id Articolo</th>
-                                            <th>Nome Articolo</th>
-                                            <th>Sottotitolo Articolo</th>
-                                            <th>Descrizione Articolo</th>
-                                            <th>Nota</th>
-                                            <th>Link</th>
-                                            <th>Ereditarietà</th>
-                                            <th>Azioni</th>
-                                        </tr>
+                            <table class="table datetable">
+                                <thead>
+                                <tr>
+                                    <th>Ordinamento</th>
+                                    <th>Id Articolo</th>
+                                    <th style="width: 140px">Nome Articolo</th>
+                                    <th style="width: 170px">Sottotitolo Articolo</th>
+                                    <th style="width: 175px">Descrizione Articolo</th>
+                                    <th>Nota</th>
+                                    <th>Link</th>
+                                    <th>Ereditarietà</th>
+                                    <th>Azioni</th>
+                                </tr>
 
-                                        </thead>
-                                        <tbody id="dataTemplateTableBody<?= $section_index ?>">
-                                        </tbody>
-                                    </table>
+                                </thead>
+                                <tbody id="dataTemplateTableBody<?= $section_index ?>">
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -463,7 +460,7 @@ class MasterTemplateTable
                             <?php
                             foreach ($results as $res) {
                                 ?>
-                                <option><?= strlen($res[0]) < 40 ? $res[0] : substr($res[0], 0,37)."..."?></option>
+                                <option><?= strlen($res[0]) < 40 ? $res[0] : substr($res[0], 0, 37) . "..." ?></option>
                             <?php }
                             ?>
                         </select>
