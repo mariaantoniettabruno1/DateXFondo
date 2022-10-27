@@ -43,6 +43,12 @@ class MasterTemplate
                   crossorigin="anonymous" referrerpolicy="no-referrer"/>
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
             <link rel="stylesheet" href="<?= DateXFondoCommon::get_base_url() ?>/assets/styles/main.css">
+            <link rel="stylesheet" href="<?= DateXFondoCommon::get_base_url() ?>/assets/styles/mastertable.css">
+            <link rel="stylesheet" href="<?= DateXFondoCommon::get_base_url() ?>/assets/styles/templateheader.css">
+            <link rel="stylesheet" href="<?= DateXFondoCommon::get_base_url() ?>/assets/styles/newrow.css">
+            <link rel="stylesheet" href="<?= DateXFondoCommon::get_base_url() ?>/assets/styles/decurtationrow.css">
+            <link rel="stylesheet" href="<?= DateXFondoCommon::get_base_url() ?>/assets/styles/specialrow.css">
+            <link rel="stylesheet" href="<?= DateXFondoCommon::get_base_url() ?>/assets/styles/stopediting.css">
 
             <script>
                 let articoli = JSON.parse((`<?=json_encode($results_articoli);?>`));

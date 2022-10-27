@@ -7,43 +7,7 @@ class MasterTemplateNewSpecialRow
     public static function render_scripts()
     {
         ?>
-        <style>
-            #btnSpecialRow {
-                border-color: #26282f;
-                color: #26282f;
-            }
 
-            #btnSpecialRow:hover {
-                border-color: #870e12;
-                color: #870e12;
-                background-color: white;
-            }
-
-            #addNewSpecialRowButton {
-
-                border-color: #26282f;
-                background-color: #26282f;
-
-            }
-
-            #addNewSpecialRowButton:hover {
-                border-color: #870e12;
-                background-color: #870e12;
-            }
-
-            .subsSpButtonGroup1, .subsSpButtonGroup2 {
-                border-color: #26282f;
-                color: #26282f;
-                background-color: white;
-
-            }
-
-            .subsSpButtonGroup1:active, .subsSpButtonGroup2:active, .subsSpButtonGroup2:hover, .subsSpButtonGroup2:hover {
-                border-color: #26282f;
-                color: #26282f;
-                background-color: white;
-            }
-        </style>
         <script>
             function renderSectionFilterSpRow() {
                 $('#selectSpRowSezione').html('<option>Seleziona Sezione</option>');

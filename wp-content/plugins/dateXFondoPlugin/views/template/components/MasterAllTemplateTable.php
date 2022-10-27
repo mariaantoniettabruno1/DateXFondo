@@ -7,17 +7,7 @@ class MasterAllTemplateTable
     public static function render_scripts()
     {
         ?>
-        <style>
-            .btn-visualize-template{
-                border-color: #26282f;
-                background-color: #26282f;
-            }
-            .btn-visualize-template:hover{
-                border-color:#870e12 ;
-                background-color: #870e12;
-            }
-
-        </style>
+ 
         <script>
             let template_name = '';
 

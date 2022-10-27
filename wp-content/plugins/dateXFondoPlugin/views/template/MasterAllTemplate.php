@@ -30,6 +30,7 @@ class MasterAllTemplate
                       integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
                       crossorigin="anonymous" referrerpolicy="no-referrer"/>
                 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+                <link rel="stylesheet" href="<?= DateXFondoCommon::get_base_url() ?>/assets/styles/alltemplate.css">
 
                 <script>
                     let articoli = JSON.parse((`<?=json_encode($results_articoli);?>`));

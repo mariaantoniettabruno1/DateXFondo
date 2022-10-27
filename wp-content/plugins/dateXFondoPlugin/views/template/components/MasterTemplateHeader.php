@@ -7,21 +7,6 @@ class MasterTemplateHeader
     public static function render_scripts()
     {
         ?>
-        <style>
-
-            #editInputButton {
-                color: #26282f;
-            }
-
-            #saveInputButton {
-                color: #26282f;
-            }
-            #deleteEditButton{
-                color: #26282f;
-            }
-
-
-        </style>
 
         <script>
             $(document).ready(function () {

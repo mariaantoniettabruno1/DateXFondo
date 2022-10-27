@@ -8,21 +8,7 @@ class MasterTemplateStopEditingButton
     public static function render_scripts()
     {
         ?>
-        <style>
-            #stopEditingButton {
-                color: #26282f;
-            }
-            #stopEditTemplateButton{
-                border-color: #26282f;
-                background-color: #26282f;
-            }
-            #stopEditTemplateButton:hover{
-                border-color:#870e12 ;
-                background-color: #870e12;
-            }
 
-
-        </style>
         <script>
             $(document).ready(function () {
 

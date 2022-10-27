@@ -7,38 +7,7 @@ class MasterTemplateTable
     public static function render_scripts()
     {
         ?>
-        <style>
-            .class-accordion-button {
-                color: #26282f;
-            }
 
-            .class-accordion-button:hover {
-                color: #26282f;
-            }
-
-            .btn-delete-row, .btn-delete-row:hover {
-                color: #870e12;
-            }
-
-            .btn-edit-row-dec, .btn-edit-row-dec:hover {
-                color: #26282f;
-            }
-
-            .btn-edit-row, .btn-edit-row:hover {
-                color: #26282f;
-            }
-
-            #editRowButton, #deleteRowButton {
-
-                border-color: #26282f;
-                background-color: #26282f;
-            }
-
-            #editRowButton:hover, #deleteRowButton:hover {
-                border-color: #870e12;
-                background-color: #870e12;
-            }
-        </style>
         <script>
 
             let id = 0;
@@ -146,7 +115,6 @@ class MasterTemplateTable
                 $('.btn-edit-row').click(function () {
                     id = $(this).attr('data-id');
                     const articolo = articoli.find(art => Number(art.id) === Number(id))
-                    console.log(articolo)
                     if (!articolo) return;
                     $('#idArticolo').val(articolo.id_articolo)
                     $('#idNomeArticolo').val(articolo.nome_articolo)
