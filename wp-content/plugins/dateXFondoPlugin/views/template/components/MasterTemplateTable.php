@@ -87,7 +87,7 @@ class MasterTemplateTable
                             button = ` <button class="btn btn-link btn-edit-row" data-id='${art.id}' data-toggle="modal" data-target="#editModal" disabled><i class="fa-solid fa-pen"></i></button>`;
                             delete_button = ` <button class="btn btn-link btn-delete-row" data-id='${art.id}' data-toggle="modal" data-target="#deleteModal" disabled><i class="fa-solid fa-trash"></i></button>`;
                         } else {
-                            button = ` <button class="btn btn-link btn-edit-row"  data-toggle="modal" data-target="#editModal"><i class="fa-solid fa-pen"></i></button>`;
+                            button = ` <button class="btn btn-link btn-edit-row" data-id='${art.id}' data-toggle="modal" data-target="#editModal"><i class="fa-solid fa-pen"></i></button>`;
                             delete_button = ` <button class="btn btn-link btn-delete-row" data-id='${art.id}' data-toggle="modal" data-target="#deleteModal"><i class="fa-solid fa-trash"></i></button>`;
                         }
                     }
@@ -98,7 +98,6 @@ class MasterTemplateTable
                     } else if (Number(art.heredity) === 2) {
                         heredity = "Nota e valore ereditati";
                     }
-
 
                     $('#dataTemplateTableBody' + index).append(`
                                  <tr>
@@ -141,10 +140,13 @@ class MasterTemplateTable
                 });
                 $('.btn-delete-row').click(function () {
                     id = $(this).attr('data-id');
+                    console.log(id)
+
                 });
                 $('.btn-edit-row').click(function () {
                     id = $(this).attr('data-id');
                     const articolo = articoli.find(art => Number(art.id) === Number(id))
+                    console.log(articolo)
                     if (!articolo) return;
                     $('#idArticolo').val(articolo.id_articolo)
                     $('#idNomeArticolo').val(articolo.nome_articolo)
