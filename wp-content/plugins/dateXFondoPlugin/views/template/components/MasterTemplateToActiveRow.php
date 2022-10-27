@@ -29,8 +29,13 @@ class MasterTemplateToActiveRow
             function renderDataTable() {
                 $('#dataTemplateTableBody').html('');
                 articoli.forEach(art => {
+
                     $('#dataTemplateTableBody').append(`
                                  <tr>
+                                       <td>${art.fondo}</td>
+                                       <td>${art.anno}</td>
+                                       <td>${art.descrizione_fondo}</td>
+                                       <td>${art.template_name}</td>
                                        <td>${art.sezione}</td>
                                        <td>${art.sottosezione}</td>
                                        <td>${art.id_articolo}</td>
@@ -113,6 +118,10 @@ class MasterTemplateToActiveRow
         <table class="table">
             <thead>
             <tr>
+                <th>Fondo</th>
+                <th>Anno</th>
+                <th>Descrizione fondo</th>
+                <th>Nome del template</th>
                 <th>Sezione</th>
                 <th>Sottosezione</th>
                 <th>Id Articolo</th>
