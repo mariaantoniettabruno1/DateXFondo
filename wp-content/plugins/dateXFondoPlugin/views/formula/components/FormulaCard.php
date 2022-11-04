@@ -132,11 +132,10 @@ class FormulaCard
                 $('#inputFormula').val('');
                 $('#inputCheckboxVisibileFormula').prop('checked', false);
             }
-            function validateFormula(formula){
+            function validateArticoliFormula(formula){
                 articoli.forEach(articolo => {
                     if (formula.includes(articolo.id_articolo))
                         window[articolo.id_articolo] = 1;
-                    console.log(window[articolo.id_articolo]);
                 });
                 try{
                     eval(formula);
@@ -146,6 +145,20 @@ class FormulaCard
                  return 0;
                 }
             }
+            function validateFormula(formula){
+                formule.forEach(form => {
+                    if (formula.includes(form.nome))
+                        window[form.nome] = 1;
+                });
+                try{
+                    eval(formula);
+                }
+                catch (e){
+                    console.log("Formula non composta correttamente");
+                    return 0;
+                }
+            }
+
 
             $(document).ready(function () {
                 clearInputFormula();
@@ -198,7 +211,7 @@ class FormulaCard
                         visibile,
                         condizione
                     }
-                    if(!validateFormula(formula)){
+                    if(!validateFormula(formula) || !validateArticoliFormula(formula)){
                         $(".alert-validate-wrong").show();
                         $(".alert-validate-wrong").fadeTo(2000, 500).slideUp(500, function () {
                             $(".alert-validate-wrong").slideUp(500);
