@@ -132,6 +132,20 @@ class FormulaCard
                 $('#inputFormula').val('');
                 $('#inputCheckboxVisibileFormula').prop('checked', false);
             }
+            function validateFormula(formula){
+                articoli.forEach(articolo => {
+                    if (formula.includes(articolo.id_articolo))
+                        window[articolo.id_articolo] = 1;
+                    console.log(window[articolo.id_articolo]);
+                });
+                try{
+                    eval(formula);
+                }
+                catch (e){
+                 console.log("Formula non composta correttamente");
+                 return 0;
+                }
+            }
 
             $(document).ready(function () {
                 clearInputFormula();
@@ -184,40 +198,50 @@ class FormulaCard
                         visibile,
                         condizione
                     }
-                    $.ajax({
-                        url: '<?= DateXFondoCommon::get_website_url() ?>/wp-json/datexfondoplugin/v1/formula',
-                        data: payload,
-                        type: "POST",
-                        success: function (response) {
-                            console.log(response);
-                            if (!response.updated) {
-                                if (response["id"]) {
+                    if(!validateFormula(formula)){
+                        $(".alert-validate-wrong").show();
+                        $(".alert-validate-wrong").fadeTo(2000, 500).slideUp(500, function () {
+                            $(".alert-validate-wrong").slideUp(500);
+                        });
+                    }
+                    else{
+                        $.ajax({
+                            url: '<?= DateXFondoCommon::get_website_url() ?>/wp-json/datexfondoplugin/v1/formula',
+                            data: payload,
+                            type: "POST",
+                            success: function (response) {
+                                console.log(response);
+                                if (!response.updated) {
+                                    if (response["id"]) {
+                                        formule.push({...payload, id: response["id"]});
+                                    }
+                                    $(".alert-formula-success").show();
+                                    $(".alert-formula-success").fadeTo(2000, 500).slideUp(500, function () {
+                                        $(".alert-formula-success").slideUp(500);
+                                    });
+                                } else {
+                                    formule = formule.filter(f => Number(f.id) !== Number(formulaId));
                                     formule.push({...payload, id: response["id"]});
+                                    $(".alert-formula-update-success").show();
+                                    $(".alert-formula-update-success").fadeTo(2000, 500).slideUp(500, function () {
+                                        $(".alert-formula-update-success").slideUp(500);
+                                    });
                                 }
-                                $(".alert-formula-success").show();
-                                $(".alert-formula-success").fadeTo(2000, 500).slideUp(500, function () {
-                                    $(".alert-formula-success").slideUp(500);
-                                });
-                            } else {
-                                formule = formule.filter(f => Number(f.id) !== Number(formulaId));
-                                formule.push({...payload, id: response["id"]});
-                                $(".alert-formula-update-success").show();
-                                $(".alert-formula-update-success").fadeTo(2000, 500).slideUp(500, function () {
-                                    $(".alert-formula-update-success").slideUp(500);
+                                formulaId = 0;
+                                handleFilter();
+                                clearInputFormula();
+                            },
+                            error: function (response) {
+                                console.error(response);
+                                $(".alert-formula-wrong").show();
+                                $(".alert-formula-wrong").fadeTo(2000, 500).slideUp(500, function () {
+                                    $(".alert-formula-wrong").slideUp(500);
                                 });
                             }
-                            formulaId = 0;
-                            handleFilter();
-                            clearInputFormula();
-                        },
-                        error: function (response) {
-                            console.error(response);
-                            $(".alert-formula-wrong").show();
-                            $(".alert-formula-wrong").fadeTo(2000, 500).slideUp(500, function () {
-                                $(".alert-formula-wrong").slideUp(500);
-                            });
-                        }
-                    })
+                        })
+                    }
+
+
                 });
 
                 $('#insertCondition').click(function () {
@@ -485,12 +509,18 @@ class FormulaCard
         </div>
         <div class="alert alert-danger alert-formula-wrong" role="alert"
              style="position:fixed; top: <?= is_admin_bar_showing() ? 47 : 15 ?>px; right: 15px; display:none">
-          Operazione non andata a buon fine
+            Operazione non andata a buon fine
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
-
+        <div class="alert alert-danger alert-validate-wrong" role="alert"
+             style="position:fixed; top: <?= is_admin_bar_showing() ? 47 : 15 ?>px; right: 15px; display:none">
+            Formula non scritta correttamente
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
         <?php
         self::render_scripts();
     }
