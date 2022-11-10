@@ -198,6 +198,7 @@ class FormulaCard
                     let nome = $('#inputNomeFormula').val();
                     let descrizione = $('#inputDescrizioneFormula').val();
                     let formula = $('#inputFormula').val();
+                    let formula_template_name = $('#inputSelectOwner').val();
                     let visibile = $('#inputCheckboxVisibileFormula').prop('checked') ? 1 : 0;
                     let bold = $('#boldCheck').prop('checked') ? 1 : 0;
                     let highText = $('#higherTextCheck').prop('checked') ? 1 : 0;
@@ -221,7 +222,8 @@ class FormulaCard
                         formula,
                         visibile,
                         condizione,
-                        text_type
+                        text_type,
+                        formula_template_name
                     }
                     if (!validateFormula(formula) || !validateArticoliFormula(formula)) {
                         $(".alert-validate-wrong").show();
@@ -277,6 +279,7 @@ class FormulaCard
                         let cond = $('#inputCondizione').val();
                         let vero = $('#inputVero').val();
                         let falso = $('#inputFalso').val();
+                        let formula_template_name = $('#inputSelectOwner').val();
                         let formula = `(${cond})?(${vero}):(${falso})`;
                         let visibile = $('#inputCheckboxVisibileFormula').prop('checked') ? 1 : 0;
                         if (sezione === 'Seleziona Sezione') {
@@ -295,7 +298,8 @@ class FormulaCard
                             descrizione,
                             formula,
                             visibile,
-                            condizione
+                            condizione,
+                            formula_template_name
                         }
                         $.ajax({
                             url: '<?= DateXFondoCommon::get_website_url() ?>/wp-json/datexfondoplugin/v1/formula',

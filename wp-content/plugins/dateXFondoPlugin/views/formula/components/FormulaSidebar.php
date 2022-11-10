@@ -7,23 +7,29 @@ class FormulaSidebar
     public static function render_scripts()
     {
         ?>
-            <style>
+        <style>
             .span-bold {
                 font-weight: bold;
             }
+
             .span-higher {
                 font-size: 22px;
             }
-            .span-bold-higher{
+
+            .span-bold-higher {
                 font-weight: bold;
                 font-size: 22px;
             }
-            </style>
+        </style>
         <script>
             let id = 0;
-            function renderDataTable(section, subsection) {
+
+            function renderDataTable(section, subsection, owner) {
                 $('#dataTableBody').html('');
                 let filteredArticoli = articoli;
+
+                filteredArticoli = filteredArticoli.filter(art => art.template_name === owner)
+
                 if (section) {
                     filteredArticoli = filteredArticoli.filter(art => art.sezione === section)
                 }
@@ -33,7 +39,7 @@ class FormulaSidebar
                 filteredArticoli.forEach(art => {
 
                     let button = "";
-                    if(art.row_type !== "decurtazione"){
+                    if (art.row_type !== "decurtazione") {
                         button = `<button type="button" class="btn btn-sm btn-outline-primary" title="Aggiungi ${art.id_articolo} alla formula" onclick="insertIntoFormula('${art.id_articolo}')"><i class="fa-solid fa-plus"></i></button>`
                     } else {
                         button = `<button type="button" class="btn btn-sm btn-outline-success" title="Aggiungi decurtazione ${art.id_articolo} alla formula" onclick="insertDecurtazioneIntoFormula('${art.link}', '${art.id_articolo}')"><i class="fa-solid fa-plus"></i></button>`
@@ -59,10 +65,11 @@ class FormulaSidebar
                 });
             }
 
-            function renderFormulaTables(section, subsection) {
+            function renderFormulaTables(section, subsection, owner) {
                 $('#formulaTableBody').html('');
                 $('#conditionalTableBody').html('');
                 let filteredFormule = formule;
+                filteredFormule = filteredFormule.filter(f => f.formula_template_name === owner)
                 if (section) {
                     filteredFormule = filteredFormule.filter(f => f.sezione === section)
                 }
@@ -77,19 +84,16 @@ class FormulaSidebar
                     } else {
                         table = $('#formulaTableBody');
                     }
-                    if(f.text_type === '10'){
-                        nome_formula = '<span class="span-bold">'+f.nome+'</span>';
-                    }
-                    else if(f.text_type === '01'){
-                        nome_formula = '<span class="span-higher">'+f.nome+'</span>';
+                    if (f.text_type === '10') {
+                        nome_formula = '<span class="span-bold">' + f.nome + '</span>';
+                    } else if (f.text_type === '01') {
+                        nome_formula = '<span class="span-higher">' + f.nome + '</span>';
 
-                    }
-                    else if(f.text_type === '11'){
-                        nome_formula = '<span class="span-bold-higher">'+f.nome+'</span>';
+                    } else if (f.text_type === '11') {
+                        nome_formula = '<span class="span-bold-higher">' + f.nome + '</span>';
 
-                    }
-                    else {
-                        nome_formula = '<span>'+f.nome+'</span>';
+                    } else {
+                        nome_formula = '<span>' + f.nome + '</span>';
 
                     }
                     table.append(`
@@ -109,6 +113,13 @@ class FormulaSidebar
                 });
             }
 
+            function renderOwnerFilter() {
+                $('#inputSelectOwner').html('<option>Seleziona Proprietario</option>');
+                for (let i = 0; i < owners.length; i++) {
+                    $('#inputSelectOwner').append(`<option>${owners[i]}</option>`);
+                }
+            }
+
             function renderSectionFilter() {
                 $('#inputSelectSezione').html('<option>Seleziona Sezione</option>');
                 Object.keys(sezioni).forEach(sez => {
@@ -126,22 +137,26 @@ class FormulaSidebar
             function handleFilter() {
                 let subsection = $('#inputSelectSottosezione').val();
                 let section = $('#inputSelectSezione').val();
-                if (subsection === 'Seleziona Sottosezione' || subsection==="") {
+                let owner = $('#inputSelectOwner').val();
+                if (subsection === 'Seleziona Sottosezione' || subsection === "") {
                     subsection = null
                 }
                 if (section === 'Seleziona Sezione') {
                     section = null
                 }
-                console.log(section, subsection);
-                renderDataTable(section, subsection);
-                renderFormulaTables(section, subsection);
+                if (owner === 'Seleziona proprietario') {
+                    owner = null
+                }
+                console.log(section, subsection,owner);
+                renderDataTable(section, subsection, owner);
+                renderFormulaTables(section, subsection, owner);
             }
 
             $(document).ready(function () {
                 renderDataTable();
                 renderFormulaTables();
                 renderSectionFilter();
-
+                renderOwnerFilter();
 
                 $('#inputSelectSezione').change(function () {
                     const section = $('#inputSelectSezione').val();
@@ -160,7 +175,13 @@ class FormulaSidebar
                 $('#inputSelectSottosezione').change(function () {
                     handleFilter();
                 });
-                $("#deleteFormulaButton").click(function (){
+                $('#inputSelectOwner').change(function () {
+                    const owner = $('#inputSelectOwner').val();
+                    if(owner!=='Seleziona Proprietario'){
+                        handleFilter();
+                    }
+                });
+                $("#deleteFormulaButton").click(function () {
                     const payload = {
                         id
                     }
@@ -206,11 +227,15 @@ class FormulaSidebar
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-4">
+                            <select class="custom-select" id="inputSelectOwner">
+                            </select>
+                        </div>
+                        <div class="col-4">
                             <select class="custom-select" id="inputSelectSezione">
                             </select>
                         </div>
-                        <div class="col-6">
+                        <div class="col-4">
                             <select class="custom-select" id="inputSelectSottosezione" disabled>
                             </select>
                         </div>
@@ -300,7 +325,8 @@ class FormulaSidebar
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="deleteFormulaModal" tabindex="-1" role="dialog" aria-labelledby="deleteFormulaModalLabel"
+        <div class="modal fade" id="deleteFormulaModal" tabindex="-1" role="dialog"
+             aria-labelledby="deleteFormulaModalLabel"
              aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">

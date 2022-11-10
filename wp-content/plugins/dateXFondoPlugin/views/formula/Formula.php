@@ -46,6 +46,7 @@ class Formula
                 let articoli = JSON.parse((`<?=json_encode($result_articoli);?>`));
                 let formule = JSON.parse((`<?=json_encode($result_formule);?>`));
                 let sezioni = {}
+                let owners = []
                 articoli.forEach(a => {
                     if(!sezioni[a.sezione]){
                         sezioni[a.sezione] = [];
@@ -53,6 +54,9 @@ class Formula
                     if(!sezioni[a.sezione].includes(a.sottosezione)){
                         sezioni[a.sezione].push(a.sottosezione);
                     }
+                   if(!owners.includes(a.template_name)){
+                       owners.push(a.template_name)
+                   }
                 })
             </script>
         </head>

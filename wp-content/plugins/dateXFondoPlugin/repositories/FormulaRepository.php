@@ -32,9 +32,9 @@ class FormulaRepository
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = "INSERT INTO DATE_formula (sezione,sottosezione,nome,descrizione,condizione,formula,visibile,text_type) VALUES (?,?,?,?,?,?,?,?) ";
+        $sql = "INSERT INTO DATE_formula (sezione,sottosezione,nome,descrizione,condizione,formula,visibile,formula_template_name,text_type) VALUES (?,?,?,?,?,?,?,?,?) ";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("ssssisis",
+        $stmt->bind_param("ssssisiss",
             $request['sezione'],
             $request['sottosezione'],
             $request['nome'],
@@ -42,6 +42,7 @@ class FormulaRepository
             $request['condizione'],
             $request['formula'],
             $request['visibile'],
+            $request['formula_template_name'],
             $request['text_type']);
         $stmt->execute();
         mysqli_close($mysqli);
@@ -52,9 +53,9 @@ class FormulaRepository
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = "UPDATE DATE_formula SET sezione = ?, sottosezione = ?, nome = ?, descrizione = ?, condizione = ?, formula = ?, visibile = ? WHERE ID = ?;";
+        $sql = "UPDATE DATE_formula SET sezione = ?, sottosezione = ?, nome = ?, descrizione = ?, condizione = ?, formula = ?, visibile = ?, formula_template_name=? WHERE ID = ?;";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("ssssisii",
+        $stmt->bind_param("ssssisisi",
             $request['sezione'],
             $request['sottosezione'],
             $request['nome'],
@@ -62,6 +63,7 @@ class FormulaRepository
             $request['condizione'],
             $request['formula'],
             $request['visibile'],
+            $request['formula_template_name'],
             $request['id']);
         $stmt->execute();
         mysqli_close($mysqli);
