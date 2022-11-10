@@ -12,8 +12,9 @@ class MasterTemplateFormulaJoin
     public static function render()
     {
         $data = new MasterJoinTableRepository();
-        $results_articoli = $data->getJoinedArticoli();
-        $results_formula = $data->getJoinedFormulas();
+
+        $results_articoli = $data->getJoinedArticoli($_GET['template_name']);
+        $results_formula = $data->getJoinedFormulas($_GET['template_name']);
         $results_joined = $data->getJoinedRecords();
         foreach ($results_formula as $key => $value){
             $results_formula[$key]["formula"] = str_replace('"','\"' ,$value["formula"]);

@@ -18,7 +18,6 @@ class MasterJoinTable
 
             let id = 0;
             let filteredRecord = joined_record;
-
             function renderDataTable(section, subsection) {
                 let index = Object.keys(sezioni).indexOf(section);
                 $('#dataTemplateTableBody' + index).html('');
@@ -239,7 +238,7 @@ class MasterJoinTable
     public static function render()
     {
         $data = new MasterJoinTableRepository();
-        $results_articoli = $data->getJoinedArticoli();
+        $results_articoli = $data->getJoinedArticoli($_GET['template_name']);
 
         $sezioni = [];
         $tot_array = [];

@@ -4,26 +4,32 @@ namespace dateXFondoPlugin;
 
 class MasterJoinTableRepository
 {
-    public static function getJoinedArticoli()
+    public static function getJoinedArticoli($template_name)
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
         $sql = "SELECT id,fondo,anno,descrizione_fondo,ordinamento,sezione,sottosezione,id_articolo,nome_articolo,sottotitolo_articolo,nota,link,editable,version,row_type,heredity
-                FROM DATE_template_fondo  WHERE attivo =1";
-        $result = $mysqli->query($sql);
-        $rows = $result->fetch_all(MYSQLI_ASSOC);
+                FROM DATE_template_fondo  WHERE attivo =1 AND template_name=?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("s", $template_name);
+        $res = $stmt->execute();
+        $res = $stmt->get_result();
+        $rows = $res->fetch_all(MYSQLI_ASSOC);
         mysqli_close($mysqli);
         return $rows;
     }
 
-    public static function getJoinedFormulas()
+    public static function getJoinedFormulas($template_name)
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
         $sql = "SELECT id,sezione,sottosezione,nome,descrizione,condizione,formula,text_type 
-                FROM DATE_formula  WHERE attivo =1 AND visibile = 1";
-        $result = $mysqli->query($sql);
-        $rows = $result->fetch_all(MYSQLI_ASSOC);
+                FROM DATE_formula  WHERE attivo =1 AND visibile = 1 AND formula_template_name=?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("s", $template_name);
+        $res = $stmt->execute();
+        $res = $stmt->get_result();
+        $rows = $res->fetch_all(MYSQLI_ASSOC);
         mysqli_close($mysqli);
         return $rows;
     }
