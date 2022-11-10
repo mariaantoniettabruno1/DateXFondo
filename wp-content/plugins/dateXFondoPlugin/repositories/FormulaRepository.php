@@ -32,16 +32,17 @@ class FormulaRepository
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = "INSERT INTO DATE_formula (sezione,sottosezione,nome,descrizione,condizione,formula,visibile) VALUES (?,?,?,?,?,?,?) ";
+        $sql = "INSERT INTO DATE_formula (sezione,sottosezione,nome,descrizione,condizione,formula,visibile,text_type) VALUES (?,?,?,?,?,?,?,?) ";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("ssssisi",
+        $stmt->bind_param("ssssisis",
             $request['sezione'],
             $request['sottosezione'],
             $request['nome'],
             $request['descrizione'],
             $request['condizione'],
             $request['formula'],
-            $request['visibile']);
+            $request['visibile'],
+            $request['text_type']);
         $stmt->execute();
         mysqli_close($mysqli);
         return $stmt->insert_id;

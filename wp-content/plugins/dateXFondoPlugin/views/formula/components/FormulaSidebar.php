@@ -7,6 +7,18 @@ class FormulaSidebar
     public static function render_scripts()
     {
         ?>
+            <style>
+            .span-bold {
+                font-weight: bold;
+            }
+            .span-higher {
+                font-size: 22px;
+            }
+            .span-bold-higher{
+                font-weight: bold;
+                font-size: 22px;
+            }
+            </style>
         <script>
             let id = 0;
             function renderDataTable(section, subsection) {
@@ -59,15 +71,30 @@ class FormulaSidebar
                 }
                 filteredFormule.forEach(f => {
                     let table;
+                    let nome_formula = '';
                     if (Number(f.condizione) === 1) { <?php // QUANDO FACCIAMO IL JSON PARSE VIENE TUTTO CONVERTITO IN STRINGA. ?>
                         table = $('#conditionalTableBody');
                     } else {
                         table = $('#formulaTableBody');
+                    }
+                    if(f.text_type === '10'){
+                        nome_formula = '<span class="span-bold">'+f.nome+'</span>';
+                    }
+                    else if(f.text_type === '01'){
+                        nome_formula = '<span class="span-higher">'+f.nome+'</span>';
+
+                    }
+                    else if(f.text_type === '11'){
+                        nome_formula = '<span class="span-bold-higher">'+f.nome+'</span>';
+
+                    }
+                    else {
+                        nome_formula = '<span>'+f.nome+'</span>';
 
                     }
                     table.append(`
                         <tr>
-                          <td class="text-truncate" data-toggle="tooltip" title="${f.nome}">${f.nome}</td>
+                          <td class="text-truncate" data-toggle="tooltip" title="${f.nome}">${nome_formula}</td>
                           <td class="text-truncate" data-toggle="tooltip" title="${f.descrizione}">${f.descrizione}</td>
                           <td>
                             <button type="button" class="btn btn-sm btn-outline-primary" title="Aggiungi ${f.nome} alla formula" onclick="insertIntoFormula('${f.nome}')"><i class="fa-solid fa-plus"></i></button>

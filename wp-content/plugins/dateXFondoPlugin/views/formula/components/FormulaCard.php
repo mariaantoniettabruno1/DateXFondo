@@ -24,6 +24,8 @@ class FormulaCard
             .btn-link, .btn-link:hover {
                 color: #26282f;
             }
+
+
         </style>
         <script>
 
@@ -132,28 +134,32 @@ class FormulaCard
                 $('#inputFormula').val('');
                 $('#inputCheckboxVisibileFormula').prop('checked', false);
             }
-            function validateArticoliFormula(formula){
+
+            function validateArticoliFormula(formula) {
                 articoli.forEach(articolo => {
                     if (formula.includes(articolo.id_articolo))
                         window[articolo.id_articolo] = 1;
                 });
-                try{
+                try {
                     eval(formula);
-                }
-                catch (e){
-                 console.log("Formula non composta correttamente");
-                 return 0;
+                    console.log(formula)
+                } catch (e) {
+                    console.log(eval(formula))
+                    console.log("Formula non composta correttamente");
+                    return 0;
                 }
             }
-            function validateFormula(formula){
+
+            function validateFormula(formula) {
                 formule.forEach(form => {
                     if (formula.includes(form.nome))
                         window[form.nome] = 1;
                 });
-                try{
+                try {
                     eval(formula);
-                }
-                catch (e){
+                    console.log(formula)
+                } catch (e) {
+                    console.log(eval(formula))
                     console.log("Formula non composta correttamente");
                     return 0;
                 }
@@ -193,6 +199,11 @@ class FormulaCard
                     let descrizione = $('#inputDescrizioneFormula').val();
                     let formula = $('#inputFormula').val();
                     let visibile = $('#inputCheckboxVisibileFormula').prop('checked') ? 1 : 0;
+                    let bold = $('#boldCheck').prop('checked') ? 1 : 0;
+                    let highText = $('#higherTextCheck').prop('checked') ? 1 : 0;
+                    let text_type = '';
+                     text_type = text_type + bold + highText;
+
                     if (sezione === 'Seleziona Sezione') {
                         sezione = null;
                     }
@@ -209,15 +220,15 @@ class FormulaCard
                         descrizione,
                         formula,
                         visibile,
-                        condizione
+                        condizione,
+                        text_type
                     }
-                    if(!validateFormula(formula) || !validateArticoliFormula(formula)){
+                    if (!validateFormula(formula) || !validateArticoliFormula(formula)) {
                         $(".alert-validate-wrong").show();
                         $(".alert-validate-wrong").fadeTo(2000, 500).slideUp(500, function () {
                             $(".alert-validate-wrong").slideUp(500);
                         });
-                    }
-                    else{
+                    } else {
                         $.ajax({
                             url: '<?= DateXFondoCommon::get_website_url() ?>/wp-json/datexfondoplugin/v1/formula',
                             data: payload,
@@ -334,7 +345,8 @@ class FormulaCard
             </div>
             <div class="card-body">
                 <div class="row mb-3">
-                    <div class="col-4"><input type="text" class="form-control" id="inputNomeFormula"
+                    <div class="col-4">
+                        <input type="text" class="form-control" id="inputNomeFormula"
                                               placeholder="Inserisci nome"
                                               aria-label="NomeFormula" aria-describedby="basic-addon1">
                     </div>
@@ -342,6 +354,24 @@ class FormulaCard
                         <input type="text" class="form-control" id="inputDescrizioneFormula"
                                placeholder="Inserisci descrizione" aria-label="DescrizioneFormula"
                                aria-describedby="basic-addon1"></div>
+                </div>
+                <div class="row mb-2">
+                  <div class="col">
+                      <div class="form-group form-check">
+                          <div class="form-check">
+                          <input class="form-check-input" type="checkbox" value="" id="boldCheck">
+                          <label class="form-check-label" for="boldCheck">
+                              Grassetto
+                          </label>
+
+                      </div>
+                      <div class="form-check">
+                          <input class="form-check-input" type="checkbox" value="" id="higherTextCheck">
+                          <label class="form-check-label" for="higherTextCheck">
+                              Testo Grande </label>
+                      </div>
+                  </div>
+                  </div>
                 </div>
                 <div class="row mb-3">
                     <div class="col">

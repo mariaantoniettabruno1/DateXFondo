@@ -20,7 +20,7 @@ class MasterJoinTableRepository
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = "SELECT id,sezione,sottosezione,nome,descrizione,condizione,formula 
+        $sql = "SELECT id,sezione,sottosezione,nome,descrizione,condizione,formula,text_type 
                 FROM DATE_formula  WHERE attivo =1 AND visibile = 1";
         $result = $mysqli->query($sql);
         $rows = $result->fetch_all(MYSQLI_ASSOC);
