@@ -101,7 +101,7 @@ class FormulaSidebar
             }
 
             function renderOwnerFilter() {
-                $('#inputSelectOwner').html('<option>Seleziona Proprietario</option>');
+                $('#inputSelectOwner').html('<option>Seleziona Template</option>');
                 for (let i = 0; i < owners.length; i++) {
                     $('#inputSelectOwner').append(`<option>${owners[i]}</option>`);
                 }
@@ -131,7 +131,7 @@ class FormulaSidebar
                 if (section === 'Seleziona Sezione') {
                     section = null
                 }
-                if (owner === 'Seleziona proprietario') {
+                if (owner === 'Seleziona Template') {
                     owner = null
                 }
                 console.log(section, subsection,owner);

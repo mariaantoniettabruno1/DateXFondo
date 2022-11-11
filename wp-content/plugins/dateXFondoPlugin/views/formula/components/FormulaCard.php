@@ -8,7 +8,15 @@ class FormulaCard
     public static function render_scripts()
     {
         ?>
+        <style>
+            .alert-formula-success {
+                z-index: 3;
+            }
 
+            .alert-formula-wrong {
+                z-index: 3;
+            }
+        </style>
         <script>
 
             function renderSectionInput() {
@@ -122,23 +130,16 @@ class FormulaCard
                     if (formula.includes(articolo.id_articolo))
                         window[articolo.id_articolo] = 1;
                 });
-                try {
-                    eval(formula);
-                } catch (e) {
-                    console.log("Formula non composta correttamente");
-                    return 0;
-                }
-            }
-
-            function validateFormula(formula) {
                 formule.forEach(form => {
                     if (formula.includes(form.nome))
                         window[form.nome] = 1;
                 });
                 try {
                     eval(formula);
+                    return 1;
                 } catch (e) {
                     console.log("Formula non composta correttamente");
+                    console.error(e);
                     return 0;
                 }
             }
@@ -181,7 +182,7 @@ class FormulaCard
                     let bold = $('#boldCheck').prop('checked') ? 1 : 0;
                     let highText = $('#higherTextCheck').prop('checked') ? 1 : 0;
                     let text_type = '';
-                     text_type = text_type + bold + highText;
+                    text_type = text_type + bold + highText;
 
                     if (sezione === 'Seleziona Sezione') {
                         sezione = null;
@@ -203,7 +204,7 @@ class FormulaCard
                         text_type,
                         formula_template_name
                     }
-                    if (!validateFormula(formula) || !validateArticoliFormula(formula)) {
+                    if (!validateArticoliFormula(formula)) {
                         $(".alert-validate-wrong").show();
                         $(".alert-validate-wrong").fadeTo(2000, 500).slideUp(500, function () {
                             $(".alert-validate-wrong").slideUp(500);
@@ -329,8 +330,8 @@ class FormulaCard
                 <div class="row mb-3">
                     <div class="col-4">
                         <input type="text" class="form-control" id="inputNomeFormula"
-                                              placeholder="Inserisci nome"
-                                              aria-label="NomeFormula" aria-describedby="basic-addon1">
+                               placeholder="Inserisci nome"
+                               aria-label="NomeFormula" aria-describedby="basic-addon1">
                     </div>
                     <div class="col-8">
                         <input type="text" class="form-control" id="inputDescrizioneFormula"
@@ -338,22 +339,22 @@ class FormulaCard
                                aria-describedby="basic-addon1"></div>
                 </div>
                 <div class="row mb-2">
-                  <div class="col">
-                      <div class="form-group form-check">
-                          <div class="form-check">
-                          <input class="form-check-input" type="checkbox" value="" id="boldCheck">
-                          <label class="form-check-label" for="boldCheck">
-                              Grassetto
-                          </label>
+                    <div class="col">
+                        <div class="form-group form-check">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="boldCheck">
+                                <label class="form-check-label" for="boldCheck">
+                                    Grassetto
+                                </label>
 
-                      </div>
-                      <div class="form-check">
-                          <input class="form-check-input" type="checkbox" value="" id="higherTextCheck">
-                          <label class="form-check-label" for="higherTextCheck">
-                              Testo Grande </label>
-                      </div>
-                  </div>
-                  </div>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="higherTextCheck">
+                                <label class="form-check-label" for="higherTextCheck">
+                                    Testo Grande </label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="row mb-3">
                     <div class="col">
