@@ -32,7 +32,7 @@ class MasterAllTemplateTable
                                        <td >${art.descrizione_fondo}</td>
                                        <td >${art.template_name}</td>
                                            <td>
-                <button class="btn btn-link btn-vis-templ" data-name='${art.template_name}'><i class="fa-solid fa-eye"></i></button>
+                <button class="btn btn-link btn-vis-templ" data-name='${art.template_name}' data-toggle="tooltip" title="Visualizza e modifica template"><i class="fa-solid fa-eye"></i></button>
                 <button class="btn btn-link btn-visualize-complete-template" data-name='${art.template_name}'>Fondo Completo <i class="fa-solid fa-chevron-right"></i></button>
                 </td>
                 </tr>
