@@ -12,6 +12,18 @@ class MasterJoinTable
             .btn-edit-ord, .btn-save, .class-accordion-button, .btn-edit-ord:hover, .btn-save:hover, .class-accordion-button:hover {
                 color: #26282f;
             }
+            .span-bold {
+                font-weight: bold;
+            }
+
+            .span-higher {
+                font-size: 22px;
+            }
+
+            .span-bold-higher {
+                font-weight: bold;
+                font-size: 22px;
+            }
 
         </style>
         <script>
@@ -34,6 +46,7 @@ class MasterJoinTable
                 let sottotitolo = '';
                 let link = '';
                 let nome_articolo = '';
+                console.log(filteredRecord)
 
                 filteredRecord.sort(function (a, b) {
                     // GETTING JOIN INDEX KEYS
@@ -73,8 +86,24 @@ class MasterJoinTable
                         } else {
                             descrizione = art.formula;
                         }
-                        id_articolo = art.nome ?? ""
-                        nome_articolo = art.nome ?? "";
+                        id_articolo = art.nome ?? "";
+                        console.log(art.text_type)
+
+                        if (art.text_type === '10') {
+                            nome_articolo = '<span class="span-bold">' + art.nome + '</span>';
+                        } else if (art.text_type === '01') {
+                            nome_articolo = '<span class="span-higher">' + art.nome + '</span>';
+
+                        } else if (art.text_type === '11') {
+                            nome_articolo = '<span class="span-bold-higher">' + art.nome + '</span>';
+
+                        } else if(art.text_type === '00'){
+                            nome_articolo = '<span>' + art.nome + '</span>';
+
+                        }
+                        else{
+                            nome_articolo = '';
+                        }
                     }
 
                     if (art.heredity === "0") {
