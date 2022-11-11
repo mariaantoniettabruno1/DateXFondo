@@ -8,6 +8,7 @@ class FormulaCard
     public static function render_scripts()
     {
         ?>
+
         <script>
 
             function renderSectionInput() {
@@ -123,9 +124,7 @@ class FormulaCard
                 });
                 try {
                     eval(formula);
-                    console.log(formula)
                 } catch (e) {
-                    console.log(eval(formula))
                     console.log("Formula non composta correttamente");
                     return 0;
                 }
@@ -138,9 +137,7 @@ class FormulaCard
                 });
                 try {
                     eval(formula);
-                    console.log(formula)
                 } catch (e) {
-                    console.log(eval(formula))
                     console.log("Formula non composta correttamente");
                     return 0;
                 }

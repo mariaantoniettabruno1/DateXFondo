@@ -7,7 +7,17 @@ class MasterAllTemplateTable
     public static function render_scripts()
     {
         ?>
- 
+            <?php //capire perchè non legge il file css ?>
+        <style>
+            .btn-vis-templ, .btn-vis-templ:hover {
+                color: #26282f;
+            }
+
+
+            .btn-visualize-complete-template, .btn-visualize-complete-template:hover {
+                color: #26282f;
+            }
+        </style>
         <script>
             let template_name = '';
 
@@ -22,17 +32,18 @@ class MasterAllTemplateTable
                                        <td >${art.descrizione_fondo}</td>
                                        <td >${art.template_name}</td>
                                            <td>
-                <button class="btn btn-link btn-visualize-template" data-name='${art.template_name}'><i class="fa-solid fa-eye"></i></button>
-                <button class="btn btn-link btn-visualize-complete-template" data-name='${art.template_name}'>Fondo Completo <i class="fa-solid fa-arrow-right"></i></button>
+                <button class="btn btn-link btn-vis-templ" data-name='${art.template_name}'><i class="fa-solid fa-eye"></i></button>
+                <button class="btn btn-link btn-visualize-complete-template" data-name='${art.template_name}'>Fondo Completo <i class="fa-solid fa-chevron-right"></i></button>
                 </td>
                 </tr>
                              `);
 
                 });
 
-                $('.btn-visualize-template').click(function () {
+                $('.btn-vis-templ').click(function () {
                     template_name = $(this).attr('data-name');
-                }); $('.btn-visualize-complete-template').click(function () {
+                });
+                $('.btn-visualize-complete-template').click(function () {
                     template_name = $(this).attr('data-name');
                 });
             }
@@ -41,7 +52,7 @@ class MasterAllTemplateTable
 
                 renderDataTable();
 
-                $('.btn-visualize-template').click(function () {
+                $('.btn-vis-templ').click(function () {
                     location.href = '<?= DateXFondoCommon::get_website_url()?>/visualizza-template-fondo/?template_name=' + template_name;
                 });
                 $('.btn-visualize-complete-template').click(function () {
