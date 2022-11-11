@@ -8,24 +8,6 @@ class MasterJoinTable
     public static function render_scripts()
     {
         ?>
-        <style>
-            .btn-edit-ord, .btn-save, .class-accordion-button, .btn-edit-ord:hover, .btn-save:hover, .class-accordion-button:hover {
-                color: #26282f;
-            }
-            .span-bold {
-                font-weight: bold;
-            }
-
-            .span-higher {
-                font-size: 22px;
-            }
-
-            .span-bold-higher {
-                font-weight: bold;
-                font-size: 22px;
-            }
-
-        </style>
         <script>
 
             let id = 0;
@@ -46,7 +28,6 @@ class MasterJoinTable
                 let sottotitolo = '';
                 let link = '';
                 let nome_articolo = '';
-                console.log(filteredRecord)
 
                 filteredRecord.sort(function (a, b) {
                     // GETTING JOIN INDEX KEYS
@@ -87,7 +68,6 @@ class MasterJoinTable
                             descrizione = art.formula;
                         }
                         id_articolo = art.nome ?? "";
-                        console.log(art.text_type)
 
                         if (art.text_type === '10') {
                             nome_articolo = '<span class="span-bold">' + art.nome + '</span>';

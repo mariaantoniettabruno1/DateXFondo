@@ -39,6 +39,8 @@ class Formula
                   integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
                   crossorigin="anonymous" referrerpolicy="no-referrer"/>
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+            <link rel="stylesheet" href="<?= DateXFondoCommon::get_base_url() ?>/assets/styles/formulacard.css">
+            <link rel="stylesheet" href="<?= DateXFondoCommon::get_base_url() ?>/assets/styles/formulasidebar.css">
 
             <script>
                 console.log((`<?=json_encode($result_formule);?>`));

@@ -7,20 +7,7 @@ class FormulaSidebar
     public static function render_scripts()
     {
         ?>
-        <style>
-            .span-bold {
-                font-weight: bold;
-            }
 
-            .span-higher {
-                font-size: 22px;
-            }
-
-            .span-bold-higher {
-                font-weight: bold;
-                font-size: 22px;
-            }
-        </style>
         <script>
             let id = 0;
 
