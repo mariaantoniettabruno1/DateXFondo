@@ -13,7 +13,7 @@ require_once(plugin_dir_path(__FILE__) . 'repositories/Connection.php');
 require_once(plugin_dir_path(__FILE__) . 'repositories/MasterTemplateRepository.php');
 require_once(plugin_dir_path(__FILE__) . 'repositories/MasterTemplateRowRepository.php');
 require_once(plugin_dir_path(__FILE__) . 'repositories/DisabledTemplateRow.php');
-require_once(plugin_dir_path(__FILE__) . 'repositories/DocumentTable.php');
+require_once(plugin_dir_path(__FILE__) . 'repositories/DocumentRepository.php');
 require_once(plugin_dir_path(__FILE__) . 'repositories/FormulaRepository.php');
 require_once(plugin_dir_path(__FILE__) . 'repositories/SlaveFormulaTable.php');
 require_once(plugin_dir_path(__FILE__) . 'repositories/MasterJoinTableRepository.php');
@@ -36,7 +36,11 @@ require_once(plugin_dir_path(__FILE__) . 'views/template/components/MasterTempla
 require_once(plugin_dir_path(__FILE__) . 'views/template/ShortCodeDisabledTemplateRow.php');
 require_once(plugin_dir_path(__FILE__) . 'views/formula/Formula.php');
 require_once(plugin_dir_path(__FILE__) . 'views/formula/SlaveShortCodeFormulaTable.php');
-require_once(plugin_dir_path(__FILE__) . 'views/document/ShortCodeDocumentTable.php');
+require_once(plugin_dir_path(__FILE__) . 'views/document/MasterModelloFondoDocument.php');
+require_once(plugin_dir_path(__FILE__) . 'views/document/components/MasterModelloFondoDocumentTable.php');
+require_once(plugin_dir_path(__FILE__) . 'views/document/components/MasterModelloFondoCostituzione.php');
+require_once(plugin_dir_path(__FILE__) . 'views/document/components/MasterModelloFondoDatiUtili.php');
+require_once(plugin_dir_path(__FILE__) . 'views/document/components/MasterModelloFondoUtilizzo.php');
 require_once(plugin_dir_path(__FILE__) . 'views/formula/components/FormulaCard.php');
 require_once(plugin_dir_path(__FILE__) . 'views/formula/components/FormulaSidebar.php');
 require_once(plugin_dir_path(__FILE__) . 'views/formula/components/PreviewArticolo.php');
@@ -137,7 +141,7 @@ function visualize_slave_formula_template()
 
 function document_template()
 {
-    \dateXFondoPlugin\ShortCodeDocumentTable::visualize_document_template();
+    \dateXFondoPlugin\MasterModelloFondoDocument::render();
 
 }
 
