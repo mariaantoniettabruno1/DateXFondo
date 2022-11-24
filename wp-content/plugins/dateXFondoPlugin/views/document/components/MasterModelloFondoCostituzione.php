@@ -1,5 +1,7 @@
 <?php
 
+use dateXFondoPlugin\DateXFondoCommon;
+
 class MasterModelloFondoCostituzione
 {
     public static function render_scripts()
@@ -13,15 +15,14 @@ class MasterModelloFondoCostituzione
                     filteredDocArticoli = filteredDocArticoli.filter(art => art.sezione === sezioni[i])
                     console.log(sezioni[i])
                     filteredDocArticoli.forEach(art => {
-                        console.log(art)
                         $('#dataTemplateTableBody' + i).append(`
                                  <tr>
+                                       <td></td>
                                        <td>${art.nome_articolo}</td>
                                        <td></td>
-                                       <td><div class="row pr-3">
-                                           <div class="col-3"></div>
-                                           <div class="col-3"></div>
-                                       </div></td>
+                                       <td>
+                                       <div><button class="btn btn-link btn-delete-row" data-id='${art.id}' data-toggle="modal" data-target="#deleteModal"><i class="fa-solid fa-trash"></i></button></div>
+                                     </td>
                                  </tr>
                              `);
 
@@ -29,7 +30,7 @@ class MasterModelloFondoCostituzione
                 }
 
             }
-
+            //spostare questa function in un altro file con il button per la conversione 
             function ExportExcel(index) {
                 let worksheet_tmp1, a, sectionTable;
                 let temp= [''];
@@ -67,6 +68,40 @@ class MasterModelloFondoCostituzione
 
             $(document).ready(function () {
                 renderDataTable();
+
+
+                $('#deleteRowButton').click(function () {
+                    const payload = {
+                        id
+                    }
+
+                    $.ajax({
+                        //modificare perchè preso da altro codice
+                        url: '<?= DateXFondoCommon::get_website_url() ?>/wp-json/datexfondoplugin/v1/delrow',
+                        data: payload,
+                        type: "POST",
+                        success: function (response) {
+                            console.log(response);
+                            $("#deleteModal").modal('hide');
+                            articoli = articoli.filter(art => Number(art.id) !== Number(id));
+                            renderDataTable(section);
+                            $(".alert-delete-success").show();
+                            $(".alert-delete-success").fadeTo(2000, 500).slideUp(500, function () {
+                                $(".alert-delete-success").slideUp(500);
+                            });
+
+                        },
+                        error: function (response) {
+                            console.error(response);
+                            $("#deleteModal").modal('hide');
+                            $(".alert-delete-wrong").show();
+                            $(".alert-delete-wrong").fadeTo(2000, 500).slideUp(500, function () {
+                                $(".alert-delete-wrong").slideUp(500);
+                            });
+                        }
+                    });
+                });
+
             });
 
         </script>
@@ -102,7 +137,7 @@ class MasterModelloFondoCostituzione
                                 <thead>
                                 <tr>
                                     <th>Ordinamento</th>
-                                    <th>Id Articolo</th>
+                                    <th>Nome Articolo</th>
                                     <th >Preventivo</th>
                                     <th>Azioni</th>
                                 </tr>
@@ -119,7 +154,26 @@ class MasterModelloFondoCostituzione
             }
             ?>
         </div>
-
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalLabel">Cancella riga </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Vuoi veramente eliminare questa riga?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
+                        <button type="button" class="btn btn-primary" id="deleteRowButton">Cancella</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <button onclick="ExportExcel(<?= $section_index ?>)">Genera Foglio Excel</button>
         <?php
         self::render_scripts();
