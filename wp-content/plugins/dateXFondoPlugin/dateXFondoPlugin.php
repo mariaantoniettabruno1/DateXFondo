@@ -45,6 +45,7 @@ require_once(plugin_dir_path(__FILE__) . 'views/formula/components/FormulaCard.p
 require_once(plugin_dir_path(__FILE__) . 'views/formula/components/FormulaSidebar.php');
 require_once(plugin_dir_path(__FILE__) . 'views/formula/components/PreviewArticolo.php');
 require_once(plugin_dir_path(__FILE__) . 'api/formula.php');
+require_once(plugin_dir_path(__FILE__) . 'api/document.php');
 require_once(plugin_dir_path(__FILE__) . 'api/template.php');
 require_once(plugin_dir_path(__FILE__) . 'api/newrow.php');
 require_once(plugin_dir_path(__FILE__) . 'api/joinTable.php');

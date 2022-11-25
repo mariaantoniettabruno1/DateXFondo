@@ -12,7 +12,7 @@ class MasterModelloFondoDocument
     public static function render()
     {
         $data = new DocumentRepository();
-        $results_articoli = $data->getArticoli('Emanuela Sias');
+        $results_articoli = $data->getArticoli('Emanuele Lesca');
         ?>
            <!DOCTYPE html>
 
@@ -40,6 +40,7 @@ class MasterModelloFondoDocument
             <script>
                 let articoli = JSON.parse((`<?=json_encode($results_articoli);?>`));
                 const sezioni = []
+                console.log(articoli)
 
                 articoli.forEach(a => {
                     if (!sezioni.includes(a.sezione)) {
