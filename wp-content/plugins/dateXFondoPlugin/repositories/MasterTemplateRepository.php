@@ -121,7 +121,7 @@ FROM DATE_template_fondo WHERE template_name=? AND version=?";
         $res = $stmt->execute();
         $sql = "DELETE FROM DATE_template_fondo WHERE template_name=?";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("i", $request['template_name']);
+        $stmt->bind_param("s", $request['template_name']);
         $res = $stmt->execute();
         mysqli_close($mysqli);
         return $res;

@@ -1,7 +1,7 @@
 <?php
 
 use dateXFondoPlugin\DateXFondoCommon;
-
+use dateXFondoPlugin\MasterTemplateStopEditingButton;
 class MasterModelloFondoCostituzione
 {
     public static function render_scripts()
@@ -9,32 +9,41 @@ class MasterModelloFondoCostituzione
         ?>
         <script>
             let id = 0;
+
             function renderDataTable() {
                 let filteredDocArticoli = articoli;
                 let preventivo = '';
+                let edit_button = '';
+                let delete_button = '';
                 for (let i = 0; i < sezioni.length; i++) {
                     $('#dataTemplateTableBody' + i).html('');
                     filteredDocArticoli = filteredDocArticoli.filter(art => art.sezione === sezioni[i])
-                    console.log(sezioni[i])
                     filteredDocArticoli.forEach(art => {
                         if (art.preventivo !== undefined)
                             preventivo = art.preventivo;
+                        if (Number(art.editable) === 0) {
+                            edit_button = ` <button class="btn btn-link btn-edit-row" data-id='${art.id}' data-toggle="modal" data-target="#editModal" disabled><i class="fa-solid fa-pen"></i></button>`;
+                            delete_button = ` <button class="btn btn-link btn-delete-row" data-id='${art.id}' data-toggle="modal" data-target="#deleteModal" disabled><i class="fa-solid fa-trash"></i></button>`;
+                        } else {
+                            edit_button = ` <button class="btn btn-link btn-edit-row" data-id='${art.id}' data-toggle="modal" data-target="#editModal"><i class="fa-solid fa-pen"></i></button>`;
+                            delete_button = ` <button class="btn btn-link btn-delete-row" data-id='${art.id}' data-toggle="modal" data-target="#deleteModal"><i class="fa-solid fa-trash"></i></button>`;
+                        }
                         $('#dataTemplateTableBody' + i).append(`
                                  <tr>
                                        <td>${art.ordinamento}</td>
                                        <td>${art.sottosezione}</td>
                                        <td>${art.nome_articolo}</td>
                                        <td>${preventivo}</td>
-                                       <td>
-                                       <div>
-<button class="btn btn-link btn-edit-row" data-id='${art.id}' data-toggle="modal" data-target="#editModal"><i class="fa-solid fa-pen"></i></button>
-<button class="btn btn-link btn-delete-row" data-id='${art.id}' data-toggle="modal" data-target="#deleteModal"><i class="fa-solid fa-trash"></i></button>
-</div>
-                                     </td>
+
+                     <td><div class="row pr-3">
+                <div class="col-3">${edit_button}</div>
+                <div class="col-3">${delete_button}</div>
+                                    </td>
                                  </tr>
                              `);
 
                     });
+                    filteredDocArticoli = articoli;
                 }
                 $('.btn-delete-row').click(function () {
                     id = $(this).attr('data-id');
@@ -53,7 +62,6 @@ class MasterModelloFondoCostituzione
 
             }
 
-            //spostare questa function in un altro file con il button per la conversione
             function ExportExcel(index) {
                 let worksheet_tmp1, a, sectionTable;
                 let temp = [''];
@@ -71,23 +79,6 @@ class MasterModelloFondoCostituzione
                 XLSX.writeFile(new_workbook, ('xlsx' + 'Dasein1.xlsx'))
             }
 
-            //code html2odt
-            // var req = new XMLHttpRequest();
-            // req.open('GET', 'res/empty.odt');
-            // req.responseType = 'arraybuffer';
-            // req.addEventListener('load', function() {
-            //     var empty = req.response;
-            //
-            //     var odtdoc = new ODTDocument(empty);
-            //     try {
-            //         odtdoc.setHTML(html);
-            //     } catch(e) {
-            //         alert("Couldn't generate odt document.");
-            //         throw e;
-            //     }
-            //     var odt = odtdoc.getODT();
-            // });
-            // req.send();
             function renderEditArticle() {
                 const updateArticolo = articoli.find(art => art.id === Number(id));
                 updateArticolo.nome_articolo = $('#idNomeArticolo').val();
@@ -193,7 +184,7 @@ class MasterModelloFondoCostituzione
             $section_index = 0;
             foreach ($tot_sezioni as $sezione) {
                 ?>
-                <div class="card" id="templateCard">
+                <div class="card pb-4" id="templateCard">
                     <div class="card-header" id="headingTemplateTable<?= $section_index ?>">
                         <button class="btn btn-link class-accordion-button" data-toggle="collapse"
                                 data-target="#collapseTemplate<?= $section_index ?>"
@@ -205,7 +196,7 @@ class MasterModelloFondoCostituzione
                     <div id="collapseTemplate<?= $section_index ?>" class="collapse"
                          aria-labelledby="headingTemplateTable<?= $section_index ?>"
                          data-parent="#accordionTemplateTable">
-                        <div class="card-body">
+                        <div class="card-body ">
                             <table class="table datetable" id="exportable_table<?= $section_index ?>">
                                 <thead>
                                 <tr>
@@ -215,7 +206,6 @@ class MasterModelloFondoCostituzione
                                     <th>Preventivo</th>
                                     <th>Azioni</th>
                                 </tr>
-
                                 </thead>
                                 <tbody id="dataTemplateTableBody<?= $section_index ?>">
                                 </tbody>
@@ -228,6 +218,18 @@ class MasterModelloFondoCostituzione
             }
             ?>
         </div>
+        <div class="container">
+            <div class="row d-flex flex-row-reverse ">
+                    <div class="p-2">
+                        <button class="btn btn-outline-primary" onclick="ExportExcel(<?= $section_index ?>)">Genera Foglio
+                            Excel
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
         <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
              aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -315,7 +317,7 @@ class MasterModelloFondoCostituzione
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
-        <button onclick="ExportExcel(<?= $section_index ?>)">Genera Foglio Excel</button>
+
         <?php
         self::render_scripts();
 

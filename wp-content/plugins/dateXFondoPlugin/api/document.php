@@ -42,3 +42,47 @@ function esegui_cancellazione_riga_documento($params)
 }
 
 add_action('rest_api_init', 'create_endpoint_datefondo_disattiva_riga_documento');
+
+function create_endpoint_datefondo_edit_header_modello_document()
+{
+
+    register_rest_route('datexfondoplugin/v1', 'modellodocumentheader', array(
+        'methods' => 'POST',
+        'callback' => 'esegui_modifica_header_modello_document'
+    ));
+
+
+}
+
+function esegui_modifica_header_modello_document($params)
+{
+    DocumentRepository::edit_modello_document_header($params);
+    $data = ['message' => 'Modifica header documento effettuata correttamente'];
+    $response = new WP_REST_Response($data);
+    $response->set_status(201);
+    return $response;
+}
+
+add_action('rest_api_init', 'create_endpoint_datefondo_edit_header_modello_document');
+
+function create_endpoint_datefondo_not_editable_modello_document()
+{
+
+    register_rest_route('datexfondoplugin/v1', 'disablemodellodocument', array(
+        'methods' => 'POST',
+        'callback' => 'esegui_blocca_modifica_modello_document'
+    ));
+
+
+}
+
+function esegui_blocca_modifica_modello_document($params)
+{
+    $bool_res = DocumentRepository::set_modello_document_not_editable($params);
+    $data = ['update' => $bool_res, 'message' => 'Blocco modifica documento modello andata a buon fine'];
+    $response = new WP_REST_Response($data);
+    $response->set_status(201);
+    return $response;
+}
+
+add_action('rest_api_init', 'create_endpoint_datefondo_not_editable_modello_document');

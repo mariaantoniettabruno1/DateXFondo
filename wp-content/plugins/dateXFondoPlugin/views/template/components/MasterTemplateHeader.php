@@ -10,7 +10,6 @@ class MasterTemplateHeader
 
         <script>
             $(document).ready(function () {
-                console.log(articoli)
                 $('#inputFondo').val(`${articoli[0].fondo}`);
                 $('#inputAnno').val(`${articoli[0].anno}`);
                 $('#inputDescrizioneFondo').val(`${articoli[0].descrizione_fondo}`);

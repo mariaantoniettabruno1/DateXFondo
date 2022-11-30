@@ -7,9 +7,7 @@ class MasterTemplateNewRow
     public static function render_scripts()
     {
         ?>
-        <style>
 
-        </style>
         <script>
 
 

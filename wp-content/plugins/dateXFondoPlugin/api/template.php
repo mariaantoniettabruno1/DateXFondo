@@ -59,7 +59,7 @@ function create_endpoint_datefondo_not_editable_template()
 function esegui_blocca_modifica_template($params)
 {
     $bool_res = \dateXFondoPlugin\MasterTemplateRepository::set_template_not_editable($params);
-    $data = ['update' => $bool_res, 'message' => 'Modifica riga effettuata correttamente'];
+    $data = ['update' => $bool_res, 'message' => 'Blocco modifica template andato a buon fine'];
     $response = new WP_REST_Response($data);
     $response->set_status(201);
     return $response;

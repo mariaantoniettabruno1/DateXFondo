@@ -1,69 +1,55 @@
 <?php
 
-namespace dateXFondoPlugin;
+use dateXFondoPlugin\DateXFondoCommon;
 
-class MasterTemplateStopEditingButton
+class MasterModelloStopEditTable
 {
-
     public static function render_scripts()
     {
-        ?>
-
+?>
         <script>
-            $(document).ready(function () {
-
+            $(document).ready(function (){
                 $('#stopEditTemplateButton').click(function () {
-                    $("#idAddRow").attr("disabled", true);
-                    $("#btnSpecialRow").attr("disabled", true);
-                    $("#btnDecurtazione").attr("disabled", true);
+                    $("#idAddCostRow").attr("disabled", true);
 
-                    let fondo = $('#inputFondo').val();
-                    let anno = $('#inputAnno').val();
-                    let descrizione_fondo = $('#inputDescrizioneFondo').val();
-                    let template_name = $('#inputNomeTemplate').val();
-                    let version = articoli[0].version;
+                    let document_name = $('#inputDocumentName').val();
 
                     const payload = {
-                        fondo,
-                        anno,
-                        descrizione_fondo,
-                        version,
-                        template_name
+                        document_name
                     }
                     console.log(payload)
-                   $.ajax({
-                       url: '<?= DateXFondoCommon::get_website_url() ?>/wp-json/datexfondoplugin/v1/disabletemplate',
-                       data: payload,
-                       type: "POST",
-                       success: function (response) {
-                           console.log(response);
-                           location.href = '<?= DateXFondoCommon::get_website_url() ?>/visualizza-template-fondo/';
-                       },
-                       error: function (response) {
-                           console.error(response);
-                           $(".alert-block-wrong").show();
-                           $(".alert-block-wrong").fadeTo(2000, 500).slideUp(500, function(){
-                               $(".alert-block-wrong").slideUp(500);
-                           });
-                       }
-                   });
+                    $.ajax({
+                        url: '<?= DateXFondoCommon::get_website_url() ?>/wp-json/datexfondoplugin/v1/disablemodellodocument',
+                        data: payload,
+                        type: "POST",
+                        success: function (response) {
+                            console.log(response);
+                            location.href = '<?= DateXFondoCommon::get_website_url() ?>/documento-modello-fondo/';
+                        },
+                        error: function (response) {
+                            console.error(response);
+                            $(".alert-block-wrong").show();
+                            $(".alert-block-wrong").fadeTo(2000, 500).slideUp(500, function(){
+                                $(".alert-block-wrong").slideUp(500);
+                            });
+                        }
+                    });
                 });
             });
-
         </script>
-        <?php
+<?php
     }
 
     public static function render()
     {
         ?>
-        <button class="btn btn-link" id="stopEditingButton" data-toggle="modal" data-target="#stopEditModal"><i class="fa-solid fa-ban stopIcon" ></i> Blocca la modifica</button>
-        <div class="modal fade" id="stopEditModal" tabindex="-1" role="dialog" aria-labelledby="stopEditModalLabel"
+        <button class="btn btn-link" id="stopEditDocumentButton"  data-toggle="modal" data-target="#stopEditDocumentModal"><i class="fa-solid fa-ban stopIcon"></i> Blocca la modifica</button>
+        <div class="modal fade" id="stopEditDocumentModal" tabindex="-1" role="dialog" aria-labelledby="stopEditDocumentModalLabel"
              aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="stopEditModalLabel">Blocca modifica sul template </h5>
+                        <h5 class="modal-title" id="stopEditDocumentModalLabel">Blocca modifica sul template </h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>

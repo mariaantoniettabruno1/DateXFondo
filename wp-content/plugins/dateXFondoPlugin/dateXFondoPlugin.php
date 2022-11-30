@@ -37,6 +37,9 @@ require_once(plugin_dir_path(__FILE__) . 'views/template/ShortCodeDisabledTempla
 require_once(plugin_dir_path(__FILE__) . 'views/formula/Formula.php');
 require_once(plugin_dir_path(__FILE__) . 'views/formula/SlaveShortCodeFormulaTable.php');
 require_once(plugin_dir_path(__FILE__) . 'views/document/MasterModelloFondoDocument.php');
+require_once(plugin_dir_path(__FILE__) . 'views/document/components/MasterModelloFondoHeader.php');
+require_once(plugin_dir_path(__FILE__) . 'views/document/components/MasterModelloStopEditTable.php');
+require_once(plugin_dir_path(__FILE__) . 'views/document/components/MasterModelloFondoNewCostituzioneRow.php');
 require_once(plugin_dir_path(__FILE__) . 'views/document/components/MasterModelloFondoDocumentTable.php');
 require_once(plugin_dir_path(__FILE__) . 'views/document/components/MasterModelloFondoCostituzione.php');
 require_once(plugin_dir_path(__FILE__) . 'views/document/components/MasterModelloFondoDatiUtili.php');

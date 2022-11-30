@@ -8,7 +8,7 @@ class DocumentRepository
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = "SELECT id,sezione,sottosezione,ordinamento,nome_articolo,preventivo,document_name FROM DATE_documento_modello_fondo WHERE  attivo=1 and document_name=? ORDER BY ordinamento ASC";
+        $sql = "SELECT id,sezione,sottosezione,ordinamento,nome_articolo,preventivo,document_name,editable FROM DATE_documento_modello_fondo WHERE  attivo=1 and document_name=? ORDER BY ordinamento ASC";
         $stmt = $mysqli->prepare($sql);
         $stmt->bind_param("s", $template_name);
         $res = $stmt->execute();
@@ -89,6 +89,39 @@ WHERE id=?";
         $stmt = $mysqli->prepare($sql);
         $stmt->bind_param("i", $request['id']);
         $res = $stmt->execute();
+        $mysqli->close();
+    }
+
+    public static function set_modello_document_not_editable($request){
+        $conn = new Connection();
+        $mysqli = $conn->connect();
+        $sql = "UPDATE DATE_documento_modello_fondo SET editable=0";
+        $stmt = $mysqli->prepare($sql);
+        $res = $stmt->execute();
+        $sql = "INSERT INTO DATE_documento_modello_fondo_storico 
+                    (ordinamento,sezione,sottosezione,nome_articolo,preventivo,document_name,anno,
+                     attivo,editable)
+                        SELECT  ordinamento,sezione,sottosezione,nome_articolo,preventivo,document_name,anno,
+                     attivo,editable
+FROM DATE_documento_modello_fondo WHERE document_name=?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("s", $request['document_name']);
+        $res = $stmt->execute();
+        $sql = "DELETE FROM DATE_documento_modello_fondo WHERE document_name=?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("s", $request['document_name']);
+        $res = $stmt->execute();
+        mysqli_close($mysqli);
+        return $res;
+    }
+
+    public static function edit_modello_document_header($request){
+        $conn = new Connection();
+        $mysqli = $conn->connect();
+        $sql = "UPDATE DATE_documento_modello_fondo SET document_name=? WHERE document_name=?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("ss",  $request['document_name'], $request['old_document_name']);
+        $stmt->execute();
         $mysqli->close();
     }
 }
