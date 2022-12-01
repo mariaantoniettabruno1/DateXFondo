@@ -68,6 +68,8 @@ public static function render_scripts(){
                         }
 
                         let document_name = $('#inputDocumentName').val();
+                        let anno = $('#inputYear').val();
+
                         if (articoli.find(art => art.nome_articolo === nome_articolo) === undefined && sezione !== 'Seleziona Sezione' && sottosezione!=='Seleziona Sottosezione') {
                         const payload = {
                             nome_articolo,
@@ -75,7 +77,8 @@ public static function render_scripts(){
                             preventivo,
                             sezione,
                             sottosezione,
-                            document_name
+                            document_name,
+                            anno
                             }
                             console.log(payload)
                             $.ajax({
@@ -119,13 +122,13 @@ public static function render_scripts(){
 
     public static function render()
     {
-        //TODO sistemare le ripetizioni per i dati, l'input tesuale per la sottosezione e i dati vuoti in preventivo and co
         $data = new DocumentRepository();
         $results_articoli = $data->getArticoli('Emanuele Lesca');
         $formulas = $data->getFormulas('Emanuele Lesca');
         $ids_articolo = $data->getIdsArticoli('Emanuele Lesca');
         $array = $formulas + $ids_articolo;
 
+        //TODO filter per togliere i valori vuoti
 //        for( $i=0; $i<count($results_articoli); $i++){
 //            if($results_articoli[$i]['preventivo']===null){
 //                array_splice($results_articoli[$i], 'preventivo', 1);
@@ -139,13 +142,13 @@ public static function render_scripts(){
         if ($results_articoli[0]['editable'] == '1') {
             ?>
             <button class="btn btn-outline-primary" data-toggle="modal"
-                    data-target="#addCostRowModal" id="idAddCostRow">Aggiungi riga
+                    data-target="#addCostRowModal" id="idAddCostRow">Aggiungi riga costituzione
             </button>
             <?php
         } else {
             ?>
             <button class="btn btn-outline-primary" data-toggle="modal"
-                    data-target="#addCostRowModal" id="idAddCostRow" disabled>Aggiungi riga
+                    data-target="#addCostRowModal" id="idAddCostRow" disabled>Aggiungi riga costituzione
             </button>
             <?php
         }
@@ -213,13 +216,13 @@ public static function render_scripts(){
                             </select>
 
                         </div>
+                    </div>
                         <div class="modal-footer">
                             <button class="btn btn-primary" id="addNewCostRowButton">Aggiungi riga</button>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
         <div class="alert alert-success alert-new-row-success" role="alert"
              style="position:fixed; top: <?= is_admin_bar_showing() ? 47 : 15 ?>px; right: 15px; display:none">

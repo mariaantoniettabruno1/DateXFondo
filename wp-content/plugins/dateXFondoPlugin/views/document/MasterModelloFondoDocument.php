@@ -85,7 +85,7 @@ class MasterModelloFondoDocument
                 MasterModelloFondoDocumentTable::render();
                 ?>
             </div>
-            <div class="d-flex justify-content-between pt-3">
+            <div class="row d-flex justify-content-between pt-3">
                 <div>
                     <?php
                     \MasterModelloStopEditTable::render();

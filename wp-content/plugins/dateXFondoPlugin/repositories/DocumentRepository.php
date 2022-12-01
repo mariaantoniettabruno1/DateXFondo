@@ -173,6 +173,41 @@ FROM DATE_documento_modello_fondo WHERE document_name=?";
         $stmt = $mysqli->prepare($sql);
         $stmt->bind_param("s", $request['document_name']);
         $res = $stmt->execute();
+
+        //per tabella documento fondo utilizzo
+        $sql = "UPDATE DATE_documento_modello_fondo_utilizzo SET editable=0";
+        $stmt = $mysqli->prepare($sql);
+        $res = $stmt->execute();
+        $sql = "INSERT INTO DATE_documento_modello_fondo_utilizzo_storico 
+                    (ordinamento,sezione,nome_articolo,preventivo,consuntivo,document_name,anno,
+                     attivo,editable)
+                        SELECT  ordinamento,sezione,nome_articolo,preventivo,consuntivo,document_name,anno,
+                     attivo,editable
+FROM DATE_documento_modello_fondo_utilizzo WHERE document_name=?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("s", $request['document_name']);
+        $res = $stmt->execute();
+        $sql = "DELETE FROM DATE_documento_modello_fondo_utilizzo WHERE document_name=?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("s", $request['document_name']);
+        $res = $stmt->execute();
+        // per tabella documento dati utili
+        $sql = "UPDATE DATE_documento_modello_fondo_dati_utili SET editable=0";
+        $stmt = $mysqli->prepare($sql);
+        $res = $stmt->execute();
+        $sql = "INSERT INTO DATE_documento_modello_fondo_dati_utili_storico 
+                    (ordinamento,sezione,sottosezione,nome_articolo,formula,document_name,anno,
+                     attivo,editable)
+                        SELECT  ordinamento,sezione,sottosezione,nome_articolo,formula,document_name,anno,
+                     attivo,editable
+FROM DATE_documento_modello_fondo_dati_utili WHERE document_name=?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("s", $request['document_name']);
+        $res = $stmt->execute();
+        $sql = "DELETE FROM DATE_documento_modello_fondo_dati_utili WHERE document_name=?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("s", $request['document_name']);
+        $res = $stmt->execute();
         mysqli_close($mysqli);
         return $res;
     }
@@ -194,6 +229,18 @@ FROM DATE_documento_modello_fondo WHERE document_name=?";
                     (ordinamento,sezione,sottosezione,nome_articolo,preventivo,document_name,anno) VALUES(?,?,?,?,?,?,?)";
         $stmt = $mysqli->prepare($sql);
         $stmt->bind_param("isssssi",  $request['ordinamento'],$request['sezione'],$request['sottosezione'],$request['nome_articolo'],
+            $request['preventivo'],$request['document_name'],$request['anno']);
+        $stmt->execute();
+        $mysqli->close();
+
+    }
+    public static function create_new_row_utilizzo($request){
+        $conn = new Connection();
+        $mysqli = $conn->connect();
+        $sql = "INSERT INTO DATE_documento_modello_fondo_utilizzo 
+                    (ordinamento,sezione,nome_articolo,preventivo,consuntivo,document_name,anno) VALUES(?,?,?,?,?,?,?)";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("isssssi",  $request['ordinamento'],$request['sezione'],$request['nome_articolo'],
             $request['preventivo'],$request['document_name'],$request['anno']);
         $stmt->execute();
         $mysqli->close();

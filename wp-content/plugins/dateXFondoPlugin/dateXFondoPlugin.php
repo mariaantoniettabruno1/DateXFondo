@@ -40,6 +40,7 @@ require_once(plugin_dir_path(__FILE__) . 'views/document/MasterModelloFondoDocum
 require_once(plugin_dir_path(__FILE__) . 'views/document/components/MasterModelloFondoHeader.php');
 require_once(plugin_dir_path(__FILE__) . 'views/document/components/MasterModelloStopEditTable.php');
 require_once(plugin_dir_path(__FILE__) . 'views/document/components/MasterModelloFondoNewCostituzioneRow.php');
+require_once(plugin_dir_path(__FILE__) . 'views/document/components/MasterModelloFondoNewUtilizzoRow.php');
 require_once(plugin_dir_path(__FILE__) . 'views/document/components/MasterModelloFondoDocumentTable.php');
 require_once(plugin_dir_path(__FILE__) . 'views/document/components/MasterModelloFondoCostituzione.php');
 require_once(plugin_dir_path(__FILE__) . 'views/document/components/MasterModelloFondoDatiUtili.php');
