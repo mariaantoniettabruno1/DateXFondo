@@ -19,6 +19,22 @@ class DocumentRepository
         mysqli_close($mysqli);
         return $rows;
     }
+
+    public static function getArticoliUtilizzo($template_name)
+    {
+        $conn = new Connection();
+        $mysqli = $conn->connect();
+        $sql = "SELECT id,sezione,ordinamento,nome_articolo,preventivo,consuntivo,document_name,editable,anno FROM DATE_documento_modello_fondo_utilizzo WHERE  attivo=1 and document_name=? ORDER BY ordinamento ASC";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("s", $template_name);
+        $res = $stmt->execute();
+        if ($res = $stmt->get_result()) {
+            $rows = $res->fetch_all(MYSQLI_ASSOC);
+        } else
+            $rows = [];
+        mysqli_close($mysqli);
+        return $rows;
+    }
     public static function getIdsArticoli($template_name)
     {
         $conn = new Connection();
@@ -39,6 +55,19 @@ class DocumentRepository
         $conn = new Connection();
         $mysqli = $conn->connect();
         $sql = "SELECT DISTINCT sezione FROM DATE_documento_modello_fondo WHERE document_name=?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("s", $template_name);
+        $res = $stmt->execute();
+        $res = $stmt->get_result();
+        $rows = $res->fetch_all(MYSQLI_ASSOC);
+        mysqli_close($mysqli);
+        return $rows;
+    }
+    public static function getSezioniUtilizzo($template_name)
+    {
+        $conn = new Connection();
+        $mysqli = $conn->connect();
+        $sql = "SELECT DISTINCT sezione FROM DATE_documento_modello_fondo_utilizzo WHERE document_name=?";
         $stmt = $mysqli->prepare($sql);
         $stmt->bind_param("s", $template_name);
         $res = $stmt->execute();
@@ -81,6 +110,30 @@ WHERE id=?";
         return $res;
 
     }
+    public static function edit_utilizzo_document_row($request){
+
+        $conn = new Connection();
+        $mysqli = $conn->connect();
+
+        $sql = "UPDATE DATE_documento_modello_fondo_utilizzo SET 
+                               nome_articolo=?,
+                               ordinamento=?,
+                               preventivo=?,
+                               consuntivo=?
+                               
+WHERE id=?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("sissi",
+            $request['nome_articolo'],
+            $request['ordinamento'],
+            $request['preventivo'],
+            $request['consuntivo'],
+            $request['id_utilizzo']);
+        $res = $stmt->execute();
+        $mysqli->close();
+        return $res;
+
+    }
 
     public static function delete_document_row($request){
         $conn = new Connection();
@@ -88,6 +141,15 @@ WHERE id=?";
         $sql = "UPDATE DATE_documento_modello_fondo SET attivo=0  WHERE id=?";
         $stmt = $mysqli->prepare($sql);
         $stmt->bind_param("i", $request['id']);
+        $res = $stmt->execute();
+        $mysqli->close();
+    }
+    public static function delete_utilizzo_row($request){
+        $conn = new Connection();
+        $mysqli = $conn->connect();
+        $sql = "UPDATE DATE_documento_modello_fondo_utilizzo SET attivo=0  WHERE id=?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("i", $request['id_utilizzo']);
         $res = $stmt->execute();
         $mysqli->close();
     }
@@ -125,7 +187,7 @@ FROM DATE_documento_modello_fondo WHERE document_name=?";
         $mysqli->close();
     }
 
-    public static function create_new_row($request){
+    public static function create_new_row_costituzione($request){
         $conn = new Connection();
         $mysqli = $conn->connect();
         $sql = "INSERT INTO DATE_documento_modello_fondo 

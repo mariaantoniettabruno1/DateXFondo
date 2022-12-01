@@ -16,7 +16,7 @@ class MasterModelloFondoCostituzione
                 let edit_button = '';
                 let delete_button = '';
                 for (let i = 0; i < sezioni.length; i++) {
-                    $('#dataTemplateTableBody' + i).html('');
+                    $('#dataCostituzioneDocumentTableBody' + i).html('');
                     filteredDocArticoli = filteredDocArticoli.filter(art => art.sezione === sezioni[i])
                     filteredDocArticoli.forEach(art => {
                         if (art.preventivo !== undefined)
@@ -28,7 +28,7 @@ class MasterModelloFondoCostituzione
                             edit_button = ` <button class="btn btn-link btn-edit-row" data-id='${art.id}' data-toggle="modal" data-target="#editModal"><i class="fa-solid fa-pen"></i></button>`;
                             delete_button = ` <button class="btn btn-link btn-delete-row" data-id='${art.id}' data-toggle="modal" data-target="#deleteModal"><i class="fa-solid fa-trash"></i></button>`;
                         }
-                        $('#dataTemplateTableBody' + i).append(`
+                        $('#dataCostituzioneDocumentTableBody' + i).append(`
                                  <tr>
                                        <td>${art.ordinamento}</td>
                                        <td>${art.sottosezione}</td>
@@ -66,20 +66,17 @@ class MasterModelloFondoCostituzione
                 let worksheet_tmp1, a, sectionTable;
                 let temp = [''];
                 for (let i = 0; i < index; i++) {
-                    sectionTable = document.getElementById('exportable_table' + i);
+                    sectionTable = document.getElementById('exportableTableCostituzione' + i);
                     worksheet_tmp1 = XLSX.utils.table_to_sheet(sectionTable);
                     a = XLSX.utils.sheet_to_json(worksheet_tmp1, {header: 1})
                     temp = temp.concat(['']).concat(a)
                 }
 
-              
-
-
-
-                let worksheet = XLSX.utils.json_to_sheet(temp, {skipHeader: true})
-
+                let worksheet_costituzione = XLSX.utils.json_to_sheet(temp, {skipHeader: true})
+                let worksheet_utilizzo = ExportUtilizzoSheetOnExcel();
                 const new_workbook = XLSX.utils.book_new()
-                XLSX.utils.book_append_sheet(new_workbook, worksheet, "worksheet")
+                XLSX.utils.book_append_sheet(new_workbook, worksheet_costituzione, "Costituzione")
+                XLSX.utils.book_append_sheet(new_workbook, worksheet_utilizzo, "Utilizzo")
                 XLSX.writeFile(new_workbook, ('xlsx' + 'Dasein1.xlsx'))
             }
 
@@ -183,25 +180,25 @@ class MasterModelloFondoCostituzione
         $array = $formulas + $ids_articolo;
 
         ?>
-        <div class="accordion mt-2 col" id="accordionTemplateTable">
+        <div class="accordion mt-2 col" id="accordionCostituzioneDocumentTable">
             <?php
             $section_index = 0;
             foreach ($tot_sezioni as $sezione) {
                 ?>
-                <div class="card" id="templateCard">
-                    <div class="card-header" id="headingTemplateTable<?= $section_index ?>">
+                <div class="card" id="costituzioneDocumentCard">
+                    <div class="card-header" id="headingCostituzioneDocument<?= $section_index ?>">
                         <button class="btn btn-link class-accordion-button" data-toggle="collapse"
-                                data-target="#collapseTemplate<?= $section_index ?>"
-                                aria-expanded="false" aria-controls="collapseTemplate<?= $section_index ?>"
+                                data-target="#collapseCostituzioneDocument<?= $section_index ?>"
+                                aria-expanded="false" aria-controls="collapseCostituzioneDocument<?= $section_index ?>"
                                 data-section="<?= $sezione['sezione'] ?>">
                             <?= $sezione['sezione'] ?>
                         </button>
                     </div>
-                    <div id="collapseTemplate<?= $section_index ?>" class="collapse"
-                         aria-labelledby="headingTemplateTable<?= $section_index ?>"
-                         data-parent="#accordionTemplateTable">
+                    <div id="collapseCostituzioneDocument<?= $section_index ?>" class="collapse"
+                         aria-labelledby="headingCostituzioneDocument<?= $section_index ?>"
+                         data-parent="#accordionCostituzioneDocumentTable">
                         <div class="card-body ">
-                            <table class="table datetable" id="exportable_table<?= $section_index ?>">
+                            <table class="table datatable_costituzione" id="exportableTableCostituzione<?= $section_index ?>">
                                 <thead>
                                 <tr>
                                     <th>Ordinamento</th>
@@ -211,7 +208,7 @@ class MasterModelloFondoCostituzione
                                     <th>Azioni</th>
                                 </tr>
                                 </thead>
-                                <tbody id="dataTemplateTableBody<?= $section_index ?>">
+                                <tbody id="dataCostituzioneDocumentTableBody<?= $section_index ?>">
                                 </tbody>
                             </table>
                         </div>

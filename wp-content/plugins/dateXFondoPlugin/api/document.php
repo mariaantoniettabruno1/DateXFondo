@@ -21,6 +21,28 @@ function modifica_riga_documento($params)
 
 add_action('rest_api_init', 'create_endpoint_datefondo_edit_document_row');
 
+function create_endpoint_datefondo_edit_utilizzo_document_row()
+{
+
+    register_rest_route('datexfondoplugin/v1', 'utilizzo/document/row', array(
+        'methods' => 'POST',
+        'callback' => 'modifica_riga_documento_utilizzo'
+    ));
+
+
+}
+
+function modifica_riga_documento_utilizzo($params)
+{
+    $bool_res = DocumentRepository::edit_utilizzo_document_row($params);
+    $data = ['update' => $bool_res, 'message' => 'Modifica riga del documento "Utilizzo" effettuata correttamente'];
+    $response = new WP_REST_Response($data);
+    $response->set_status(201);
+    return $response;
+}
+
+add_action('rest_api_init', 'create_endpoint_datefondo_edit_utilizzo_document_row');
+
 function create_endpoint_datefondo_disattiva_riga_documento()
 {
 
@@ -42,6 +64,29 @@ function esegui_cancellazione_riga_documento($params)
 }
 
 add_action('rest_api_init', 'create_endpoint_datefondo_disattiva_riga_documento');
+
+
+function create_endpoint_datefondo_disattiva_riga_utilizzo()
+{
+
+    register_rest_route('datexfondoplugin/v1', 'document/utilizzo/row/del', array(
+        'methods' => 'POST',
+        'callback' => 'esegui_cancellazione_riga_documento_utilizzo'
+    ));
+
+
+}
+
+function esegui_cancellazione_riga_documento_utilizzo($params)
+{
+    DocumentRepository::delete_utilizzo_row($params);
+    $data = ['message' => 'Riga cancellata correttamente'];
+    $response = new WP_REST_Response($data);
+    $response->set_status(201);
+    return $response;
+}
+
+add_action('rest_api_init', 'create_endpoint_datefondo_disattiva_riga_utilizzo');
 
 function create_endpoint_datefondo_edit_header_modello_document()
 {
@@ -100,7 +145,7 @@ function create_endpoint_datefondo_creazione_riga_costituzione()
 
 function esegui_creazione_riga_costituzione($params)
 {
-    $insert_id = DocumentRepository::create_new_row($params);
+    $insert_id = DocumentRepository::create_new_row_costituzione($params);
     $data = ['id' => $insert_id, 'message' => 'Creazione riga costituzione effettuata correttamente'];
     $response = new WP_REST_Response($data);
     $response->set_status(201);

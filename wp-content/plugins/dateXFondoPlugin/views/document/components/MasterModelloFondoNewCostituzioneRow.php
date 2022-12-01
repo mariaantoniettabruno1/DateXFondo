@@ -122,6 +122,9 @@ public static function render_scripts(){
         //TODO sistemare le ripetizioni per i dati, l'input tesuale per la sottosezione e i dati vuoti in preventivo and co
         $data = new DocumentRepository();
         $results_articoli = $data->getArticoli('Emanuele Lesca');
+        $formulas = $data->getFormulas('Emanuele Lesca');
+        $ids_articolo = $data->getIdsArticoli('Emanuele Lesca');
+        $array = $formulas + $ids_articolo;
 
 //        for( $i=0; $i<count($results_articoli); $i++){
 //            if($results_articoli[$i]['preventivo']===null){
@@ -202,10 +205,9 @@ public static function render_scripts(){
 
                             <select name="newConstRowPreventivo" id="newConstRowPreventivo">
                                 <?php
-                                foreach ($results_articoli as $res) {
+                                foreach ($array as $item) {
                                     ?>
-                                    <option><?= $res['preventivo']?></option>
-
+                                    <option><?= $item[0] ?></option>
                                 <?php }
                                 ?>
                             </select>
