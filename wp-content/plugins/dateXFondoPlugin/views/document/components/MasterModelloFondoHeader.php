@@ -9,6 +9,7 @@ public static function render_scripts(){
     <script>
         $(document).ready(function (){
             $('#inputDocumentName').val(`${articoli[0].document_name}`);
+            $('#inputYear').val(`${articoli[0].anno}`);
             let old_document_name = $('#inputDocumentName').val();
 
             $("#editInputButton").click(function () {
@@ -16,6 +17,7 @@ public static function render_scripts(){
                 $('#saveInputButton').show();
                 $('#deleteEditButton').show();
                 $('#inputDocumentName').attr('readonly', false);
+                $('#inputYear').attr('readonly', false);
             });
             $("#deleteEditButton").click(function (){
                 $(this).hide();
@@ -25,11 +27,14 @@ public static function render_scripts(){
             $('#saveInputButton').click(function () {
                 {
                     let document_name = $('#inputDocumentName').val();
+                    let anno = $('#inputYear').val();
                     $('#inputDocumentName').attr('readonly', true);
+                    $('#inputYear').attr('readonly', true);
 
                     const payload = {
                         document_name,
-                        old_document_name
+                        old_document_name,
+                        anno
                     }
                     console.log(payload)
                     $.ajax({
@@ -67,6 +72,9 @@ public static function render(){
     ?>
     <div class="col-2">
         <input type="text" placeholder="Redattore del documento" id="inputDocumentName" readonly>
+
+    </div>  <div class="col-2">
+        <input type="text" placeholder="Anno" id="inputYear" readonly>
     </div>
     <?php
     if ($articoli[0]['editable'] == '1') {

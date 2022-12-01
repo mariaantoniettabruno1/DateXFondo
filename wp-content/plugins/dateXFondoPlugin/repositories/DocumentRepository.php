@@ -8,7 +8,7 @@ class DocumentRepository
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = "SELECT id,sezione,sottosezione,ordinamento,nome_articolo,preventivo,document_name,editable FROM DATE_documento_modello_fondo WHERE  attivo=1 and document_name=? ORDER BY ordinamento ASC";
+        $sql = "SELECT id,sezione,sottosezione,ordinamento,nome_articolo,preventivo,document_name,editable,anno FROM DATE_documento_modello_fondo WHERE  attivo=1 and document_name=? ORDER BY ordinamento ASC";
         $stmt = $mysqli->prepare($sql);
         $stmt->bind_param("s", $template_name);
         $res = $stmt->execute();
@@ -118,10 +118,23 @@ FROM DATE_documento_modello_fondo WHERE document_name=?";
     public static function edit_modello_document_header($request){
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = "UPDATE DATE_documento_modello_fondo SET document_name=? WHERE document_name=?";
+        $sql = "UPDATE DATE_documento_modello_fondo SET document_name=?, anno=? WHERE document_name=?";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("ss",  $request['document_name'], $request['old_document_name']);
+        $stmt->bind_param("sis",  $request['document_name'], $request['anno'],$request['old_document_name']);
         $stmt->execute();
         $mysqli->close();
+    }
+
+    public static function create_new_row($request){
+        $conn = new Connection();
+        $mysqli = $conn->connect();
+        $sql = "INSERT INTO DATE_documento_modello_fondo 
+                    (ordinamento,sezione,sottosezione,nome_articolo,preventivo,document_name,anno) VALUES(?,?,?,?,?,?,?)";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("isssssi",  $request['ordinamento'],$request['sezione'],$request['sottosezione'],$request['nome_articolo'],
+            $request['preventivo'],$request['document_name'],$request['anno']);
+        $stmt->execute();
+        $mysqli->close();
+
     }
 }

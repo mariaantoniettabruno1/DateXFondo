@@ -72,6 +72,10 @@ class MasterModelloFondoCostituzione
                     temp = temp.concat(['']).concat(a)
                 }
 
+              
+
+
+
                 let worksheet = XLSX.utils.json_to_sheet(temp, {skipHeader: true})
 
                 const new_workbook = XLSX.utils.book_new()
@@ -184,7 +188,7 @@ class MasterModelloFondoCostituzione
             $section_index = 0;
             foreach ($tot_sezioni as $sezione) {
                 ?>
-                <div class="card pb-4" id="templateCard">
+                <div class="card" id="templateCard">
                     <div class="card-header" id="headingTemplateTable<?= $section_index ?>">
                         <button class="btn btn-link class-accordion-button" data-toggle="collapse"
                                 data-target="#collapseTemplate<?= $section_index ?>"

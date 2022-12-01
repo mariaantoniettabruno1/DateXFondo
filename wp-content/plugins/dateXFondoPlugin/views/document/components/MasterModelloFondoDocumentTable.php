@@ -11,7 +11,7 @@ class MasterModelloFondoDocumentTable
     public static function render()
     {
         ?>
-            <div>
+            <div class="container pt-3" style="width: 100%">
                 <ul class="nav nav-tabs" id="modelloFondoTab" role="tablist">
                     <li class="nav-item">
                         <a class="nav-link active" id="costituzione-tab" href="#costituzione" role="tab"

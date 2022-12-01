@@ -86,3 +86,25 @@ function esegui_blocca_modifica_modello_document($params)
 }
 
 add_action('rest_api_init', 'create_endpoint_datefondo_not_editable_modello_document');
+
+function create_endpoint_datefondo_creazione_riga_costituzione()
+{
+
+    register_rest_route('datexfondoplugin/v1', 'newcostrow', array(
+        'methods' => 'POST',
+        'callback' => 'esegui_creazione_riga_costituzione'
+    ));
+
+
+}
+
+function esegui_creazione_riga_costituzione($params)
+{
+    $insert_id = DocumentRepository::create_new_row($params);
+    $data = ['id' => $insert_id, 'message' => 'Creazione riga costituzione effettuata correttamente'];
+    $response = new WP_REST_Response($data);
+    $response->set_status(201);
+    return $response;
+}
+
+add_action('rest_api_init', 'create_endpoint_datefondo_creazione_riga_costituzione');

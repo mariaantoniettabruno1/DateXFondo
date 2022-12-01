@@ -123,6 +123,15 @@ public static function render_scripts(){
         $data = new DocumentRepository();
         $results_articoli = $data->getArticoli('Emanuele Lesca');
 
+//        for( $i=0; $i<count($results_articoli); $i++){
+//            if($results_articoli[$i]['preventivo']===null){
+//                array_splice($results_articoli[$i], 'preventivo', 1);
+//            }
+//            echo '<pre>';
+//            print_r($results_articoli[$i]);
+//            echo '</pre>';
+//        }
+//
 
         if ($results_articoli[0]['editable'] == '1') {
             ?>
@@ -176,7 +185,7 @@ public static function render_scripts(){
                             </div>
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control" id="newRowCostSottosezione" style="display:none">
+                            <input type="text" class="form-control" id="newConstRowSottosezione" style="display:none">
                             <small id="errorSubsection" class="form-text text-danger" style="display: none">Campo
                                 Obbligatorio</small>
                         </div>
@@ -203,7 +212,7 @@ public static function render_scripts(){
 
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-primary" id="addNewConstRowButton">Aggiungi riga</button>
+                            <button class="btn btn-primary" id="addNewCostRowButton">Aggiungi riga</button>
                         </div>
                     </div>
                 </div>
