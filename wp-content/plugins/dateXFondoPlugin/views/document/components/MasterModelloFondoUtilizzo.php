@@ -107,7 +107,7 @@ class MasterModelloFondoUtilizzo
                         success: function (response) {
                             console.log(response);
                             $("#deleteUtilizzoModal").modal('hide');
-                            articoli = articoli.filter(art => Number(art.id) !== Number(id_utilizzo));
+                            articoli_utilizzo = articoli_utilizzo.filter(art => Number(art.id) !== Number(id_utilizzo));
                             renderUtilizzoDataTable();
                             $(".alert-delete-success").show();
                             $(".alert-delete-success").fadeTo(2000, 500).slideUp(500, function () {
