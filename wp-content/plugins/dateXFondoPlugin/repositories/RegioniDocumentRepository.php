@@ -63,4 +63,28 @@ WHERE id=?";
         $mysqli->close();
         return $res;
     }
+
+    public static function set_regioni_document_not_editable($request){
+
+        $conn = new Connection();
+        $mysqli = $conn->connect();
+        $sql = "UPDATE DATE_documento_regioni_autonomie_locali SET editable=0";
+        $stmt = $mysqli->prepare($sql);
+        $res = $stmt->execute();
+        $sql = "INSERT INTO DATE_documento_regioni_autonomie_locali_storico 
+                    (ordinamento,titolo_documento,titolo_tabella,sezione,sottosezione,nome_articolo,codice,importo,nota,document_name,anno,
+                     attivo,editable)
+                        SELECT  ordinamento,titolo_documento,titolo_tabella,sezione,sottosezione,nome_articolo,codice,importo,nota,document_name,anno,
+                     attivo,editable
+FROM DATE_documento_regioni_autonomie_locali WHERE document_name=?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("s", $request['document_name']);
+        $res = $stmt->execute();
+        $sql = "DELETE FROM DATE_documento_regioni_autonomie_locali WHERE document_name=?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("s", $request['document_name']);
+        $res = $stmt->execute();
+        $mysqli->close();
+        return $res;
+    }
 }
