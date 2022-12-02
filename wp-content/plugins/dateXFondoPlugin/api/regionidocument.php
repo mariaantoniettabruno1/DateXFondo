@@ -44,3 +44,25 @@ function esegui_cancellazione_riga_documento_regioni($params)
 }
 
 add_action('rest_api_init', 'create_endpoint_datefondo_disattiva_riga_regioni');
+
+function create_endpoint_datefondo_edit_regioni_document()
+{
+
+    register_rest_route('datexfondoplugin/v1', 'editregionirow', array(
+        'methods' => 'POST',
+        'callback' => 'esegui_modifica_regioni_document'
+    ));
+
+
+}
+
+function esegui_modifica_regioni_document($params)
+{
+    \dateXFondoPlugin\RegioniDocumentRepository::edit_regioni_document($params);
+    $data = ['message' => 'Modifica riga documento regioni effettuata correttamente'];
+    $response = new WP_REST_Response($data);
+    $response->set_status(201);
+    return $response;
+}
+
+add_action('rest_api_init', 'create_endpoint_datefondo_edit_regioni_document');

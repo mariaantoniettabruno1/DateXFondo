@@ -38,4 +38,29 @@ class RegioniDocumentRepository
         $res = $stmt->execute();
         $mysqli->close();
     }
+
+    public static function edit_regioni_document($request){
+        $conn = new Connection();
+        $mysqli = $conn->connect();
+
+        $sql = "UPDATE DATE_documento_regioni_autonomie_locali SET 
+                               nome_articolo=?,
+                               ordinamento=?,
+                               codice=?,
+                               importo=?,                                                   
+                               nota=?
+                               
+WHERE id=?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("sisssi",
+            $request['nome_articolo'],
+            $request['ordinamento'],
+            $request['codice'],
+            $request['importo'],
+            $request['nota'],
+            $request['id']);
+        $res = $stmt->execute();
+        $mysqli->close();
+        return $res;
+    }
 }
