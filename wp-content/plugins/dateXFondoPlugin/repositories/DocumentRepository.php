@@ -300,6 +300,14 @@ FROM DATE_documento_modello_fondo_dati_utili WHERE document_name=?";
         $stmt = $mysqli->prepare($sql);
         $stmt->bind_param("sis", $request['document_name'], $request['anno'], $request['old_document_name']);
         $stmt->execute();
+        $sql = "UPDATE DATE_documento_modello_fondo_utilizzo SET document_name=?, anno=? WHERE document_name=?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("sis", $request['document_name'], $request['anno'], $request['old_document_name']);
+        $stmt->execute();
+        $sql = "UPDATE DATE_documento_modello_fondo_dati_utili SET document_name=?, anno=? WHERE document_name=?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("sis", $request['document_name'], $request['anno'], $request['old_document_name']);
+        $stmt->execute();
         $mysqli->close();
     }
 
