@@ -276,7 +276,7 @@ class MasterModelloFondoDatiUtili
                             ?>
                         </select>
                         <label>Nota</label>
-                        <input type="text" class="form-control" id="idDatiUtiliNota">
+                        <textarea class="form-control" id="idDatiUtiliNota"></textarea>
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-primary" id="editDatiUtiliRowButton">Salva Modifica</button>

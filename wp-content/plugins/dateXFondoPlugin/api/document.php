@@ -43,6 +43,28 @@ function modifica_riga_documento_utilizzo($params)
 
 add_action('rest_api_init', 'create_endpoint_datefondo_edit_utilizzo_document_row');
 
+function create_endpoint_datefondo_edit_dati_utili_document_row()
+{
+
+    register_rest_route('datexfondoplugin/v1', 'datiutili/document/row', array(
+        'methods' => 'POST',
+        'callback' => 'modifica_riga_documento_dati_utili'
+    ));
+
+
+}
+
+function modifica_riga_documento_dati_utili($params)
+{
+    $bool_res = DocumentRepository::edit_dati_utili_document_row($params);
+    $data = ['update' => $bool_res, 'message' => 'Modifica riga del documento "Dati Utili" effettuata correttamente'];
+    $response = new WP_REST_Response($data);
+    $response->set_status(201);
+    return $response;
+}
+
+add_action('rest_api_init', 'create_endpoint_datefondo_edit_dati_utili_document_row');
+
 function create_endpoint_datefondo_disattiva_riga_documento()
 {
 

@@ -162,7 +162,30 @@ WHERE id=?";
         return $res;
 
     }
+    public static function edit_dati_utili_document_row($request){
 
+        $conn = new Connection();
+        $mysqli = $conn->connect();
+
+        $sql = "UPDATE DATE_documento_modello_fondo_dati_utili SET 
+                               nome_articolo=?,
+                               ordinamento=?,
+                               formula=?,
+                               nota=?
+                               
+WHERE id=?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("sissi",
+            $request['nome_articolo'],
+            $request['ordinamento'],
+            $request['formula'],
+            $request['nota'],
+            $request['id_dati_utili']);
+        $res = $stmt->execute();
+        $mysqli->close();
+        return $res;
+
+    }
     public static function delete_document_row($request){
         $conn = new Connection();
         $mysqli = $conn->connect();
