@@ -74,9 +74,11 @@ class MasterModelloFondoCostituzione
 
                 let worksheet_costituzione = XLSX.utils.json_to_sheet(temp, {skipHeader: true})
                 let worksheet_utilizzo = ExportUtilizzoSheetOnExcel();
+                let worksheet_dati_utili = ExportDatiUtilioSheetOnExcel();
                 const new_workbook = XLSX.utils.book_new()
                 XLSX.utils.book_append_sheet(new_workbook, worksheet_costituzione, "Costituzione")
                 XLSX.utils.book_append_sheet(new_workbook, worksheet_utilizzo, "Utilizzo")
+                XLSX.utils.book_append_sheet(new_workbook, worksheet_dati_utili, "Dati Utili")
                 XLSX.writeFile(new_workbook, ('xlsx' + 'Dasein1.xlsx'))
             }
 

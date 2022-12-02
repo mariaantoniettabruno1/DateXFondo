@@ -88,6 +88,28 @@ function esegui_cancellazione_riga_documento_utilizzo($params)
 
 add_action('rest_api_init', 'create_endpoint_datefondo_disattiva_riga_utilizzo');
 
+function create_endpoint_datefondo_disattiva_riga_dati_utili()
+{
+
+    register_rest_route('datexfondoplugin/v1', 'document/datiutili/row/del', array(
+        'methods' => 'POST',
+        'callback' => 'esegui_cancellazione_riga_documento_dati_utili'
+    ));
+
+
+}
+
+function esegui_cancellazione_riga_documento_dati_utili($params)
+{
+    DocumentRepository::delete_dati_utili_row($params);
+    $data = ['message' => 'Riga cancellata correttamente'];
+    $response = new WP_REST_Response($data);
+    $response->set_status(201);
+    return $response;
+}
+
+add_action('rest_api_init', 'create_endpoint_datefondo_disattiva_riga_dati_utili');
+
 function create_endpoint_datefondo_edit_header_modello_document()
 {
 
@@ -153,6 +175,7 @@ function esegui_creazione_riga_costituzione($params)
 }
 
 add_action('rest_api_init', 'create_endpoint_datefondo_creazione_riga_costituzione');
+
 function create_endpoint_datefondo_creazione_riga_utilizzo()
 {
 

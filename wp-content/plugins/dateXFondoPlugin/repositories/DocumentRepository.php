@@ -35,6 +35,21 @@ class DocumentRepository
         mysqli_close($mysqli);
         return $rows;
     }
+    public static function getArticoliDatiUtili($template_name)
+    {
+        $conn = new Connection();
+        $mysqli = $conn->connect();
+        $sql = "SELECT id,sezione,sottosezione,ordinamento,nome_articolo,formula,nota,document_name,editable,anno FROM DATE_documento_modello_fondo_dati_utili WHERE  attivo=1 and document_name=? ORDER BY ordinamento ASC";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("s", $template_name);
+        $res = $stmt->execute();
+        if ($res = $stmt->get_result()) {
+            $rows = $res->fetch_all(MYSQLI_ASSOC);
+        } else
+            $rows = [];
+        mysqli_close($mysqli);
+        return $rows;
+    }
     public static function getIdsArticoli($template_name)
     {
         $conn = new Connection();
@@ -68,6 +83,19 @@ class DocumentRepository
         $conn = new Connection();
         $mysqli = $conn->connect();
         $sql = "SELECT DISTINCT sezione FROM DATE_documento_modello_fondo_utilizzo WHERE document_name=?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("s", $template_name);
+        $res = $stmt->execute();
+        $res = $stmt->get_result();
+        $rows = $res->fetch_all(MYSQLI_ASSOC);
+        mysqli_close($mysqli);
+        return $rows;
+    }
+    public static function getSezioniDatiUtili($template_name)
+    {
+        $conn = new Connection();
+        $mysqli = $conn->connect();
+        $sql = "SELECT DISTINCT sezione FROM DATE_documento_modello_fondo_dati_utili WHERE document_name=?";
         $stmt = $mysqli->prepare($sql);
         $stmt->bind_param("s", $template_name);
         $res = $stmt->execute();
@@ -150,6 +178,15 @@ WHERE id=?";
         $sql = "UPDATE DATE_documento_modello_fondo_utilizzo SET attivo=0  WHERE id=?";
         $stmt = $mysqli->prepare($sql);
         $stmt->bind_param("i", $request['id_utilizzo']);
+        $res = $stmt->execute();
+        $mysqli->close();
+    }
+    public static function delete_dati_utili_row($request){
+        $conn = new Connection();
+        $mysqli = $conn->connect();
+        $sql = "UPDATE DATE_documento_modello_fondo_dati_utili SET attivo=0  WHERE id=?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("i", $request['id_dati_utili']);
         $res = $stmt->execute();
         $mysqli->close();
     }

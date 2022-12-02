@@ -14,6 +14,7 @@ class MasterModelloFondoDocument
         $data = new DocumentRepository();
         $results_articoli = $data->getArticoli('Emanuele Lesca');
         $results_articoli_utilizzo = $data->getArticoliUtilizzo('Emanuele Lesca');
+        $results_articoli_dati_utili = $data->getArticoliDatiUtili('Emanuele Lesca');
         ?>
         <!DOCTYPE html>
 
@@ -41,8 +42,10 @@ class MasterModelloFondoDocument
         <script>
             let articoli = JSON.parse((`<?=json_encode($results_articoli);?>`));
             let articoli_utilizzo = JSON.parse((`<?=json_encode($results_articoli_utilizzo);?>`));
+            let articoli_dati_utili = JSON.parse((`<?=json_encode($results_articoli_dati_utili);?>`));
             const sezioni = []
             const sezioni_utilizzo = []
+            const sezioni_dati_utili = []
 
             articoli.forEach(a => {
                 if (!sezioni.includes(a.sezione)) {
@@ -70,6 +73,20 @@ class MasterModelloFondoDocument
                 }
                 if (!sezioniUtilizzoList[a.sezione].includes(a.sottosezione)) {
                     sezioniUtilizzoList[a.sezione].push(a.sottosezione);
+                }
+            });
+            articoli_dati_utili.forEach(a => {
+                if (!sezioni_dati_utili.includes(a.sezione)) {
+                    sezioni_dati_utili.push(a.sezione);
+                }
+            });
+            const sezioniDatiUtiliList = {}
+            articoli_dati_utili.forEach(a => {
+                if (!sezioniDatiUtiliList[a.sezione]) {
+                    sezioniDatiUtiliList[a.sezione] = [];
+                }
+                if (!sezioniDatiUtiliList[a.sezione].includes(a.sottosezione)) {
+                    sezioniDatiUtiliList[a.sezione].push(a.sottosezione);
                 }
             });
         </script>
