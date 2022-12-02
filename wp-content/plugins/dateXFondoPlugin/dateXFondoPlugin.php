@@ -41,7 +41,7 @@ require_once(plugin_dir_path(__FILE__) . 'views/document/MasterModelloRegioniDoc
 require_once(plugin_dir_path(__FILE__) . 'views/document/components/regioni/MasterModelloRegioniHeader.php');
 require_once(plugin_dir_path(__FILE__) . 'views/document/components/regioni/MasterModelloRegioniTable.php');
 require_once(plugin_dir_path(__FILE__) . 'views/document/components/regioni/MasterModelloRegioniStopEdit.php');
-require_once(plugin_dir_path(__FILE__) . 'views/document/components/regioni/MaterModelloRegioniRow.php');
+require_once(plugin_dir_path(__FILE__) . 'views/document/components/regioni/MasterModelloRegioniRow.php');
 require_once(plugin_dir_path(__FILE__) . 'views/document/MasterModelloFondoDocument.php');
 require_once(plugin_dir_path(__FILE__) . 'views/document/components/modellofondo/MasterModelloFondoHeader.php');
 require_once(plugin_dir_path(__FILE__) . 'views/document/components/modellofondo/MasterModelloStopEditTable.php');

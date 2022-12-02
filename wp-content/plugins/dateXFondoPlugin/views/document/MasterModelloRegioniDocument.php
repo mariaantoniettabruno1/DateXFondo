@@ -67,7 +67,7 @@ public static function render(){
             </div>
             <div>
                 <?php
-                \MaterModelloRegioniRow::render();
+                \MasterModelloRegioniRow::render();
                 ?>
             </div>
 

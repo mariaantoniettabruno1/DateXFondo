@@ -10,6 +10,7 @@ class MasterModelloRegioniHeader
         $(document).ready(function (){
             $('#inputDocumentName').val(`${articoli[0].document_name}`);
             $('#inputYear').val(`${articoli[0].anno}`);
+            $('#inputTitoloDocumento').val(`${articoli[0].titolo_documento}`);
             let old_document_name = $('#inputDocumentName').val();
 
             $("#editInputButton").click(function () {
@@ -17,6 +18,7 @@ class MasterModelloRegioniHeader
                 $('#saveInputButton').show();
                 $('#deleteEditButton').show();
                 $('#inputDocumentName').attr('readonly', false);
+                $('#inputTitoloDocumento').attr('readonly', false);
                 $('#inputYear').attr('readonly', false);
             });
             $("#deleteEditButton").click(function (){
@@ -27,13 +29,17 @@ class MasterModelloRegioniHeader
             $('#saveInputButton').click(function () {
                 {
                     let document_name = $('#inputDocumentName').val();
+                    let titolo_documento = $('#inputTitoloDocumento').val();
                     let anno = $('#inputYear').val();
+
                     $('#inputDocumentName').attr('readonly', true);
+                    $('#inputTitoloDocumento').attr('readonly', true);
                     $('#inputYear').attr('readonly', true);
 
                     const payload = {
-                    document_name,
+                        document_name,
                         old_document_name,
+                        titolo_documento,
                         anno
                     }
                     console.log(payload)
@@ -73,7 +79,12 @@ class MasterModelloRegioniHeader
         <div class="col-2">
             <input type="text" placeholder="Redattore del documento" id="inputDocumentName" readonly>
 
-        </div>  <div class="col-2">
+        </div>
+        <div class="col-2">
+            <input type="text" placeholder="Titolo documento" id="inputTitoloDocumento" readonly>
+
+        </div>
+        <div class="col-2">
             <input type="text" placeholder="Anno" id="inputYear" readonly>
         </div>
         <?php

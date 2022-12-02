@@ -23,9 +23,9 @@ class RegioniDocumentRepository
     public static function edit_regioni_document_header($request){
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = "UPDATE DATE_documento_regioni_autonomie_locali SET document_name=?, anno=? WHERE document_name=?";
+        $sql = "UPDATE DATE_documento_regioni_autonomie_locali SET document_name=?, anno=?, titolo_documento=? WHERE document_name=?";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("sis", $request['document_name'], $request['anno'], $request['old_document_name']);
+        $stmt->bind_param("siss", $request['document_name'], $request['anno'],$request['titolo_documento'], $request['old_document_name']);
         $stmt->execute();
         $mysqli->close();
     }
@@ -86,5 +86,17 @@ FROM DATE_documento_regioni_autonomie_locali WHERE document_name=?";
         $res = $stmt->execute();
         $mysqli->close();
         return $res;
+    }
+
+    public static function create_new_row_regioni($request){
+        $conn = new Connection();
+        $mysqli = $conn->connect();
+        $sql = "INSERT INTO DATE_documento_regioni_autonomie_locali
+                    (ordinamento,titolo_documento,titolo_tabella,sezione,sottosezione,nome_articolo,codice,importo,nota,document_name,anno) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("isssssssssi", $request['ordinamento'],$request['titolo_documento'],$request['titolo_tabella'], $request['sezione'], $request['sottosezione'], $request['nome_articolo'],
+            $request['codice'], $request['importo'], $request['nota'], $request['document_name'], $request['anno']);
+        $stmt->execute();
+        $mysqli->close();
     }
 }

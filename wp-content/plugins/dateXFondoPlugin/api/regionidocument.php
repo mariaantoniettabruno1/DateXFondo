@@ -89,3 +89,25 @@ function esegui_blocca_modifica_regioni_document($params)
 }
 
 add_action('rest_api_init', 'create_endpoint_datefondo_not_editable_regioni_document');
+
+function create_endpoint_datefondo_creazione_riga_regioni()
+{
+
+    register_rest_route('datexfondoplugin/v1', 'regioninewrow', array(
+        'methods' => 'POST',
+        'callback' => 'esegui_creazione_riga_regioni'
+    ));
+
+
+}
+
+function esegui_creazione_riga_regioni($params)
+{
+    $insert_id =  \dateXFondoPlugin\RegioniDocumentRepository::create_new_row_regioni($params);
+    $data = ['id' => $insert_id, 'message' => 'Creazione riga  effettuata correttamente'];
+    $response = new WP_REST_Response($data);
+    $response->set_status(201);
+    return $response;
+}
+
+add_action('rest_api_init', 'create_endpoint_datefondo_creazione_riga_regioni');
