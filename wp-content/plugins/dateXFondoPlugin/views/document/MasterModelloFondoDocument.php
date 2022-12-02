@@ -35,8 +35,6 @@ class MasterModelloFondoDocument
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
             <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
 
-            <script>
-            </script>
         </head>
 
         <script>

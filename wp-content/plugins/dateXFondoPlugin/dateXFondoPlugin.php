@@ -15,6 +15,7 @@ require_once(plugin_dir_path(__FILE__) . 'repositories/MasterTemplateRowReposito
 require_once(plugin_dir_path(__FILE__) . 'repositories/DisabledTemplateRow.php');
 require_once(plugin_dir_path(__FILE__) . 'repositories/DocumentRepository.php');
 require_once(plugin_dir_path(__FILE__) . 'repositories/FormulaRepository.php');
+require_once(plugin_dir_path(__FILE__) . 'repositories/RegioniDocumentRepository.php');
 require_once(plugin_dir_path(__FILE__) . 'repositories/SlaveFormulaTable.php');
 require_once(plugin_dir_path(__FILE__) . 'repositories/MasterJoinTableRepository.php');
 require_once(plugin_dir_path(__FILE__) . 'views/table/live_edit.php');
@@ -36,21 +37,27 @@ require_once(plugin_dir_path(__FILE__) . 'views/template/components/MasterTempla
 require_once(plugin_dir_path(__FILE__) . 'views/template/ShortCodeDisabledTemplateRow.php');
 require_once(plugin_dir_path(__FILE__) . 'views/formula/Formula.php');
 require_once(plugin_dir_path(__FILE__) . 'views/formula/SlaveShortCodeFormulaTable.php');
+require_once(plugin_dir_path(__FILE__) . 'views/document/MasterModelloRegioniDocument.php');
+require_once(plugin_dir_path(__FILE__) . 'views/document/components/regioni/MasterModelloRegioniHeader.php');
+require_once(plugin_dir_path(__FILE__) . 'views/document/components/regioni/MasterModelloRegioniTable.php');
+require_once(plugin_dir_path(__FILE__) . 'views/document/components/regioni/MasterModelloRegioniStopEdit.php');
+require_once(plugin_dir_path(__FILE__) . 'views/document/components/regioni/MaterModelloRegioniRow.php');
 require_once(plugin_dir_path(__FILE__) . 'views/document/MasterModelloFondoDocument.php');
-require_once(plugin_dir_path(__FILE__) . 'views/document/components/MasterModelloFondoHeader.php');
-require_once(plugin_dir_path(__FILE__) . 'views/document/components/MasterModelloStopEditTable.php');
-require_once(plugin_dir_path(__FILE__) . 'views/document/components/MasterModelloFondoNewCostituzioneRow.php');
-require_once(plugin_dir_path(__FILE__) . 'views/document/components/MasterModelloFondoNewUtilizzoRow.php');
-require_once(plugin_dir_path(__FILE__) . 'views/document/components/MasterModelloFondoDatiUtiliRow.php');
-require_once(plugin_dir_path(__FILE__) . 'views/document/components/MasterModelloFondoDocumentTable.php');
-require_once(plugin_dir_path(__FILE__) . 'views/document/components/MasterModelloFondoCostituzione.php');
-require_once(plugin_dir_path(__FILE__) . 'views/document/components/MasterModelloFondoDatiUtili.php');
-require_once(plugin_dir_path(__FILE__) . 'views/document/components/MasterModelloFondoUtilizzo.php');
+require_once(plugin_dir_path(__FILE__) . 'views/document/components/modellofondo/MasterModelloFondoHeader.php');
+require_once(plugin_dir_path(__FILE__) . 'views/document/components/modellofondo/MasterModelloStopEditTable.php');
+require_once(plugin_dir_path(__FILE__) . 'views/document/components/modellofondo/MasterModelloFondoNewCostituzioneRow.php');
+require_once(plugin_dir_path(__FILE__) . 'views/document/components/modellofondo/MasterModelloFondoNewUtilizzoRow.php');
+require_once(plugin_dir_path(__FILE__) . 'views/document/components/modellofondo/MasterModelloFondoDatiUtiliRow.php');
+require_once(plugin_dir_path(__FILE__) . 'views/document/components/modellofondo/MasterModelloFondoDocumentTable.php');
+require_once(plugin_dir_path(__FILE__) . 'views/document/components/modellofondo/MasterModelloFondoCostituzione.php');
+require_once(plugin_dir_path(__FILE__) . 'views/document/components/modellofondo/MasterModelloFondoDatiUtili.php');
+require_once(plugin_dir_path(__FILE__) . 'views/document/components/modellofondo/MasterModelloFondoUtilizzo.php');
 require_once(plugin_dir_path(__FILE__) . 'views/formula/components/FormulaCard.php');
 require_once(plugin_dir_path(__FILE__) . 'views/formula/components/FormulaSidebar.php');
 require_once(plugin_dir_path(__FILE__) . 'views/formula/components/PreviewArticolo.php');
 require_once(plugin_dir_path(__FILE__) . 'api/formula.php');
 require_once(plugin_dir_path(__FILE__) . 'api/document.php');
+require_once(plugin_dir_path(__FILE__) . 'api/regionidocument.php');
 require_once(plugin_dir_path(__FILE__) . 'api/template.php');
 require_once(plugin_dir_path(__FILE__) . 'api/newrow.php');
 require_once(plugin_dir_path(__FILE__) . 'api/joinTable.php');
@@ -87,6 +94,7 @@ function shortcodes_init()
     add_shortcode('post_visualize_formula_template', 'visualize_formula_template');
     add_shortcode('post_visualize_slave_formula_template', 'visualize_slave_formula_template');
     add_shortcode('post_document_template', 'document_template');
+    add_shortcode('post_regioni_autonomie_locali_template', 'regioni_autonomie_locali_template');
 }
 
 
@@ -148,6 +156,11 @@ function visualize_slave_formula_template()
 function document_template()
 {
     \dateXFondoPlugin\MasterModelloFondoDocument::render();
+
+}
+function regioni_autonomie_locali_template()
+{
+    \dateXFondoPlugin\MasterModelloRegioniDocument::render();
 
 }
 
