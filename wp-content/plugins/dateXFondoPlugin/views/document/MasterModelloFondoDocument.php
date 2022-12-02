@@ -112,6 +112,9 @@ class MasterModelloFondoDocument
                     <?php
                     \MasterModelloFondoNewCostituzioneRow::render();
                     ?>
+                    <?php
+                    \MasterModelloFondoDatiUtiliRow::render();
+                    ?>
                 </div>
             </div>
 

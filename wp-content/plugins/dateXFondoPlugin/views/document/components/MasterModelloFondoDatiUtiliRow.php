@@ -2,93 +2,96 @@
 
 use dateXFondoPlugin\DateXFondoCommon;
 
-class MasterModelloFondoNewCostituzioneRow
+class MasterModelloFondoDatiUtiliRow
 {
-public static function render_scripts(){
-    ?>
-    <script>
+    public static function render_scripts(){
+        ?>
+        <script>
 
 
-            function renderCostituzioneSectionFilterRow() {
-                $('#selectNewCostRowSezione').html('<option>Seleziona Sezione</option>');
-                Object.keys(sezioniList).forEach(sez => {
-                    $('#selectNewCostRowSezione').append(`<option>${sez}</option>`);
+            function renderDatiUtiliSectionFilterRow() {
+                $('#selectNewDatiUtiliRowSezione').html('<option>Seleziona Sezione</option>');
+                Object.keys(sezioniDatiUtiliList).forEach(sez => {
+                    $('#selectNewDatiUtiliRowSezione').append(`<option>${sez}</option>`);
                 });
             }
 
-            function filterCostituzioneSubsectionsRow(section) {
-                $('#selectNewCostRowSottosezione').html('<option>Seleziona Sottosezione</option>');
-                sezioniList[section].forEach(ssez => {
-                    $('#selectNewCostRowSottosezione').append(`<option>${ssez}</option>`);
+            function filterDatiUtiliSubsectionsRow(section) {
+                $('#selectNewDatiUtiliRowSottosezione').html('<option>Seleziona Sottosezione</option>');
+                sezioniDatiUtiliList[section].forEach(ssez => {
+                    $('#selectNewDatiUtiliRowSottosezione').append(`<option>${ssez}</option>`);
                 });
             }
 
             function clearInputRow() {
-                $('#selectNewCostRowSezione').prop('selectedIndex', 0);
-                $('#selectNewCostRowSottosezione').prop('selectedIndex', -1);
-                $('#newConstRowSottosezione').val('');
-                $('#newConstRowOrdinamento').val('');
-                $('#newConstRowNomeArticolo').val('');
-                $('#newConstRowPreventivo').val('');
+                $('#selectNewDatiUtiliRowSezione').prop('selectedIndex', 0);
+                $('#selectNewDatiUtiliRowSottosezione').prop('selectedIndex', -1);
+                $('#newDatiUtiliRowSottosezione').val('');
+                $('#newDatiUtiliRowOrdinamento').val('');
+                $('#newDatiUtiliRowNomeArticolo').val('');
+                $('#newDatiUtiliRowFormula').val('');
+                $('#newDatiUtiliRowNota').val('');
             }
 
             $(document).ready(function () {
                 clearInputRow();
-                renderCostituzioneSectionFilterRow();
-                $('#selectNewCostRowSezione').change(function () {
-                    const section = $('#selectNewCostRowSezione').val();
+                renderDatiUtiliSectionFilterRow();
+                $('#selectNewDatiUtiliRowSezione').change(function () {
+                    const section = $('#selectNewDatiUtiliRowSezione').val();
                     if (section !== 'Seleziona Sezione') {
-                        filterCostituzioneSubsectionsRow(section);
+                        filterDatiUtiliSubsectionsRow(section);
                     } else {
-                        $('#selectNewCostRowSottosezione').html('');
+                        $('#selectNewDatiUtiliRowSottosezione').html('');
                     }
                 });
                 $('.subsectionButtonGroup1').click(function () {
-                    $('#selectNewCostRowSottosezione').show();
-                    $('#newConstRowSottosezione').attr('style', 'display:none');
+                    $('#selectNewDatiUtiliRowSottosezione').show();
+                    $('#newDatiUtiliRowSottosezione').attr('style', 'display:none');
                 });
                 $('.subsectionButtonGroup2').click(function () {
-                    $('#newConstRowSottosezione').attr('style', 'display:block');
-                    $('#selectNewCostRowSottosezione').hide();
+                    $('#newDatiUtiliRowSottosezione').attr('style', 'display:block');
+                    $('#selectNewDatiUtiliRowSottosezione').hide();
                 });
-                $('#addNewCostRowButton').click(function () {
+                $('#addNewDatiUtiliRowButton').click(function () {
                     {
-                        let nome_articolo = $('#newConstRowNomeArticolo').val();
-                        let ordinamento = $('#newConstRowOrdinamento').val();
-                        let preventivo = $('#newConstRowPreventivo').val();
+                        let nome_articolo = $('#newDatiUtiliRowNomeArticolo').val();
+                        let ordinamento = $('#newDatiUtiliRowOrdinamento').val();
+                        let formula = $('#newDatiUtiliRowFormula').val();
+                        let nota = $('#newDatiUtiliRowNota').val();
                         let sezione = '';
                         if (sezione !== 'Seleziona Sezione') {
-                            sezione = $('#selectNewCostRowSezione').val();
+                            sezione = $('#selectNewDatiUtiliRowSezione').val();
                         }
                         let sottosezione = '';
-                        if ($('#selectNewCostRowSottosezione').val() != null && $('#selectNewCostRowSottosezione').val() !== 'Seleziona Sottosezione') {
-                            sottosezione = $('#selectNewCostRowSottosezione').val();
-                        } else if ($('#newConstRowSottosezione').val() != null) {
-                            sottosezione = $('#newConstRowSottosezione').val();
+                        if ($('#selectNewDatiUtiliRowSottosezione').val() != null && $('#selectNewDatiUtiliRowSottosezione').val() !== 'Seleziona Sottosezione') {
+                            sottosezione = $('#selectNewDatiUtiliRowSottosezione').val();
+                        } else if ($('#newDatiUtiliRowSottosezione').val() != null) {
+                            sottosezione = $('#newDatiUtiliRowSottosezione').val();
                         }
 
                         let document_name = $('#inputDocumentName').val();
                         let anno = $('#inputYear').val();
 
-                        if (articoli.find(art => art.nome_articolo === nome_articolo) === undefined && sezione !== 'Seleziona Sezione' && sottosezione!=='Seleziona Sottosezione') {
-                        const payload = {
-                            nome_articolo,
-                            ordinamento,
-                            preventivo,
-                            sezione,
-                            sottosezione,
-                            document_name,
-                            anno
+                        if (articoli_dati_utili.find(art => art.nome_articolo === nome_articolo) === undefined && sezione !== 'Seleziona Sezione' && sottosezione!=='Seleziona Sottosezione') {
+                            const payload = {
+                                nome_articolo,
+                                ordinamento,
+                                formula,
+                                nota,
+                                sezione,
+                                sottosezione,
+                                document_name,
+                                anno
                             }
                             console.log(payload)
                             $.ajax({
-                                url: '<?= DateXFondoCommon::get_website_url() ?>/wp-json/datexfondoplugin/v1/newcostrow',
+                                url: '<?= DateXFondoCommon::get_website_url() ?>/wp-json/datexfondoplugin/v1/newdatiutilirow',
                                 data: payload,
                                 type: "POST",
                                 success: function (response) {
-                            $("#addCostRowModal").modal('hide');
-                            articoli.push({...payload, id: response['id']});
-                                    renderDataTable();
+                                    $("#addDatiUtiliRowModal").modal('hide');
+                                    articoli_dati_utili.push({...payload, id: response['id']});
+                                    renderDatiUtiliDataTable();
                                     $(".alert-new-row-success").show();
                                     $(".alert-new-row-success").fadeTo(2000, 500).slideUp(500, function () {
                                         $(".alert-new-row-success").slideUp(500);
@@ -96,26 +99,26 @@ public static function render_scripts(){
                                     clearInputRow();
                                 },
                                 error: function (response) {
-                            $("#addCostRowModal").modal('hide');
-                            console.error(response);
-                            $(".alert-new-row-wrong").show();
-                            $(".alert-new-row-wrong").fadeTo(2000, 500).slideUp(500, function () {
-                                $(".alert-new-row-wrong").slideUp(500);
-                            });
-                        }
+                                    $("#addDatiUtiliRowModal").modal('hide');
+                                    console.error(response);
+                                    $(".alert-new-row-wrong").show();
+                                    $(".alert-new-row-wrong").fadeTo(2000, 500).slideUp(500, function () {
+                                        $(".alert-new-row-wrong").slideUp(500);
+                                    });
+                                }
                             });
                         }  else if (sezione !== 'Seleziona Sezione') {
-                        $("#errorSection").attr('style', 'display:block');
-                    }
-                    else if(sottosezione !== 'Seleziona Sottosezione'){
-                        $("#errorSubsection").attr('style', 'display:block');
+                            $("#errorSection").attr('style', 'display:block');
+                        }
+                        else if(sottosezione !== 'Seleziona Sottosezione'){
+                            $("#errorSubsection").attr('style', 'display:block');
 
-                    }
+                        }
 
                     }
                 });
             })
-            </script>
+        </script>
         <?php
 
     }
@@ -123,15 +126,15 @@ public static function render_scripts(){
     public static function render()
     {
         $data = new DocumentRepository();
-        $results_articoli = $data->getArticoli('Emanuele Lesca');
+        $results_articoli = $data->getArticoliDatiUtili('Emanuele Lesca');
         $formulas = $data->getFormulas('Emanuele Lesca');
         $ids_articolo = $data->getIdsArticoli('Emanuele Lesca');
         $array = $formulas + $ids_articolo;
 
         //TODO filter per togliere i valori vuoti
 //        for( $i=0; $i<count($results_articoli); $i++){
-//            if($results_articoli[$i]['preventivo']===null){
-//                array_splice($results_articoli[$i], 'preventivo', 1);
+//            if($results_articoli[$i]['Formula']===null){
+//                array_splice($results_articoli[$i], 'Formula', 1);
 //            }
 //            echo '<pre>';
 //            print_r($results_articoli[$i]);
@@ -142,18 +145,18 @@ public static function render_scripts(){
         if ($results_articoli[0]['editable'] == '1') {
             ?>
             <button class="btn btn-outline-primary" data-toggle="modal"
-                    data-target="#addCostRowModal" id="idAddCostRow">Aggiungi riga costituzione
+                    data-target="#addDatiUtiliRowModal" id="idAddDatiUtiliRow">Aggiungi riga dati utili
             </button>
             <?php
         } else {
             ?>
             <button class="btn btn-outline-primary" data-toggle="modal"
-                    data-target="#addCostRowModal" id="idAddCostRow" disabled>Aggiungi riga costituzione
+                    data-target="#addDatiUtiliRowModal" id="idAddDatiUtiliRow" disabled>Aggiungi riga dati utili
             </button>
             <?php
         }
         ?>
-        <div class="modal fade" id="addCostRowModal" tabindex="-1"
+        <div class="modal fade" id="addDatiUtiliRowModal" tabindex="-1"
              role="dialog"
              aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -167,13 +170,13 @@ public static function render_scripts(){
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="selectCostRowSezione"><b>Sezione:</b></label>
-                            <select class="custom-select" id="selectNewCostRowSezione">
+                            <label for="selectDatiUtiliRowSezione"><b>Sezione:</b></label>
+                            <select class="custom-select" id="selectNewDatiUtiliRowSezione">
                             </select>
                             <small id="errorSection" class="form-text text-danger" style="display: none">Campo
                                 Obbligatorio</small>
                         </div>
-                        <div class="form-group" id="divSelectNewCostRowSottosezione">
+                        <div class="form-group" id="divSelectNewDatiUtiliRowSottosezione">
                             <br>
                             <div class="btn-group pb-3" role="group" aria-label="Basic example">
                                 <button type="button" class="btn  btn-outline-primary subsectionButtonGroup1">
@@ -184,29 +187,29 @@ public static function render_scripts(){
                                 </button>
                             </div>
                             <div class="form-group">
-                                <select class="custom-select" id="selectNewCostRowSottosezione">
+                                <select class="custom-select" id="selectNewDatiUtiliRowSottosezione">
                                 </select>
                                 <small id="errorSubsection" class="form-text text-danger" style="display: none">Campo
                                     Obbligatorio</small>
                             </div>
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control" id="newConstRowSottosezione" style="display:none">
+                            <input type="text" class="form-control" id="newDatiUtiliRowSottosezione" style="display:none">
                             <small id="errorSubsection" class="form-text text-danger" style="display: none">Campo
                                 Obbligatorio</small>
                         </div>
 
                         <div class="form-group">
                             <label for="inputOrdinamento"><b>Ordinamento:</b></label>
-                            <input type="text" class="form-control" id="newConstRowOrdinamento"></div>
+                            <input type="text" class="form-control" id="newDatiUtiliRowOrdinamento"></div>
                         <div class="form-group">
                             <label for="inputNomeArticolo"><b>Articolo:</b> </label>
-                            <input type="text" class="form-control" id="newConstRowNomeArticolo">
+                            <input type="text" class="form-control" id="newDatiUtiliRowNomeArticolo">
                         </div>
                         <div class="form-group">
-                            <label for="idPreventivo"><b>Preventivo: </b></label>
+                            <label for="idFormula"><b>Formula: </b></label>
 
-                            <select name="newConstRowPreventivo" id="newConstRowPreventivo">
+                            <select name="newDatiUtiliRowFormula" id="newDatiUtiliRowFormula">
                                 <?php
                                 foreach ($array as $item) {
                                     ?>
@@ -216,13 +219,17 @@ public static function render_scripts(){
                             </select>
 
                         </div>
-                    </div>
-                        <div class="modal-footer">
-                            <button class="btn btn-primary" id="addNewCostRowButton">Aggiungi riga</button>
+                        <div class="form-group">
+                            <label for="inputNota"><b>Nota:</b> </label>
+                            <textarea class="form-control" id="newDatiUtiliRowNota"></textarea>
                         </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" id="addNewDatiUtiliRowButton">Aggiungi riga</button>
                     </div>
                 </div>
             </div>
+        </div>
 
         <div class="alert alert-success alert-new-row-success" role="alert"
              style="position:fixed; top: <?= is_admin_bar_showing() ? 47 : 15 ?>px; right: 15px; display:none">

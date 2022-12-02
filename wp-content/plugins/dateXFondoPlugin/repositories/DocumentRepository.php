@@ -35,6 +35,7 @@ class DocumentRepository
         mysqli_close($mysqli);
         return $rows;
     }
+
     public static function getArticoliDatiUtili($template_name)
     {
         $conn = new Connection();
@@ -50,6 +51,7 @@ class DocumentRepository
         mysqli_close($mysqli);
         return $rows;
     }
+
     public static function getIdsArticoli($template_name)
     {
         $conn = new Connection();
@@ -65,6 +67,7 @@ class DocumentRepository
         mysqli_close($mysqli);
         return $rows;
     }
+
     public static function getSezioni($template_name)
     {
         $conn = new Connection();
@@ -78,6 +81,7 @@ class DocumentRepository
         mysqli_close($mysqli);
         return $rows;
     }
+
     public static function getSezioniUtilizzo($template_name)
     {
         $conn = new Connection();
@@ -91,6 +95,7 @@ class DocumentRepository
         mysqli_close($mysqli);
         return $rows;
     }
+
     public static function getSezioniDatiUtili($template_name)
     {
         $conn = new Connection();
@@ -104,7 +109,9 @@ class DocumentRepository
         mysqli_close($mysqli);
         return $rows;
     }
-    public static function getFormulas($document_name){
+
+    public static function getFormulas($document_name)
+    {
         $conn = new Connection();
         $mysqli = $conn->connect();
         $sql = "SELECT nome FROM DATE_formula WHERE formula_template_name=?";
@@ -116,7 +123,9 @@ class DocumentRepository
         mysqli_close($mysqli);
         return $rows;
     }
-    public static function edit_document_row($request){
+
+    public static function edit_document_row($request)
+    {
 
         $conn = new Connection();
         $mysqli = $conn->connect();
@@ -138,7 +147,9 @@ WHERE id=?";
         return $res;
 
     }
-    public static function edit_utilizzo_document_row($request){
+
+    public static function edit_utilizzo_document_row($request)
+    {
 
         $conn = new Connection();
         $mysqli = $conn->connect();
@@ -162,7 +173,9 @@ WHERE id=?";
         return $res;
 
     }
-    public static function edit_dati_utili_document_row($request){
+
+    public static function edit_dati_utili_document_row($request)
+    {
 
         $conn = new Connection();
         $mysqli = $conn->connect();
@@ -186,7 +199,9 @@ WHERE id=?";
         return $res;
 
     }
-    public static function delete_document_row($request){
+
+    public static function delete_document_row($request)
+    {
         $conn = new Connection();
         $mysqli = $conn->connect();
         $sql = "UPDATE DATE_documento_modello_fondo SET attivo=0  WHERE id=?";
@@ -195,7 +210,9 @@ WHERE id=?";
         $res = $stmt->execute();
         $mysqli->close();
     }
-    public static function delete_utilizzo_row($request){
+
+    public static function delete_utilizzo_row($request)
+    {
         $conn = new Connection();
         $mysqli = $conn->connect();
         $sql = "UPDATE DATE_documento_modello_fondo_utilizzo SET attivo=0  WHERE id=?";
@@ -204,7 +221,9 @@ WHERE id=?";
         $res = $stmt->execute();
         $mysqli->close();
     }
-    public static function delete_dati_utili_row($request){
+
+    public static function delete_dati_utili_row($request)
+    {
         $conn = new Connection();
         $mysqli = $conn->connect();
         $sql = "UPDATE DATE_documento_modello_fondo_dati_utili SET attivo=0  WHERE id=?";
@@ -214,7 +233,8 @@ WHERE id=?";
         $mysqli->close();
     }
 
-    public static function set_modello_document_not_editable($request){
+    public static function set_modello_document_not_editable($request)
+    {
         $conn = new Connection();
         $mysqli = $conn->connect();
         $sql = "UPDATE DATE_documento_modello_fondo SET editable=0";
@@ -272,36 +292,54 @@ FROM DATE_documento_modello_fondo_dati_utili WHERE document_name=?";
         return $res;
     }
 
-    public static function edit_modello_document_header($request){
+    public static function edit_modello_document_header($request)
+    {
         $conn = new Connection();
         $mysqli = $conn->connect();
         $sql = "UPDATE DATE_documento_modello_fondo SET document_name=?, anno=? WHERE document_name=?";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("sis",  $request['document_name'], $request['anno'],$request['old_document_name']);
+        $stmt->bind_param("sis", $request['document_name'], $request['anno'], $request['old_document_name']);
         $stmt->execute();
         $mysqli->close();
     }
 
-    public static function create_new_row_costituzione($request){
+    public static function create_new_row_costituzione($request)
+    {
         $conn = new Connection();
         $mysqli = $conn->connect();
         $sql = "INSERT INTO DATE_documento_modello_fondo 
                     (ordinamento,sezione,sottosezione,nome_articolo,preventivo,document_name,anno) VALUES(?,?,?,?,?,?,?)";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("isssssi",  $request['ordinamento'],$request['sezione'],$request['sottosezione'],$request['nome_articolo'],
-            $request['preventivo'],$request['document_name'],$request['anno']);
+        $stmt->bind_param("isssssi", $request['ordinamento'], $request['sezione'], $request['sottosezione'], $request['nome_articolo'],
+            $request['preventivo'], $request['document_name'], $request['anno']);
         $stmt->execute();
         $mysqli->close();
 
     }
-    public static function create_new_row_utilizzo($request){
+
+    public static function create_new_row_utilizzo($request)
+    {
         $conn = new Connection();
         $mysqli = $conn->connect();
         $sql = "INSERT INTO DATE_documento_modello_fondo_utilizzo 
                     (ordinamento,sezione,nome_articolo,preventivo,consuntivo,document_name,anno) VALUES(?,?,?,?,?,?,?)";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("isssssi",  $request['ordinamento'],$request['sezione'],$request['nome_articolo'],
-            $request['preventivo'],$request['document_name'],$request['anno']);
+        $stmt->bind_param("isssssi", $request['ordinamento'], $request['sezione'], $request['nome_articolo'],
+            $request['preventivo'], $request['consuntivo'], $request['document_name'], $request['anno']);
+        $stmt->execute();
+        $mysqli->close();
+
+    }
+
+    public static function create_new_row_dati_utili($request)
+    {
+        $conn = new Connection();
+        $mysqli = $conn->connect();
+        $sql = "INSERT INTO DATE_documento_modello_fondo_dati_utili
+                    (ordinamento,sezione,sottosezione,nome_articolo,formula,nota,document_name,anno) VALUES(?,?,?,?,?,?,?,?)";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("issssssi", $request['ordinamento'], $request['sezione'], $request['sottosezione'], $request['nome_articolo'],
+            $request['formula'], $request['nota'], $request['document_name'], $request['anno']);
         $stmt->execute();
         $mysqli->close();
 

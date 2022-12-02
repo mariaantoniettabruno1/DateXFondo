@@ -41,6 +41,7 @@ require_once(plugin_dir_path(__FILE__) . 'views/document/components/MasterModell
 require_once(plugin_dir_path(__FILE__) . 'views/document/components/MasterModelloStopEditTable.php');
 require_once(plugin_dir_path(__FILE__) . 'views/document/components/MasterModelloFondoNewCostituzioneRow.php');
 require_once(plugin_dir_path(__FILE__) . 'views/document/components/MasterModelloFondoNewUtilizzoRow.php');
+require_once(plugin_dir_path(__FILE__) . 'views/document/components/MasterModelloFondoDatiUtiliRow.php');
 require_once(plugin_dir_path(__FILE__) . 'views/document/components/MasterModelloFondoDocumentTable.php');
 require_once(plugin_dir_path(__FILE__) . 'views/document/components/MasterModelloFondoCostituzione.php');
 require_once(plugin_dir_path(__FILE__) . 'views/document/components/MasterModelloFondoDatiUtili.php');

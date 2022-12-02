@@ -219,3 +219,25 @@ function esegui_creazione_riga_utilizzo($params)
 }
 
 add_action('rest_api_init', 'create_endpoint_datefondo_creazione_riga_utilizzo');
+
+function create_endpoint_datefondo_creazione_riga_dati_utili()
+{
+
+    register_rest_route('datexfondoplugin/v1', 'newdatiutilirow', array(
+        'methods' => 'POST',
+        'callback' => 'esegui_creazione_riga_dati_utili'
+    ));
+
+
+}
+
+function esegui_creazione_riga_dati_utili($params)
+{
+    $insert_id = DocumentRepository::create_new_row_dati_utili($params);
+    $data = ['id' => $insert_id, 'message' => 'Creazione riga dati utili effettuata correttamente'];
+    $response = new WP_REST_Response($data);
+    $response->set_status(201);
+    return $response;
+}
+
+add_action('rest_api_init', 'create_endpoint_datefondo_creazione_riga_dati_utili');
