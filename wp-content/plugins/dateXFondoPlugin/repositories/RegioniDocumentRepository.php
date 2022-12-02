@@ -29,4 +29,13 @@ class RegioniDocumentRepository
         $stmt->execute();
         $mysqli->close();
     }
+    public static function delete_regioni_row($request){
+        $conn = new Connection();
+        $mysqli = $conn->connect();
+        $sql = "UPDATE DATE_documento_regioni_autonomie_locali SET attivo=0  WHERE id=?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("i", $request['id']);
+        $res = $stmt->execute();
+        $mysqli->close();
+    }
 }
