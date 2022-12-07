@@ -259,7 +259,7 @@ class MasterModelloRegioniTable
                             </div>
                             <table class="table regionidocumenttable">
                                 <thead>
-                                <tr>
+                                <thead>
                                     <th>Ordinamento</th>
                                     <th style="width: 140px">Nome Articolo</th>
                                     <th style="width: 170px">Codice</th>
@@ -267,7 +267,6 @@ class MasterModelloRegioniTable
                                     <th>Nota</th>
                                     <th>Azioni</th>
                                 </tr>
-
                                 </thead>
                                 <tbody id="dataRegioniDocumentTableBody<?= $section_index ?>">
                                 </tbody>
