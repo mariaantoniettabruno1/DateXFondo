@@ -11,7 +11,7 @@ class MasterModelloRegioniDestinazioneTable
             let id_destinazione = 0;
             let filteredDestinazioneArticoli = articoli_destinazione;
             function renderRegioniDestinazioneDataTable(section,subsection){
-                let index = Object.keys(sezioni).indexOf(section);
+                let index = Object.keys(sezioni_destinazione).indexOf(section);
                 $('#dataRegioniDestinazioneTableBody' + index).html('');
                 filteredDestinazioneArticoli = articoli_destinazione;
                 filteredDestinazioneArticoli = filteredDestinazioneArticoli.filter(art => art.sezione === section)
@@ -98,6 +98,21 @@ class MasterModelloRegioniDestinazioneTable
                 updateArticolo.importo = $('#idRegioniDestinazioneImporto').val();
                 updateArticolo.nota = $('#idRegioniDestinazioneNota').val();
 
+            }
+            function ExportDestinazioneToExcel() {
+
+                let worksheet_tmp1, a, sectionTable,worksheet;
+                let temp = [''];
+                let index = Object.keys(sezioni_destinazione).length;
+                for (let i = 0; i < index; i++) {
+                    sectionTable = document.getElementById('exportableTableDest' + i);
+                    worksheet_tmp1 = XLSX.utils.table_to_sheet(sectionTable);
+                    a = XLSX.utils.sheet_to_json(worksheet_tmp1, {header: 1})
+                    temp = temp.concat(['']).concat(a)
+                }
+
+                worksheet  = XLSX.utils.json_to_sheet(temp, {skipHeader: true})
+                return worksheet;
             }
             $(document).ready(function () {
                 renderRegioniDestinazioneDataTable();
@@ -254,7 +269,7 @@ class MasterModelloRegioniDestinazioneTable
                                     </select>
                                 </div>
                             </div>
-                            <table class="table regionidestinazionetable">
+                            <table class="table regionidestinazionetable" id="exportableTableDest<?= $section_index ?>">
                                 <thead>
                                 <tr>
                                     <th>Ordinamento</th>

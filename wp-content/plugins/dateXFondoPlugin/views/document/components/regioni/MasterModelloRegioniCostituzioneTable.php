@@ -11,7 +11,7 @@ class MasterModelloRegioniCostituzioneTable
             let id = 0;
             let filteredArticoli = articoli_costituzione;
             function renderRegioniDocumentDataTable(section,subsection){
-                let index = Object.keys(sezioni).indexOf(section);
+                let index = Object.keys(sezioni_costituzione).indexOf(section);
                 $('#dataRegioniDocumentTableBody' + index).html('');
                 filteredArticoli = articoli_costituzione;
                 filteredArticoli = filteredArticoli.filter(art => art.sezione === section)
@@ -98,6 +98,21 @@ class MasterModelloRegioniCostituzioneTable
                 updateArticolo.importo = $('#idRegioniImporto').val();
                 updateArticolo.nota = $('#idRegioniNota').val();
 
+            }
+            function ExportCostituzioneToExcel() {
+
+                let worksheet_tmp1, a, sectionTable,worksheet;
+                let temp = [''];
+                let index = Object.keys(sezioni_costituzione).length;
+                for (let i = 0; i < index; i++) {
+                    sectionTable = document.getElementById('exportableTableCost' + i);
+                    worksheet_tmp1 = XLSX.utils.table_to_sheet(sectionTable);
+                    a = XLSX.utils.sheet_to_json(worksheet_tmp1, {header: 1})
+                    temp = temp.concat(['']).concat(a)
+                }
+
+                worksheet  = XLSX.utils.json_to_sheet(temp, {skipHeader: true})
+                return worksheet;
             }
             $(document).ready(function () {
 
@@ -257,7 +272,7 @@ class MasterModelloRegioniCostituzioneTable
                                     </select>
                                 </div>
                             </div>
-                            <table class="table regionidocumenttable">
+                            <table class="table regionidocumenttable" id="exportableTableCost<?= $section_index ?>">
                                 <thead>
                                 <tr>
                                     <th>Ordinamento</th>

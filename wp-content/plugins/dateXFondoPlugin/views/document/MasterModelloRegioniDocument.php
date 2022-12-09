@@ -34,15 +34,24 @@ public static function render(){
     <script>
         let articoli_costituzione = JSON.parse((`<?=json_encode($results_articoli_costituzione);?>`));
         let articoli_destinazione = JSON.parse((`<?=json_encode($results_articoli_destinazione);?>`));
-        const sezioni = {}
+        const sezioni_costituzione = {}
+        const sezioni_destinazione = {}
         articoli_costituzione.forEach(a => {
-            if (!sezioni[a.sezione]) {
-                sezioni[a.sezione] = [];
+            if (!sezioni_costituzione[a.sezione]) {
+                sezioni_costituzione[a.sezione] = [];
             }
-            if (!sezioni[a.sezione].includes(a.sottosezione)) {
-                sezioni[a.sezione].push(a.sottosezione);
+            if (!sezioni_costituzione[a.sezione].includes(a.sottosezione)) {
+                sezioni_costituzione[a.sezione].push(a.sottosezione);
+            }
+        });    articoli_destinazione.forEach(a => {
+            if (!sezioni_destinazione[a.sezione]) {
+                sezioni_destinazione[a.sezione] = [];
+            }
+            if (!sezioni_destinazione[a.sezione].includes(a.sottosezione)) {
+                sezioni_destinazione[a.sezione].push(a.sottosezione);
             }
         });
+        console.log(sezioni_destinazione)
 
     </script>
 
@@ -67,7 +76,10 @@ public static function render(){
             </div>
             <div>
                 <?php
-                \MasterModelloRegioniRow::render();
+                    \MasterModelloRegioniCostituzioneRow::render();
+                ?>
+                <?php
+                \ModelloRegioniDestinazioneRow::render();
                 ?>
             </div>
 

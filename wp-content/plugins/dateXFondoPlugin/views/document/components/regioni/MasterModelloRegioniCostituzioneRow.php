@@ -2,7 +2,7 @@
 
 use dateXFondoPlugin\DateXFondoCommon;
 
-class MasterModelloRegioniRow
+class MasterModelloRegioniCostituzioneRow
 {
     public static function render_scripts()    {
         ?>
@@ -12,14 +12,14 @@ class MasterModelloRegioniRow
 
             function renderRegioniSectionFilterRow() {
                 $('#selectRegioniNewRowSezione').html('<option>Seleziona Sezione</option>');
-                Object.keys(sezioni).forEach(sez => {
+                Object.keys(sezioni_costituzione).forEach(sez => {
                     $('#selectRegioniNewRowSezione').append(`<option>${sez}</option>`);
                 });
             }
 
             function filterRegioniSubsectionsRow(section) {
                 $('#selectNewRowRegioniSottosezione').html('<option>Seleziona Sottosezione</option>');
-                sezioni[section].forEach(ssez => {
+                sezioni_costituzione[section].forEach(ssez => {
                     $('#selectNewRowRegioniSottosezione').append(`<option>${ssez}</option>`);
                 });
             }
@@ -148,13 +148,13 @@ class MasterModelloRegioniRow
         if ($results_articoli[0]['editable'] == '1') {
             ?>
             <button class="btn btn-outline-primary" data-toggle="modal"
-                    data-target="#addRegioniRowModal" id="idAddRegioniRow">Aggiungi riga
+                    data-target="#addRegioniRowModal" id="idAddRegioniRow">Nuova riga costituzione
             </button>
             <?php
         } else {
             ?>
             <button class="btn btn-outline-primary" data-toggle="modal"
-                    data-target="#addRegioniRowModal" id="idAddRegioniRow" disabled>Aggiungi riga
+                    data-target="#addRegioniRowModal" id="idAddRegioniRow" disabled>Nuova riga costituzione
             </button>
             <?php
         }
