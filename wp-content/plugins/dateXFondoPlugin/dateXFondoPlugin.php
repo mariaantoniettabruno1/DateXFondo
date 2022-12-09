@@ -55,6 +55,7 @@ require_once(plugin_dir_path(__FILE__) . 'views/document/components/modellofondo
 require_once(plugin_dir_path(__FILE__) . 'views/document/components/modellofondo/MasterModelloFondoCostituzione.php');
 require_once(plugin_dir_path(__FILE__) . 'views/document/components/modellofondo/MasterModelloFondoDatiUtili.php');
 require_once(plugin_dir_path(__FILE__) . 'views/document/components/modellofondo/MasterModelloFondoUtilizzo.php');
+require_once(plugin_dir_path(__FILE__) . 'views/document/DeliberaIndirizziDocument.php');
 require_once(plugin_dir_path(__FILE__) . 'views/formula/components/FormulaCard.php');
 require_once(plugin_dir_path(__FILE__) . 'views/formula/components/FormulaSidebar.php');
 require_once(plugin_dir_path(__FILE__) . 'views/formula/components/PreviewArticolo.php');
@@ -98,6 +99,7 @@ function shortcodes_init()
     add_shortcode('post_visualize_slave_formula_template', 'visualize_slave_formula_template');
     add_shortcode('post_document_template', 'document_template');
     add_shortcode('post_regioni_autonomie_locali_template', 'regioni_autonomie_locali_template');
+    add_shortcode('post_delibera_template', 'delibera_template');
 }
 
 
@@ -164,6 +166,10 @@ function document_template()
 function regioni_autonomie_locali_template()
 {
     \dateXFondoPlugin\MasterModelloRegioniDocument::render();
+
+}function delibera_template()
+{
+    \dateXFondoPlugin\DeliberaIndirizziDocument::render();
 
 }
 
