@@ -7,6 +7,7 @@ class MasterModelloFondoHeader
 public static function render_scripts(){
 ?>
     <script>
+        console.log(articoli)
         $(document).ready(function (){
             $('#inputDocumentName').val(`${articoli[0].document_name}`);
             $('#inputYear').val(`${articoli[0].anno}`);

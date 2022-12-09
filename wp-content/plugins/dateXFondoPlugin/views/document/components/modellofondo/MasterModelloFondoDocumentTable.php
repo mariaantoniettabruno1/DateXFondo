@@ -5,34 +5,22 @@ class MasterModelloFondoDocumentTable
 {
     public static function render_scripts()
     {
-?>
-        <script>
-            $('#modelloFondoTab utilizzo-tab').on('click', function (e) {
-                e.preventDefault()
-                $(this).tab('show')
-            })
-        </script>
-            <?php
     }
 
     public static function render()
     {
         ?>
             <div class="container pt-3" style="width: 100%">
-                <ul class="nav nav-tabs" id="modelloFondoTab" role="tablist">
-                    <li class="nav-item">
+                <nav>
+                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
                         <a class="nav-link active" id="costituzione-tab" href="#costituzione" role="tab"
                            aria-controls="costituzione" aria-selected="true" data-toggle="pill">Costituzione</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" id="utilizzo-tab" href="#utilizzo" role="tab" aria-controls="utilizzo"
                            aria-selected="false" data-toggle="pill">Utilizzo</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" id="dati-tab" href="#dati" role="tab" aria-controls="dati_utili"
                            aria-selected="false" data-toggle="pill">Dati utili fondo</a>
-                    </li>
-                </ul>
+                    </div>
+                </nav>
                 <div class="tab-content" id="nav-tabContent">
                     <div class="tab-pane fade show active" id="costituzione" role="tabpanel" aria-labelledby="costituzione-tab" aria-selected="true">
                         <?php

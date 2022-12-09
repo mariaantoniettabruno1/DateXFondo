@@ -6,7 +6,8 @@ class MasterModelloRegioniDocument
 {
 public static function render(){
     $data = new RegioniDocumentRepository();
-    $results_articoli = $data->getArticoli('Emanuele Lesca');
+    $results_articoli_costituzione = $data->getCostituzioneArticoli('Emanuele Lesca');
+    $results_articoli_destinazione = $data->getDestinazioneArticoli('Emanuele Lesca');
 
 
     ?>  <!DOCTYPE html>
@@ -31,10 +32,10 @@ public static function render(){
     </head>
 
     <script>
-        let articoli = JSON.parse((`<?=json_encode($results_articoli);?>`));
-        console.log(articoli)
+        let articoli_costituzione = JSON.parse((`<?=json_encode($results_articoli_costituzione);?>`));
+        let articoli_destinazione = JSON.parse((`<?=json_encode($results_articoli_destinazione);?>`));
         const sezioni = {}
-        articoli.forEach(a => {
+        articoli_costituzione.forEach(a => {
             if (!sezioni[a.sezione]) {
                 sezioni[a.sezione] = [];
             }
@@ -44,7 +45,6 @@ public static function render(){
         });
 
     </script>
-    </head>
 
     <body>
     <div class="container-fluid">

@@ -75,7 +75,7 @@ class MasterModelloRegioniRow
                         let anno = $('#inputYear').val();
                         let document_name = $('#inputDocumentName').val();
 
-                        if (articoli.find(art => art.nome_articolo === nome_articolo) === undefined && sezione !== 'Seleziona Sezione' && sottosezione!=='Seleziona Sottosezione') {
+                        if (articoli_costituzione.find(art => art.nome_articolo === nome_articolo) === undefined && sezione !== 'Seleziona Sezione' && sottosezione!=='Seleziona Sottosezione') {
                             const payload = {
                                 titolo_documento,
                                 anno,
@@ -95,7 +95,7 @@ class MasterModelloRegioniRow
                                 type: "POST",
                                 success: function (response) {
                                     $("#addRegioniRowModal").modal('hide');
-                                    articoli.push({...payload, id: response['id']});
+                                    articoli_costituzione.push({...payload, id: response['id']});
                                     renderRegioniDocumentDataTable(sezione);
                                     $(".alert-new-row-success").show();
                                     $(".alert-new-row-success").fadeTo(2000, 500).slideUp(500, function () {
@@ -135,7 +135,7 @@ class MasterModelloRegioniRow
         $formulas = $data_document->getFormulas('Emanuele Lesca');
         $ids_articolo = $data_document->getIdsArticoli('Emanuele Lesca');
         $array = $formulas + $ids_articolo;
-        $results_articoli = $data->getArticoli('Emanuele Lesca');
+        $results_articoli = $data->getCostituzioneArticoli('Emanuele Lesca');
        $table_title = [];
 
        //TODO da ottimizzare

@@ -40,6 +40,8 @@ require_once(plugin_dir_path(__FILE__) . 'views/formula/SlaveShortCodeFormulaTab
 require_once(plugin_dir_path(__FILE__) . 'views/document/MasterModelloRegioniDocument.php');
 require_once(plugin_dir_path(__FILE__) . 'views/document/components/regioni/MasterModelloRegioniHeader.php');
 require_once(plugin_dir_path(__FILE__) . 'views/document/components/regioni/MasterModelloRegioniTable.php');
+require_once(plugin_dir_path(__FILE__) . 'views/document/components/regioni/MasterModelloRegioniCostituzioneTable.php');
+require_once(plugin_dir_path(__FILE__) . 'views/document/components/regioni/MasterModelloRegioniDestinazioneTable.php');
 require_once(plugin_dir_path(__FILE__) . 'views/document/components/regioni/MasterModelloRegioniStopEdit.php');
 require_once(plugin_dir_path(__FILE__) . 'views/document/components/regioni/MasterModelloRegioniRow.php');
 require_once(plugin_dir_path(__FILE__) . 'views/document/MasterModelloFondoDocument.php');

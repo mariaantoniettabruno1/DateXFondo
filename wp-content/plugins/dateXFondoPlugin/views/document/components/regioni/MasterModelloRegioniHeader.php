@@ -8,9 +8,9 @@ class MasterModelloRegioniHeader
 ?>
         <script>
         $(document).ready(function (){
-            $('#inputDocumentName').val(`${articoli[0].document_name}`);
-            $('#inputYear').val(`${articoli[0].anno}`);
-            $('#inputTitoloDocumento').val(`${articoli[0].titolo_documento}`);
+            $('#inputDocumentName').val(`${articoli_costituzione[0].document_name}`);
+            $('#inputYear').val(`${articoli_costituzione[0].anno}`);
+            $('#inputTitoloDocumento').val(`${articoli_costituzione[0].titolo_documento}`);
             let old_document_name = $('#inputDocumentName').val();
 
             $("#editInputButton").click(function () {
@@ -74,7 +74,7 @@ class MasterModelloRegioniHeader
 }
     public static function render(){
         $data = new \dateXFondoPlugin\RegioniDocumentRepository();
-        $articoli = $data->getArticoli('Emanuele Lesca');
+        $articoli = $data->getCostituzioneArticoli('Emanuele Lesca');
         ?>
         <div class="col-2">
             <input type="text" placeholder="Redattore del documento" id="inputDocumentName" readonly>

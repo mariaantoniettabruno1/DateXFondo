@@ -4,11 +4,11 @@ namespace dateXFondoPlugin;
 
 class RegioniDocumentRepository
 {
-    public static function getArticoli($template_name)
+    public static function getCostituzioneArticoli($template_name)
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = "SELECT id,sezione,sottosezione,ordinamento,titolo_documento,titolo_tabella,nome_articolo,codice,importo,nota,document_name,editable,anno FROM DATE_documento_regioni_autonomie_locali WHERE  attivo=1 and document_name=? ORDER BY ordinamento ASC";
+        $sql = "SELECT id,sezione,sottosezione,ordinamento,titolo_documento,titolo_tabella,nome_articolo,codice,importo,nota,document_name,editable,anno FROM DATE_documento_regioni_autonomie_locali WHERE titolo_tabella='Costituzione fondi per il trattamento accessorio' AND attivo=1 and document_name=? ORDER BY ordinamento ASC";
         $stmt = $mysqli->prepare($sql);
         $stmt->bind_param("s", $template_name);
         $res = $stmt->execute();
@@ -20,16 +20,35 @@ class RegioniDocumentRepository
         return $rows;
     }
 
-    public static function edit_regioni_document_header($request){
+    public static function getDestinazioneArticoli($template_name)
+    {
+        $conn = new Connection();
+        $mysqli = $conn->connect();
+        $sql = "SELECT id,sezione,sottosezione,ordinamento,titolo_documento,titolo_tabella,nome_articolo,codice,importo,nota,document_name,editable,anno FROM DATE_documento_regioni_autonomie_locali WHERE titolo_tabella='Destinazione fondi per il trattamento accessorio'AND attivo=1 and document_name=? ORDER BY ordinamento ASC";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("s", $template_name);
+        $res = $stmt->execute();
+        if ($res = $stmt->get_result()) {
+            $rows = $res->fetch_all(MYSQLI_ASSOC);
+        } else
+            $rows = [];
+        mysqli_close($mysqli);
+        return $rows;
+    }
+
+    public static function edit_regioni_document_header($request)
+    {
         $conn = new Connection();
         $mysqli = $conn->connect();
         $sql = "UPDATE DATE_documento_regioni_autonomie_locali SET document_name=?, anno=?, titolo_documento=? WHERE document_name=?";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("siss", $request['document_name'], $request['anno'],$request['titolo_documento'], $request['old_document_name']);
+        $stmt->bind_param("siss", $request['document_name'], $request['anno'], $request['titolo_documento'], $request['old_document_name']);
         $stmt->execute();
         $mysqli->close();
     }
-    public static function delete_regioni_row($request){
+
+    public static function delete_regioni_row($request)
+    {
         $conn = new Connection();
         $mysqli = $conn->connect();
         $sql = "UPDATE DATE_documento_regioni_autonomie_locali SET attivo=0  WHERE id=?";
@@ -39,11 +58,12 @@ class RegioniDocumentRepository
         $mysqli->close();
     }
 
-    public static function edit_regioni_document($request){
+    public static function edit_regioni_document($request)
+    {
         $conn = new Connection();
         $mysqli = $conn->connect();
-
-        $sql = "UPDATE DATE_documento_regioni_autonomie_locali SET 
+        if ($request['id']) {
+            $sql = "UPDATE DATE_documento_regioni_autonomie_locali SET 
                                nome_articolo=?,
                                ordinamento=?,
                                codice=?,
@@ -51,20 +71,41 @@ class RegioniDocumentRepository
                                nota=?
                                
 WHERE id=?";
-        $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("sisssi",
-            $request['nome_articolo'],
-            $request['ordinamento'],
-            $request['codice'],
-            $request['importo'],
-            $request['nota'],
-            $request['id']);
-        $res = $stmt->execute();
+            $stmt = $mysqli->prepare($sql);
+            $stmt->bind_param("sisssi",
+                $request['nome_articolo'],
+                $request['ordinamento'],
+                $request['codice'],
+                $request['importo'],
+                $request['nota'],
+                $request['id']);
+            $res = $stmt->execute();
+        } else {
+            $sql = "UPDATE DATE_documento_regioni_autonomie_locali SET 
+                               nome_articolo=?,
+                               ordinamento=?,
+                               codice=?,
+                               importo=?,                                                   
+                               nota=?
+                               
+WHERE id=?";
+            $stmt = $mysqli->prepare($sql);
+            $stmt->bind_param("sisssi",
+                $request['nome_articolo'],
+                $request['ordinamento'],
+                $request['codice'],
+                $request['importo'],
+                $request['nota'],
+                $request['id_destinazione']);
+            $res = $stmt->execute();
+        }
+
         $mysqli->close();
         return $res;
     }
 
-    public static function set_regioni_document_not_editable($request){
+    public static function set_regioni_document_not_editable($request)
+    {
 
         $conn = new Connection();
         $mysqli = $conn->connect();
@@ -88,13 +129,14 @@ FROM DATE_documento_regioni_autonomie_locali WHERE document_name=?";
         return $res;
     }
 
-    public static function create_new_row_regioni($request){
+    public static function create_new_row_regioni($request)
+    {
         $conn = new Connection();
         $mysqli = $conn->connect();
         $sql = "INSERT INTO DATE_documento_regioni_autonomie_locali
                     (ordinamento,titolo_documento,titolo_tabella,sezione,sottosezione,nome_articolo,codice,importo,nota,document_name,anno) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("isssssssssi", $request['ordinamento'],$request['titolo_documento'],$request['titolo_tabella'], $request['sezione'], $request['sottosezione'], $request['nome_articolo'],
+        $stmt->bind_param("isssssssssi", $request['ordinamento'], $request['titolo_documento'], $request['titolo_tabella'], $request['sezione'], $request['sottosezione'], $request['nome_articolo'],
             $request['codice'], $request['importo'], $request['nota'], $request['document_name'], $request['anno']);
         $stmt->execute();
         $mysqli->close();
