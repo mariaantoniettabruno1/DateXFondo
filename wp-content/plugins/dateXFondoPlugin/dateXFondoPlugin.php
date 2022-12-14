@@ -14,6 +14,7 @@ require_once(plugin_dir_path(__FILE__) . 'repositories/MasterTemplateRepository.
 require_once(plugin_dir_path(__FILE__) . 'repositories/MasterTemplateRowRepository.php');
 require_once(plugin_dir_path(__FILE__) . 'repositories/DisabledTemplateRow.php');
 require_once(plugin_dir_path(__FILE__) . 'repositories/DocumentRepository.php');
+require_once(plugin_dir_path(__FILE__) . 'repositories/DeliberaDocumentRepository.php');
 require_once(plugin_dir_path(__FILE__) . 'repositories/FormulaRepository.php');
 require_once(plugin_dir_path(__FILE__) . 'repositories/RegioniDocumentRepository.php');
 require_once(plugin_dir_path(__FILE__) . 'repositories/SlaveFormulaTable.php');
@@ -62,6 +63,7 @@ require_once(plugin_dir_path(__FILE__) . 'views/formula/components/PreviewArtico
 require_once(plugin_dir_path(__FILE__) . 'api/formula.php');
 require_once(plugin_dir_path(__FILE__) . 'api/document.php');
 require_once(plugin_dir_path(__FILE__) . 'api/regionidocument.php');
+require_once(plugin_dir_path(__FILE__) . 'api/deliberadocument.php');
 require_once(plugin_dir_path(__FILE__) . 'api/template.php');
 require_once(plugin_dir_path(__FILE__) . 'api/newrow.php');
 require_once(plugin_dir_path(__FILE__) . 'api/joinTable.php');
