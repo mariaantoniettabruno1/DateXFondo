@@ -7,6 +7,9 @@
  * Author: MG3
  * Author URI:
  */
+
+use dateXFondoPlugin\DateXFondoCommon;
+
 require_once(plugin_dir_path(__FILE__) . 'common.php');
 require_once(plugin_dir_path(__FILE__) . 'repositories/CustomTable.php');
 require_once(plugin_dir_path(__FILE__) . 'repositories/Connection.php');
@@ -57,6 +60,8 @@ require_once(plugin_dir_path(__FILE__) . 'views/document/components/modellofondo
 require_once(plugin_dir_path(__FILE__) . 'views/document/components/modellofondo/MasterModelloFondoDatiUtili.php');
 require_once(plugin_dir_path(__FILE__) . 'views/document/components/modellofondo/MasterModelloFondoUtilizzo.php');
 require_once(plugin_dir_path(__FILE__) . 'views/document/DeliberaIndirizziDocument.php');
+require_once(plugin_dir_path(__FILE__) . 'views/document/DeterminaCostituzioneDocument.php');
+require_once(plugin_dir_path(__FILE__) . 'views/document/components/delibera/DeliberaDocumentHeader.php');
 require_once(plugin_dir_path(__FILE__) . 'views/formula/components/FormulaCard.php');
 require_once(plugin_dir_path(__FILE__) . 'views/formula/components/FormulaSidebar.php');
 require_once(plugin_dir_path(__FILE__) . 'views/formula/components/PreviewArticolo.php');
@@ -92,7 +97,6 @@ function shortcodes_init()
     add_shortcode('post_custom_table', 'call_custom_table');
     add_shortcode('post_join_table', 'visualize_join_table');
     add_shortcode('post_create_fondo', 'create_new_fondo');
-   // add_shortcode('post_duplicate_old_template', 'duplicate_old_template');
     add_shortcode('post_visualize_master_template', 'visualize_master_template');
     add_shortcode('post_visualize_master_all_template', 'visualize_master_all_template');
     add_shortcode('post_visualize_history_template', 'visualize_history_template');
@@ -102,6 +106,7 @@ function shortcodes_init()
     add_shortcode('post_document_template', 'document_template');
     add_shortcode('post_regioni_autonomie_locali_template', 'regioni_autonomie_locali_template');
     add_shortcode('post_delibera_template', 'delibera_template');
+    add_shortcode('post_determina_costituzione_template', 'determina_costituzione_template');
 }
 
 
@@ -127,16 +132,19 @@ function visualize_master_all_template()
     \dateXFondoPlugin\MasterAllTemplate::render();
 
 }
+
 function visualize_master_template()
 {
     \dateXFondoPlugin\MasterTemplate::render();
 
 }
+
 function visualize_history_template()
 {
     \dateXFondoPlugin\MasterTemplateHistory::render();
 
 }
+
 function visualize_disabled_template_row()
 {
     \dateXFondoPlugin\MasterTemplateToActive::render();
@@ -154,24 +162,26 @@ function visualize_slave_formula_template()
 
 }
 
-//function duplicate_old_template()
-//{
-//    \dateXFondoPlugin\MasterTemplate::duplicate_old_template();
-//
-//}
-
 function document_template()
 {
     \dateXFondoPlugin\MasterModelloFondoDocument::render();
 
 }
+
 function regioni_autonomie_locali_template()
 {
     \dateXFondoPlugin\MasterModelloRegioniDocument::render();
 
-}function delibera_template()
+}
+
+function delibera_template()
 {
     \dateXFondoPlugin\DeliberaIndirizziDocument::render();
+
+}
+function determina_costituzione_template()
+{
+    \dateXFondoPlugin\DeterminaCostituzioneDocument::render();
 
 }
 
@@ -241,8 +251,6 @@ function esegui_modifica_campi_nuovo_template($params)
 add_action('rest_api_init', 'create_endpoint_datefondo_nuovo');
 
 
-
-
 function create_endpoint_datefondo_attiva_riga()
 {
 
@@ -278,6 +286,7 @@ function esegui_eredita_nota_valore($params)
 }
 
 add_action('rest_api_init', 'create_endpoint_datefondo_ereditarieta_nota_valore');
+
 
 
 
