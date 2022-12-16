@@ -29,9 +29,8 @@ class DeterminaCostituzioneDocument
 
     public static function render()
     {
-        //TODO aggiungere il titolo del documento
         $data = new DeliberaDocumentRepository();
-        $infos = $data->getAllValues('Delibera Indirizzi', 'Emanuele Lesca');
+        $infos = $data->getAllValues('Determina Costituzione Fondo', 'Emanuele Lesca');
         ?>
 
         <!DOCTYPE html>
@@ -52,14 +51,90 @@ class DeterminaCostituzioneDocument
                   crossorigin="anonymous" referrerpolicy="no-referrer"/>
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
             <link rel="stylesheet" href="<?= DateXFondoCommon::get_base_url() ?>/assets/styles/main.css">
-            <link rel="stylesheet" href="<?= DateXFondoCommon::get_base_url() ?>/assets/styles/mastertable.css">
-            <link rel="stylesheet" href="<?= DateXFondoCommon::get_base_url() ?>/assets/styles/templateheader.css">
-            <link rel="stylesheet" href="<?= DateXFondoCommon::get_base_url() ?>/assets/styles/newrow.css">
-            <link rel="stylesheet" href="<?= DateXFondoCommon::get_base_url() ?>/assets/styles/decurtationrow.css">
-            <link rel="stylesheet" href="<?= DateXFondoCommon::get_base_url() ?>/assets/styles/specialrow.css">
-            <link rel="stylesheet" href="<?= DateXFondoCommon::get_base_url() ?>/assets/styles/stopediting.css">
-        </head>
 
+        <script>
+            let data = {};
+            function exportHTML(){
+            var header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' "+
+                "xmlns:w='urn:schemas-microsoft-com:office:word' "+
+                "xmlns='http://www.w3.org/TR/REC-html40'>"+
+                "<head><meta charset='utf-8'><title>Export HTML to Word Document with JavaScript</title></head><body>";
+            var footer = "</body></html>";
+            var sourceHTML = header+document.getElementById("determinaCostituzioneContent").innerHTML+footer;
+
+            var source = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(sourceHTML);
+            var fileDownload = document.createElement("a");
+            document.body.appendChild(fileDownload);
+            fileDownload.href = source;
+            fileDownload.download = 'document.doc';
+            fileDownload.click();
+            document.body.removeChild(fileDownload);
+            }
+            $(document).ready(function () {
+                data = JSON.parse((`<?=json_encode($infos);?>`));
+                const editedInputs = {};
+                $('.editable-input >span').click(function () {
+                    $(this).next().show();
+                    $(this).hide();
+                });
+                $('.editable-input >input').blur(function () {
+                    $(this).prev().html($(this).val());
+                    $(this).prev().show();
+                    $(this).hide();
+                    editedInputs[$(this).attr('data-key')] = $(this).val();
+
+                });
+                $('.editable-area >span').click(function () {
+                    $(this).next().show();
+                    $(this).hide();
+                });
+                $('.editable-area >textarea').blur(function () {
+                    $(this).prev().html($(this).val());
+                    $(this).prev().show();
+                    $(this).hide();
+                    editedInputs[$(this).attr('data-key')] = $(this).val();
+                });
+                $('.editable-select').change(function () {
+                    editedInputs[$(this).attr('data-key')] = $(this).val();
+                });
+
+                $('.btn-save-edit').click(function () {
+                    let document_name = $('#inputDocumentName').val();
+                    let editor_name = $('#inputEditorName').val();
+                    let year = $('#inputYear').val();
+
+                    const payload = {
+                        editedInputs,
+                        document_name,
+                        editor_name,
+                        year
+                    }
+                    console.log(payload)
+                    $.ajax({
+                        url: '<?= DateXFondoCommon::get_website_url() ?>/wp-json/datexfondoplugin/v1/deliberadocument',
+                        data: payload,
+                        type: "POST",
+                        success: function (response) {
+                            $(".alert-edit-success").show();
+                            $(".alert-edit-success").fadeTo(2000, 500).slideUp(500, function () {
+                                $(".alert-edit-success").slideUp(500);
+                            });
+                        },
+                        error: function (response) {
+                            console.error(response);
+                            $(".alert-edit-wrong").show();
+                            $(".alert-edit-wrong").fadeTo(2000, 500).slideUp(500, function () {
+                                $(".alert-edit-wrong").slideUp(500);
+                            });
+                        }
+                    });
+                })
+
+            });
+
+
+        </script>
+        </head>
         <body>
         <div class="container-fluid">
             <div class="row">
@@ -67,9 +142,10 @@ class DeterminaCostituzioneDocument
                 \DeliberaDocumentHeader::render();
                 ?>
             </div>
+            <button class="btn btn-outline-secondary btn-save-edit" style="width:10%">Salva modifica</button>
             <h3>Determinazione del</h3>
             <h6>OGGETTO: COSTITUZIONE FONDO DELLE RISORSE DECENTRATE PER L'ANNO 2022</h6>
-            <div>
+            <div id="determinaCostituzioneContent">
                 Viste:
                 <br>
                 la deliberazione del <?php self::getInput('var0', $infos[0]['valore'], 'orange'); ?> n
@@ -519,7 +595,24 @@ class DeterminaCostituzioneDocument
                 <?php self::getInput('var77', $infos[77]['valore'], 'red'); ?>
 
             </div>
+            <div class="content-footer">
+                <button id="btn-export" onclick="exportHTML();">Export to
+                    word doc</button>
         </body>
+        <div class="alert alert-success alert-edit-success" role="alert"
+             style="position:fixed; top: <?= is_admin_bar_showing() ? 47 : 15 ?>px; right: 15px; display:none">
+            Modifica andata a buon fine!
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="alert alert-danger alert-edit-wrong" role="alert"
+             style="position:fixed; top: <?= is_admin_bar_showing() ? 47 : 15 ?>px; right: 15px; display:none">
+            Modifica NON andata a buon fine
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
         </html lang="en">
 
         <?php

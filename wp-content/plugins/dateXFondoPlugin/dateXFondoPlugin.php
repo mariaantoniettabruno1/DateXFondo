@@ -61,6 +61,7 @@ require_once(plugin_dir_path(__FILE__) . 'views/document/components/modellofondo
 require_once(plugin_dir_path(__FILE__) . 'views/document/components/modellofondo/MasterModelloFondoUtilizzo.php');
 require_once(plugin_dir_path(__FILE__) . 'views/document/DeliberaIndirizziDocument.php');
 require_once(plugin_dir_path(__FILE__) . 'views/document/DeterminaCostituzioneDocument.php');
+require_once(plugin_dir_path(__FILE__) . 'views/document/RelazioneIllustrativaDocument.php');
 require_once(plugin_dir_path(__FILE__) . 'views/document/components/delibera/DeliberaDocumentHeader.php');
 require_once(plugin_dir_path(__FILE__) . 'views/formula/components/FormulaCard.php');
 require_once(plugin_dir_path(__FILE__) . 'views/formula/components/FormulaSidebar.php');
@@ -107,6 +108,7 @@ function shortcodes_init()
     add_shortcode('post_regioni_autonomie_locali_template', 'regioni_autonomie_locali_template');
     add_shortcode('post_delibera_template', 'delibera_template');
     add_shortcode('post_determina_costituzione_template', 'determina_costituzione_template');
+    add_shortcode('post_relazione_illustrativa_template', 'relazione_illustrativa_template');
 }
 
 
@@ -184,6 +186,13 @@ function determina_costituzione_template()
     \dateXFondoPlugin\DeterminaCostituzioneDocument::render();
 
 }
+function relazione_illustrativa_template()
+{
+    \dateXFondoPlugin\RelazioneIllustrativaDocument::render();
+
+}
+
+
 
 //route ed endpoint per far funzionare la modifica campi della table contenente i dati dell'anno corrente per il master
 function create_endpoint_datefondo()
