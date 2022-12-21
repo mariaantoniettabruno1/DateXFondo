@@ -188,7 +188,8 @@ function determina_costituzione_template()
 }
 function relazione_illustrativa_template()
 {
-    \dateXFondoPlugin\RelazioneIllustrativaDocument::render();
+    $document = new \dateXFondoPlugin\RelazioneIllustrativaDocument();
+    $document->render();
 
 }
 

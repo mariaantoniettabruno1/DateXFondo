@@ -16,6 +16,7 @@ class DeterminaCostituzioneDocument
 
         <?php
     }
+
     public static function getTextArea($key, $value, $color)
     {
         ?>
@@ -52,88 +53,91 @@ class DeterminaCostituzioneDocument
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
             <link rel="stylesheet" href="<?= DateXFondoCommon::get_base_url() ?>/assets/styles/main.css">
 
-        <script>
-            let data = {};
-            function exportHTML(){
-            var header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' "+
-                "xmlns:w='urn:schemas-microsoft-com:office:word' "+
-                "xmlns='http://www.w3.org/TR/REC-html40'>"+
-                "<head><meta charset='utf-8'><title>Export HTML to Word Document with JavaScript</title></head><body>";
-            var footer = "</body></html>";
-            var sourceHTML = header+document.getElementById("determinaCostituzioneContent").innerHTML+footer;
+            <script>
+                let data = {};
 
-            var source = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(sourceHTML);
-            var fileDownload = document.createElement("a");
-            document.body.appendChild(fileDownload);
-            fileDownload.href = source;
-            fileDownload.download = 'document.doc';
-            fileDownload.click();
-            document.body.removeChild(fileDownload);
-            }
-            $(document).ready(function () {
-                data = JSON.parse((`<?=json_encode($infos);?>`));
-                const editedInputs = {};
-                $('.editable-input >span').click(function () {
-                    $(this).next().show();
-                    $(this).hide();
-                });
-                $('.editable-input >input').blur(function () {
-                    $(this).prev().html($(this).val());
-                    $(this).prev().show();
-                    $(this).hide();
-                    editedInputs[$(this).attr('data-key')] = $(this).val();
+                function exportHTML() {
+                    var header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' " +
+                        "xmlns:w='urn:schemas-microsoft-com:office:word' " +
+                        "xmlns='http://www.w3.org/TR/REC-html40'>" +
+                        "<head><meta charset='utf-8'><title>Export HTML to Word Document with JavaScript</title></head><body>";
+                    var footer = "</body></html>";
+                    const bodyHTML = $("#determinaCostituzioneContent").clone(true);
+                    bodyHTML.find('input,textarea').remove();
+                    var sourceHTML = header + bodyHTML.html() + footer;
+                    var source = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(sourceHTML);
+                    var fileDownload = document.createElement("a");
+                    document.body.appendChild(fileDownload);
+                    fileDownload.href = source;
+                    fileDownload.download = 'document.doc';
+                    fileDownload.click();
+                    document.body.removeChild(fileDownload);
+                }
 
-                });
-                $('.editable-area >span').click(function () {
-                    $(this).next().show();
-                    $(this).hide();
-                });
-                $('.editable-area >textarea').blur(function () {
-                    $(this).prev().html($(this).val());
-                    $(this).prev().show();
-                    $(this).hide();
-                    editedInputs[$(this).attr('data-key')] = $(this).val();
-                });
-                $('.editable-select').change(function () {
-                    editedInputs[$(this).attr('data-key')] = $(this).val();
-                });
-
-                $('.btn-save-edit').click(function () {
-                    let document_name = $('#inputDocumentName').val();
-                    let editor_name = $('#inputEditorName').val();
-                    let year = $('#inputYear').val();
-
-                    const payload = {
-                        editedInputs,
-                        document_name,
-                        editor_name,
-                        year
-                    }
-                    console.log(payload)
-                    $.ajax({
-                        url: '<?= DateXFondoCommon::get_website_url() ?>/wp-json/datexfondoplugin/v1/deliberadocument',
-                        data: payload,
-                        type: "POST",
-                        success: function (response) {
-                            $(".alert-edit-success").show();
-                            $(".alert-edit-success").fadeTo(2000, 500).slideUp(500, function () {
-                                $(".alert-edit-success").slideUp(500);
-                            });
-                        },
-                        error: function (response) {
-                            console.error(response);
-                            $(".alert-edit-wrong").show();
-                            $(".alert-edit-wrong").fadeTo(2000, 500).slideUp(500, function () {
-                                $(".alert-edit-wrong").slideUp(500);
-                            });
-                        }
+                $(document).ready(function () {
+                    data = JSON.parse((`<?=json_encode($infos);?>`));
+                    const editedInputs = {};
+                    $('.editable-input >span').click(function () {
+                        $(this).next().show();
+                        $(this).hide();
                     });
-                })
+                    $('.editable-input >input').blur(function () {
+                        $(this).prev().html($(this).val());
+                        $(this).prev().show();
+                        $(this).hide();
+                        editedInputs[$(this).attr('data-key')] = $(this).val();
 
-            });
+                    });
+                    $('.editable-area >span').click(function () {
+                        $(this).next().show();
+                        $(this).hide();
+                    });
+                    $('.editable-area >textarea').blur(function () {
+                        $(this).prev().html($(this).val());
+                        $(this).prev().show();
+                        $(this).hide();
+                        editedInputs[$(this).attr('data-key')] = $(this).val();
+                    });
+                    $('.editable-select').change(function () {
+                        editedInputs[$(this).attr('data-key')] = $(this).val();
+                    });
+
+                    $('.btn-save-edit').click(function () {
+                        let document_name = $('#inputDocumentName').val();
+                        let editor_name = $('#inputEditorName').val();
+                        let year = $('#inputYear').val();
+
+                        const payload = {
+                            editedInputs,
+                            document_name,
+                            editor_name,
+                            year
+                        }
+                        console.log(payload)
+                        $.ajax({
+                            url: '<?= DateXFondoCommon::get_website_url() ?>/wp-json/datexfondoplugin/v1/deliberadocument',
+                            data: payload,
+                            type: "POST",
+                            success: function (response) {
+                                $(".alert-edit-success").show();
+                                $(".alert-edit-success").fadeTo(2000, 500).slideUp(500, function () {
+                                    $(".alert-edit-success").slideUp(500);
+                                });
+                            },
+                            error: function (response) {
+                                console.error(response);
+                                $(".alert-edit-wrong").show();
+                                $(".alert-edit-wrong").fadeTo(2000, 500).slideUp(500, function () {
+                                    $(".alert-edit-wrong").slideUp(500);
+                                });
+                            }
+                        });
+                    })
+
+                });
 
 
-        </script>
+            </script>
         </head>
         <body>
         <div class="container-fluid">
@@ -597,7 +601,8 @@ class DeterminaCostituzioneDocument
             </div>
             <div class="content-footer">
                 <button id="btn-export" onclick="exportHTML();">Export to
-                    word doc</button>
+                    word doc
+                </button>
         </body>
         <div class="alert alert-success alert-edit-success" role="alert"
              style="position:fixed; top: <?= is_admin_bar_showing() ? 47 : 15 ?>px; right: 15px; display:none">
