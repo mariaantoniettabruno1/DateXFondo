@@ -11,7 +11,7 @@ class  DeliberaDocumentHeader
             $(document).ready(function (){
                 $('#inputDocumentName').val(`${data[0].document_name}`);
                 $('#inputEditorName').val(`${data[0].editor_name}`);
-                $('#inputYear').val(`${data[0].year}`);
+                $('#inputAnno').val(`${data[0].anno}`);
                 let old_document_name = $('#inputDocumentName').val();
                 let old_editor_name = $('#inputEditorName').val();
 
@@ -21,7 +21,7 @@ class  DeliberaDocumentHeader
                     $('#deleteEditButton').show();
                     $('#inputDocumentName').attr('readonly', false);
                     $('#inputEditorName').attr('readonly', false);
-                    $('#inputYear').attr('readonly', false);
+                    $('#inputAnno').attr('readonly', false);
                 });
                 $("#deleteEditButton").click(function (){
                     $(this).hide();
@@ -32,17 +32,17 @@ class  DeliberaDocumentHeader
                     {
                         let document_name = $('#inputDocumentName').val();
                         let editor_name = $('#inputEditorName').val();
-                        let year = $('#inputYear').val();
+                        let anno = $('#inputAnno').val();
                         $('#inputDocumentName').attr('readonly', true);
                         $('#inputEditorName').attr('readonly', true);
-                        $('#inputYear').attr('readonly', true);
+                        $('#inputAnno').attr('readonly', true);
 
                         const payload = {
                             document_name,
                             old_document_name,
                             editor_name,
                             old_editor_name,
-                            year
+                            anno
                         }
                         console.log(payload)
                         $.ajax({
@@ -87,7 +87,7 @@ class  DeliberaDocumentHeader
             <input type="text" placeholder="Redattore del documento" id="inputEditorName" readonly>
 
         </div>  <div class="col-2">
-            <input type="text" placeholder="Anno" id="inputYear" readonly>
+            <input type="text" placeholder="Anno" id="inputAnno" readonly>
         </div>
         <?php
         if ($infos[0]['editable'] == '1') {

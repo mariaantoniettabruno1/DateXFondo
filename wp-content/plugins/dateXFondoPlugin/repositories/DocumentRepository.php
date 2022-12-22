@@ -4,15 +4,38 @@ use dateXFondoPlugin\Connection;
 
 class DocumentRepository
 {
-    public static function getDataDocument(){
+    public static function getDataDocument($table_name)
+    {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql='SELECT DISTINCT document_name, editor_name, anno FROM DATE_documento_modello_fondo';
+        $sql = 'SELECT DISTINCT document_name, editor_name, anno FROM ' . $table_name;
         $stmt = $mysqli->prepare($sql);
         $res = $stmt->execute();
-        $res = $stmt->get_result();
-        $rows = $res->fetch_all(MYSQLI_ASSOC);
+        if ($res = $stmt->get_result()) {
+            $rows = $res->fetch_all(MYSQLI_ASSOC);
+        } else
+            $rows = [];
+        mysqli_close($mysqli);
+        return $rows;
+
     }
+
+    public static function getDataOdtDocument()
+    {
+        $conn = new Connection();
+        $mysqli = $conn->connect();
+        $sql = 'SELECT DISTINCT document_name, editor_name, anno,page FROM DATE_documenti_odt';
+        $stmt = $mysqli->prepare($sql);
+        $res = $stmt->execute();
+        if ($res = $stmt->get_result()) {
+            $rows = $res->fetch_all(MYSQLI_ASSOC);
+        } else
+            $rows = [];
+        mysqli_close($mysqli);
+        return $rows;
+
+    }
+
     public static function getArticoli($editor_name)
     {
         $conn = new Connection();

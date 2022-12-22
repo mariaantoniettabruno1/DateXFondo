@@ -8,7 +8,7 @@ class DeliberaDocumentRepository
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = "SELECT chiave, valore,document_name, editor_name, year, editable FROM DATE_documenti_odt WHERE document_name=? AND editor_name=?";
+        $sql = "SELECT chiave, valore,document_name, editor_name, anno, editable FROM DATE_documenti_odt WHERE document_name=? AND editor_name=?";
         $stmt = $mysqli->prepare($sql);
         $stmt->bind_param("ss", $document_name, $editor_name);
         $res = $stmt->execute();
@@ -22,10 +22,10 @@ class DeliberaDocumentRepository
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = "UPDATE DATE_documenti_odt SET valore=? WHERE chiave=? AND document_name=? AND editor_name=? AND year=?";
+        $sql = "UPDATE DATE_documenti_odt SET valore=? WHERE chiave=? AND document_name=? AND editor_name=? AND anno=?";
         $stmt = $mysqli->prepare($sql);
         foreach ($request['editedInputs'] as $key => $value) {
-            $stmt->bind_param("ssssi", $value, $key, $request['document_name'], $request['editor_name'], $request['year']);
+            $stmt->bind_param("ssssi", $value, $key, $request['document_name'], $request['editor_name'], $request['anno']);
             $stmt->execute();
         }
         $mysqli->close();
@@ -35,7 +35,7 @@ class DeliberaDocumentRepository
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = "UPDATE DATE_documenti_odt SET document_name=?, editor_name=?, year=? WHERE document_name=? AND editor_name=?";
+        $sql = "UPDATE DATE_documenti_odt SET document_name=?, editor_name=?, anno=? WHERE document_name=? AND editor_name=?";
         $stmt = $mysqli->prepare($sql);
         $stmt->bind_param("ss", $request['old_document_name'], $request['old_editor_name']);
         $stmt->execute();

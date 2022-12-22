@@ -197,7 +197,8 @@ function relazione_illustrativa_template()
 }
 function document_table_template()
 {
-    \dateXFondoPlugin\AllDocument::render();
+    $document = new \dateXFondoPlugin\AllDocument();
+    $document->render();
 
 
 }
