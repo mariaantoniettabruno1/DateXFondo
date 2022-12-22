@@ -8,7 +8,7 @@ class RegioniDocumentRepository
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = "SELECT id,sezione,sottosezione,ordinamento,titolo_documento,titolo_tabella,nome_articolo,codice,importo,nota,document_name,editable,anno FROM DATE_documento_regioni_autonomie_locali WHERE titolo_tabella='Costituzione fondi per il trattamento accessorio' AND attivo=1 and document_name=? ORDER BY ordinamento ASC";
+        $sql = "SELECT * FROM DATE_documento_regioni_autonomie_locali WHERE titolo_tabella='Costituzione fondi per il trattamento accessorio' AND attivo=1 and editor_name=? ORDER BY ordinamento ASC";
         $stmt = $mysqli->prepare($sql);
         $stmt->bind_param("s", $template_name);
         $res = $stmt->execute();
@@ -24,7 +24,7 @@ class RegioniDocumentRepository
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = "SELECT id,sezione,sottosezione,ordinamento,titolo_documento,titolo_tabella,nome_articolo,codice,importo,nota,document_name,editable,anno FROM DATE_documento_regioni_autonomie_locali WHERE titolo_tabella='Destinazione fondi per il trattamento accessorio'AND attivo=1 and document_name=? ORDER BY ordinamento ASC";
+        $sql = "SELECT * FROM DATE_documento_regioni_autonomie_locali WHERE titolo_tabella='Destinazione fondi per il trattamento accessorio'AND attivo=1 and editor_name=? ORDER BY ordinamento ASC";
         $stmt = $mysqli->prepare($sql);
         $stmt->bind_param("s", $template_name);
         $res = $stmt->execute();
@@ -40,9 +40,9 @@ class RegioniDocumentRepository
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = "UPDATE DATE_documento_regioni_autonomie_locali SET document_name=?, anno=?, titolo_documento=? WHERE document_name=?";
+        $sql = "UPDATE DATE_documento_regioni_autonomie_locali SET editor_name=?, anno=?, document_name=? WHERE document_name=?";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("siss", $request['document_name'], $request['anno'], $request['titolo_documento'], $request['old_document_name']);
+        $stmt->bind_param("siss", $request['editor_name'], $request['anno'], $request['document_name'], $request['old_document_name']);
         $stmt->execute();
         $mysqli->close();
     }

@@ -10,7 +10,7 @@ class MasterModelloRegioniHeader
         $(document).ready(function (){
             $('#inputDocumentName').val(`${articoli_costituzione[0].document_name}`);
             $('#inputYear').val(`${articoli_costituzione[0].anno}`);
-            $('#inputTitoloDocumento').val(`${articoli_costituzione[0].titolo_documento}`);
+            $('#inputEditorName').val(`${articoli_costituzione[0].editor_name}`);
             let old_document_name = $('#inputDocumentName').val();
 
             $("#editInputButton").click(function () {
@@ -18,7 +18,7 @@ class MasterModelloRegioniHeader
                 $('#saveInputButton').show();
                 $('#deleteEditButton').show();
                 $('#inputDocumentName').attr('readonly', false);
-                $('#inputTitoloDocumento').attr('readonly', false);
+                $('#inputEditorName').attr('readonly', false);
                 $('#inputYear').attr('readonly', false);
             });
             $("#deleteEditButton").click(function (){
@@ -29,17 +29,17 @@ class MasterModelloRegioniHeader
             $('#saveInputButton').click(function () {
                 {
                     let document_name = $('#inputDocumentName').val();
-                    let titolo_documento = $('#inputTitoloDocumento').val();
+                    let editor_name = $('#inputEditorName').val();
                     let anno = $('#inputYear').val();
 
                     $('#inputDocumentName').attr('readonly', true);
-                    $('#inputTitoloDocumento').attr('readonly', true);
+                    $('#inputEditorName').attr('readonly', true);
                     $('#inputYear').attr('readonly', true);
 
                     const payload = {
                         document_name,
                         old_document_name,
-                        titolo_documento,
+                        editor_name,
                         anno
                     }
                     console.log(payload)
@@ -77,11 +77,11 @@ class MasterModelloRegioniHeader
         $articoli = $data->getCostituzioneArticoli('Emanuele Lesca');
         ?>
         <div class="col-2">
-            <input type="text" placeholder="Redattore del documento" id="inputDocumentName" readonly>
+            <input type="text" placeholder="Redattore del documento" id="inputEditorName" readonly>
 
         </div>
         <div class="col-2">
-            <input type="text" placeholder="Titolo documento" id="inputTitoloDocumento" readonly>
+            <input type="text" placeholder="Titolo documento" id="inputDocumentName" readonly>
 
         </div>
         <div class="col-2">
