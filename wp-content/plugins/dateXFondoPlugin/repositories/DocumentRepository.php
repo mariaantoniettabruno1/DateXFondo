@@ -13,13 +13,13 @@ class DocumentRepository
         $res = $stmt->get_result();
         $rows = $res->fetch_all(MYSQLI_ASSOC);
     }
-    public static function getArticoli($template_name)
+    public static function getArticoli($editor_name)
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = "SELECT id,sezione,sottosezione,ordinamento,nome_articolo,preventivo,document_name,editable,anno FROM DATE_documento_modello_fondo WHERE  attivo=1 and document_name=? ORDER BY ordinamento ASC";
+        $sql = "SELECT * FROM DATE_documento_modello_fondo WHERE  attivo=1 and editor_name=? ORDER BY ordinamento ASC";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("s", $template_name);
+        $stmt->bind_param("s", $editor_name);
         $res = $stmt->execute();
         if ($res = $stmt->get_result()) {
             $rows = $res->fetch_all(MYSQLI_ASSOC);
@@ -29,13 +29,13 @@ class DocumentRepository
         return $rows;
     }
 
-    public static function getArticoliUtilizzo($template_name)
+    public static function getArticoliUtilizzo($editor_name)
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = "SELECT id,sezione,ordinamento,nome_articolo,preventivo,consuntivo,document_name,editable,anno FROM DATE_documento_modello_fondo_utilizzo WHERE  attivo=1 and document_name=? ORDER BY ordinamento ASC";
+        $sql = "SELECT * FROM DATE_documento_modello_fondo_utilizzo WHERE  attivo=1 and editor_name=? ORDER BY ordinamento ASC";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("s", $template_name);
+        $stmt->bind_param("s", $editor_name);
         $res = $stmt->execute();
         if ($res = $stmt->get_result()) {
             $rows = $res->fetch_all(MYSQLI_ASSOC);
@@ -45,13 +45,13 @@ class DocumentRepository
         return $rows;
     }
 
-    public static function getArticoliDatiUtili($template_name)
+    public static function getArticoliDatiUtili($editor_name)
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = "SELECT id,sezione,sottosezione,ordinamento,nome_articolo,formula,nota,document_name,editable,anno FROM DATE_documento_modello_fondo_dati_utili WHERE  attivo=1 and document_name=? ORDER BY ordinamento ASC";
+        $sql = "SELECT * FROM DATE_documento_modello_fondo_dati_utili WHERE  attivo=1 and editor_name=? ORDER BY ordinamento ASC";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("s", $template_name);
+        $stmt->bind_param("s", $editor_name);
         $res = $stmt->execute();
         if ($res = $stmt->get_result()) {
             $rows = $res->fetch_all(MYSQLI_ASSOC);
@@ -81,7 +81,7 @@ class DocumentRepository
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = "SELECT DISTINCT sezione FROM DATE_documento_modello_fondo WHERE document_name=?";
+        $sql = "SELECT DISTINCT sezione FROM DATE_documento_modello_fondo WHERE editor_name=?";
         $stmt = $mysqli->prepare($sql);
         $stmt->bind_param("s", $template_name);
         $res = $stmt->execute();
@@ -95,7 +95,7 @@ class DocumentRepository
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = "SELECT DISTINCT sezione FROM DATE_documento_modello_fondo_utilizzo WHERE document_name=?";
+        $sql = "SELECT DISTINCT sezione FROM DATE_documento_modello_fondo_utilizzo WHERE editor_name=?";
         $stmt = $mysqli->prepare($sql);
         $stmt->bind_param("s", $template_name);
         $res = $stmt->execute();
@@ -109,7 +109,7 @@ class DocumentRepository
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = "SELECT DISTINCT sezione FROM DATE_documento_modello_fondo_dati_utili WHERE document_name=?";
+        $sql = "SELECT DISTINCT sezione FROM DATE_documento_modello_fondo_dati_utili WHERE editor_name=?";
         $stmt = $mysqli->prepare($sql);
         $stmt->bind_param("s", $template_name);
         $res = $stmt->execute();

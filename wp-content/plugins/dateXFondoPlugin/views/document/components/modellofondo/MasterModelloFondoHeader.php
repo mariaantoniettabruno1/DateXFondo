@@ -10,6 +10,7 @@ public static function render_scripts(){
         console.log(articoli)
         $(document).ready(function (){
             $('#inputDocumentName').val(`${articoli[0].document_name}`);
+            $('#inputEditorName').val(`${articoli[0].editor_name}`);
             $('#inputYear').val(`${articoli[0].anno}`);
             let old_document_name = $('#inputDocumentName').val();
 
@@ -18,6 +19,7 @@ public static function render_scripts(){
                 $('#saveInputButton').show();
                 $('#deleteEditButton').show();
                 $('#inputDocumentName').attr('readonly', false);
+                $('#inputEditorName').attr('readonly', false);
                 $('#inputYear').attr('readonly', false);
             });
             $("#deleteEditButton").click(function (){
@@ -28,12 +30,14 @@ public static function render_scripts(){
             $('#saveInputButton').click(function () {
                 {
                     let document_name = $('#inputDocumentName').val();
+                    let editor_name = $('#inputEditorName').val();
                     let anno = $('#inputYear').val();
                     $('#inputDocumentName').attr('readonly', true);
                     $('#inputYear').attr('readonly', true);
 
                     const payload = {
                         document_name,
+                        editor_name,
                         old_document_name,
                         anno
                     }
@@ -72,7 +76,10 @@ public static function render(){
     $articoli = $data->getArticoli('Emanuele Lesca');
     ?>
     <div class="col-2">
-        <input type="text" placeholder="Redattore del documento" id="inputDocumentName" readonly>
+        <input type="text" placeholder="Nome Documento" id="inputDocumentName" readonly>
+
+    </div> <div class="col-2">
+        <input type="text" placeholder="Redattore del documento" id="inputEditorName" readonly>
 
     </div>  <div class="col-2">
         <input type="text" placeholder="Anno" id="inputYear" readonly>
