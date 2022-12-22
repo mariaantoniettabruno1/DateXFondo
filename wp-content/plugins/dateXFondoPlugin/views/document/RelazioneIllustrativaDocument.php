@@ -105,7 +105,7 @@ class RelazioneIllustrativaDocument
                         "xmlns='http://www.w3.org/TR/REC-html40'>" +
                         "<head><meta charset='utf-8'><title>Export HTML to Word Document with JavaScript</title></head><body>";
                     var footer = "</body></html>";
-                    const bodyHTML = $("#determinaCostituzioneContent").clone(true);
+                    const bodyHTML = $("#relazioneIllustrativaDocument").clone(true);
                     bodyHTML.remove('input');
 
                     var sourceHTML = header + bodyHTML.html() + footer;
@@ -114,7 +114,7 @@ class RelazioneIllustrativaDocument
                     var fileDownload = document.createElement("a");
                     document.body.appendChild(fileDownload);
                     fileDownload.href = source;
-                    fileDownload.download = 'document.doc';
+                    fileDownload.download = 'relazioneIllustrativa.doc';
                     fileDownload.click();
                     document.body.removeChild(fileDownload);
                 }
@@ -192,6 +192,7 @@ class RelazioneIllustrativaDocument
                 ?>
             </div>
             <button class="btn btn-outline-secondary btn-save-edit" style="width:10%">Salva modifica</button>
+            <div id="relazioneIllustrativaDocument">
             <h3>Comune di <?php self::getInput('var0', 'var0', 'blue'); ?></h3>
             <br>
             <h6>Relazione illustrativa</h6>
@@ -2134,7 +2135,7 @@ class RelazioneIllustrativaDocument
             <br>
             <?php self::getTextArea('area34', 'area34', 'red'); ?>
             <br>
-            <h6>
+
                 <h6>
                     Sezione III - (eventuali) Decurtazioni del fondo
                 </h6>
@@ -3457,10 +3458,9 @@ class RelazioneIllustrativaDocument
                 Per la parte relativa allo schema di relazione tecnico – finanziaria
                 <br>
                 Il <?php self::getInput('var181', 'var181', 'orange'); ?> <?php self::getInput('var182', 'var182', 'orange'); ?>
+            </div>
 
-        </div>
-        <div class="content-footer">
-            <button id="btn-export" onclick="exportHTML();">Export to
+            <button id="btn btn-outline-secondary btn-export" onclick="exportHTML();">Export to
                 word doc
             </button>
         </body>

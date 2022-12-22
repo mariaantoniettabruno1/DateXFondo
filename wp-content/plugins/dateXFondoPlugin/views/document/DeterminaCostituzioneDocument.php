@@ -599,10 +599,9 @@ class DeterminaCostituzioneDocument
                 <?php self::getInput('var77', $infos[77]['valore'], 'red'); ?>
 
             </div>
-            <div class="content-footer">
-                <button id="btn-export" onclick="exportHTML();">Export to
-                    word doc
-                </button>
+            <button id="btn btn-outline-secondary btn-export" onclick="exportHTML();">Export to
+                word doc
+            </button>
         </body>
         <div class="alert alert-success alert-edit-success" role="alert"
              style="position:fixed; top: <?= is_admin_bar_showing() ? 47 : 15 ?>px; right: 15px; display:none">

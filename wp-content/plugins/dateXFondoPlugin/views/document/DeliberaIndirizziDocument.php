@@ -32,7 +32,7 @@ class DeliberaIndirizziDocument
         <?php
     }
 
-    //TODO capire come fare per il val selected dal db per le select
+
     public static function getFormula($key)
     {
         $data_document = new DocumentRepository();
@@ -77,6 +77,24 @@ class DeliberaIndirizziDocument
             <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
             <script>
                 let data = {};
+                //Todo sistemare il remove per la select
+                function exportHTML() {
+                    var header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' " +
+                        "xmlns:w='urn:schemas-microsoft-com:office:word' " +
+                        "xmlns='http://www.w3.org/TR/REC-html40'>" +
+                        "<head><meta charset='utf-8'><title>Export HTML to Word Document with JavaScript</title></head><body>";
+                    var footer = "</body></html>";
+                    const bodyHTML = $("#DeliberaIndirizziDocument").clone(true);
+                    bodyHTML.find('input,textarea').remove();
+                    var sourceHTML = header + bodyHTML.html() + footer;
+                    var source = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(sourceHTML);
+                    var fileDownload = document.createElement("a");
+                    document.body.appendChild(fileDownload);
+                    fileDownload.href = source;
+                    fileDownload.download = 'deliberaIndirizzi.doc';
+                    fileDownload.click();
+                    document.body.removeChild(fileDownload);
+                }
                 $(document).ready(function () {
                     data = JSON.parse((`<?=json_encode($infos);?>`));
                     const editedInputs = {};
@@ -155,11 +173,13 @@ class DeliberaIndirizziDocument
 
         <h2><?php self::getInput('var1', $infos[0]['valore'], 'red'); ?><?php self::getInput('var2', $infos[1]['valore'], 'orange'); ?> </h2>
         <button class="btn btn-outline-secondary btn-save-edit" style="width:10%">Salva modifica</button>
-        <h3>OGGETTO: PERSONALE NON DIRIGENTE. FONDO RISORSE DECENTRATE PER
-            L’ANNO <?php self::getInput('var3', $infos[2]['valore'], 'orange'); ?>. INDIRIZZI PER LA COSTITUZIONE PARTE
-            VARIABILE.
-            DIRETTIVE PER LA CONTRATTAZIONE DECENTRATA INTEGRATIVA.</h3>
-        <div>Visti:
+
+        <div id="DeliberaIndirizziDocument">
+            <h3>OGGETTO: PERSONALE NON DIRIGENTE. FONDO RISORSE DECENTRATE PER
+                L’ANNO <?php self::getInput('var3', $infos[2]['valore'], 'orange'); ?>. INDIRIZZI PER LA COSTITUZIONE PARTE
+                VARIABILE.
+                DIRETTIVE PER LA CONTRATTAZIONE DECENTRATA INTEGRATIVA.</h3>
+            Visti:
             <br>
             - la deliberazione
             di <?php self::getInput('var4', $infos[3]['valore'], 'red'); ?>   <?php self::getInput('var5', $infos[4]['valore'], 'red'); ?>
@@ -595,7 +615,9 @@ class DeliberaIndirizziDocument
             Di rendere il presente atto immediatamente eseguibile.
 
         </div>
-
+        <button id="btn btn-outline-secondary btn-export" onclick="exportHTML();">Export to
+            word doc
+        </button>
         </body>
 
 
