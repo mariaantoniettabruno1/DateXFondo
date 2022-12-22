@@ -42,7 +42,7 @@ class RelazioneIllustrativaDocument
         <?php
     }
 
-    private function getSelect($key, $value='')
+    private function getSelect($key, $value)
     {
 
         ?>
@@ -50,7 +50,7 @@ class RelazioneIllustrativaDocument
             <?php
             foreach ($this->formule as $val) {
                 ?>
-                <option value="<?= $val[0] ?>" <?= $val[0] == $value ? 'selected' : ''?> ><?= $val[0] ?></option>
+                <option value="<?= $val[0] ?>" <?= $val[0] == $value ? 'selected' : '' ?> ><?= $val[0] ?></option>
                 <?php
             }
             ?>
@@ -62,6 +62,18 @@ class RelazioneIllustrativaDocument
     {
         $data = new DeliberaDocumentRepository();
         $infos = $data->getAllValues('Schema di relazione illustrativa', 'Emanuele Lesca');
+        $values = array();
+        $i = 0;
+        foreach ($infos as $row) {
+            array_push($values, $row['valore']);
+            $values[$row['chiave']] = $values[$i];
+            unset($values[$i]);
+            $new_key = $row['key'];
+            $values[$new_key] = $row['valore'];
+            $i++;
+        }
+
+
         ?>
         <!DOCTYPE html>
 
@@ -178,7 +190,7 @@ class RelazioneIllustrativaDocument
                 ?>
             </div>
             <button class="btn btn-outline-secondary btn-save-edit" style="width:10%">Salva modifica</button>
-            <h3>Comune di <?php self::getInput('var0', $infos[0]['valore'], 'blue'); ?></h3>
+            <h3>Comune di <?php self::getInput('var0', $values['var0'], 'blue'); ?></h3>
             <br>
             <h6>Relazione illustrativa</h6>
             <br>
@@ -189,28 +201,28 @@ class RelazioneIllustrativaDocument
                 <thead>
                 <tr>
                     <th scope="col">Data di sottoscrizione</th>
-                    <th scope="col"><?php self::getInput('var1', $infos[1]['valore'], 'orange'); ?></th>
+                    <th scope="col"><?php self::getInput('var1', $values['var1'], 'orange'); ?></th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
                     <th scope="row">Periodo temporale di vigenza</th>
-                    <td><?php self::getInput('var2', $infos[2]['valore'], 'black'); ?></td>
+                    <td><?php self::getInput('var2', $values['var2'], 'black'); ?></td>
                     <td></td>
                     <td></td>
                     <td></td>
                 </tr>
                 <tr>
                     <th scope="row">Composizione della delegazione trattante</th>
-                    <td>Parte Pubblica (<?php self::getInput('var3', $infos[3]['valore'], 'orange'); ?>):
+                    <td>Parte Pubblica (<?php self::getInput('var3', $values['var3'], 'orange'); ?>):
                         <br>
-                        <?php self::getInput('var4', $infos[4]['valore'], 'orange'); ?> – Presidente
+                        <?php self::getInput('var4', $values['var4'], 'orange'); ?> – Presidente
                         <br>
-                        <?php self::getInput('var5', $infos[5]['valore'], 'orange'); ?> - Componente
+                        <?php self::getInput('var5', $values['var5'], 'orange'); ?> - Componente
                         <br>
-                        <?php self::getInput('var6', $infos[6]['valore'], 'orange'); ?> - Componente
+                        <?php self::getInput('var6', $values['var6'], 'orange'); ?> - Componente
                         <br>
-                        <?php self::getInput('var7', $infos[7]['valore'], 'orange'); ?> - Componente
+                        <?php self::getInput('var7', $values['var7'], 'orange'); ?> - Componente
                         <br>
 
                         Organizzazioni sindacali ammesse alla contrattazione (elenco sigle):
@@ -225,25 +237,25 @@ class RelazioneIllustrativaDocument
                         <br>
                         R.S.U.:
                         <br>
-                        Signor <?php self::getInput('var8', $infos[8]['valore'], 'orange'); ?>
+                        Signor <?php self::getInput('var8', $values['var8'], 'orange'); ?>
                         <br>
-                        Signor <?php self::getInput('var9', $infos[9]['valore'], 'orange'); ?>
+                        Signor <?php self::getInput('var9', $values['var9'], 'orange'); ?>
                         <br>
-                        Signor <?php self::getInput('var10', $infos[10]['valore'], 'orange'); ?>
+                        Signor <?php self::getInput('var10', $values['var10'], 'orange'); ?>
                         <br>
-                        Signor <?php self::getInput('var11', $infos[11]['valore'], 'orange'); ?>
+                        Signor <?php self::getInput('var11', $values['var11'], 'orange'); ?>
                         <br>
                         Organizzazioni sindacali firmatarie (elenco sigle):
                         <br>
-                        SIND. FP CGIL signor <?php self::getInput('var12', $infos[12]['valore'], 'orange'); ?>
+                        SIND. FP CGIL signor <?php self::getInput('var12', $values['var12'], 'orange'); ?>
                         <br>
-                        SIND. CISL FP signor <?php self::getInput('var13', $infos[13]['valore'], 'orange'); ?>
+                        SIND. CISL FP signor <?php self::getInput('var13', $values['var13'], 'orange'); ?>
                         <br>
-                        SIND. UIL FPL signor <?php self::getInput('var14', $infos[14]['valore'], 'orange'); ?>
+                        SIND. UIL FPL signor <?php self::getInput('var14', $values['var14'], 'orange'); ?>
                         <br>
                         SIND. CSA REGIONI AUTONOMIE LOCALI
                         <br>
-                        signor <?php self::getInput('var15', $infos[15]['valore'], 'orange'); ?></td>
+                        signor <?php self::getInput('var15', $values['var15'], 'orange'); ?></td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -251,7 +263,7 @@ class RelazioneIllustrativaDocument
                 <tr>
                     <th scope="row">Soggetti destinatari</th>
                     <td>Personale non dirigente del Comune
-                        di <?php self::getInput('var16', $infos[16]['valore'], 'black'); ?></td>
+                        di <?php self::getInput('var16', $values['var16'], 'black'); ?></td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -278,9 +290,9 @@ class RelazioneIllustrativaDocument
                     <td>L’unica certificazione dovuta è quella del Revisore dei Conti a cui è indirizzata tale
                         relazione.
                         <br>
-                        In data <?php self::getInput('var17', $infos[17]['valore'], 'orange'); ?> è stata acquisita la
+                        In data <?php self::getInput('var17', $values['var17'], 'orange'); ?> è stata acquisita la
                         certificazione dell’Organo di controllo
-                        interno <?php self::getInput('var18', $infos[18]['valore'], 'orange'); ?>
+                        interno <?php self::getInput('var18', $values['var18'], 'orange'); ?>
                     </td>
                     <td></td>
                     <td></td>
@@ -295,20 +307,20 @@ class RelazioneIllustrativaDocument
                     </th>
                     <td>È stato adottato il Piano della performance 2022 previsto dall’art. 10 del d.lgs. 150/2009 con
                         Delibera del Giunta Comunale n.
-                        del <?php self::getInput('var19', $infos[19]['valore'], 'black'); ?></td>
-                    <td><?php self::getTextArea('area1', $infos[20]['valore'], 'orange'); ?>
+                        del <?php self::getInput('var19', $values['var19'], 'black'); ?></td>
+                    <td><?php self::getTextArea('area1', $values['area1'], 'orange'); ?>
                         <br>
-                        <?php self::getTextArea('area2', $infos[21]['valore'], 'orange'); ?></td>
+                        <?php self::getTextArea('area2', $values['area2'], 'orange'); ?></td>
                     <td>L’organo di valutazione ha validato la relazione sulla performance relativa all’anno precedente
                         ai sensi dell’articolo 14, comma 6. del d.lgs. n. 150/2009 di cui al Verbale
-                        n.<?php self::getInput('var22', $infos[22]['valore'], 'orange'); ?>. La
+                        n.<?php self::getInput('var22', $values['var22'], 'orange'); ?>. La
                         Relazione della Performance relativa all’anno corrente verrà validata in fase di
                         consuntivazione.
                     </td>
                 </tr>
                 <tr>
                     <th>Eventuali osservazioni:</th>
-                    <td><?php self::getTextArea('area3', $infos[23]['valore'], 'black'); ?></td>
+                    <td><?php self::getTextArea('area3', $values['area3'], 'black'); ?></td>
                 </tr>
                 </tbody>
             </table>
@@ -321,31 +333,32 @@ class RelazioneIllustrativaDocument
             regolamentazione di ogni ambito/materia e delle norme legislative e contrattuali che legittimano la
             contrattazione integrativa della specifica materia trattata;
             <br>
-            Per l’anno ><?php self::getInput('var24', $infos[24]['valore'], 'blue'); ?> già con la determina di
-            costituzione del Fondo n.><?php self::getInput('var25', $infos[25]['valore'], 'blue'); ?> del
-            ><?php self::getInput('var26', $infos[26]['valore'], 'blue'); ?>, il
-            ><?php self::getInput('var27', $infos[27]['valore'], 'blue'); ?> ha reso indisponibile alla contrattazione
+            Per l’anno ><?php self::getInput('var24', $values['var24'], 'blue'); ?> già con la determina di
+            costituzione del Fondo n.><?php self::getInput('var25', $values['var25'], 'blue'); ?> del
+            ><?php self::getInput('var26', $values['var26'], 'blue'); ?>, il
+            ><?php self::getInput('var27', $values['var27'], 'blue'); ?> ha reso indisponibile alla contrattazione
             ai sensi dell’art. 68
             comma 1 del CCNL 21.5.2018 alcuni compensi gravanti sul fondo (indennità di comparto, incrementi per
             progressione economica, ecc) e in particolare è stato sottratto dalle risorse ancora contrattabili un
-            importo complessivo pari ad € <?php self::getSelect('formula1'); ?>, destinato a retribuire le indennità
+            importo complessivo pari ad € <?php self::getSelect('formula1', $values['formula1']); ?>, destinato a
+            retribuire le indennità
             fisse e ricorrenti già determinate
             negli anni precedenti.
             <br>
             Per quanto riguarda il contratto decentrato per la ripartizione delle risorse
-            dell’anno <?php self::getInput('var28', $infos[28]['valore'], 'blue'); ?> le delegazioni
+            dell’anno <?php self::getInput('var28', $values['var28'], 'blue'); ?> le delegazioni
             hanno confermato la destinazione delle risorse già in essere negli anni precedenti, destinando, inoltre, per
             l’anno:
             <br>
             1. Progressioni economiche orizzontali specificatamente contrattate nel CCDI dell'anno (art. 68 comma 1 CCNL
-            21.5.2018) € <?php self::getSelect('formula2'); ?>.
+            21.5.2018) € <?php self::getSelect('formula2', $values['formula2']); ?>.
             <br>
             Viene ripreso il testo del contratto siglato per
-            l’anno <?php self::getInput('var29', $infos[29]['valore'], 'orange'); ?> con il quale sono stati definiti i
+            l’anno <?php self::getInput('var29', $values['var29'], 'orange'); ?> con il quale sono stati definiti i
             criteri per
             l’attribuzione delle progressioni:
             <br>
-            <?php self::getTextArea('area4', $infos[30]['valore'], 'orange'); ?>
+            <?php self::getTextArea('area4', $values['area4'], 'orange'); ?>
             <br>
             RIFERIMENTI NORMATIVI/CONTRATTUALI:
             <br>
@@ -409,9 +422,10 @@ class RelazioneIllustrativaDocument
             l'attribuzione di fasce di merito. La valutazione positiva conseguita dal dipendente per almeno tre anni
             costituisce titolo rilevante ai fini della progressione economica
             <br>
-            2. Indennità di turno (art. 68 comma 2 lett. d CCNL 21.5.2018) € <?php self::getSelect('formula3'); ?>
+            2. Indennità di turno (art. 68 comma 2 lett. d CCNL 21.5.2018)
+            € <?php self::getSelect('formula3', $values['formula3']); ?>
             <br>
-            <?php self::getTextArea('area5', $infos[31]['valore'], 'orange'); ?>
+            <?php self::getTextArea('area5', $values['area5'], 'orange'); ?>
             <br>
             RIFERIMENTI NORMATIVI/CONTRATTUALI:
             <br>
@@ -473,11 +487,11 @@ class RelazioneIllustrativaDocument
             gravidanza e nel periodo di allattamento fino ad un anno di vita del bambino.
             <br>
             3. Indennità condizioni di lavoro (Art. 68 comma 2 lett. c CCNL 2018) (Maneggio valori, attività disagiate e
-            esposte a rischi) <?php self::getSelect('formula4'); ?>
+            esposte a rischi) <?php self::getSelect('formula4', $values['formula4']); ?>
             <br>
             Viene ripreso il testo del contratto siglato per l’anno 202x con il quale sono stati definiti i criteri di
             attribuzione delle seguenti indennità:
-            <?php self::getTextArea('area6', $infos[32]['valore'], 'orange'); ?>
+            <?php self::getTextArea('area6', $values['area6'], 'orange'); ?>
             <br>
             RIFERIMENTI NORMATIVI/CONTRATTUALI:
             <br>
@@ -502,9 +516,9 @@ class RelazioneIllustrativaDocument
             stipulazione del presente CCNL.
             <br>
             4. Indennità di reperibilità (art. 68 comma 2 lett. d CCNL 21.5.2018)
-            € <?php self::getSelect('formula5'); ?>
+            € <?php self::getSelect('formula5', $values['formula5']); ?>
             <br>
-            <?php self::getTextArea('area7', $infos[33]['valore'], 'orange'); ?>
+            <?php self::getTextArea('area7', $values['area7'], 'orange'); ?>
             <br>
             RIFERIMENTI NORMATIVI/CONTRATTUALI:
             <br>
@@ -547,14 +561,14 @@ class RelazioneIllustrativaDocument
             applicazione, invece, la disciplina di cui all’art.24, comma 1, del CCNL del 14.9.2000.
             <br>
             5. Indennità Specifiche Responsabilità (art. 68, c. 2, lett e CCNL 21.5.2018 ex art. 17, c. 2, lett f. CCNL
-            01/04/99) € <?php self::getSelect('formula6'); ?>
+            01/04/99) € <?php self::getSelect('formula6', $values['formula6']); ?>
             <br>
             Viene ripreso il testo del contratto siglato per
-            l’anno <?php self::getInput('var34', $infos[34]['valore'], 'orange'); ?> con il quale sono stati definiti i
+            l’anno <?php self::getInput('var34', $values['var34'], 'orange'); ?> con il quale sono stati definiti i
             criteri di
             attribuzione dell’indennità di Specifiche responsabilità :
             <br>
-            <?php self::getTextArea('area8', $infos[35]['valore'], 'orange'); ?>
+            <?php self::getTextArea('area8', $values['area8'], 'orange'); ?>
             <br>
             RIFERIMENTI NORMATIVI/CONTRATTUALI:
             <br>
@@ -565,7 +579,7 @@ class RelazioneIllustrativaDocument
             seguenti , può essere riconosciuta una indennità di importo non superiore a € 3.000 annui lordi.
             <br>
             6. Indennità di funzione (Art. 68 comma 2 lett. f CCNL 21.5.2018 e art. 56 sexies CCNL 21.5.2018)
-            (Vigilanza) € <?php self::getSelect('formula7'); ?>;
+            (Vigilanza) € <?php self::getSelect('formula7', $values['formula7']); ?>;
             <br>
             RIFERIMENTI NORMATIVI/CONTRATTUALI:
             <br>
@@ -603,14 +617,14 @@ class RelazioneIllustrativaDocument
             stipulazione del presente CCNL.
             <br>
             7. Specifiche responsabilità (art. 68, c. 2, lett e CCNL 21.5.2018 ex art. 17, c. 2, lett i. CCNL 01/04/99 )
-            € <?php self::getSelect('formula8'); ?>
+            € <?php self::getSelect('formula8', $values['formula8']); ?>
             <br>
             Viene ripreso il testo del contratto siglato per
-            l’anno <?php self::getInput('var36', $infos[36]['valore'], 'orange'); ?> con il quale sono stati definiti i
+            l’anno <?php self::getInput('var36', $values['var36'], 'orange'); ?> con il quale sono stati definiti i
             criteri di
             attribuzione dell’indennità di Specifiche responsabilità :
             <br>
-            <?php self::getTextArea('area9', $infos[37]['valore'], 'orange'); ?>
+            <?php self::getTextArea('area9', $values['area9'], 'orange'); ?>
             <br>
             RIFERIMENTI NORMATIVI/CONTRATTUALI:
             <br>
@@ -639,14 +653,14 @@ class RelazioneIllustrativaDocument
             stipulazione del presente CCNL.
             <br>
             9. Particolare compenso incentivante personale Unioni dei comuni (art. 68, c. 1 CCNL 21.5.2018)
-            € <?php self::getSelect('formula9'); ?>
+            € <?php self::getSelect('formula9', $values['formula9']); ?>
             <br>
             Viene ripreso il testo del contratto siglato per
-            l’anno <?php self::getInput('var38', $infos[38]['valore'], 'orange'); ?> con il quale sono stati definiti i
+            l’anno <?php self::getInput('var38', $values['var38'], 'orange'); ?> con il quale sono stati definiti i
             criteri per
             attribuire il compenso incentivante:
             <br>
-            <?php self::getTextArea('area10', $infos[39]['valore'], 'orange'); ?>
+            <?php self::getTextArea('area10', $values['area10'], 'orange'); ?>
             <br>
             RIFERIMENTI NORMATIVI/CONTRATTUALI:
             <br>
@@ -661,14 +675,14 @@ class RelazioneIllustrativaDocument
             correlato alle effettive prestazioni lavorative;
             <br>
             10. Centri estivi asili nido (art. 68, c. 1 CCNL 21.5.2018 e art 31 comma 5 CCNL 14/9/ 2000)
-            € <?php self::getSelect('formula10'); ?>
+            € <?php self::getSelect('formula10', $values['formula10']); ?>
             <br>
             Viene ripreso il testo del contratto siglato per
-            l’anno <?php self::getInput('var40', $infos[40]['valore'], 'orange'); ?> con il quale sono stati definiti i
+            l’anno <?php self::getInput('var40', $values['var40'], 'orange'); ?> con il quale sono stati definiti i
             criteri per
             attribuire l’indennità prevista per il personale del nido estivo :
             <br>
-            <?php self::getTextArea('area10', $infos[39]['valore'], 'orange'); ?>
+            <?php self::getTextArea('area10', $values['area10'], 'orange'); ?>
             <br>
             RIFERIMENTI NORMATIVI/CONTRATTUALI:
             <br>
@@ -688,9 +702,9 @@ class RelazioneIllustrativaDocument
             <br>
             11. Maggiorazione per il personale che presta attività lavorativa nel giorno destinato al riposo settimanale
             (Art. 68 comma 2 lett. d CCNL 21.5.2018 e art.24, comma 1 CCNL 14.9.2000)
-            € <?php self::getSelect('formula11'); ?>
+            € <?php self::getSelect('formula11', $values['formula11']); ?>
             <br>
-            <?php self::getTextArea('area11', $infos[40]['valore'], 'orange'); ?>
+            <?php self::getTextArea('area11', $values['area11'], 'orange'); ?>
             <br>
             RIFERIMENTI NORMATIVI/CONTRATTUALI:
             <br>
@@ -706,14 +720,14 @@ class RelazioneIllustrativaDocument
             successivo.
             <br>
             12. Premi collegati alla performance organizzativa (art. 68, c. 2, lett a. CCNL 22.5.2018)
-            € <?php self::getSelect('formula12'); ?>
+            € <?php self::getSelect('formula12', $values['formula12']); ?>
             <br>
             Viene ripreso il testo del contratto siglato per
-            l’anno <?php self::getInput('var41', $infos[41]['valore'], 'orange'); ?> con il quale sono stati definiti i
+            l’anno <?php self::getInput('var41', $values['var41'], 'orange'); ?> con il quale sono stati definiti i
             criteri per
             la distribuzione della performance:
             <br>
-            <?php self::getTextArea('area12', $infos[42]['valore'], 'orange'); ?>
+            <?php self::getTextArea('area12', $values['area12'], 'orange'); ?>
             <br>
             RIFERIMENTI NORMATIVI/CONTRATTUALI:
             <br>
@@ -742,14 +756,14 @@ class RelazioneIllustrativaDocument
             adottare, previa concertazione, ai sensi dell'art.6 del CCNL del 31.3.99.
             <br>
             13. Premi collegati alla performance individuale (art. 68, c. 2, lett b. CCNL 22.5.2018)
-            € <?php self::getSelect('formula13'); ?>
+            € <?php self::getSelect('formula13', $values['formula13']); ?>
             <br>
             Viene ripreso il testo del contratto siglato per
-            l’anno <?php self::getInput('var43', $infos[43]['valore'], 'orange'); ?> con il quale sono stati definiti i
+            l’anno <?php self::getInput('var43', $values['var43'], 'orange'); ?> con il quale sono stati definiti i
             criteri per
             la distribuzione della performance individuale:
             <br>
-            <?php self::getTextArea('area13', $infos[44]['valore'], 'orange'); ?>
+            <?php self::getTextArea('area13', $values['area13'], 'orange'); ?>
             <br>
             RIFERIMENTI NORMATIVI/CONTRATTUALI:
             <br>
@@ -797,14 +811,14 @@ class RelazioneIllustrativaDocument
             <br>
             14. Premi collegati alla performance organizzativa - Incentivazione legata al raggiungimento di obiettivi ai
             sensi dell'art. 67 c.5 lett. b parte variabile (art. 68, c. 2, lett a. CCNL 21.5.2018)
-            € <?php self::getSelect('formula14'); ?>
+            € <?php self::getSelect('formula14', $values['formula14']); ?>
             <br>
             Viene ripreso il testo del contratto siglato per
-            l’anno <?php self::getInput('var45', $infos[45]['valore'], 'orange'); ?> con il quale sono stati definiti i
+            l’anno <?php self::getInput('var45', $values['var45'], 'orange'); ?> con il quale sono stati definiti i
             criteri per
             la distribuzione di tali risorse:
             <br>
-            <?php self::getTextArea('area14', $infos[46]['valore'], 'orange'); ?>
+            <?php self::getTextArea('area14', $values['area14'], 'orange'); ?>
             <br>
             RIFERIMENTI NORMATIVI/CONTRATTUALI:
             <br>
@@ -826,14 +840,14 @@ class RelazioneIllustrativaDocument
             <br>
             15. Premi collegati alla performance organizzativa per obiettivi finanziati da risorse art 67 c. 5 lett. b)
             di potenziamento dei servizi di controllo finalizzati alla sicurezza urbana e stradale art. 56 quater CCNL
-            21.5.2018 ) € <?php self::getSelect('formula15'); ?>;
+            21.5.2018 ) € <?php self::getSelect('formula15', $values['area14']); ?>;
             <br>
             Viene ripreso il testo del contratto siglato per
-            l’anno <?php self::getInput('var47', $infos[47]['valore'], 'orange'); ?> con il quale sono stati definiti i
+            l’anno <?php self::getInput('var47', $values['var47'], 'orange'); ?> con il quale sono stati definiti i
             criteri per
             la distribuzione di tali risorse:
             <br>
-            <?php self::getTextArea('area15', $infos[48]['valore'], 'orange'); ?>
+            <?php self::getTextArea('area15', $values['area15'], 'orange'); ?>
             <br>
             RIFERIMENTI NORMATIVI/CONTRATTUALI:
             <br>
@@ -865,25 +879,25 @@ class RelazioneIllustrativaDocument
             alla sicurezza urbana e stradale.
             <br>
             16. Altre risorse specificatamente contrattate nel CCDI
-            dell'anno <?php self::getInput('var49', $infos[49]['valore'], 'red'); ?>
-            € <?php self::getSelect('formula16'); ?>;
+            dell'anno <?php self::getInput('var49', $values['var49'], 'red'); ?>
+            € <?php self::getSelect('formula16', $values['formula16']); ?>;
             <br>
             Viene ripreso il testo del contratto siglato per
-            l’anno <?php self::getInput('var50', $infos[50]['valore'], 'orange'); ?> con il quale sono stati definiti i
+            l’anno <?php self::getInput('var50', $values['var50'], 'orange'); ?> con il quale sono stati definiti i
             criteri per
             la distribuzione:
             <br>
-            <?php self::getTextArea('area16', $infos[51]['valore'], 'orange'); ?>
+            <?php self::getTextArea('area16', $values['area16'], 'orange'); ?>
             <br>
             17. Incentivazione funzioni tecniche (art. 68, c. 2, lett. g CCNL 21.5.2018)
-            € <?php self::getSelect('formula17'); ?>;
+            € <?php self::getSelect('formula17', $values['formula17']); ?>;
             <br>
             Viene ripreso il testo del contratto siglato per
-            l’anno <?php self::getInput('var52', $infos[52]['valore'], 'orange'); ?> con il quale sono stati definiti i
+            l’anno <?php self::getInput('var52', $values['var52'], 'orange'); ?> con il quale sono stati definiti i
             criteri per
             la distribuzione dello specifico incentivo:
             <br>
-            <?php self::getTextArea('area17', $infos[53]['valore'], 'orange'); ?>
+            <?php self::getTextArea('area17', $values['area17'], 'orange'); ?>
             <br>
             RIFERIMENTI NORMATIVI/CONTRATTUALI:
             <br>
@@ -930,14 +944,14 @@ class RelazioneIllustrativaDocument
             applica al personale con qualifica dirigenziale.
             <br>
             18. Incentivazione specifiche attività - AVVOCATURA (art. 68, c. 2, lett. g CCNL 21.5.2018)
-            € <?php self::getSelect('formula18'); ?>;
+            € <?php self::getSelect('formula18', $values['formula18']); ?>;
             <br>
             Viene ripreso il testo del contratto siglato per
-            l’anno <?php self::getInput('var54', $infos[54]['valore'], 'orange'); ?> con il quale sono stati definiti i
+            l’anno <?php self::getInput('var54', $values['var54'], 'orange'); ?> con il quale sono stati definiti i
             criteri per
             la distribuzione dello specifico incentivo:
             <br>
-            <?php self::getTextArea('area18', $infos[55]['valore'], 'orange'); ?>
+            <?php self::getTextArea('area18', $values['area18'], 'orange'); ?>
             <br>
             RIFERIMENTI NORMATIVI/CONTRATTUALI:
             <br>
@@ -962,14 +976,14 @@ class RelazioneIllustrativaDocument
             presente CCNL.
             <br>
             19. Incentivazione specifiche attività - ISTAT (art. 68, c. 2, lett. g CCNL 21.5.2018)
-            € <?php self::getSelect('formula19'); ?>;
+            € <?php self::getSelect('formula19', $values['formula19']); ?>;
             <br>
             Viene ripreso il testo del contratto siglato per
-            l’anno <?php self::getInput('var56', $infos[56]['valore'], 'orange'); ?> con il quale sono stati definiti i
+            l’anno <?php self::getInput('var56', $values['var56'], 'orange'); ?> con il quale sono stati definiti i
             criteri per
             la distribuzione dello specifico incentivo:
             <br>
-            <?php self::getTextArea('area19', $infos[57]['valore'], 'orange'); ?>
+            <?php self::getTextArea('area19', $values['area19'], 'orange'); ?>
             <br>
             RIFERIMENTI NORMATIVI/CONTRATTUALI:
             <br>
@@ -989,14 +1003,14 @@ class RelazioneIllustrativaDocument
             67, comma 3, lett. c).
             <br>
             20. Incentivazione specifiche attività - ICI (art. 68, c. 2, lett. g CCNL 21.5.2018)
-            € <?php self::getSelect('formula20'); ?>;
+            € <?php self::getSelect('formula20', $values['formula20']); ?>;
             <br>
             Viene ripreso il testo del contratto siglato per
-            l’anno <?php self::getInput('var58', $infos[58]['valore'], 'orange'); ?> con il quale sono stati definiti i
+            l’anno <?php self::getInput('var58', $values['var58'], 'orange'); ?> con il quale sono stati definiti i
             criteri per
             la distribuzione dello specifico incentivo:
             <br>
-            <?php self::getTextArea('area20', $infos[59]['valore'], 'orange'); ?>
+            <?php self::getTextArea('area20', $values['area20'], 'orange'); ?>
             <br>
             RIFERIMENTI NORMATIVI/CONTRATTUALI:
             <br>
@@ -1025,14 +1039,14 @@ class RelazioneIllustrativaDocument
             addetto.
             <br>
             21. Incentivazione specifiche attività - Compensi IMU e TARI (art. 68 c. 2, lett. g CCNL 21.5.2018)
-            € <?php self::getSelect('formula21'); ?>;
+            € <?php self::getSelect('formula21', $values['formula21']); ?>;
             <br>
             Viene ripreso il testo del contratto siglato per
-            l’anno <?php self::getInput('var60', $infos[60]['valore'], 'orange'); ?> con il quale sono stati definiti i
+            l’anno <?php self::getInput('var60', $values['var60'], 'orange'); ?> con il quale sono stati definiti i
             criteri per
             la distribuzione dello specifico incentivo:
             <br>
-            <?php self::getTextArea('area21', $infos[61]['valore'], 'orange'); ?>
+            <?php self::getTextArea('area21', $values['area21'], 'orange'); ?>
             <br>
             RIFERIMENTI NORMATIVI/CONTRATTUALI:
             <br>
@@ -1062,14 +1076,14 @@ class RelazioneIllustrativaDocument
             servizio di accertamento sia affidato in concessione.
             <br>
             22. Incentivazione specifiche attività – Messi Notificatori (art. 68 comma 2 lett. h CCNL 21.5.2018)
-            € <?php self::getSelect('formula22'); ?>;
+            € <?php self::getSelect('formula22', $values['formula22']); ?>;
             <br>
             Viene ripreso il testo del contratto siglato per
-            l’anno <?php self::getInput('var62', $infos[62]['valore'], 'orange'); ?> con il quale sono stati definiti i
+            l’anno <?php self::getInput('var62', $values['var62'], 'orange'); ?> con il quale sono stati definiti i
             criteri per
             la distribuzione dello specifico incentivo:
             <br>
-            <?php self::getTextArea('area22', $infos[63]['valore'], 'orange'); ?>
+            <?php self::getTextArea('area22', $values['area22'], 'orange'); ?>
             <br>
             RIFERIMENTI NORMATIVI/CONTRATTUALI:
             <br>
@@ -1086,14 +1100,14 @@ class RelazioneIllustrativaDocument
             3, lett. f), secondo la disciplina di cui all’art. 54 del CCNL del 14.9.2000;
             <br>
             23. Incentivazione specifiche attività - Diritto soggiorno Unione Europea D.lgs 30/2007 (art. 68 comma 2
-            lett. h CCNL 21.5.2018) € <?php self::getSelect('formula23'); ?>;
+            lett. h CCNL 21.5.2018) € <?php self::getSelect('formula23', $values['formula23']); ?>;
             <br>
             Viene ripreso il testo del contratto siglato per
-            l’anno <?php self::getInput('var64', $infos[64]['valore'], 'orange'); ?> con il quale sono stati definiti i
+            l’anno <?php self::getInput('var64', $values['var64'], 'orange'); ?> con il quale sono stati definiti i
             criteri per
             la distribuzione dello specifico incentivo:
             <br>
-            <?php self::getTextArea('area23', $infos[65]['valore'], 'orange'); ?>
+            <?php self::getTextArea('area23', $values['area23'], 'orange'); ?>
             <br>
             RIFERIMENTI NORMATIVI/CONTRATTUALI:
             <br>
@@ -1113,35 +1127,36 @@ class RelazioneIllustrativaDocument
             determinate le modalità' di riparto ed erogazione dei contributi.
             <br>
             24. Incentivazione specifiche attività – (art. 68 comma 2 lett. h CCNL 21.5.2018) Legge Regionale specifica
-            <?php self::getInput('var66', $infos[66]['valore'], 'orange'); ?>
-            € <?php self::getSelect('formula24'); ?>;
+            <?php self::getInput('var66', $values['var66'], 'orange'); ?>
+            € <?php self::getSelect('formula24', $values['formula24']); ?>;
             <br>
             Viene ripreso il testo del contratto siglato per
-            l’anno <?php self::getInput('var66', $infos[67]['valore'], 'orange'); ?> con il quale sono stati definiti i
+            l’anno <?php self::getInput('var66', $values['var66'], 'orange'); ?> con il quale sono stati definiti i
             criteri per
             la distribuzione dello specifico incentivo:
             <br>
-            <?php self::getTextArea('area24', $infos[68]['valore'], 'orange'); ?>
+            <?php self::getTextArea('area24', $values['area24'], 'orange'); ?>
             <br>
             25. Incentivazione specifiche attività – (art. 68 comma 2 lett. h CCNL
-            21.5.2018) <?php self::getInput('var69', $infos[69]['valore'], 'orange'); ?> €
-            <?php self::getSelect('formula25'); ?>;
+            21.5.2018) <?php self::getInput('var69', $values['var69'], 'orange'); ?> €
+            <?php self::getSelect('formula25', $values['formula25']); ?>;
             <br>
             Viene ripreso il testo del contratto siglato per
-            l’anno <?php self::getInput('var70', $infos[70]['valore'], 'orange'); ?> con il quale sono stati definiti i
+            l’anno <?php self::getInput('var70', $values['var70'], 'orange'); ?> con il quale sono stati definiti i
             criteri per la distribuzione dello specifico incentivo:
             <br>
-            <?php self::getTextArea('area25', $infos[71]['valore'], 'orange'); ?>
+            <?php self::getTextArea('area25', $values['area25'], 'orange'); ?>
             <br>
             26. Premi collegati alla performance organizzativa – Compensi per Sponsorizzazioni, convenzioni e servizi
-            conto terzi (art. 67 comma 3 lett. a CCNL 21.5.2018) € <?php self::getSelect('formula26'); ?>;
+            conto terzi (art. 67 comma 3 lett. a CCNL 21.5.2018)
+            € <?php self::getSelect('formula26', $values['formula26']); ?>;
             <br>
             Viene ripreso il testo del contratto siglato per
-            l’anno <?php self::getInput('var72', $infos[72]['valore'], 'orange'); ?> con il quale sono stati definiti i
+            l’anno <?php self::getInput('var72', $values['var72'], 'orange'); ?> con il quale sono stati definiti i
             criteri per
             la distribuzione dello specifico incentivo:
             <br>
-            <?php self::getTextArea('area26', $infos[73]['valore'], 'orange'); ?>
+            <?php self::getTextArea('area26', $values['area26'], 'orange'); ?>
             <br>
             RIFERIMENTI NORMATIVI/CONTRATTUALI:
             <br>
@@ -1161,14 +1176,14 @@ class RelazioneIllustrativaDocument
             paganti, non connesse a garanzia di diritti fondamentali.
             <br>
             27. Piani di razionalizzazione (Art. 67 comma 3 lett. b CCNL 21.5.2018ART. 16 C. 5 L. 111/2011 e s.m.i.) €
-            <?php self::getSelect('formula27'); ?>;
+            <?php self::getSelect('formula27', $values['formula27']); ?>;
             <br>
             Viene ripreso il testo del contratto siglato per
-            l’anno <?php self::getInput('var74', $infos[74]['valore'], 'orange'); ?> con il quale sono stati definiti i
+            l’anno <?php self::getInput('var74', $values['var74'], 'orange'); ?> con il quale sono stati definiti i
             criteri per
             la distribuzione dello specifico incentivo:
             <br>
-            <?php self::getTextArea('area27', $infos[75]['valore'], 'orange'); ?>
+            <?php self::getTextArea('area27', $values['area27'], 'orange'); ?>
             <br>
             RIFERIMENTI NORMATIVI/CONTRATTUALI:
             <br>
@@ -1200,7 +1215,8 @@ class RelazioneIllustrativaDocument
             dell'UBRRAC e degli uffici centrali di bilancio e dalla Presidenza del Consiglio - Dipartimento della
             funzione pubblica.
             <br>
-            28. Quota recupero somme (Art. 4 DL 16/2014 Salva Roma Ter) <?php self::getSelect('formula28'); ?>;
+            28. Quota recupero somme (Art. 4 DL 16/2014 Salva Roma
+            Ter) <?php self::getSelect('formula28', $values['formula28']); ?>;
             <br>
             Quota annuale delle risorse decentrate finalizzata a compensare le somme indebitamente erogate negli anni
             precedenti.
@@ -1249,162 +1265,162 @@ class RelazioneIllustrativaDocument
                 <tbody>
                 <tr>
                     <th scope="row"> Totale utilizzo fondo progressioni</th>
-                    <td><?php self::getSelect('formula29'); ?></td>
+                    <td><?php self::getSelect('formula29', $values['formula29']); ?></td>
                 </tr>
                 <tr>
                     <th scope="row">Indennità di comparto art.33 ccnl 22.01.04, quota a carico fondo</th>
-                    <td><?php self::getSelect('formula30'); ?></td>
+                    <td><?php self::getSelect('formula30', $values['formula30']); ?></td>
                 </tr>
                 <tr>
                     <th scope="row">Indennità educatori asilo nido</th>
-                    <td><?php self::getSelect('formula30'); ?></td>
+                    <td><?php self::getSelect('formula31', $values['formula31']); ?></td>
                 </tr>
                 <tr>
                     <th scope="row">ALTRI UTILIZZI</th>
-                    <td><?php self::getSelect('formula31'); ?></td>
+                    <td><?php self::getSelect('formula32', $values['formula32']); ?></td>
                 </tr>
                 <tr>
                     <th scope="row">TOTALE UTILIZZO RISORSE STABILI</th>
-                    <td><?php self::getSelect('formula32'); ?></td>
+                    <td><?php self::getSelect('formula33', $values['formula33']); ?></td>
                 </tr>
                 <tr>
                     <th scope="row">Indennità di turno</th>
-                    <td><?php self::getSelect('formula33'); ?></td>
+                    <td><?php self::getSelect('formula34', $values['formula34']); ?></td>
                 </tr>
                 <tr>
                     <th scope="row">Indennità condizioni di lavoro</th>
-                    <td><?php self::getSelect('formula34'); ?></td>
+                    <td><?php self::getSelect('formula35', $values['formula35']); ?></td>
                 </tr>
                 <tr>
                     <th scope="row">Reperibilità</th>
-                    <td><?php self::getSelect('formula35'); ?></td>
+                    <td><?php self::getSelect('formula36', $values['formula36']); ?></td>
                 </tr>
                 <tr>
                     <th scope="row">Indennità specifiche responsabilità art 70 quinquies c. 1 CCNL 2018 (ex lett. f art.
                         17 comma 2 CCNL 1.4.1999)
                     </th>
-                    <td><?php self::getSelect('formula36'); ?></td>
+                    <td><?php self::getSelect('formula37', $values['formula37']); ?></td>
                 </tr>
                 <tr>
                     <th scope="row">Indennità specifiche responsabilità art 70 quinquies c. 1 CCNL 2018 (ex lett. i art.
                         17 comma 2 CCNL 1.4.1999)
                     </th>
-                    <td><?php self::getSelect('formula37'); ?></td>
+                    <td><?php self::getSelect('formula38', $values['formula38']); ?></td>
                 </tr>
                 <tr>
                     <th scope="row">Indennità di funzione – Art. 56 sexies CCNL 2018 (Vigilanza)</th>
-                    <td><?php self::getSelect('formula38'); ?></td>
+                    <td><?php self::getSelect('formula39', $values['formula39']); ?></td>
                 </tr>
                 <tr>
                     <th scope="row">Indennità di servizio esterno – art. 56 quinquies CCNL 2018 (Vigilanza)</th>
-                    <td><?php self::getSelect('formula39'); ?></td>
+                    <td><?php self::getSelect('formula40', $values['formula40']); ?></td>
                 </tr>
                 <tr>
                     <th scope="row">Indennità particolare compenso incentivante (personale unioni dei comuni)</th>
-                    <td><?php self::getSelect('formula40'); ?></td>
+                    <td><?php self::getSelect('formula41', $values['formula41']); ?></td>
                 </tr>
                 <tr>
                     <th scope="row">Centri estivi asili nido art 31 comma 5 CCNL 14 -9- 2000</th>
-                    <td><?php self::getSelect('formula41'); ?></td>
+                    <td><?php self::getSelect('formula42', $values['formula42']); ?></td>
                 </tr>
                 <tr>
                     <th scope="row">Compenso previsto dall'art.24, comma 1 CCNL 14.9.2000, per il personale che presta
                         attività lavorativa nel giorno destinato al riposo settimanale
                     </th>
-                    <td><?php self::getSelect('formula42'); ?></td>
+                    <td><?php self::getSelect('formula43', $values['formula43']); ?></td>
                 </tr>
                 <tr>
                     <th scope="row">Premi collegati alla performance organizzativa – art. 68 c. 2 lett. a) CCNL 2018
                     </th>
-                    <td><?php self::getSelect('formula43'); ?></td>
+                    <td><?php self::getSelect('formula44', $values['formula44']); ?></td>
                 </tr>
                 <tr>
                     <th scope="row">Premi collegati alla performance individuale - art. 68 c. 2 lett. b) CCNL 2018</th>
-                    <td><?php self::getSelect('formula44'); ?></td>
+                    <td><?php self::getSelect('formula45', $values['formula45']); ?></td>
                 </tr>
                 <tr>
                     <th scope="row">Premi collegati alla performance organizzativa - Obiettivi finanziati con art. 67
                         c.5 lett. B CCNL 2018 parte variabile
                     </th>
-                    <td><?php self::getSelect('formula45'); ?></td>
+                    <td><?php self::getSelect('formula46', $values['formula46']); ?></td>
                 </tr>
                 <tr>
                     <th scope="row">Premi collegati alla performance organizzativa - Obiettivi finanziati da risorse art
                         67 c. 5 lett. b di potenziamento dei servizi di controllo finalizzati alla sicurezza urbana e
                         stradale Art. 56 quater CCNL 2018
                     </th>
-                    <td><?php self::getSelect('formula46'); ?></td>
+                    <td><?php self::getSelect('formula47', $values['formula47']); ?></td>
                 </tr>
                 <tr>
                     <th scope="row">50% ECONOMIE DA PIANI DI RAZIONALIZZAZIONE DA DESTINARE ALLA CONTRATTAZIONE DI CUI
                         IL 50% DESTINATO ALLA PRODUTTIVITA' (escluso dal limite fondo 2010)
                     </th>
-                    <td><?php self::getSelect('formula47'); ?></td>
+                    <td><?php self::getSelect('formula48', $values['formula48']); ?></td>
                 </tr>
                 <tr>
                     <th scope="row">Altro</th>
-                    <td><?php self::getSelect('formula48'); ?></td>
+                    <td><?php self::getSelect('formula49', $values['formula49']); ?></td>
                 </tr>
                 <tr>
                     <th scope="row">Premi collegati alla performance organizzativa - Compensi per sponsorizzazioni</th>
-                    <td><?php self::getSelect('formula49'); ?></td>
+                    <td><?php self::getSelect('formula50', $values['formula50']); ?></td>
                 </tr>
                 <tr>
                     <th scope="row">TOTALE UTILIZZO ALTRE INDENNITA’</th>
-                    <td><?php self::getSelect('formula50'); ?></td>
+                    <td><?php self::getSelect('formula51', $values['formula51']); ?></td>
                 </tr>
                 <tr>
                     <th scope="row">Art. 68 c. 2 lett. g) CCNL 2018
                         FUNZIONI TECNICHE RIF Art. 113 comma 2 e 3 D.LGS. 18 APRILE 2016, N. 50
                     </th>
-                    <td><?php self::getSelect('formula51'); ?></td>
+                    <td><?php self::getSelect('formula52', $values['formula52']); ?></td>
                 </tr>
                 <tr>
                     <th scope="row">Art. 68 c. 2 lett. h CCNL 2018 RIF Compensi per notifiche</th>
-                    <td><?php self::getSelect('formula52'); ?></td>
+                    <td><?php self::getSelect('formula53', $values['formula53']); ?></td>
                 </tr>
                 <tr>
                     <th scope="row">Art. 68 c. 2 lett. g) CCNL 2018 RIF Compensi IMU e TARI c. 1091 Lex 145/2018</th>
-                    <td><?php self::getSelect('formula53'); ?></td>
+                    <td><?php self::getSelect('formula54', $values['formula54']); ?></td>
                 </tr>
                 <tr>
                     <th scope="row">Art. 68 c. 2 lett. g) CCNL 2018 RIF - ISTAT</th>
-                    <td><?php self::getSelect('formula54'); ?></td>
+                    <td><?php self::getSelect('formula55', $values['formula55']); ?></td>
                 </tr>
                 <tr>
                     <th scope="row">Art. 68 c. 2 lett. g) CCNL 2018 RIF - ICI</th>
-                    <td><?php self::getSelect('formula55'); ?></td>
+                    <td><?php self::getSelect('formula56', $values['formula56']); ?></td>
                 </tr>
                 <tr>
                     <th scope="row">Art. 68 c. 2 lett. g) CCNL 2018 RIF - avvocatura
                     </th>
-                    <td><?php self::getSelect('formula56'); ?></td>
+                    <td><?php self::getSelect('formula57', $values['formula57']); ?></td>
                 </tr>
                 <tr>
                     <th scope="row">Art. 68 c. 2 lett. g) CCNL 2018
                         RIF - Diritto soggiorno Unione Europea D.lgs 30/2007
                     </th>
-                    <td><?php self::getSelect('formula57'); ?></td>
+                    <td><?php self::getSelect('formula58', $values['formula58']); ?></td>
                 </tr>
                 <tr>
                     <th scope="row">Art. 68 c. 2 lett. g) CCNL 2018 Legge Regionale specifica</th>
-                    <td><?php self::getSelect('formula58'); ?></td>
+                    <td><?php self::getSelect('formula59', $values['formula59']); ?></td>
                 </tr>
                 <tr>
                     <th scope="row">Art. 68 c. 2 lett. g) CCNL 2018 RIF - Legge o ALTRO</th>
-                    <td><?php self::getSelect('formula59'); ?></td>
+                    <td><?php self::getSelect('formula60', $values['formula60']); ?></td>
                 </tr>
                 <tr>
                     <th scope="row">Quota recupero somme (Art. 4 DL 16/2014 Salva Roma Ter)</th>
-                    <td><?php self::getSelect('formula60'); ?></td>
+                    <td><?php self::getSelect('formula61', $values['formula61']); ?></td>
                 </tr>
                 <tr>
                     <th scope="row">TOTALE UTILIZZO RISORSE VINCOLATE</th>
-                    <td><?php self::getSelect('formula61'); ?></td>
+                    <td><?php self::getSelect('formula62', $values['formula62']); ?></td>
                 </tr>
                 <tr>
                     <th scope="row">TOTALE UTILIZZO FONDO</th>
-                    <td><?php self::getSelect('formula62'); ?></td>
+                    <td><?php self::getSelect('formula63', $values['formula63']); ?></td>
                 </tr>
                 </tbody>
             </table>
@@ -1414,18 +1430,18 @@ class RelazioneIllustrativaDocument
             <br>
             Risultano attualmente in vigore i seguenti CCDI:
             <br>
-            CCDI relativo all’anno <?php self::getInput('var76', $infos[76]['valore'], 'orange'); ?> con il quale sono
+            CCDI relativo all’anno <?php self::getInput('var76', $values['var76'], 'orange'); ?> con il quale sono
             state determinate le modalità di attribuzione dell’indennità
-            di <?php self::getInput('var77', $infos[78]['valore'], 'orange'); ?>
-            , <?php self::getInput('var78', $infos[78]['valore'], 'orange'); ?>
-            , <?php self::getInput('var79', $infos[70]['valore'], 'orange'); ?>
-            E <?php self::getInput('var80', $infos[80]['valore'], 'orange'); ?>
+            di <?php self::getInput('var77', $values['var77'], 'orange'); ?>
+            , <?php self::getInput('var78', $values['var78'], 'orange'); ?>
+            , <?php self::getInput('var79', $values['var79'], 'orange'); ?>
+            E <?php self::getInput('var80', $values['var80'], 'orange'); ?>
             <br>
-            CCDI relativo all’anno <?php self::getInput('var81', $infos[81]['valore'], 'orange'); ?> con il quale sono
+            CCDI relativo all’anno <?php self::getInput('var81', $values['var81'], 'orange'); ?> con il quale sono
             state determinate le modalità di attribuzione dell’indennità
-            di <?php self::getInput('var82', $infos[82]['valore'], 'orange'); ?>
-            , <?php self::getInput('var83', $infos[83]['valore'], 'orange'); ?>
-            , <?php self::getInput('var84', $infos[84]['valore'], 'orange'); ?>
+            di <?php self::getInput('var82', $values['var82'], 'orange'); ?>
+            , <?php self::getInput('var83', $values['var83'], 'orange'); ?>
+            , <?php self::getInput('var84', $values['var84'], 'orange'); ?>
             E Per l’anno anno sono state previste nuove progressioni economiche orizzontali.
 
             Viene ripreso il testo del contratto siglato per l’anno 202x con il quale sono stati definiti i criteri per
@@ -1436,27 +1452,27 @@ class RelazioneIllustrativaDocument
             e la giurisprudenza contabile) ai fini della corresponsione degli incentivi per la performance individuale
             ed organizzativa;
             <br>
-            <?php self::getTextArea('area28', $infos[86]['valore'], 'orange'); ?>
+            <?php self::getTextArea('area28', $values['area28'], 'orange'); ?>
             <br>
             e) illustrazione e specifica attestazione della coerenza con il principio di selettività delle progressioni
             economiche finanziate con il Fondo per la contrattazione integrativa - progressioni orizzontali – ai sensi
             dell’articolo23 del Decreto Legislativo n.150/2009 (previsione di valutazioni di merito ed esclusione di
             elementi automatici come l’anzianità di servizio);
             <br>
-            Per l’anno <?php self::getInput('var87', $infos[87]['valore'], 'orange'); ?> sono state previste nuove
+            Per l’anno <?php self::getInput('var87', $values['var87'], 'orange'); ?> sono state previste nuove
             progressioni economiche orizzontali.
             <br>
             Viene ripreso il testo del contratto siglato per
-            l’anno <?php self::getInput('var88', $infos[88]['valore'], 'orange'); ?> con il quale sono stati definiti i
+            l’anno <?php self::getInput('var88', $values['var88'], 'orange'); ?> con il quale sono stati definiti i
             criteri per
             l’attribuzione delle progressioni:
             <br>
-            <?php self::getTextArea('area29', $infos[89]['valore'], 'orange'); ?>
+            <?php self::getTextArea('area29', $values['area29'], 'orange'); ?>
             <br>
             In particolare sono contenute previsione di valutazioni di merito e sono esclusi elementi automatici come
             l’anzianità di servizio
             <br>
-            Per l’anno <?php self::getInput('var90', $infos[90]['valore'], 'orange'); ?> non sono state previste nuove
+            Per l’anno <?php self::getInput('var90', $values['var90'], 'orange'); ?> non sono state previste nuove
             progressioni economiche orizzontali. Non sono stati
             contrattati quindi nuovi criteri anche se è stato condiviso tra le parti che il sistema utilizzato per
             valutare la performance sarà utilizzato qualora si dovessero prevedere nuove progressioni economiche.
@@ -1466,47 +1482,47 @@ class RelazioneIllustrativaDocument
             coerenza con le previsioni del Titolo II del Decreto Legislativo n.150/2009.
             <br>
             E’ stato approvato il Piano della Performance per
-            l’anno <?php self::getInput('var91', $infos[91]['valore'], 'orange'); ?>. Ai sensi dell’attuale Regolamento
+            l’anno <?php self::getInput('var91', $values['var91'], 'orange'); ?>. Ai sensi dell’attuale Regolamento
             degli
             Uffici e dei Servizi ogni anno l’Ente è tenuto ad approvare un Piano della Performance che deve contenere
             gli obiettivi dell’Ente riferiti ai servizi gestiti.
             <br>
-            Con la Delibera n. <?php self::getInput('var92', $infos[92]['valore'], 'orange'); ?>
-            del <?php self::getInput('var93', $infos[93]['valore'], 'orange'); ?> <?php self::getInput('var94', $infos[94]['valore'], 'red'); ?>
-            <?php self::getInput('var95', $infos[95]['valore'], 'orange'); ?> ha approvato il Piano della Performance
-            per l’anno <?php self::getInput('var96', $infos[96]['valore'], 'orange'); ?>. Tale piano è stato
+            Con la Delibera n. <?php self::getInput('var92', $values['var92'], 'orange'); ?>
+            del <?php self::getInput('var93', $values['var93'], 'orange'); ?> <?php self::getInput('var94', $values['var94'], 'red'); ?>
+            <?php self::getInput('var95', $values['var95'], 'orange'); ?> ha approvato il Piano della Performance
+            per l’anno <?php self::getInput('var96', $values['var96'], 'orange'); ?>. Tale piano è stato
             successivamente validato dall’organo di valutazione con il Verbale
-            n. <?php self::getInput('var97', $infos[97]['valore'], 'red'); ?>.
+            n. <?php self::getInput('var97', $values['var97'], 'red'); ?>.
             <br>
             Ai sensi dell’attuale Regolamento degli Uffici e dei Servizi ogni anno l’Ente è tenuto ad approvare un Piano
             della Performance che deve contenere le attività di processo dell’Ente riferiti ai servizi gestiti ed
             eventuali obiettivi strategici annuali determinati
-            dalla <?php self::getInput('var98', $infos[98]['valore'], 'orange'); ?>.
+            dalla <?php self::getInput('var98', $values['var98'], 'orange'); ?>.
             <br>
             Gli obiettivi contenuti nel Piano prevedono il crono programma delle attività, specifici indici/indicatori
             (quantità, qualità, tempo e costo) di prestazione attesa e il personale coinvolto. Si rimanda al documento
             per il dettaglio degli obiettivi di performance.
             <br>
-            Il/la <?php self::getInput('var99', $infos[99]['valore'], 'orange'); ?> in particolare, con Delibera
-            n.<?php self::getInput('var100', $infos[100]['valore'], 'orange'); ?> del
-            <?php self::getInput('var101', $infos[101]['valore'], 'orange'); ?> con oggetto “PERSONALE NON DIRIGENTE.
-            FONDO RISORSE DECENTRATE PER L’ANN0 <?php self::getInput('var102', $infos[102]['valore'], 'orange'); ?>.
+            Il/la <?php self::getInput('var99', $values['var99'], 'orange'); ?> in particolare, con Delibera
+            n.<?php self::getInput('var100', $values['var100'], 'orange'); ?> del
+            <?php self::getInput('var101', $values['var101'], 'orange'); ?> con oggetto “PERSONALE NON DIRIGENTE.
+            FONDO RISORSE DECENTRATE PER L’ANN0 <?php self::getInput('var102', $values['var102'], 'orange'); ?>.
             INDIRIZZI PER LA COSTITUZIONE. DIRETTIVE PER LA CONTRATTAZIONE DECENTRATA INTEGRATIVA” ha stabilito di
             incrementare le risorse variabili con le seguenti voci:
             <br>
             ai sensi dell’art. 67 comma 4 CCNL 21.5.2018 è stata autorizzata l’iscrizione, fra le risorse variabili,
             della quota fino ad un massimo dell'1,2% del monte salari (esclusa la quota riferita alla dirigenza)
             stabilito per l'anno 1997, nel rispetto del limite dell’anno 2016
-            e <?php self::getInput('var103', $infos[103]['valore'], 'orange'); ?> finalizzato
+            e <?php self::getInput('var103', $values['var103'], 'orange'); ?> finalizzato
             al raggiungimento di specifici obiettivi di produttività e qualità espressamente definiti dall’Ente nel
-            Piano esecutivo di Gestione <?php self::getInput('var104', $infos[104]['valore'], 'orange'); ?> unitamente
+            Piano esecutivo di Gestione <?php self::getInput('var104', $values['var104'], 'orange'); ?> unitamente
             al Piano della Performance approvato con Delibera della/del
-            <?php self::getInput('var105', $infos[105]['valore'], 'orange'); ?>
-            n. <?php self::getInput('var106', $infos[106]['valore'], 'orange'); ?>
-            del <?php self::getInput('var107', $infos[107]['valore'], 'orange'); ?> in merito a
-            <?php self::getInput('var108', $infos[108]['valore'], 'orange'); ?>
+            <?php self::getInput('var105', $values['var105'], 'orange'); ?>
+            n. <?php self::getInput('var106', $values['var106'], 'orange'); ?>
+            del <?php self::getInput('var107', $values['var107'], 'orange'); ?> in merito a
+            <?php self::getInput('var108', $values['var108'], 'orange'); ?>
             <br>
-            L’importo previsto è pari a € <?php self::getSelect('formula66'); ?> che verrà erogato solo successivamente
+            L’importo previsto è pari a € <?php self::getSelect('formula64',$values['formula64']); ?> che verrà erogato solo successivamente
             alla verifica dell’effettivo
             conseguimento dei risultati attesi.
             <br>
@@ -1516,20 +1532,20 @@ class RelazioneIllustrativaDocument
             ai sensi dell’art. 67, comma 5 lett. b) del CCNL 21.5.2018 è stata autorizzata l’iscrizione, fra le risorse
             variabili, delle somme necessarie per il conseguimento di obiettivi dell’ente, anche di mantenimento, nonché
             obiettivi di potenziamento dei servizi di controllo finalizzati alla sicurezza urbana e stradale Art. 56
-            quater CCNL 2018, per un importo pari a € <?php self::getSelect('formula67'); ?>. In particolare tali
+            quater CCNL 2018, per un importo pari a € <?php self::getSelect('formula65',$values['formula65']); ?>. In particolare tali
             obiettivi sono contenuti nel Piano
-            esecutivo di Gestione <?php self::getInput('var109', $infos[109]['valore'], 'orange'); ?> unitamente al
+            esecutivo di Gestione <?php self::getInput('var109', $values['var109'], 'orange'); ?> unitamente al
             Piano della Performance approvato con Delibera della/del
-            <?php self::getInput('var110', $infos[110]['valore'], 'orange'); ?>
-            n. <?php self::getInput('var111', $infos[111]['valore'], 'orange'); ?>
-            del <?php self::getInput('var112', $infos[112]['valore'], 'orange'); ?> e ne
+            <?php self::getInput('var110', $values['var110'], 'orange'); ?>
+            n. <?php self::getInput('var111', $values['var111'], 'orange'); ?>
+            del <?php self::getInput('var112', $values['var112'], 'orange'); ?> e ne
             vengono qui di seguito elencati i titoli:
             <br>
-            – <?php self::getInput('var113', $infos[113]['valore'], 'orange'); ?>,
+            – <?php self::getInput('var113', $values['var113'], 'orange'); ?>,
             <br>
-            - <?php self::getInput('var114', $infos[114]['valore'], 'orange'); ?>
+            - <?php self::getInput('var114', $values['var114'], 'orange'); ?>
             <br>
-            <?php self::getTextArea('area30', $infos[115]['valore'], 'orange'); ?>
+            <?php self::getTextArea('area30', $values['area30'], 'orange'); ?>
             <br>
             Si precisa che gli importi qualora non dovessero essere interamente distribuiti, non daranno luogo ad
             economie del fondo ma ritorneranno nella disponibilità del bilancio dell’Ente.
@@ -1538,15 +1554,15 @@ class RelazioneIllustrativaDocument
             di maggior incasso rispetto all’anno precedente a seguito di obiettivi di potenziamento dei servizi di
             controllo finalizzati alla sicurezza urbana e stradale Art. 56 quater CCNL 2018, come risorsa NON soggetta
             al limite secondo dalla Corte dei Conti Sezione delle Autonomie con delibera n. 5 del 2019, per un importo
-            pari a € <?php self::getSelect('formula68'); ?>.;
+            pari a € <?php self::getSelect('formula66',$values['formula66']); ?>.;
             <br>
             ai sensi della Legge 111/2011 e dell’art. 67 comma 3 lett. B del CCNL 21.5.2018, vista la
-            Delibera <?php self::getInput('var116', $infos[116]['valore'], 'orange'); ?>
-            <?php self::getInput('var117', $infos[117]['valore'], 'orange'); ?>
-            n. <?php self::getInput('var118', $infos[118]['valore'], 'orange'); ?>
-            del <?php self::getInput('var119', $infos[119]['valore'], 'orange'); ?> di
+            Delibera <?php self::getInput('var116', $values['var116'], 'orange'); ?>
+            <?php self::getInput('var117', $values['var117'], 'orange'); ?>
+            n. <?php self::getInput('var118', $values['var118'], 'orange'); ?>
+            del <?php self::getInput('var119', $values['var119'], 'orange'); ?> di
             approvazione del Piano di razionalizzazione anno è stata autorizzata l’iscrizione tra le risorse variabili
-            dell’importo pari a € <?php self::getSelect('formula69'); ?>, che dovrà essere distribuito nel rigoroso
+            dell’importo pari a € <?php self::getSelect('formula67',$values['formula67']); ?>, che dovrà essere distribuito nel rigoroso
             rispetto dei principi introdotti dalla
             norma vigente e solo in presenza, a consuntivo, del parere favorevole espresso dal Revisore dei Conti /
             Collegio dei Revisori;
@@ -1554,7 +1570,7 @@ class RelazioneIllustrativaDocument
             ai sensi dell’art. 67 c.7 e Art.15 c.7 CCNL 2018 è stata autorizzata all'iscrizione fra le risorse variabili
             la quota di incremento del Fondo trattamento accessorio per riduzione delle risorse destinate alla
             retribuzione di posizione e di risultato delle PO rispetto al tetto complessivo del salario accessorio art.
-            23 c. 2 D.Lgs 75/2017, per un importo pari a € <?php self::getSelect('formula70'); ?>;
+            23 c. 2 D.Lgs 75/2017, per un importo pari a € <?php self::getSelect('formula70',$values['formula70']); ?>;
             <br>
             g) altre informazioni eventualmente ritenute utili per la migliore comprensione degli istituti regolati dal
             contratto.
@@ -1566,17 +1582,17 @@ class RelazioneIllustrativaDocument
             Modulo I -La costituzione del Fondo per la contrattazione integrativa
             <br>
             Il Fondo per lo sviluppo delle risorse umane per
-            l’anno <?php self::getInput('var120', $infos[120]['valore'], 'orange'); ?> ha seguito il seguente iter:
+            l’anno <?php self::getInput('var120', $values['var120'], 'orange'); ?> ha seguito il seguente iter:
             <br>
-            - Delibera n. <?php self::getInput('var121', $infos[121]['valore'], 'orange'); ?>
-            del <?php self::getInput('var122', $infos[122]['valore'], 'orange'); ?> di
-            indirizzo <?php self::getInput('var123', $infos[123]['valore'], 'orange'); ?> alla delegazione di parte
-            pubblica e per la costituzione del Fondo <?php self::getInput('var124', $infos[124]['valore'], 'orange'); ?>
+            - Delibera n. <?php self::getInput('var121', $values['var121'], 'orange'); ?>
+            del <?php self::getInput('var122', $values['var122'], 'orange'); ?> di
+            indirizzo <?php self::getInput('var123', $values['var123'], 'orange'); ?> alla delegazione di parte
+            pubblica e per la costituzione del Fondo <?php self::getInput('var124', $values['var124'], 'orange'); ?>
             <br>
-            - Determina n. <?php self::getInput('var125', $infos[125]['valore'], 'orange'); ?>
-            del <?php self::getInput('var126', $infos[126]['valore'], 'orange'); ?>
-            del <?php self::getInput('var127', $infos[127]['valore'], 'orange'); ?> di
-            costituzione del Fondo <?php self::getInput('var128', $infos[128]['valore'], 'orange'); ?>;
+            - Determina n. <?php self::getInput('var125',$values['var125'], 'orange'); ?>
+            del <?php self::getInput('var126', $values['var126'], 'orange'); ?>
+            del <?php self::getInput('var127', $values['var127'], 'orange'); ?> di
+            costituzione del Fondo <?php self::getInput('var128',$values['var128'], 'orange'); ?>;
             <br>
             <h6>
                 Sezione I - Risorse fisse aventi carattere di certezza e stabilità
@@ -1584,7 +1600,7 @@ class RelazioneIllustrativaDocument
             <br>
             Il fondo destinato alle politiche di sviluppo delle risorse umane ed alla produttività, in applicazione
             dell’art. 67 del CCNL del 21.05.2018, per
-            l’anno <?php self::getInput('var129', $infos[129]['valore'], 'orange'); ?> risulta, come da allegato schema
+            l’anno <?php self::getInput('var129',$values['var129'], 'orange'); ?> risulta, come da allegato schema
             di costituzione del
             Fondo così riepilogato:
             <br>
@@ -1600,7 +1616,7 @@ class RelazioneIllustrativaDocument
                     <td scope="row">Totale Risorse storiche - Unico importo consolidato art. 67 c. 1 CCNL 21.05.2018
                         (A)
                     </td>
-                    <td><?php self::getSelect('formula71'); ?></td>
+                    <td><?php self::getSelect('formula70',$values['formula70']); ?></td>
                 </tr>
                 <tr>
                     <th scope="row">Incrementi stabili</th>
@@ -1608,36 +1624,36 @@ class RelazioneIllustrativaDocument
                 </tr>
                 <tr>
                     <td>Art. 67 c. 2 lett. c) CCNL 2018 - RIA e assegni ad personam</td>
-                    <td><?php self::getSelect('formula72'); ?></td>
+                    <td><?php self::getSelect('formula71',$values['formula71']); ?></td>
                 </tr>
                 <tr>
                     <td>Art. 67 c. 2 lett. d) CCNL 2018 - eventuali risorse riassorbite</td>
-                    <td><?php self::getSelect('formula73'); ?></td>
+                    <td><?php self::getSelect('formula72',$values['formula72']); ?></td>
                 </tr>
                 <tr>
                     <td>Art. 67 c. 2 lett. e) CCNL 2018 - Oneri trattamento accessorio personale trasferito dal 2018
                     </td>
-                    <td><?php self::getSelect('formula74'); ?></td>
+                    <td><?php self::getSelect('formula73',$values['formula73']); ?></td>
                 </tr>
                 <tr>
                     <td>Art. 67 c. 2 lett. g) CCNL 2018 - Riduzione stabile Fondo Straordinario dal 2018</td>
-                    <td><?php self::getSelect('formula75'); ?></td>
+                    <td><?php self::getSelect('formula74',$values['formula74']); ?></td>
                 </tr>
                 <tr>
                     <td>Art . 67 c. 5 lett. a) CCNL 2018 - incremento dotazione organica dal 2018</td>
-                    <td><?php self::getSelect('formula76'); ?></td>
+                    <td><?php self::getSelect('formula75',$values['formula75']); ?></td>
                 </tr>
                 <tr>
                     <td>Art. 33 comma 2 DL 34/2019 - Incremento valore medio procapite del fondo rispetto al 2018</td>
-                    <td><?php self::getSelect('formula77'); ?></td>
+                    <td><?php self::getSelect('formula76',$values['formula76']); ?></td>
                 </tr>
                 <tr>
                     <td> Totale incrementi stabili (a)</td>
-                    <td><?php self::getSelect('formula78'); ?></td>
+                    <td><?php self::getSelect('formula77',$values['formula77']); ?></td>
                 </tr>
                 <tr>
                     <td>Totale risorse stabili SOGGETTE al limite (A+a)</td>
-                    <td><?php self::getSelect('formula79'); ?></td>
+                    <td><?php self::getSelect('formula78',$values['formula78']); ?></td>
                 </tr>
                 <tr>
                     <th>Incrementi con carattere di certezza e stabilità NON soggetti al limite</th>
@@ -1645,33 +1661,33 @@ class RelazioneIllustrativaDocument
                 </tr>
                 <tr>
                     <td>Art. 67 c. 2 lett. b) CCNL 2018 - Rivalutazione delle PEO</td>
-                    <td><?php self::getSelect('formula80'); ?></td>
+                    <td><?php self::getSelect('formula79',$values['formula79']); ?></td>
                 </tr>
                 <tr>
                     <td>Art. 67 c. 2 lett. a) CCNL 2018 - Incremento 83,20 a valere dal 2019</td>
-                    <td><?php self::getSelect('formula81'); ?></td>
+                    <td><?php self::getSelect('formula80',$values['formula80']); ?></td>
                 </tr>
                 <tr>
                     <td>Art. 11 c. 1 lett. b) D.L. 135/2018 – Incremento trattamento accessorio</td>
-                    <td><?php self::getSelect('formula81'); ?></td>
+                    <td><?php self::getSelect('formula81',$values['formula81']); ?></td>
                 </tr>
                 <tr>
                     <td>Art. 67 c. 2 lett. e) CCNL 2018 – Rif Art. 1 c. 800 L. 205/2017 Armonizzazione personale
                         province transitato
                     </td>
-                    <td><?php self::getSelect('formula82'); ?></td>
+                    <td><?php self::getSelect('formula82',$values['formula82']); ?></td>
                 </tr>
                 <tr>
                     <td>Altre risorse</td>
-                    <td><?php self::getSelect('formula83'); ?></td>
+                    <td><?php self::getSelect('formula83',$values['formula83']); ?></td>
                 </tr>
                 <tr>
                     <td>Totale incrementi stabili non soggetti al limite (b)</td>
-                    <td><?php self::getSelect('formula84'); ?></td>
+                    <td><?php self::getSelect('formula84',$values['formula84']); ?></td>
                 </tr>
                 <tr>
                     <td>TOTALE RISORSE FISSE AVENTI CARATTERE DI CERTEZZA E STABILITÀ (A+a+b)</td>
-                    <td><?php self::getSelect('formula85'); ?></td>
+                    <td><?php self::getSelect('formula85',$values['formula85']); ?></td>
                 </tr>
                 </tbody>
             </table>
@@ -1697,62 +1713,62 @@ class RelazioneIllustrativaDocument
                 </tr>
                 <tr>
                     <td>Art. 67 c. 3 lett. a) CCNL 2018- – sponsorizzazioni</td>
-                    <td><?php self::getSelect('formula86'); ?></td>
+                    <td><?php self::getSelect('formula86',$values['formula86']); ?></td>
                 </tr>
                 <tr>
                     <td>Art. 67 c. 3 lett. c) CCNL 2018 ICI</td>
-                    <td><?php self::getSelect('formula87'); ?></td>
+                    <td><?php self::getSelect('formula87',$values['formula87']); ?></td>
                 </tr>
                 <tr>
                     <td>Art. 67 c. 3 lett. c) CCNL 2018 - Legge Regionale specifica (es. SARDEGNA n. 19 del 1997)
                     </td>
-                    <td><?php self::getSelect('formula88'); ?></td>
+                    <td><?php self::getSelect('formula88',$values['formula88']); ?></td>
                 </tr>
                 <tr>
                     <td>Art. 67 c. 3 lett. f) CCNL 2018 - – Compensi per Notifiche</td>
-                    <td><?php self::getSelect('formula89'); ?></td>
+                    <td><?php self::getSelect('formula89',$values['formula89']); ?></td>
                 </tr>
                 <tr>
                     <td>Art. 67 c. 4 CCNL 2018 - integrazione 1,2%</td>
-                    <td><?php self::getSelect('formula90'); ?></td>
+                    <td><?php self::getSelect('formula90',$values['formula90']); ?></td>
                 </tr>
                 <tr>
                     <td>Art. 67 c. 5 lett. b) CCNL 2018 - Obiettivi dell'Ente (anche potenziamento controllo Codice
                         Strada)
                     </td>
-                    <td><?php self::getSelect('formula91'); ?></td>
+                    <td><?php self::getSelect('formula91',$values['formula91']); ?></td>
                 </tr>
                 <tr>
                     <td> INTEGR. FONDO CCIAA IN EQ. FIN. (ART.15 C.1 L. N CCNL 98-01) R116</td>
-                    <td><?php self::getSelect('formula92'); ?></td>
+                    <td><?php self::getSelect('formula92',$values['formula92']); ?></td>
                 </tr>
                 <tr>
                     <td> Art. 67 c. 3 lett. g) CCNL 2018 - Compensi personale case da gioco R130</td>
-                    <td><?php self::getSelect('formula93'); ?></td>
+                    <td><?php self::getSelect('formula93',$values['formula93']); ?></td>
                 </tr>
                 <tr>
                     <td> Art. 67 c. 3 lett. k) CCNL 2018 - Oneri trattamento accessorio personale trasferito</td>
-                    <td><?php self::getSelect('formula94'); ?></td>
+                    <td><?php self::getSelect('formula94',$values['formula94']); ?></td>
                 </tr>
                 <tr>
                     <td> Art. 67 c. 3 lett. d) CCNL 2018 - Ria e assegni ad personam personale cessato quota rateo anno
                         di cessazione
                     </td>
-                    <td><?php self::getSelect('formula95'); ?></td>
+                    <td><?php self::getSelect('formula95',$values['formula95']); ?></td>
                 </tr>
                 <tr>
                     <td> Art. 67 c.7 e Art.15 c.7 CCNL 2018 – Quota incremento Fondo per riduzione retribuzione di PO e
                         di risultato
                     </td>
-                    <td><?php self::getSelect('formula96'); ?></td>
+                    <td><?php self::getSelect('formula96',$values['formula96']); ?></td>
                 </tr>
                 <tr>
                     <td> Altre risorse</td>
-                    <td><?php self::getSelect('formula98'); ?></td>
+                    <td><?php self::getSelect('formula98',$values['formula98']); ?></td>
                 </tr>
                 <tr>
                     <td> Totale voci variabili sottoposte al limite</td>
-                    <td><?php self::getSelect('formula99'); ?></td>
+                    <td><?php self::getSelect('formula99',$values['formula99']); ?></td>
                 </tr>
                 <tr>
                     <th>Risorse variabili NON sottoposte al limite</th>
@@ -1760,66 +1776,66 @@ class RelazioneIllustrativaDocument
                 </tr>
                 <tr>
                     <td>Art. 67 c. 3 lett. b) CCNL 2018- - Economie da piani di razionalizzazione</td>
-                    <td><?php self::getSelect('formula100'); ?></td>
+                    <td><?php self::getSelect('formula100',$values['formula100']); ?></td>
 
                 </tr>
                 <tr>
                     <td>Art. 67 c. 3 lett. c) CCNL 2018 - Compensi ISTAT</td>
-                    <td><?php self::getSelect('formula101'); ?></td>
+                    <td><?php self::getSelect('formula101',$values['formula101']); ?></td>
 
                 </tr>
                 <tr>
                     <td>Art. 67 c. 3 lett. c) CCNL 2018 - Avvocatura</td>
-                    <td><?php self::getSelect('formula102'); ?></td>
+                    <td><?php self::getSelect('formula102',$values['formula102']); ?></td>
 
                 </tr>
                 <tr>
                     <td>Art. 67 c. 3 lett. c) CCNL 2018 - Somme finanziate da fondi di derivazione dell'Unione Europea
                     </td>
-                    <td><?php self::getSelect('formula103'); ?></td>
+                    <td><?php self::getSelect('formula103',$values['formula103']); ?></td>
 
                 </tr>
                 <tr>
                     <td>Art. 67 c. 3 lett. c) CCNL 2018 - - INCENTIVI PER FUNZIONI TECNICHE Art. 113 D.Lgs. 50/2016</td>
-                    <td><?php self::getSelect('formula104'); ?></td>
+                    <td><?php self::getSelect('formula104',$values['formula104']); ?></td>
                 </tr>
                 <tr>
                     <td>Art. 67 c. 3 lett. c) CCNL 2018 - Compensi IMU e TARI c. 1091 L. 145/2018</td>
-                    <td><?php self::getSelect('formula105'); ?></td>
+                    <td><?php self::getSelect('formula105',$values['formula105']); ?></td>
                 </tr>
                 <tr>
                     <td>Altro - Art. 67 c. 3 lett. c) CCNL 2018 (Da specificare)</td>
-                    <td><?php self::getSelect('formula106'); ?></td>
+                    <td><?php self::getSelect('formula106',$values['formula106']); ?></td>
                 </tr>
                 <tr>
                     <td>Art. 67 c. 3 lett. a) CCNL 2018 - – sponsorizzazioni (per convenzioni successive al 2016)</td>
-                    <td><?php self::getSelect('formula107'); ?></td>
+                    <td><?php self::getSelect('formula107',$values['formula107']); ?></td>
                 </tr>
                 <tr>
                     <td>ALTRE RISORSE (Da specificare)</td>
-                    <td><?php self::getSelect('formula108'); ?></td>
+                    <td><?php self::getSelect('formula108',$values['formula108']); ?></td>
                 </tr>
                 <tr>
                     <td>Art. 68 c. 1 CCNL 2018 - Risparmi Fondo Stabile Anno Precedente</td>
-                    <td><?php self::getSelect('formula109'); ?></td>
+                    <td><?php self::getSelect('formula109',$values['formula109']); ?></td>
                 </tr>
                 <tr>
                     <td>Art. 67 c. 3 lett. e) CCNL 2018 - Risparmi Fondo Straordinario Anno Precedente</td>
-                    <td><?php self::getSelect('formula110'); ?></td>
+                    <td><?php self::getSelect('formula110',$values['formula110']); ?></td>
                 </tr>
                 <tr>
                     <td>Art. 67 c. 5 lett. b) CCNL 2018 - Quota incremento CDS maggior incasso rispetto anno
                         precedente
                     </td>
-                    <td><?php self::getSelect('formula111'); ?></td>
+                    <td><?php self::getSelect('formula111',$values['formula111']); ?></td>
                 </tr>
                 <tr>
                     <td>Totale voci variabili NON sottoposte al limite</td>
-                    <td><?php self::getSelect('formula113'); ?></td>
+                    <td><?php self::getSelect('formula113',$values['formula113']); ?></td>
                 </tr>
                 <tr>
                     <td>TOTALE RISORSE VARIABILI</td>
-                    <td><?php self::getSelect('formula114'); ?></td>
+                    <td><?php self::getSelect('formula114',$values['formula113']); ?></td>
                 </tr>
                 </tbody>
             </table>
@@ -1840,46 +1856,46 @@ class RelazioneIllustrativaDocument
 
                 <tr>
                     <td>Decurtazione ATA</td>
-                    <td><?php self::getSelect('formula115'); ?></td>
+                    <td><?php self::getSelect('formula115',$values['formula115']); ?></td>
                 </tr>
                 <tr>
                     <td>Decurtazione incarichi di Posizione Organizzativa (Enti con e Senza Dirigenza)</td>
-                    <td><?php self::getSelect('formula116'); ?></td>
+                    <td><?php self::getSelect('formula116',$values['formula116']); ?></td>
                 </tr>
                 <tr>
                     <td>Articolo 19, comma 1 CCNL 1.4.1999
                         DECURTAZIONE primo inquadramento di alcune categorie di lavoratori in applicazione del CCNL del
                         31.3.1999 (area di vigilanza e personale della prima e seconda qualifica funzionale).
                     </td>
-                    <td><?php self::getSelect('formula117'); ?></td>
+                    <td><?php self::getSelect('formula117',$values['formula117']); ?></td>
                 </tr>
                 <tr>
                     <td>Decurtazione art 67 c. 2 lett. e) Ccnl 2018 - personale trasferito presso altri Enti per delega
                         o trasferimento di funzioni, da disposizioni di legge o altro
                     </td>
-                    <td><?php self::getSelect('formula118'); ?></td>
+                    <td><?php self::getSelect('formula118',$values['formula118']); ?></td>
                 </tr>
                 <tr>
                     <td> ALTRE RISORSE (da specificare)</td>
-                    <td><?php self::getSelect('formula119'); ?></td>
+                    <td><?php self::getSelect('formula119',$values['formula119']); ?></td>
                 </tr>
                 <tr>
                     <td>Decurtazione parte stabile operate nel periodo 2011/2014 ai sensi dell'art. 9 C. 2 bis
                         L.122/2010 secondo periodo
                     </td>
-                    <td><?php self::getSelect('formula120'); ?></td>
+                    <td><?php self::getSelect('formula120',$values['formula120']); ?></td>
                 </tr>
                 <tr>
                     <td> Decurtazioni PARTE STABILE operate nel 2016 per cessazioni e rispetto limite 2015</td>
-                    <td><?php self::getSelect('formula121'); ?></td>
+                    <td><?php self::getSelect('formula121',$values['formula121']); ?></td>
                 </tr>
                 <tr>
                     <td> Decurtazione parte stabile per rispetto limite 2016</td>
-                    <td><?php self::getSelect('formula122'); ?></td>
+                    <td><?php self::getSelect('formula122',$values['formula122']); ?></td>
                 </tr>
                 <tr>
                     <td>TOTALE DECURTAZIONI AVENTI CARATTERE DI CERTEZZA E STABILITA’</td>
-                    <td><?php self::getSelect('formula123'); ?></td>
+                    <td><?php self::getSelect('formula123',$values['formula123']); ?></td>
                 </tr>
                 </tbody>
             </table>
@@ -1899,30 +1915,30 @@ class RelazioneIllustrativaDocument
                 </tr>
                 <tr>
                     <td>Altre decurtazioni</td>
-                    <td><?php self::getSelect('formula124'); ?></td>
+                    <td><?php self::getSelect('formula124',$values['formula124']); ?></td>
                 </tr>
                 <tr>
                     <td>Decurtazione parte variabile operate nel periodo 2011/2014 ai sensi dell'art. 9 C. 2 bis
                         L.122/2010 secondo periodo
                     </td>
-                    <td><?php self::getSelect('formula125'); ?></td>
+                    <td><?php self::getSelect('formula125',$values['formula125']); ?></td>
                 </tr>
                 <tr>
                     <td>Decurtazioni PARTE variabile operate nel 2016 per cessazioni e rispetto limite 2015
                     </td>
-                    <td><?php self::getSelect('formula126'); ?></td>
+                    <td><?php self::getSelect('formula126',$values['formula126']); ?></td>
                 </tr>
                 <tr>
                     <td>Decurtazione parte variabile per rispetto limite 2016</td>
-                    <td><?php self::getSelect('formula127'); ?></td>
+                    <td><?php self::getSelect('formula127',$values['formula127']); ?></td>
                 </tr>
                 <tr>
                     <td>TOTALE DECURTAZIONI PARTE VARIABILE</td>
-                    <td><?php self::getSelect('formula128'); ?></td>
+                    <td><?php self::getSelect('formula128',$values['formula128']); ?></td>
                 </tr>
                 <tr>
                     <td>TOTALE DECURTAZIONI</td>
-                    <td><?php self::getSelect('formula129'); ?></td>
+                    <td><?php self::getSelect('formula129',$values['formula129']); ?></td>
                 </tr>
                 </tbody>
             </table>
@@ -1937,11 +1953,11 @@ class RelazioneIllustrativaDocument
             il triennio 2011/2014, mediante la conferma della quota di decurtazione operata nell'anno 2014 per
             cessazioni e rispetto del 2010 (Circolare RGS n. 20 del 8.5.20105).
             <br>
-            Nel periodo 2011-2014 <?php self::getSelect('formula130'); ?> risultano decurtazioni rispetto ai vincoli
-            sul fondo 2010 e pertanto <?php self::getSelect('formula131'); ?> deve
+            Nel periodo 2011-2014 <?php self::getSelect('formula130',$values['formula130']); ?> risultano decurtazioni rispetto ai vincoli
+            sul fondo 2010 e pertanto <?php self::getSelect('formula131',$values['formula131']); ?> deve
             essere applicata una riduzione del fondo
-            del <?php self::getInput('var130', $infos[130]['valore'], 'orange'); ?> pari a
-            € <?php self::getSelect('formula132'); ?>.
+            del <?php self::getInput('var130', $values['var130'], 'orange'); ?> pari a
+            € <?php self::getSelect('formula132',$values['formula132']); ?>.
             <br>
             Si evidenzia che l’art. 1 c. 236 della L. 208/2015 prevedeva che a decorrere dal 1° gennaio 2016 (nelle more
             dell'adozione dei decreti legislativi attuativi degli articoli 11 e 17 della legge 7 agosto 2015, n. 124,
@@ -1964,23 +1980,23 @@ class RelazioneIllustrativaDocument
             17.3.2020, pubblicato in GU in data 27.4.2020, concordata in sede di Conferenza Unificata Stato Regioni del
             11.12.2019, prevede che il limite del salario accessorio, a partire dal 20 aprile 2020, debba essere
             adeguato in aumento rispetto al valore medio procapite del 2018 in caso di incremento del numero di
-            dipendenti presenti nel <?php self::getInput('var131', $infos[131]['valore'], 'orange'); ?> , rispetto ai
+            dipendenti presenti nel <?php self::getInput('var131',  $values['var131'], 'orange'); ?> , rispetto ai
             presenti al 31.12.2018, al fine di garantire l’invarianza della
             quota media procapite rispetto al 2018. Ed in particolare è fatto salvo il limite iniziale qualora il
             personale in servizio sia inferiore al numero rilevato al 31 dicembre 2018. Tale incremento va calcolato in
             base alle modalità fornite dalla Ragioneria dello Stato da ultimo con nota Prot. 12454 del 15.1.2021.
             <br>
-            Nell'anno 2016 <?php self::getSelect('formula133'); ?> risultano decurtazioni rispetto ai vincoli sul fondo
-            2015 e pertanto <?php self::getSelect('formula134'); ?> deve essere
-            applicata una riduzione del fondo pari a <?php self::getSelect('formula135'); ?>
+            Nell'anno 2016 <?php self::getSelect('formula133', $values['formula133']); ?> risultano decurtazioni rispetto ai vincoli sul fondo
+            2015 e pertanto <?php self::getSelect('formula134', $values['formula134']); ?> deve essere
+            applicata una riduzione del fondo pari a <?php self::getSelect('formula135', $values['formula135']); ?>
             <br>
             Si precisa che il totale del fondo (solo voci soggette al blocco) per l'anno 2016 era pari a
-            € <?php self::getSelect('formula136'); ?> (include
+            € <?php self::getSelect('formula136', $values['formula136']); ?> (include
             eventuale rivalutazione ai sensi dell’art. 33 comma 2, del D.L.34/2019, nel caso l'ente ne abbia facoltà)
-            mentre per l’anno <?php self::getInput('var132', $infos[132]['valore'], 'orange'); ?> al netto delle
-            decurtazioni è pari ad € <?php self::getSelect('formula137'); ?> .
+            mentre per l’anno <?php self::getInput('var132',  $values['var132'], 'orange'); ?> al netto delle
+            decurtazioni è pari ad € <?php self::getSelect('formula137', $values['formula137']); ?> .
             <br>
-            Pertanto si attesta che il fondo <?php self::getInput('var133', $infos[133]['valore'], 'orange'); ?> risulta
+            Pertanto si attesta che il fondo <?php self::getInput('var133',  $values['var133'], 'orange'); ?> risulta
             non superiore al fondo anno 2016 (Tali valori non includono
             avvocatura, ISTAT, di cui art. 67 comma 3 lett. c CCNL 21.5.2018, importi di cui all’art. 67 comma 3 lett. c
             CCNL 21.5.2018, importi di cui all’67 comma 3 lett. a, ove tale attività non risulti ordinariamente resa
@@ -1995,36 +2011,36 @@ class RelazioneIllustrativaDocument
 
                 <tr>
                     <td>TOTALE Risorse fisse aventi carattere di certezza e stabilità (A)</td>
-                    <td><?php self::getSelect('formula138'); ?></td>
+                    <td><?php self::getSelect('formula138',$values['formula138']); ?></td>
                 </tr>
                 <tr>
                     <td>TOTALE decurtazioni aventi carattere di certezza e stabilita’ (B)</td>
-                    <td><?php self::getSelect('formula139'); ?></td>
+                    <td><?php self::getSelect('formula139',$values['formula139']); ?></td>
                 </tr>
                 <tr>
                     <td>TOTALE Risorse fisse aventi carattere di certezza e stabilità DOPO LE DECURTAZIONI
                         (A-B)
 
                     </td>
-                    <td><?php self::getSelect('formula140'); ?></td>
+                    <td><?php self::getSelect('formula140',$values['formula140']); ?></td>
                 </tr>
                 <tr>
                     <td>TOTALE Risorse variabili (C)</td>
-                    <td><?php self::getSelect('formula141'); ?></td>
+                    <td><?php self::getSelect('formula141',$values['formula141']); ?></td>
                 </tr>
                 <tr>
                     <td>DECURTAZIONI sulle voci variabili (D)</td>
-                    <td><?php self::getSelect('formula142'); ?></td>
+                    <td><?php self::getSelect('formula142',$values['formula142']); ?></td>
                 </tr>
                 <tr>
                     <td>Totale risorse variabili dopo le decurtazioni (C-D)</td>
-                    <td><?php self::getSelect('formula143'); ?></td>
+                    <td><?php self::getSelect('formula143',$values['formula143']); ?></td>
                 </tr>
                 <tr>
                     <td> TOTALE FONDO
                         (A-B)+ (C-D)
                     </td>
-                    <td><?php self::getSelect('formula144'); ?></td>
+                    <td><?php self::getSelect('formula144',$values['formula144']); ?></td>
                 </tr>
                 </tbody>
             </table>
@@ -2036,23 +2052,23 @@ class RelazioneIllustrativaDocument
             Si precisa che ai sensi dell'Art. 33 del CCNL 22.1.2004 l'indennità di comparto prevede una parte di risorse
             a carico del bilancio (cosiddetta quota a) e una parte a carico delle risorse decentrate (cosiddette quote b
             e c). Gli importi di cui alla lettera a) risultano pari a
-            € <?php self::getInput('var134', $infos[134]['valore'], 'orange'); ?>, gli importi di cui alle lettere b) e
+            € <?php self::getInput('var134', $values['var134'], 'orange'); ?>, gli importi di cui alle lettere b) e
             c)
-            ammontano ad un totale di € <?php self::getSelect('formula145'); ?> .
+            ammontano ad un totale di € <?php self::getSelect('formula145',$values['formula145']); ?> .
             <br>
-            <?php self::getTextArea('area31', $infos[135]['valore'], 'red'); ?>
+            <?php self::getTextArea('area31', $values['area31'], 'red'); ?>
             <br>
-            <?php self::getTextArea('area32', $infos[136]['valore'], 'red'); ?>
+            <?php self::getTextArea('area32', $values['area32'], 'red'); ?>
             <br>
             <h4>Modulo II - Definizione delle poste di destinazione del Fondo per la contrattazione integrativa</h4>
             <br>
             <h6>Sezione I - Destinazioni non disponibili alla contrattazione integrativa o comunque non regolate
                 specificamente dal Contratto Integrativo sottoposto a certificazione</h6>
             <br>
-            Per l’anno <?php self::getInput('var137', $infos[137]['valore'], 'orange'); ?> con la determina di
-            costituzione del Fondo n. <?php self::getInput('var138', $infos[138]['valore'], 'orange'); ?> del
-            <?php self::getInput('var139', $infos[139]['valore'], 'orange'); ?>
-            il <?php self::getInput('var140', $infos[140]['valore'], 'orange'); ?> ha reso indisponibile alla
+            Per l’anno <?php self::getInput('var137', $values['var137'], 'orange'); ?> con la determina di
+            costituzione del Fondo n. <?php self::getInput('var138', $values['var138'], 'orange'); ?> del
+            <?php self::getInput('var139', $values['var139'], 'orange'); ?>
+            il <?php self::getInput('var140', $values['var140'], 'orange'); ?> ha reso indisponibile alla
             contrattazione ai sensi dell’art. 68
             comma 1 del CCNL 21.5.2018 alcuni compensi gravanti sul fondo (es. indennità di comparto, progressioni
             economiche) poiché già determinate negli anni precedenti.
@@ -2064,52 +2080,52 @@ class RelazioneIllustrativaDocument
                 <thead>
                 <tr>
                     <th>UTILIZZO RISORSE NON DISPONIBILI ALLA CONTRATTAZIONE</th>
-                    <th><?php self::getInput('var140', $infos[140]['valore'], 'orange'); ?></th>
+                    <th><?php self::getInput('var141', $values['var141'], 'orange'); ?></th>
                 </tr>
                 </thead>
                 <tbody>
 
                 <tr>
                     <td>Inquadramento ex Led</td>
-                    <td><?php self::getSelect('formula146'); ?></td>
+                    <td><?php self::getSelect('formula146',$values['formula146']); ?></td>
                 </tr>
                 <tr>
                     <td>Progressioni economiche STORICHE</td>
-                    <td><?php self::getSelect('formula147'); ?></td>
+                    <td><?php self::getSelect('formula147',$values['formula147']); ?></td>
                 </tr>
                 <tr>
                     <td>Indennità di comparto art. 33 CCNL 22.01.04, quota a carico fondo
 
                     </td>
-                    <td><?php self::getSelect('formula148'); ?></td>
+                    <td><?php self::getSelect('formula148',$values['formula148']); ?></td>
                 </tr>
                 <tr>
                     <td>Indennità educatori asilo nido</td>
-                    <td><?php self::getSelect('formula149'); ?></td>
+                    <td><?php self::getSelect('formula149',$values['formula149']); ?></td>
                 </tr>
                 <tr>
                     <td>ALTRI UTILIZZI</td>
-                    <td><?php self::getSelect('formula150'); ?></td>
+                    <td><?php self::getSelect('formula150',$values['formula150']); ?></td>
                 </tr>
                 <tr>
                     <td>Totale utilizzo risorse stabili</td>
-                    <td><?php self::getSelect('formula151'); ?></td>
+                    <td><?php self::getSelect('formula151',$values['formula151']); ?></td>
                 </tr>
                 <tr>
                     <td>TOTALE RISORSE NON REGOLATE SPECIFICAMENTE DAL CONTRATTO INTEGRATIVO
                     </td>
-                    <td><?php self::getSelect('formula152'); ?></td>
+                    <td><?php self::getSelect('formula152',$values['formula152']); ?></td>
                 </tr>
                 </tbody>
             </table>
             <br>
             CALCOLO RISORSE PER PROGRESSIONI ORIZZONTALI IN ESSERE:
             <br>
-            <?php self::getTextArea('area33', $infos[137]['valore'], 'red'); ?>
+            <?php self::getTextArea('area33', $values['area33'], 'red'); ?>
             <br>
             COSTO PER INDENNITA’ DI COMPARTO
             <br>
-            <?php self::getTextArea('area34', $infos[138]['valore'], 'red'); ?>
+            <?php self::getTextArea('area34', $values['area34'], 'red'); ?>
             <br>
             <h6>
                 <h6>
@@ -2121,157 +2137,157 @@ class RelazioneIllustrativaDocument
                     <tr>
                         <th scope="col">DESTINAZIONI REGOLATE SPECIFICAMENTE DAL CONTRATTO INTEGRATIVO
                         </th>
-                        <th><?php self::getInput('var141', $infos[141]['valore'], 'orange'); ?></th>
+                        <th><?php self::getInput('var142', $values['var142'], 'orange'); ?></th>
                     </tr>
                     </thead>
                     <tbody>
 
                     <tr>
                         <td>Progressioni economiche specificatamente contratte nel CCDI dell'anno</td>
-                        <td><?php self::getSelect('formula153'); ?></td>
+                        <td><?php self::getSelect('formula153',$values['formula153']); ?></td>
                     </tr>
                     <tr>
                         <td>Turno</td>
-                        <td><?php self::getSelect('formula154'); ?></td>
+                        <td><?php self::getSelect('formula154',$values['formula154']); ?></td>
                     </tr>
                     <tr>
                         <td>Indennità condizioni di lavoro Art. 70 bis CCNL 2018 (Maneggio valori, attività disagiate e
                             esposte a rischi)
                         </td>
-                        <td><?php self::getSelect('formula155'); ?></td>
+                        <td><?php self::getSelect('formula155',$values['formula155']); ?></td>
                     </tr>
                     <tr>
                         <td>Reperibilità
                         </td>
-                        <td><?php self::getSelect('formula156'); ?></td>
+                        <td><?php self::getSelect('formula156',$values['formula156']); ?></td>
                     </tr>
                     <tr>
                         <td> Indennità specifiche Responsabilità art. 70 quinquies c. 1 CCNL 2018 (ex art. 17 lett. f)
                         </td>
-                        <td><?php self::getSelect('formula157'); ?></td>
+                        <td><?php self::getSelect('formula157',$values['formula157']); ?></td>
                     </tr>
                     <tr>
                         <td>Indennità specifiche Responsabilità art. 70 quinquies c. 1 CCNL 2018 (ex art. 17 lett. i)
                         </td>
-                        <td><?php self::getSelect('formula158'); ?></td>
+                        <td><?php self::getSelect('formula158',$values['formula158']); ?></td>
                     </tr>
                     <tr>
                         <td> Particolare compenso incentivante personale Unioni dei comuni (art. 13 c. 5 CCNL
                             22.1.2004)
                         </td>
-                        <td><?php self::getSelect('formula159'); ?></td>
+                        <td><?php self::getSelect('formula159',$values['formula158']); ?></td>
                     </tr>
                     <tr>
                         <td> Centri estivi asili nido (art 31 c. 5CCNL 14 .9.2000 Code)</td>
-                        <td><?php self::getSelect('formula160'); ?></td>
+                        <td><?php self::getSelect('formula160',$values['formula160']); ?></td>
                     </tr>
                     <tr>
                         <td>Compenso previsto dall'art.24, comma 1 CCNL 14.9.2000, per il personale che presta attività
                             lavorativa nel giorno destinato al riposo settimanale
                         </td>
-                        <td><?php self::getSelect('formula161'); ?></td>
+                        <td><?php self::getSelect('formula161',$values['formula161']); ?></td>
                     </tr>
                     <tr>
                         <td>Premi collegati alla performance organizzativa – art. 68 c. 2 lett. a) CCNL 2018</td>
-                        <td><?php self::getSelect('formula162'); ?></td>
+                        <td><?php self::getSelect('formula162',$values['formula162']); ?></td>
                     </tr>
                     <tr>
                         <td>Premi collegati alla performance individuale - art. 68 c. 2 lett. b) CCNL 2018</td>
-                        <td><?php self::getSelect('formula163'); ?></td>
+                        <td><?php self::getSelect('formula163',$values['formula163']); ?></td>
                     </tr>
                     <tr>
                         <td>Premi collegati alla performance organizzativa - Obiettivi finanziati con risorse Art. 67 c.
                             5 lett. b) CCNL 2018
                         </td>
-                        <td><?php self::getSelect('formula164'); ?></td>
+                        <td><?php self::getSelect('formula164',$values['formula164']); ?></td>
                     </tr>
                     <tr>
                         <td>Premi collegati alla performance organizzativa - Obiettivi collegati a risorse art 67 c. 5
                             lett. b di potenziamento dei servizi di controllo finalizzati alla sicurezza urbana e
                             stradale Art. 56 quater CCNL 2018
                         </td>
-                        <td><?php self::getSelect('formula165'); ?></td>
+                        <td><?php self::getSelect('formula165',$values['formula165']); ?></td>
                     </tr>
                     <tr>
                         <td>Indennità di servizio esterno – art. 56 quinquies CCNL 2018 (Vigilanza)</td>
-                        <td><?php self::getSelect('formula166'); ?></td>
+                        <td><?php self::getSelect('formula166',$values['formula166']); ?></td>
                     </tr>
                     <tr>
                         <td>Indennità di funzione – Art. 56 sexies CCNL 2018 (Vigilanza)</td>
-                        <td><?php self::getSelect('formula167'); ?></td>
+                        <td><?php self::getSelect('formula167',$values['formula167']); ?></td>
                     </tr>
                     <tr>
                         <td>Compensi 50% economie da Piani di Razionalizzazione - Art. 67 c. 3 lett. b) CCNL 2018-Art.
                             16 C. 5 L. 111/2011
                         </td>
-                        <td><?php self::getSelect('formula168'); ?></td>
+                        <td><?php self::getSelect('formula168',$values['formula168']); ?></td>
                     </tr>
                     <tr>
                         <td>ALTRI UTILIZZI (contrattati nel CCDI dell'anno)
                         </td>
-                        <td><?php self::getSelect('formula169'); ?></td>
+                        <td><?php self::getSelect('formula169',$values['formula169']); ?></td>
                     </tr>
                     <tr>
                         <td>Premi collegati alla performance organizzativa - Compensi per SPONSORIZZAZIONI Art. 67 c. 3
                             lett. a) CCNL 2018
                         </td>
-                        <td><?php self::getSelect('formula170'); ?></td>
+                        <td><?php self::getSelect('formula170',$values['formula170']); ?></td>
                     </tr>
                     <tr>
                         <td>Art. 68 c. 2 lett. g) CCNL 2018 FUNZIONI TECNICHE RIF Art. 113 comma 2 e 3 D.LGS. 18 APRILE
                             2016, N. 50
                         </td>
-                        <td><?php self::getSelect('formula171'); ?></td>
+                        <td><?php self::getSelect('formula171',$values['formula171']); ?></td>
                     </tr>
                     <tr>
                         <td>Art. 68 c. 2 lett. g) CCNL 2018 COMPENSI IMU e TARI c. 1091 L. 145/2018
                         </td>
-                        <td><?php self::getSelect('formula172'); ?></td>
+                        <td><?php self::getSelect('formula172',$values['formula172']); ?></td>
                     </tr>
                     <tr>
                         <td>Art. 68 c. 2 lett. h CCNL 2018 - Compensi per notifiche
                         </td>
-                        <td><?php self::getSelect('formula173'); ?></td>
+                        <td><?php self::getSelect('formula173',$values['formula173']); ?></td>
                     </tr>
                     <tr>
                         <td>Art. 68 c. 2 lett. g) CCNL 2018 RIF – ISTAT
                         </td>
-                        <td><?php self::getSelect('formula174'); ?></td>
+                        <td><?php self::getSelect('formula174',$values['formula174']); ?></td>
                     </tr>
                     <tr>
                         <td>Art. 68 c. 2 lett. g) CCNL 2018 RIF - ICI
                         </td>
-                        <td><?php self::getSelect('formula175'); ?></td>
+                        <td><?php self::getSelect('formula175',$values['formula175']); ?></td>
                     </tr>
                     <tr>
                         <td>Art. 68 c. 2 lett. g) CCNL 2018 RIF – avvocatura
                         </td>
-                        <td><?php self::getSelect('formula176'); ?></td>
+                        <td><?php self::getSelect('formula176',$values['formula176']); ?></td>
                     </tr>
                     <tr>
                         <td>Art. 68 c. 2 lett. g) CCNL 2018 RIF - Diritto soggiorno Unione Europea D.lgs 30/2007
                         </td>
-                        <td><?php self::getSelect('formula177'); ?></td>
+                        <td><?php self::getSelect('formula177',$values['formula177']); ?></td>
                     </tr>
                     <tr>
                         <td>Art. 68 c. 2 lett. g) CCNL 2018 Legge Regionale specifica
                         </td>
-                        <td><?php self::getSelect('formula178'); ?></td>
+                        <td><?php self::getSelect('formula178',$values['formula178']); ?></td>
                     </tr>
                     <tr>
                         <td>Altri utilizzi Art. 68 c. 2 lett. g) CCNL 2018
                         </td>
-                        <td><?php self::getSelect('formula179'); ?></td>
+                        <td><?php self::getSelect('formula179',$values['formula179']); ?></td>
                     </tr>
                     <tr>
                         <td>Quota recupero somme (Art. 4 DL 16/2014 Salva Roma Ter)
                         </td>
-                        <td><?php self::getSelect('formula180'); ?></td>
+                        <td><?php self::getSelect('formula180',$values['formula180']); ?></td>
                     </tr>
                     <tr>
                         <td>TOTALE RISORSE REGOLATE SPECIFICAMENTE DAL CONTRATTO INTEGRATIVO
                         </td>
-                        <td><?php self::getSelect('formula180'); ?></td>
+                        <td><?php self::getSelect('formula180',$values['formula180']); ?></td>
                     </tr>
                     </tbody>
                 </table>
@@ -2280,7 +2296,7 @@ class RelazioneIllustrativaDocument
                 <br>
                 Parte non pertinente allo specifico accordo illustrato.
                 <br>
-                Le risorse ancora da contrattare ammontano ad € <?php self::getSelect('formula181'); ?>
+                Le risorse ancora da contrattare ammontano ad € <?php self::getSelect('formula181',$values['formula181']); ?>
                 <br>
 
                 <h6>Sezione IV - Sintesi della definizione delle poste di destinazione del Fondo per la contrattazione
@@ -2291,24 +2307,24 @@ class RelazioneIllustrativaDocument
                     <tr>
                         <td>TOTALE RISORSE non regolate specificamente dal Contratto Integrativo (A)
                         </td>
-                        <td><?php self::getSelect('formula182'); ?></td>
+                        <td><?php self::getSelect('formula182',$values['formula182']); ?></td>
                     </tr>
                     <tr>
                         <td>TOTALE RISORSE regolate specificamente dal Contratto Integrativo (B)
                         </td>
-                        <td><?php self::getSelect('formula183'); ?></td>
+                        <td><?php self::getSelect('formula183',$values['formula183']); ?></td>
                     </tr>
                     <tr>
                         <td>TOTALE UTILIZZO
                             (A+B)
 
                         </td>
-                        <td><?php self::getSelect('formula184'); ?></td>
+                        <td><?php self::getSelect('formula184',$values['formula184']); ?></td>
                     </tr>
                     <tr>
                         <td>TOTALE DESTINAZIONI ANCORA DA REGOLARE [TOTALE FONDO – (A+B)]
                         </td>
-                        <td><?php self::getSelect('formula185'); ?></td>
+                        <td><?php self::getSelect('formula185',$values['formula185']); ?></td>
                     </tr>
                     </tbody>
                 </table>
@@ -2320,12 +2336,12 @@ class RelazioneIllustrativaDocument
                 Si precisa che ai sensi dell'Art. 33 del CCNL 22.1.2004 l'indennità di comparto prevede una parte di
                 risorse a carico del bilancio (cosiddetta quota a) e una parte a carico delle risorse decentrate
                 (cosiddette quote b e c). Gli importi di cui alla lettera a) risultano pari a
-                € <?php self::getInput('var142', $infos[142]['valore'], 'orange'); ?>, gli importi di cui
-                alle lettere b) e c) ammontano ad un totale di € <?php self::getSelect('formula186'); ?> .
+                € <?php self::getInput('var142', $values['var142'], 'orange'); ?>, gli importi di cui
+                alle lettere b) e c) ammontano ad un totale di € <?php self::getSelect('formula186',$values['formula186']); ?> .
                 <br>
-                <?php self::getTextArea('area35', $infos[143]['valore'], 'red'); ?>
+                <?php self::getTextArea('area35', $values['area35'], 'red'); ?>
                 <br>
-                <?php self::getTextArea('area36', $infos[144]['valore'], 'red'); ?>
+                <?php self::getTextArea('area36', $values['area36'], 'red'); ?>
                 <br>
                 <h6>Sezione VI - Attestazione motivata, dal punto di vista tecnico-finanziario, del rispetto di vincoli
                     di
@@ -2343,8 +2359,8 @@ class RelazioneIllustrativaDocument
                 continuativo con risorse stabili e consolidate.
                 <br>
                 Come evidenziato dalle precedenti sezioni, le indennità fisse di carattere certo e continuativo (PEO,
-                Indennità di comparto) pari a € <?php self::getSelect('formula186'); ?> sono completamente finanziate
-                dalle risorse stabili pari ad € <?php self::getSelect('formula187'); ?>.
+                Indennità di comparto) pari a € <?php self::getSelect('formula186',$values['formula186']); ?> sono completamente finanziate
+                dalle risorse stabili pari ad € <?php self::getSelect('formula187',$values['formula187']); ?>.
                 b) Il rispetto del principio di attribuzione selettiva degli incentivi economici.
                 Le previsioni sono coerenti con le disposizioni in materia di meritocrazia e premialità in quanto viene
                 applicato il Sistema di Valutazione e Misurazione della Performance, adeguato al D.lgs 150/2009 e
@@ -2355,7 +2371,7 @@ class RelazioneIllustrativaDocument
                 al raggiungimento dei risultati previsti negli strumenti di pianificazione e gestione.
                 Sinteticamente viene riportata la modalità di ripartizione delle risorse destinate alla performance
                 <br>
-                <?php self::getTextArea('area37', $infos[145]['valore'], 'red'); ?>
+                <?php self::getTextArea('area37', $values['area37'], 'red'); ?>
                 <br>
                 c) Il rispetto del principio di selettività delle progressioni di carriera.
                 In particolare, si evidenzia che
@@ -2365,7 +2381,7 @@ class RelazioneIllustrativaDocument
                 per l’anno in corso è previsto il riconoscimento di progressioni orizzontali che saranno attribuite con
                 la seguente modalità
                 <br>
-                <?php self::getTextArea('area38', $infos[146]['valore'], 'red'); ?>
+                <?php self::getTextArea('area38', $values['area38'], 'red'); ?>
                 <br>
                 <h4> Modulo III - Schema generale riassuntivo del Fondo per la contrattazione integrativa e confronto
                     con il
@@ -2381,9 +2397,9 @@ class RelazioneIllustrativaDocument
                     </tr>
                     <tr>
                         <th scope="col">COSTITUZIONE DEL FONDO</th>
-                        <th scope="col">Fondo <?php self::getInput('var147', $infos[147]['valore'], 'orange'); ?>(A)
+                        <th scope="col">Fondo <?php self::getInput('var147', $values['var147'], 'orange'); ?>(A)
                         </th>
-                        <th scope="col">Fondo <?php self::getSelect('formula188'); ?>
+                        <th scope="col">Fondo <?php self::getSelect('formula188',$values['formula188']); ?>
                             (B)
                         </th>
                         <th scope="col">Diff A-B</th>
@@ -2405,7 +2421,7 @@ class RelazioneIllustrativaDocument
                     <tr>
 
                         <td>Unico importo consolidato anno 2017 (art. 67 c. 1 Ccnl EELL 2018)</td>
-                        <td><?php self::getSelect('formula189'); ?></td>
+                        <td><?php self::getSelect('formula189',$values['formula189']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -2418,14 +2434,14 @@ class RelazioneIllustrativaDocument
                     <tr>
 
                         <td>Art. 67 c. 2 lett. c) CCNL 2018 - RIA e assegni ad personam</td>
-                        <td><?php self::getSelect('formula190'); ?></td>
+                        <td><?php self::getSelect('formula190',$values['formula190']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
                     <tr>
 
                         <td>Art. 67 c. 2 lett. d) CCNL 2018 - eventuali risorse riassorbite</td>
-                        <td><?php self::getSelect('formula191'); ?></td>
+                        <td><?php self::getSelect('formula191',$values['formula191']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -2434,21 +2450,21 @@ class RelazioneIllustrativaDocument
                         <td>Art. 67 c. 2 lett. e) CCNL 2018 - Oneri trattamento accessorio personale trasferito dal
                             2018
                         </td>
-                        <td><?php self::getSelect('formula192'); ?></td>
+                        <td><?php self::getSelect('formula192',$values['formula192']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
                     <tr>
 
                         <td>Art. 67 c. 2 lett. g) CCNL 2018 - Riduzione stabile Fondo Straordinario dal 2018</td>
-                        <td><?php self::getSelect('formula193'); ?></td>
+                        <td><?php self::getSelect('formula193',$values['formula193']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
                     <tr>
 
                         <td>Art . 67 c. 5 lett. a) CCNL 2018 - incremento dotazione organica dal 2018</td>
-                        <td><?php self::getSelect('formula194'); ?></td>
+                        <td><?php self::getSelect('formula194',$values['formula194']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -2456,7 +2472,7 @@ class RelazioneIllustrativaDocument
 
                         <td>Art. 33 comma 2 DL 34/2019 - Incremento valore medio procapite del fondo rispetto al 2018
                         </td>
-                        <td><?php self::getSelect('formula195'); ?></td>
+                        <td><?php self::getSelect('formula195',$values['formula195']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -2470,21 +2486,21 @@ class RelazioneIllustrativaDocument
                     <tr>
 
                         <td>Art. 67 c. 2 lett. b) CCNL 2018 - Rivalutazione delle PEO</td>
-                        <td><?php self::getSelect('formula196'); ?></td>
+                        <td><?php self::getSelect('formula196',$values['formula196']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
                     <tr>
 
                         <td>Art. 67 c. 2 lett. a) CCNL 2018 Incremento € 83,20 a valere dal 2019</td>
-                        <td><?php self::getSelect('formula197'); ?></td>
+                        <td><?php self::getSelect('formula197',$values['formula197']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
                     <tr>
 
                         <td> Art. 11 c.1 lett. b) D.L.135/2018 R148</td>
-                        <td><?php self::getSelect('formula198'); ?></td>
+                        <td><?php self::getSelect('formula198',$values['formula198']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -2493,21 +2509,21 @@ class RelazioneIllustrativaDocument
                         <td> Art. 67 c. 2 lett. e) CCNL 2018 – Rif Art. 1 c. 800 L. 205/2017 Armonizzazione personale
                             province transitato
                         </td>
-                        <td><?php self::getSelect('formula199'); ?></td>
+                        <td><?php self::getSelect('formula199',$values['formula199']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
                     <tr>
 
                         <td> Altre risorse stabili</td>
-                        <td><?php self::getSelect('formula200'); ?></td>
+                        <td><?php self::getSelect('formula200',$values['formula200']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
                     <tr>
 
                         <td> Totale risorse fisse aventi carattere di certezza e stabilità SOGGETTE al limite (A+a)</td>
-                        <td><?php self::getSelect('formula201'); ?></td>
+                        <td><?php self::getSelect('formula201',$values['formula201']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -2516,7 +2532,7 @@ class RelazioneIllustrativaDocument
                         <td> Totale risorse fisse con carattere di certezza
                             e stabilità
                         </td>
-                        <td><?php self::getSelect('formula202'); ?></td>
+                        <td><?php self::getSelect('formula202',$values['formula202']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -2538,7 +2554,7 @@ class RelazioneIllustrativaDocument
 
                         <td> Art. 67 c. 3 lett. a) CCNL 2018 – sponsorizzazioni
                         </td>
-                        <td><?php self::getSelect('formula203'); ?></td>
+                        <td><?php self::getSelect('formula203',$values['formula203']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -2546,7 +2562,7 @@ class RelazioneIllustrativaDocument
 
                         <td> Art. 67 c. 3 lett. c) CCNL 2018 ICI
                         </td>
-                        <td><?php self::getSelect('formula204'); ?></td>
+                        <td><?php self::getSelect('formula204',$values['formula204']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -2554,21 +2570,21 @@ class RelazioneIllustrativaDocument
 
                         <td> Art. 67 c. 3 lett. c) CCNL 2018 Legge Regionale specifica (es. SARDEGNA n. 19 del 1997)
                         </td>
-                        <td><?php self::getSelect('formula205'); ?></td>
+                        <td><?php self::getSelect('formula205',$values['formula205']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
                     <tr>
                         <td> Art. 67 c. 3 lett. f) CCNL 2018 – Compensi per Notifiche
                         </td>
-                        <td><?php self::getSelect('formula206'); ?></td>
+                        <td><?php self::getSelect('formula206',$values['formula206']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
                     <tr>
                         <td> Art. 67 c. 4 CCNL 2018 (1,2% m salari 1997)
                         </td>
-                        <td><?php self::getSelect('formula207'); ?></td>
+                        <td><?php self::getSelect('formula207',$values['formula207']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -2576,14 +2592,14 @@ class RelazioneIllustrativaDocument
                         <td> Art. 67 c. 5 lett. b) CCNL 2018 - Obiettivi dell'Ente (anche potenziamento controllo Codice
                             Strada)
                         </td>
-                        <td><?php self::getSelect('formula208'); ?></td>
+                        <td><?php self::getSelect('formula208',$values['formula208']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
                     <tr>
                         <td> INTEGR. FONDO CCIAA IN EQ. FIN. (ART.15 C.1 L. N CCNL 98-01) R116
                         </td>
-                        <td><?php self::getSelect('formula209'); ?></td>
+                        <td><?php self::getSelect('formula209',$values['formula209']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -2591,21 +2607,21 @@ class RelazioneIllustrativaDocument
                         <td> Art. 67 c. 3 lett. d) CCNL 2018 - Ria e assegni ad personam personale cessato quota rateo
                             anno di cessazione
                         </td>
-                        <td><?php self::getSelect('formula210'); ?></td>
+                        <td><?php self::getSelect('formula210',$values['formula210']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
                     <tr>
                         <td> Art. 67 c. 3 lett. g) CCNL 2018 - Compensi personale case da gioco
                         </td>
-                        <td><?php self::getSelect('formula211'); ?></td>
+                        <td><?php self::getSelect('formula211',$values['formula211']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
                     <tr>
                         <td> Art. 67 c. 3 lett. k) CCNL 2018 - Oneri trattamento accessorio personale trasferito
                         </td>
-                        <td><?php self::getSelect('formula212'); ?></td>
+                        <td><?php self::getSelect('formula212',$values['formula212']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -2613,14 +2629,14 @@ class RelazioneIllustrativaDocument
                         <td> Art. 67 c.7 e Art.15 c.7 CCNL 2018 – Quota incremento Fondo per riduzione retribuzione di
                             PO e di risultato
                         </td>
-                        <td><?php self::getSelect('formula213'); ?></td>
+                        <td><?php self::getSelect('formula213',$values['formula213']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
                     <tr>
                         <td> Altre risorse
                         </td>
-                        <td><?php self::getSelect('formula214'); ?></td>
+                        <td><?php self::getSelect('formula214',$values['formula214']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -2634,77 +2650,77 @@ class RelazioneIllustrativaDocument
                     <tr>
                         <td> Art. 67 c. 3 lett. b) CCNL 2018 (Piani di razionalizzazione)
                         </td>
-                        <td><?php self::getSelect('formula215'); ?></td>
+                        <td><?php self::getSelect('formula215',$values['formula215']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
                     <tr>
                         <td>Art. 67 c. 3 lett. c) CCNL 2018 ISTAT
                         </td>
-                        <td><?php self::getSelect('formula216'); ?></td>
+                        <td><?php self::getSelect('formula216',$values['formula216']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
                     <tr>
                         <td>Art. 67 c. 3 lett. c) CCNL 2018 AVVOCATURA
                         </td>
-                        <td><?php self::getSelect('formula217'); ?></td>
+                        <td><?php self::getSelect('formula217',$values['formula217']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
                     <tr>
                         <td>Art. 67 c. 3 lett. c) CCNL 2018 FUNZIONI TECNICHE
                         </td>
-                        <td><?php self::getSelect('formula218'); ?></td>
+                        <td><?php self::getSelect('formula218',$values['formula218']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
                     <tr>
                         <td>Art. 67 c. 3 lett. c) CCNL 2018 Compensi IMU e TARI
                         </td>
-                        <td><?php self::getSelect('formula219'); ?></td>
+                        <td><?php self::getSelect('formula219',$values['formula219']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
                     <tr>
                         <td>Art. 67 c. 3 lett. c) CCNL 2018 Somme finanziate da fondi di derivazione dell'Unione Europea
                         </td>
-                        <td><?php self::getSelect('formula220'); ?></td>
+                        <td><?php self::getSelect('formula220',$values['formula220']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
                     <tr>
                         <td>Altro - Art. 67 c. 3 lett. c) CCNL 2018
                         </td>
-                        <td><?php self::getSelect('formula221'); ?></td>
+                        <td><?php self::getSelect('formula221',$values['formula221']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
                     <tr>
                         <td>Art. 67 c. 3 lett. a) CCNL 2018 – sponsorizzazioni
                         </td>
-                        <td><?php self::getSelect('formula222'); ?></td>
+                        <td><?php self::getSelect('formula222',$values['formula222']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
                     <tr>
                         <td>Altre risorse
                         </td>
-                        <td><?php self::getSelect('formula223'); ?></td>
+                        <td><?php self::getSelect('formula223',$values['formula223']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
                     <tr>
                         <td>Art. 68 c. 1 CCNL 2018 - Risparmi Fondo Stabile Anno Precedente
                         </td>
-                        <td><?php self::getSelect('formula224'); ?></td>
+                        <td><?php self::getSelect('formula224',$values['formula224']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
                     <tr>
                         <td>Art. 67 c. 3 lett. e) CCNL 2018 - Risparmi Fondo Straordinario Anno Precedente
                         </td>
-                        <td><?php self::getSelect('formula225'); ?></td>
+                        <td><?php self::getSelect('formula225',$values['formula225']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -2712,14 +2728,14 @@ class RelazioneIllustrativaDocument
                         <td>Art. 67 c. 5 lett. b) CCNL 2018 - Quota incremento CDS maggior incasso rispetto anno
                             precedente
                         </td>
-                        <td><?php self::getSelect('formula226'); ?></td>
+                        <td><?php self::getSelect('formula226',$values['formula226']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
                     <tr>
                         <td>Totale risorse variabili
                         </td>
-                        <td><?php self::getSelect('formula227'); ?></td>
+                        <td><?php self::getSelect('formula227',$values['formula227']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -2734,35 +2750,35 @@ class RelazioneIllustrativaDocument
                         <td>Decurtazione operate nel periodo 2011/2014 ai sensi dell'art. 9 C. 2 bis L.122/2010 secondo
                             periodo
                         </td>
-                        <td><?php self::getSelect('formula228'); ?></td>
+                        <td><?php self::getSelect('formula228',$values['formula228']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
                     <tr>
                         <td>Decurtazioni operate nel 2016 per cessazioni e rispetto limite 2015
                         </td>
-                        <td><?php self::getSelect('formula229'); ?></td>
+                        <td><?php self::getSelect('formula229',$values['formula229']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
                     <tr>
                         <td>Decurtazione per rispetto limite 2016
                         </td>
-                        <td><?php self::getSelect('formula230'); ?></td>
+                        <td><?php self::getSelect('formula230',$values['formula230']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
                     <tr>
                         <td>Altre decurtazioni del fondo
                         </td>
-                        <td><?php self::getSelect('formula231'); ?></td>
+                        <td><?php self::getSelect('formula231',$values['formula231']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
                     <tr>
                         <td>Totale decurtazioni del fondo
                         </td>
-                        <td><?php self::getSelect('formula232'); ?></td>
+                        <td><?php self::getSelect('formula232',$values['formula232']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -2776,28 +2792,28 @@ class RelazioneIllustrativaDocument
                     <tr>
                         <td>Risorse fisse aventi carattere di certezza e stabilità
                         </td>
-                        <td><?php self::getSelect('formula233'); ?></td>
+                        <td><?php self::getSelect('formula233',$values['formula233']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
                     <tr>
                         <td>Risorse variabili
                         </td>
-                        <td><?php self::getSelect('formula234'); ?></td>
+                        <td><?php self::getSelect('formula234',$values['formula234']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
                     <tr>
                         <td>Altre decurtazioni
                         </td>
-                        <td><?php self::getSelect('formula235'); ?></td>
+                        <td><?php self::getSelect('formula235',$values['formula235']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
                     <tr>
                         <td>Totale risorse Fondo sottoposte a certificazione
                         </td>
-                        <td><?php self::getSelect('formula236'); ?></td>
+                        <td><?php self::getSelect('formula236',$values['formula236']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -2812,9 +2828,9 @@ class RelazioneIllustrativaDocument
                     </tr>
                     <tr>
                         <th scope="col">COSTITUZIONE DEL FONDO</th>
-                        <th scope="col">Fondo <?php self::getInput('var148', $infos[148]['valore'], 'orange'); ?>(A)
+                        <th scope="col">Fondo <?php self::getInput('var148', $values['var148'], 'orange'); ?>(A)
                         </th>
-                        <th scope="col">Fondo <?php self::getSelect('formula237'); ?>
+                        <th scope="col">Fondo <?php self::getSelect('formula237',$values['formula237']); ?>
                             (B)
                         </th>
                         <th scope="col">Diff A-B</th>
@@ -2830,7 +2846,7 @@ class RelazioneIllustrativaDocument
                     <tr>
 
                         <td>Inquadramento ex Led</td>
-                        <td><?php self::getSelect('formula238'); ?></td>
+                        <td><?php self::getSelect('formula238',$values['formula238']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -2838,14 +2854,14 @@ class RelazioneIllustrativaDocument
                     <tr>
 
                         <td>Progressioni economiche STORICHE</td>
-                        <td><?php self::getSelect('formula239'); ?></td>
+                        <td><?php self::getSelect('formula239',$values['formula239']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
                     <tr>
 
                         <td>Indennità di comparto art.33 ccnl 22.01.04, quota a carico fondo</td>
-                        <td><?php self::getSelect('formula240'); ?></td>
+                        <td><?php self::getSelect('formula240',$values['formula240']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -2853,21 +2869,21 @@ class RelazioneIllustrativaDocument
 
                         <td>Indennità educatori asilo nido
                         </td>
-                        <td><?php self::getSelect('formula241'); ?></td>
+                        <td><?php self::getSelect('formula241',$values['formula241']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
                     <tr>
 
                         <td>ALTRI UTILIZZI</td>
-                        <td><?php self::getSelect('formula242'); ?></td>
+                        <td><?php self::getSelect('formula242',$values['formula242']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
                     <tr>
 
                         <td>Totale destinazioni non regolate in sede di contrattazione integrativa</td>
-                        <td><?php self::getSelect('formula243'); ?></td>
+                        <td><?php self::getSelect('formula243',$values['formula243']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -2882,14 +2898,14 @@ class RelazioneIllustrativaDocument
                     <tr>
 
                         <td>Progressioni economiche specificatamente contratte nel CCDI dell'anno</td>
-                        <td><?php self::getSelect('formula244'); ?></td>
+                        <td><?php self::getSelect('formula244',$values['formula244']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
                     <tr>
 
                         <td>Indennità di turno</td>
-                        <td><?php self::getSelect('formula245'); ?></td>
+                        <td><?php self::getSelect('formula245',$values['formula245']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -2898,7 +2914,7 @@ class RelazioneIllustrativaDocument
                         <td> Indennità condizioni di lavoro Art. 70 bis CCNL 2018 (Maneggio valori, attività disagiate e
                             esposte a rischi)
                         </td>
-                        <td><?php self::getSelect('formula246'); ?></td>
+                        <td><?php self::getSelect('formula246',$values['formula246']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -2906,7 +2922,7 @@ class RelazioneIllustrativaDocument
 
                         <td> Reperibilità
                         </td>
-                        <td><?php self::getSelect('formula247'); ?></td>
+                        <td><?php self::getSelect('formula247',$values['formula247']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -2914,7 +2930,7 @@ class RelazioneIllustrativaDocument
 
                         <td>Indennità Specifiche Responsabilità art. 70 quinquies c. 1 CCNL 2018 (ex art. 17 lett. f)
                         </td>
-                        <td><?php self::getSelect('formula248'); ?></td>
+                        <td><?php self::getSelect('formula248',$values['formula248']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -2923,7 +2939,7 @@ class RelazioneIllustrativaDocument
                         <td> Indennità Specifiche Responsabilità art. 70 quinquies c. 1 CCNL 2018 (ex art. 17 lett. i)
                             R77
                         </td>
-                        <td><?php self::getSelect('formula249'); ?></td>
+                        <td><?php self::getSelect('formula249',$values['formula249']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -2931,7 +2947,7 @@ class RelazioneIllustrativaDocument
 
                         <td> Indennità particolare compenso incentivante (personale Unioni dei comuni)
                         </td>
-                        <td><?php self::getSelect('formula250'); ?></td>
+                        <td><?php self::getSelect('formula250',$values['formula250']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -2940,7 +2956,7 @@ class RelazioneIllustrativaDocument
 
                         <td> Indennità centri estivi asili nido art 31 comma 5 CCNL 14 -9- 2000 code
                         </td>
-                        <td><?php self::getSelect('formula251'); ?></td>
+                        <td><?php self::getSelect('formula251',$values['formula251']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -2949,7 +2965,7 @@ class RelazioneIllustrativaDocument
                         <td> Compenso previsto dall'art.24, comma 1 CCNL 14.9.2000, per il personale che presta attività
                             lavorativa nel giorno destinato al riposo settimanale
                         </td>
-                        <td><?php self::getSelect('formula252'); ?></td>
+                        <td><?php self::getSelect('formula252',$values['formula252']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -2957,7 +2973,7 @@ class RelazioneIllustrativaDocument
 
                         <td> Premi collegati alla performance organizzativa – art. 68 c. 2 lett. a) CCNL 2018
                         </td>
-                        <td><?php self::getSelect('formula253'); ?></td>
+                        <td><?php self::getSelect('formula253',$values['formula253']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -2965,7 +2981,7 @@ class RelazioneIllustrativaDocument
                         <td> Premi collegati alla performance individuale - art. 68 c. 2 lett. b) CCNL 2018 contrattate
                             nel CCDI dell'anno
                         </td>
-                        <td><?php self::getSelect('formula254'); ?></td>
+                        <td><?php self::getSelect('formula254',$values['formula254']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -2973,7 +2989,7 @@ class RelazioneIllustrativaDocument
                         <td> Premi collegati alla performance organizzativa - Obiettivi finanziati con risorse Art. 67
                             c. 5 lett. b) CCNL 2018
                         </td>
-                        <td><?php self::getSelect('formula255'); ?></td>
+                        <td><?php self::getSelect('formula255',$values['formula255']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -2982,7 +2998,7 @@ class RelazioneIllustrativaDocument
                             lett. b) per potenziamento dei servizi di controllo finalizzati alla sicurezza urbana e
                             stradale Art. 56 QUATER CCNL 2018
                         </td>
-                        <td><?php self::getSelect('formula256'); ?></td>
+                        <td><?php self::getSelect('formula256',$values['formula256']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -2990,28 +3006,28 @@ class RelazioneIllustrativaDocument
                         <td> Compensi 50% economie da Piani di Razionalizzazione - Art. 67 c. 3 lett. b) CCNL 2018-Art.
                             16 C. 5 L. 111/2011
                         </td>
-                        <td><?php self::getSelect('formula257'); ?></td>
+                        <td><?php self::getSelect('formula257',$values['formula257']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
                     <tr>
                         <td>Indennità di servizio esterno – art. 56 quinquies CCNL 2018 (Vigilanza)
                         </td>
-                        <td><?php self::getSelect('formula258'); ?></td>
+                        <td><?php self::getSelect('formula258',$values['formula258']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
                     <tr>
                         <td> Indennità di funzione – Art. 56 sexies CCNL 2018 (Vigilanza)
                         </td>
-                        <td><?php self::getSelect('formula259'); ?></td>
+                        <td><?php self::getSelect('formula259',$values['formula259']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
                     <tr>
                         <td> ALTRE indennità contrattate nel CCDI dell'anno trasferito
                         </td>
-                        <td><?php self::getSelect('formula260'); ?></td>
+                        <td><?php self::getSelect('formula260',$values['formula260']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -3019,7 +3035,7 @@ class RelazioneIllustrativaDocument
                         <td> Premi collegati alla performance organizzativa – Compensi per sponsorizzazioni Art. 67 c. 3
                             lett. a) CCNL 2018
                         </td>
-                        <td><?php self::getSelect('formula261'); ?></td>
+                        <td><?php self::getSelect('formula261',$values['formula261']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -3028,7 +3044,7 @@ class RelazioneIllustrativaDocument
                             FUNZIONI TECNICHE
 
                         </td>
-                        <td><?php self::getSelect('formula262'); ?></td>
+                        <td><?php self::getSelect('formula262',$values['formula262']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -3036,14 +3052,14 @@ class RelazioneIllustrativaDocument
                     <tr>
                         <td> Art. 68 c. 2 lett. g) CCNL 2018 - Compensi IMU e TARI
                         </td>
-                        <td><?php self::getSelect('formula263'); ?></td>
+                        <td><?php self::getSelect('formula263',$values['formula263']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
                     <tr>
                         <td>Art. 68 c. 2 lett. h CCNL 2018 - Compensi per notifiche
                         </td>
-                        <td><?php self::getSelect('formula264'); ?></td>
+                        <td><?php self::getSelect('formula264',$values['formula264']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -3052,7 +3068,7 @@ class RelazioneIllustrativaDocument
                             RIF – ISTAT
 
                         </td>
-                        <td><?php self::getSelect('formula265'); ?></td>
+                        <td><?php self::getSelect('formula265',$values['formula265']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -3061,7 +3077,7 @@ class RelazioneIllustrativaDocument
                             RIF - ICI
 
                         </td>
-                        <td><?php self::getSelect('formula266'); ?></td>
+                        <td><?php self::getSelect('formula266',$values['formula266']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -3070,7 +3086,7 @@ class RelazioneIllustrativaDocument
                             RIF - avvocatura
 
                         </td>
-                        <td><?php self::getSelect('formula267'); ?></td>
+                        <td><?php self::getSelect('formula267',$values['formula267']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -3079,7 +3095,7 @@ class RelazioneIllustrativaDocument
                             RIF - Diritto soggiorno Unione Europea D.lgs 30/2007
 
                         </td>
-                        <td><?php self::getSelect('formula268'); ?></td>
+                        <td><?php self::getSelect('formula268',$values['formula268']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -3088,7 +3104,7 @@ class RelazioneIllustrativaDocument
                             Legge Regionale specifica
 
                         </td>
-                        <td><?php self::getSelect('formula269'); ?></td>
+                        <td><?php self::getSelect('formula269',$values['formula269']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -3097,21 +3113,21 @@ class RelazioneIllustrativaDocument
                             RIF - Legge o ALTRO
 
                         </td>
-                        <td><?php self::getSelect('formula270'); ?></td>
+                        <td><?php self::getSelect('formula270',$values['formula270']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
                     <tr>
                         <td>Quota recupero somme (Art. 4 DL 16/2014 Salva Roma Ter)
                         </td>
-                        <td><?php self::getSelect('formula271'); ?></td>
+                        <td><?php self::getSelect('formula271',$values['formula271']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
                     <tr>
                         <td>Totale destinazioni regolate in sede di contrattazione integrativa
                         </td>
-                        <td><?php self::getSelect('formula272'); ?></td>
+                        <td><?php self::getSelect('formula272',$values['formula272']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -3125,14 +3141,14 @@ class RelazioneIllustrativaDocument
                     <tr>
                         <td>Risorse ancora da contrattare
                         </td>
-                        <td><?php self::getSelect('formula273'); ?></td>
+                        <td><?php self::getSelect('formula273',$values['formula273']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
                     <tr>
                         <td>Totale (eventuali) destinazioni ancora da regolare
                         </td>
-                        <td><?php self::getSelect('formula274'); ?></td>
+                        <td><?php self::getSelect('formula274',$values['formula274']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -3146,7 +3162,7 @@ class RelazioneIllustrativaDocument
                     <tr>
                         <td>Destinazioni non regolate in sede di contrattazione integrativa
                         </td>
-                        <td><?php self::getSelect('formula275'); ?></td>
+                        <td><?php self::getSelect('formula275',$values['formula275']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -3154,21 +3170,21 @@ class RelazioneIllustrativaDocument
                     <tr>
                         <td>Destinazioni regolate in sede di contrattazione integrativa
                         </td>
-                        <td><?php self::getSelect('formula276'); ?></td>
+                        <td><?php self::getSelect('formula276',$values['formula276']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
                     <tr>
                         <td>(eventuali) destinazioni ancora da regolare
                         </td>
-                        <td><?php self::getSelect('formula277'); ?></td>
+                        <td><?php self::getSelect('formula277',$values['formula277']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
                     <tr>
                         <td>Totale destinazioni Fondo sottoposte a certificazione
                         </td>
-                        <td><?php self::getSelect('formula278'); ?></td>
+                        <td><?php self::getSelect('formula278',$values['formula278']); ?></td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -3187,7 +3203,7 @@ class RelazioneIllustrativaDocument
                 <br>
                 a) Rispetto dei vincoli di bilancio: l’ammontare delle risorse per le quali si contratta la destinazione
                 trovano copertura negli stanziamenti del bilancio
-                anno <?php self::getInput('var149', $infos[149]['valore'], 'orange'); ?>;
+                anno <?php self::getInput('var149', $values['var149'], 'orange'); ?>;
                 <br>
 
                 b) Rispetto dei vincoli derivanti dalla legge e dal contratto nazionale Le fonti di alimentazione del
@@ -3197,27 +3213,27 @@ class RelazioneIllustrativaDocument
                 <br>
                 c) Imputazione nel Bilancio: La destinazione del fondo disciplinata dall’ipotesi di accordo in oggetto
                 trova finanziamento nel bilancio di
-                previsione <?php self::getInput('var150', $infos[150]['valore'], 'orange'); ?> come segue:
+                previsione <?php self::getInput('var150', $values['var150'], 'orange'); ?> come segue:
                 <br>
                  le voci di utilizzo fisse (Indennità di comparto e progressioni orizzontali già in atto) saranno
                 imputate ai capitoli/interventi di spesa previsti in bilancio per ciascun dipendente;
                 <br>
                  la restante parte di utilizzo oggetto di contrattazione (fondo generale e indennità individuali) sarà
-                imputata all’intervento <?php self::getInput('var151', $infos[151]['valore'], 'orange'); ?> del
-                bilancio <?php self::getInput('var152', $infos[152]['valore'], 'orange'); ?> gestione competenza.
+                imputata all’intervento <?php self::getInput('var151', $values['var151'], 'orange'); ?> del
+                bilancio <?php self::getInput('var152', $values['var152'], 'orange'); ?> gestione competenza.
                 <br>
                  le voci relative agli incentivi di cui all’art. 113 del D. Lgs 50/2016 saranno iscritte negli
                 stanziamenti dei diversi interventi a cui si riferiscono;
                 <br>
                 Si attesta che la spesa del personale per l'anno 2008 era pari ad
-                € <?php self::getInput('var153', $infos[153]['valore'], 'orange'); ?>
+                € <?php self::getInput('var153', $values['var153'], 'orange'); ?>
                 <br>
                 Si attesta che la spesa del personale per la media del triennio 2011-2013 era pari ad
-                € <?php self::getInput('var154', $infos[154]['valore'], 'orange'); ?>
+                € <?php self::getInput('var154',$values['var154'], 'orange'); ?>
                 <br>
                 Si attesta che la spesa del personale per
-                l'anno <?php self::getInput('var155', $infos[155]['valore'], 'orange'); ?> è pari ad
-                € <?php self::getInput('var156', $infos[156]['valore'], 'orange'); ?>
+                l'anno <?php self::getInput('var155', $values['var155'], 'orange'); ?> è pari ad
+                € <?php self::getInput('var156', $values['var156'], 'orange'); ?>
                 <br>
                 Si attesta, pertanto, che sono stati rispettati i limiti dei parametri di virtuosità fissati per la
                 spesa di personale dalle attuali norme vigenti.
@@ -3225,14 +3241,14 @@ class RelazioneIllustrativaDocument
                 Sezione II -Esposizione finalizzata alla verifica a consuntivo che il limite di spesa del Fondo
                 dell'anno precedente risulta rispettato
                 <br>
-                La costituzione del fondo per l'anno <?php self::getInput('var157', $infos[157]['valore'], 'orange'); ?>
+                La costituzione del fondo per l'anno <?php self::getInput('var157', $values['var157'], 'orange'); ?>
                 , così come previsto dal D.Lgs. 75/2017 non risulta superare
                 l'importo determinato per l'anno 2016.
                 <br>
                 Si precisa, inoltre, che il fondo dell'anno precedente risultava pari a
-                € <?php self::getInput('var158', $infos[158]['valore'], 'orange'); ?> mentre per
-                l'anno <?php self::getInput('var159', $infos[159]['valore'], 'orange'); ?>
-                è pari ad € <?php self::getSelect('formula279'); ?>.
+                € <?php self::getInput('var158', $values['var158'], 'orange'); ?> mentre per
+                l'anno <?php self::getInput('var159',$values['var159'], 'orange'); ?>
+                è pari ad € <?php self::getSelect('formula279',$values['formula279']); ?>.
                 <br>
                 In seguito all’introduzione delle disposizioni dell’art. 33 comma 2, del D.L.34/2019, convertito in
                 Legge 58/2019 (c.d. Decreto “Crescita”), il tetto al salario accessorio, così come introdotto
@@ -3241,7 +3257,7 @@ class RelazioneIllustrativaDocument
                 Unificata Stato Regioni del 11.12.2019, prevede che il limite del salario accessorio, a partire dal 20
                 aprile 2020, debba essere adeguato in aumento rispetto al valore medio procapite del 2018 in caso di
                 incremento del numero di dipendenti presenti
-                nel <?php self::getInput('var160', $infos[160]['valore'], 'orange'); ?>, rispetto ai presenti al
+                nel <?php self::getInput('var160', $values['var160'], 'orange'); ?>, rispetto ai presenti al
                 31.12.2018, al fine di
                 garantire l’invarianza della quota media procapite rispetto al 2018. Tale incremento va calcolato in
                 base alle modalità fornite dalla Ragioneria dello Stato da ultimo con nota Prot. 12454 del 15.1.2021.
@@ -3249,25 +3265,25 @@ class RelazioneIllustrativaDocument
                 Si precisa che in questo Ente:
                 <br>
                 • il numero di dipendenti in servizio
-                nel <?php self::getInput('var161', $infos[161]['valore'], 'orange'); ?> calcolato in base alle modalità
+                nel <?php self::getInput('var161',$values['var161'], 'orange'); ?> calcolato in base alle modalità
                 fornite dalla Ragioneria
                 dello Stato da ultimo con nota Prot. 12454 del 15.1.2021, pari
-                a <?php self::getSelect('formula280'); ?> è inferiore o uguale al numero dei
-                dipendenti in servizio al 31.12.2018 pari a <?php self::getSelect('formula281'); ?>, pertanto, in
+                a <?php self::getSelect('formula280',$values['formula280']); ?> è inferiore o uguale al numero dei
+                dipendenti in servizio al 31.12.2018 pari a <?php self::getSelect('formula281',$values['formula281']); ?>, pertanto, in
                 attuazione dell’art. 33 c. 2 D.L. 34/2019
                 convertito nella L. 58/2019, il fondo e il limite di cui all’art. 23 c.2 D.Lgs. 75/2017 non deve essere
                 adeguato in aumento al fine di garantire il valore medio pro-capite riferito al 2018
                 <br>
                 • il numero di dipendenti in servizio
-                nel <?php self::getInput('var162', $infos[162]['valore'], 'orange'); ?> calcolato in base alle modalità
+                nel <?php self::getInput('var162', $values['var162'], 'orange'); ?> calcolato in base alle modalità
                 fornite dalla Ragioneria
                 dello Stato da ultimo con nota Prot. 12454 del 15.1.2021, pari
-                a <?php self::getSelect('formula282'); ?> è superiore al numero dei
-                dipendenti in servizio al 31.12.2018 pari a <?php self::getSelect('formula283'); ?>, pertanto, in
+                a <?php self::getSelect('formula282',$values['formula282']); ?> è superiore al numero dei
+                dipendenti in servizio al 31.12.2018 pari a <?php self::getSelect('formula283',$values['formula283']); ?>, pertanto, in
                 attuazione dell’art. 33 c. 2 D.L. 34/2019
                 convertito nella L. 58/2019, il fondo risorse decentrate e il relativo limite di cui all’art. 23 c. 2
                 D.Lgs. 75/2017 deve essere adeguato in aumento al fine di garantire il valore medio pro-capite riferito
-                al 2018, per un importo pari ad € <?php self::getSelect('formula284'); ?>;
+                al 2018, per un importo pari ad € <?php self::getSelect('formula284',$values['formula284']); ?>;
                 <br>
                 • l’Ente si impegna a modificare la costituzione del fondo nel caso di incremento o diminuzione del
                 numero di dipendenti in servizio rispetto al 31.12.2018 e comunque a rideterminare (anche in
@@ -3296,79 +3312,79 @@ class RelazioneIllustrativaDocument
                     <tr>
                         <th scope="col"></th>
                         <th scope="col">Anno 2016</th>
-                        <th scope="col">Anno <?php self::getInput('var163', $infos[163]['valore'], 'orange'); ?></th>
+                        <th scope="col">Anno <?php self::getInput('var163', $values['var163'], 'orange'); ?></th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
                         <td>Fondo complessivo risorse decentrate soggette al limite</td>
-                        <td><?php self::getSelect('formula285'); ?></td>
-                        <td><?php self::getSelect('formula286'); ?></td>
+                        <td><?php self::getSelect('formula285',$values['formula285']); ?></td>
+                        <td><?php self::getSelect('formula286',$values['formula286']); ?></td>
                     </tr>
                     <tr>
                         <td>Indennità di Posizione e risultato PO</td>
-                        <td><?php self::getSelect('formula287'); ?></td>
-                        <td><?php self::getSelect('formula288'); ?></td>
+                        <td><?php self::getSelect('formula287',$values['formula287']); ?></td>
+                        <td><?php self::getSelect('formula288',$values['formula288']); ?></td>
                     </tr>
                     <tr>
                         <td>Indennità di Posizione e risultato PO anno corrente COMPRESO Quota integrazione PO
                             finanziate dalla rinuncia delle capacità assunzionali (Incremento Art. 11-bis comma 2 D.L.
                             135/2018) e Quota art. 33 del DL 34/2019
                         </td>
-                        <td><?php self::getSelect('formula289'); ?></td>
-                        <td><?php self::getSelect('formula290'); ?></td>
+                        <td><?php self::getSelect('formula289',$values['formula289']); ?></td>
+                        <td><?php self::getSelect('formula290',$values['formula290']); ?></td>
                     </tr>
                     <tr>
                         <td>Fondo Straordinario 2016</td>
-                        <td><?php self::getSelect('formula291'); ?></td>
-                        <td><?php self::getSelect('formula292'); ?></td>
+                        <td><?php self::getSelect('formula291',$values['formula291']); ?></td>
+                        <td><?php self::getSelect('formula292',$values['formula292']); ?></td>
                     </tr>
                     <tr>
                         <td>Indennità di Posizione e risultato DIRIGENTI</td>
-                        <td><?php self::getSelect('formula293'); ?></td>
-                        <td><?php self::getSelect('formula294'); ?></td>
+                        <td><?php self::getSelect('formula293',$values['formula293']); ?></td>
+                        <td><?php self::getSelect('formula294',$values['formula294']); ?></td>
                     </tr>
                     <tr>
                         <td>Quota di incremento valore medio procapite del trattamento accessorio rispetto al 2018 -
                             Art. 33 c. 2 DL 34/2019- aumento virtuale limite 2016
                         </td>
-                        <td><?php self::getSelect('formula295'); ?></td>
-                        <td><?php self::getSelect('formula296'); ?></td>
+                        <td><?php self::getSelect('formula295',$values['formula295']); ?></td>
+                        <td><?php self::getSelect('formula296',$values['formula296']); ?></td>
                     </tr>
                     <tr>
                         <td>Quota di incremento valore medio procapite del trattamento accessorio rispetto al 2018 -
                             Art. 33 c. 2 DL 34/2019- aumento virtuale limite 2016
                         </td>
-                        <td><?php self::getSelect('formula297'); ?></td>
-                        <td><?php self::getSelect('formula298'); ?></td>
+                        <td><?php self::getSelect('formula297',$values['formula297']); ?></td>
+                        <td><?php self::getSelect('formula298',$values['formula298']); ?></td>
                     </tr>
                     <tr>
                         <td>TOTALE TRATTAMENTO ACCESSORIO SOGGETTO AL LIMITE ART. 23 C. 2 D.LGS 75/2017 COMPRESO Quota
                             integrazione PO finanziate dalla rinuncia delle capacità assunzionali (Incremento Art.
                             11-bis comma 2 D.L. 135/2018) e Quota art. 33 del DL 34/2019
                         </td>
-                        <td><?php self::getSelect('formula299'); ?></td>
-                        <td><?php self::getSelect('formula300'); ?></td>
+                        <td><?php self::getSelect('formula299',$values['formula299']); ?></td>
+                        <td><?php self::getSelect('formula300',$values['formula300']); ?></td>
                     </tr>
                     <tr>
                         <td>Quota integrazione PO finanziate dalla rinuncia delle capacità assunzionali (Incremento Art.
                             11-bis comma 2 D.L. 135/2018)
                         </td>
-                        <td><?php self::getSelect('formula301'); ?></td>
-                        <td><?php self::getSelect('formula302'); ?></td>
+                        <td><?php self::getSelect('formula301',$values['formula301']); ?></td>
+                        <td><?php self::getSelect('formula302',$values['formula302']); ?></td>
                     </tr>
                     <tr>
                         <td>RISPETTO DEL LIMITE TRATTAMENTO ACCESSORIO</td>
-                        <td><?php self::getSelect('formula303'); ?></td>
-                        <td><?php self::getSelect('formula304'); ?></td>
+                        <td><?php self::getSelect('formula303',$values['formula303']); ?></td>
+                        <td><?php self::getSelect('formula304',$values['formula304']); ?></td>
                     </tr>
                     <tr>
                         <td>RISPETTO DEL LIMITE TRATTAMENTO ACCESSORIO COMPRESO Quota integrazione PO finanziate dalla
                             rinuncia delle capacità assunzionali (Incremento Art. 11-bis comma 2 D.L. 135/2018) e Quota
                             art. 33 del DL 34/2019
                         </td>
-                        <td><?php self::getSelect('formula305'); ?></td>
-                        <td><?php self::getSelect('formula306'); ?></td>
+                        <td><?php self::getSelect('formula305',$values['formula305']); ?></td>
+                        <td><?php self::getSelect('formula306',$values['formula306']); ?></td>
                     </tr>
                     </tbody>
                 </table>
@@ -3377,9 +3393,9 @@ class RelazioneIllustrativaDocument
                 che a consuntivo risulta rispettato il limite di spesa del Fondo, pertanto l’ente risulta nella presente
                 condizione:
                 <br>
-                <?php self::getTextArea('area39', $infos[164]['valore'], 'red'); ?>
+                <?php self::getTextArea('area39', $values['area39'], 'red'); ?>
                 <br>
-                <?php self::getTextArea('area40', $infos[165]['valore'], 'red'); ?>
+                <?php self::getTextArea('area40',$values['area40'], 'red'); ?>
                 <br>
                 <h6>Sezione III – Verifica delle disponibilità finanziarie dell'Amministrazione ai fini della copertura
                     delle diverse voci di destinazione del Fondo</h6>
@@ -3387,14 +3403,14 @@ class RelazioneIllustrativaDocument
                 Si rappresenta che, in ossequio ai disposti di cui all'art. 48, comma 4, ultimo periodo, del D.Lgs.
                 n.165/2001, l'Ente ha autorizzato, con distinta indicazione dei mezzi di copertura, le spese relative al
                 contratto collettivo decentrato integrativo – parte economica
-                anno <?php self::getInput('var166', $infos[166]['valore'], 'orange'); ?>, attraverso le procedure di
+                anno <?php self::getInput('var166', $values['var166'], 'orange'); ?>, attraverso le procedure di
                 approvazione del bilancio di previsione
-                dell'esercizio <?php self::getInput('var167', $infos[167]['valore'], 'orange'); ?>. La spesa derivante
+                dell'esercizio <?php self::getInput('var167',$values['var167'], 'orange'); ?>. La spesa derivante
                 dalla contrattazione
                 decentrata trova copertura sulla disponibilità delle pertinenti risorse previste nel bilancio di
-                previsione <?php self::getInput('var168', $infos[168]['valore'], 'orange'); ?>, approvato con
-                deliberazione consiliare n. <?php self::getInput('var169', $infos[169]['valore'], 'orange'); ?> del
-                <?php self::getInput('var170', $infos[170]['valore'], 'orange'); ?> esecutiva.
+                previsione <?php self::getInput('var168', $values['var168'], 'orange'); ?>, approvato con
+                deliberazione consiliare n. <?php self::getInput('var169', $values['var169'], 'orange'); ?> del
+                <?php self::getInput('var170', $values['var170'], 'orange'); ?> esecutiva.
                 <br>
                 L’Ente non versa in condizioni deficitarie.
                 <br>
@@ -3402,11 +3418,11 @@ class RelazioneIllustrativaDocument
                 contenimento della spesa del personale.
                 <br>
                 Il totale del fondo come da determinazione
-                n. <?php self::getInput('var171', $infos[171]['valore'], 'orange'); ?> del
-                <?php self::getInput('var172', $infos[172]['valore'], 'orange'); ?> è impegnato al
-                capitolo <?php self::getInput('var173', $infos[173]['valore'], 'orange'); ?> del
-                bilancio <?php self::getInput('var174', $infos[174]['valore'], 'orange'); ?> e precisamente agli
-                impegni n. <?php self::getInput('var175', $infos[175]['valore'], 'orange'); ?>.
+                n. <?php self::getInput('var171', $values['var171'], 'orange'); ?> del
+                <?php self::getInput('var172', $values['var172'], 'orange'); ?> è impegnato al
+                capitolo <?php self::getInput('var173', $values['var173'], 'orange'); ?> del
+                bilancio <?php self::getInput('var174', $values['var174'], 'orange'); ?> e precisamente agli
+                impegni n. <?php self::getInput('var175', $values['var175'], 'orange'); ?>.
                 <br>
                 Con riferimento al fondo per il lavoro straordinario di cui all’art. 14 comma 1 CCNL 1/4/1999, si dà
                 atto che la somma stanziata rimane fissata, come dall’anno 2000, nell’importo di
@@ -3414,20 +3430,21 @@ class RelazioneIllustrativaDocument
                 <br>
                 Specificare inoltre:
                 <br>
-                - <?php self::getTextArea('area41', $infos[176]['valore'], 'red'); ?>
+                - <?php self::getTextArea('area41',  $values['area41'], 'red'); ?>
 
-                - <?php self::getTextArea('area42', $infos[177]['valore'], 'red'); ?>
+                - <?php self::getTextArea('area42',  $values['area42'], 'red'); ?>
                 <br>
-                - <?php self::getTextArea('area43', $infos[178]['valore'], 'red'); ?>
+                - <?php self::getTextArea('area43',  $values['area43'], 'red'); ?>
                 <br>
-                - <?php self::getTextArea('area44', $infos[179]['valore'], 'red'); ?>
+                - <?php self::getTextArea('area44',  $values['area44'], 'red'); ?>
 
                 <br>
-                Il Presidente della Delegazione trattante di parte pubblica <?php self::getInput('var180', $infos[180]['valore'], 'black'); ?>
+                Il Presidente della Delegazione trattante di parte
+                pubblica <?php self::getInput('var180', $values['var180'], 'black'); ?>
                 <br>
                 Per la parte relativa allo schema di relazione tecnico – finanziaria
                 <br>
-                Il <?php self::getInput('var181', $infos[181]['valore'], 'orange'); ?> <?php self::getInput('var182', $infos[182]['valore'], 'orange'); ?>
+                Il <?php self::getInput('var181', $values['var181'], 'orange'); ?> <?php self::getInput('var182', $values['var182'], 'orange'); ?>
 
         </div>
         <div class="content-footer">
