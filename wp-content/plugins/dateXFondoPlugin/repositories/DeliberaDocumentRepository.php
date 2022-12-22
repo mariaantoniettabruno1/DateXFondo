@@ -6,7 +6,6 @@ class DeliberaDocumentRepository
 {
     public static function getAllValues($document_name, $editor_name)
     {
-        $values = array();
         $conn = new Connection();
         $mysqli = $conn->connect();
         $sql = "SELECT chiave, valore,document_name, editor_name, year, editable FROM DATE_documenti_odt WHERE document_name=? AND editor_name=?";
@@ -16,7 +15,6 @@ class DeliberaDocumentRepository
         $res = $stmt->get_result();
         $rows = $res->fetch_all(MYSQLI_ASSOC);
         mysqli_close($mysqli);
-
         return $rows;
     }
 
