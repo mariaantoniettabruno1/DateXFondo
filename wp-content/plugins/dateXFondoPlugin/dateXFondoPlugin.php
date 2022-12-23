@@ -186,7 +186,8 @@ function delibera_template()
 }
 function determina_costituzione_template()
 {
-    \dateXFondoPlugin\DeterminaCostituzioneDocument::render();
+    $document = new \dateXFondoPlugin\DeterminaCostituzioneDocument();
+   $document->render();
 
 }
 function relazione_illustrativa_template()

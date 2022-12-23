@@ -5,10 +5,11 @@ use dateXFondoPlugin\DeliberaDocumentRepository;
 
 class  DeliberaDocumentHeader
 {
-    public static function render_scripts(){
+    public static function render_scripts()
+    {
         ?>
         <script>
-            $(document).ready(function (){
+            $(document).ready(function () {
                 $('#inputDocumentName').val(`${data[0].document_name}`);
                 $('#inputEditorName').val(`${data[0].editor_name}`);
                 $('#inputAnno').val(`${data[0].anno}`);
@@ -23,7 +24,7 @@ class  DeliberaDocumentHeader
                     $('#inputEditorName').attr('readonly', false);
                     $('#inputAnno').attr('readonly', false);
                 });
-                $("#deleteEditButton").click(function (){
+                $("#deleteEditButton").click(function () {
                     $(this).hide();
                     $('#saveInputButton').hide();
                     $('#editInputButton').show();
@@ -52,14 +53,14 @@ class  DeliberaDocumentHeader
                             success: function (response) {
                                 console.log(response);
                                 $(".alert-header-success").show();
-                                $(".alert-header-success").fadeTo(2000, 500).slideUp(500, function(){
+                                $(".alert-header-success").fadeTo(2000, 500).slideUp(500, function () {
                                     $(".alert-header-success").slideUp(500);
                                 });
                             },
                             error: function (response) {
                                 console.error(response);
                                 $(".alert-header-wrong").show();
-                                $(".alert-header-wrong").fadeTo(2000, 500).slideUp(500, function(){
+                                $(".alert-header-wrong").fadeTo(2000, 500).slideUp(500, function () {
                                     $(".alert-header-wrong").slideUp(500);
                                 });
                             }
@@ -74,39 +75,50 @@ class  DeliberaDocumentHeader
         </script>
         <?php
     }
-    public static function render(){
+
+    public static function render()
+    {
         $data = new DeliberaDocumentRepository();
-        $infos = $data->getAllValues($_GET['document_name'],$_GET['editor_name']);
+        $infos = $data->getAllValues($_GET['document_name'], $_GET['editor_name']);
 
         ?>
-        <div class="col-2">
-            <input type="text" placeholder="Titolo documento" id="inputDocumentName" readonly>
+        <div class="row">
+            <div class="col-4">
+                <input type="text" placeholder="Titolo documento" id="inputDocumentName" readonly>
 
-        </div>
-        <div class="col-2">
-            <input type="text" placeholder="Redattore del documento" id="inputEditorName" readonly>
+            </div>
+            <div class="col-3">
+                <input type="text" placeholder="Redattore del documento" id="inputEditorName" readonly>
 
-        </div>  <div class="col-2">
-            <input type="text" placeholder="Anno" id="inputAnno" readonly>
-        </div>
-        <?php
-        if ($infos[0]['editable'] == '1') {
-            ?>
-            <button class="btn btn-link" id="editInputButton"><i class="fa-solid fa-pen"></i></button>
-            <button class="btn btn-link" id="saveInputButton" style="display: none"><i
-                    class="fa-solid fa-floppy-disk"></i></button>
-            <button class="btn btn-link" id="deleteEditButton" style="display: none"> Annulla </button>
+            </div>
+            <div class="col-2">
+                <input type="text" placeholder="Anno" id="inputAnno" readonly>
+            </div>
+
 
             <?php
-        } else {
+            if ($infos[0]['editable'] == '1') {
+                ?>
+                <div class="col-3">
+                    <button class="btn btn-link" id="editInputButton"><i class="fa-solid fa-pen"></i></button>
+                    <button class="btn btn-link" id="saveInputButton" style="display: none"><i
+                                class="fa-solid fa-floppy-disk"></i></button>
+                    <button class="btn btn-link" id="deleteEditButton" style="display: none"> Annulla</button>
+                </div>
+                <?php
+            } else {
+                ?>
+                <div class="col-3">
+                    <button class="btn btn-link" id="editInputButton" disabled><i class="fa-solid fa-pen"></i></button>
+                    <button class="btn btn-link" id="saveInputButton" style="display: none"><i
+                                class="fa-solid fa-floppy-disk"></i></button>
+                    <button class="btn btn-link" id="deleteEditButton" style="display: none"> Annulla</button>
+                </div>
+                <?php
+            }
             ?>
-            <button class="btn btn-link" id="editInputButton" disabled><i class="fa-solid fa-pen"></i></button>
-            <button class="btn btn-link" id="saveInputButton" style="display: none"><i
-                    class="fa-solid fa-floppy-disk"></i></button>
-            <button class="btn btn-link" id="deleteEditButton" style="display: none"> Annulla </button>
-            <?php
-        }
-        ?>
+
+        </div>
         <div class="alert alert-success alert-header-success" role="alert"
              style="position:fixed; top: <?= is_admin_bar_showing() ? 47 : 15 ?>px; right: 15px; display:none">
             Modifica eseguita correttamente!
