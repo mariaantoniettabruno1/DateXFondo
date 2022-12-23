@@ -84,13 +84,13 @@ class DocumentRepository
         return $rows;
     }
 
-    public static function getIdsArticoli($template_name)
+    public static function getIdsArticoli($editor_name)
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
         $sql = "SELECT id_articolo FROM DATE_template_fondo WHERE id_articolo IS NOT NULL and attivo=1 and template_name=?";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("s", $template_name);
+        $stmt->bind_param("s", $editor_name);
         $res = $stmt->execute();
         if ($res = $stmt->get_result()) {
             $rows = $res->fetch_all();
@@ -100,13 +100,13 @@ class DocumentRepository
         return $rows;
     }
 
-    public static function getSezioni($template_name)
+    public static function getSezioni($editor_name)
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
         $sql = "SELECT DISTINCT sezione FROM DATE_documento_modello_fondo WHERE editor_name=?";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("s", $template_name);
+        $stmt->bind_param("s", $editor_name);
         $res = $stmt->execute();
         $res = $stmt->get_result();
         $rows = $res->fetch_all(MYSQLI_ASSOC);

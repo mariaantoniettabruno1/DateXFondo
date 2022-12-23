@@ -123,9 +123,9 @@ public static function render_scripts(){
     public static function render()
     {
         $data = new DocumentRepository();
-        $results_articoli = $data->getArticoli('Emanuele Lesca');
-        $formulas = $data->getFormulas('Emanuele Lesca');
-        $ids_articolo = $data->getIdsArticoli('Emanuele Lesca');
+        $results_articoli = $data->getArticoli($_GET['editor_name']);
+        $formulas = $data->getFormulas($_GET['editor_name']);
+        $ids_articolo = $data->getIdsArticoli($_GET['editor_name']);
         $array = $formulas + $ids_articolo;
 
         //TODO filter per togliere i valori vuoti

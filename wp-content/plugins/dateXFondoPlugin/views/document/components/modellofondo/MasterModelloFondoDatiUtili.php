@@ -177,9 +177,9 @@ class MasterModelloFondoDatiUtili
     public static function render()
     {
         $data = new DocumentRepository();
-        $tot_sezioni = $data->getSezioniDatiUtili('Emanuele Lesca');
-        $formulas = $data->getFormulas('Emanuele Lesca');
-        $ids_articolo = $data->getIdsArticoli('Emanuele Lesca');
+        $tot_sezioni = $data->getSezioniDatiUtili($_GET['editor_name']);
+        $formulas = $data->getFormulas($_GET['editor_name']);
+        $ids_articolo = $data->getIdsArticoli($_GET['editor_name']);
         $array = $formulas + $ids_articolo;
 
         ?>

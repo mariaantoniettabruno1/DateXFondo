@@ -73,7 +73,7 @@ public static function render_scripts(){
 }
 public static function render(){
     $data = new DocumentRepository();
-    $articoli = $data->getArticoli('Emanuele Lesca');
+    $articoli = $data->getArticoli($_GET['editor_name']);
     ?>
     <div class="col-2">
         <input type="text" placeholder="Nome Documento" id="inputDocumentName" readonly>

@@ -134,10 +134,10 @@ class ModelloRegioniDestinazioneRow
     {
         $data = new \dateXFondoPlugin\RegioniDocumentRepository();
         $data_document = new DocumentRepository();
-        $formulas = $data_document->getFormulas('Emanuele Lesca');
-        $ids_articolo = $data_document->getIdsArticoli('Emanuele Lesca');
+        $formulas = $data_document->getFormulas($_GET['editor_name']);
+        $ids_articolo = $data_document->getIdsArticoli($_GET['editor_name']);
         $array = $formulas + $ids_articolo;
-        $results_articoli = $data->getDestinazioneArticoli('Emanuele Lesca');
+        $results_articoli = $data->getDestinazioneArticoli($_GET['editor_name']);
         $table_title = [];
 
         //TODO da ottimizzare

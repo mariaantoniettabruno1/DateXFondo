@@ -93,9 +93,9 @@ class MasterModelloFondoNewUtilizzoRow
     {
 
         $data = new DocumentRepository();
-        $results_articoli = $data->getArticoliUtilizzo('Emanuele Lesca');
-        $formulas = $data->getFormulas('Emanuele Lesca');
-        $ids_articolo = $data->getIdsArticoli('Emanuele Lesca');
+        $results_articoli = $data->getArticoliUtilizzo($_GET['editor_name']);
+        $formulas = $data->getFormulas($_GET['editor_name']);
+        $ids_articolo = $data->getIdsArticoli($_GET['editor_name']);
         $array = $formulas + $ids_articolo;
 
         if ($results_articoli[0]['editable'] == '1') {

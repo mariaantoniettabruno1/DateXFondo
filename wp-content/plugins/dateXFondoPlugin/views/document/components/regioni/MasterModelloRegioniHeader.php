@@ -74,7 +74,7 @@ class MasterModelloRegioniHeader
 }
     public static function render(){
         $data = new \dateXFondoPlugin\RegioniDocumentRepository();
-        $articoli = $data->getCostituzioneArticoli('Emanuele Lesca');
+        $articoli = $data->getCostituzioneArticoli($_GET['editor_name']);
         ?>
         <div class="col-2">
             <input type="text" placeholder="Redattore del documento" id="inputEditorName" readonly>

@@ -76,7 +76,7 @@ class  DeliberaDocumentHeader
     }
     public static function render(){
         $data = new DeliberaDocumentRepository();
-        $infos = $data->getAllValues('Delibera Indirizzi','Emanuele Lesca');
+        $infos = $data->getAllValues($_GET['document_name'],$_GET['editor_name']);
 
         ?>
         <div class="col-2">

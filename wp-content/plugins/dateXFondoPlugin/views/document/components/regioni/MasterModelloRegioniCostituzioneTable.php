@@ -218,9 +218,9 @@ class MasterModelloRegioniCostituzioneTable
     {
         $data = new \dateXFondoPlugin\RegioniDocumentRepository();
         $data_document = new DocumentRepository();
-        $results_articoli = $data->getCostituzioneArticoli('Emanuele Lesca');
-        $formulas = $data_document->getFormulas('Emanuele Lesca');
-        $ids_articolo = $data_document->getIdsArticoli('Emanuele Lesca');
+        $results_articoli = $data->getCostituzioneArticoli($_GET['editor_name']);
+        $formulas = $data_document->getFormulas($_GET['editor_name']);
+        $ids_articolo = $data_document->getIdsArticoli($_GET['editor_name']);
         $array = $formulas + $ids_articolo;
         $sezioni = [];
         $tot_array = [];

@@ -64,7 +64,7 @@ class AllDocumentTable
                 <th style="width: 12.5rem">Nome Documento</th>
                 <th style="width: 6.25rem">Editor</th>
                 <th style="width: 6.25rem">Anno</th>
-                <th style="width:15rem">Azioni</th>
+                <th style="width:6.25rem">Azioni</th>
             </tr>
 
             </thead>

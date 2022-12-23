@@ -12,15 +12,13 @@ class RelazioneIllustrativaDocument
     private $values = array();
 
 
-    /**
-     * @param array $formule
-     */
+
     public function __construct()
     {
         $data = new DocumentRepository();
-        $this->formule = $data->getFormulas('Emanuele Lesca') + $data->getIdsArticoli('Emanuele Lesca');
+        $this->formule = $data->getFormulas($_GET['editor_name']) + $data->getIdsArticoli( $_GET['editor_name']);
         $delibera_data = new DeliberaDocumentRepository();
-        $this->infos = $delibera_data->getAllValues('Schema di relazione illustrativa', 'Emanuele Lesca');
+        $this->infos = $delibera_data->getAllValues($_GET['document_name'],  $_GET['editor_name']);
         foreach ($this->infos as $row) {
             $this->values[$row['chiave']] = $row['valore'];
         }
@@ -121,6 +119,7 @@ class RelazioneIllustrativaDocument
 
                 $(document).ready(function () {
                     data = JSON.parse((`<?=json_encode($this->infos);?>`));
+                    console.log(data);
                     const editedInputs = {};
                     $('.editable-input >span').click(function () {
                         $(this).next().show();
@@ -148,9 +147,9 @@ class RelazioneIllustrativaDocument
                     });
 
                     $('.btn-save-edit').click(function () {
-                        let document_name = $('#inputDocumentName').val();
-                        let editor_name = $('#inputEditorName').val();
-                        let year = $('#inputYear').val();
+                        document_name = $('#inputDocumentName').val();
+                        editor_name = $('#inputEditorName').val();
+                        year = $('#inputYear').val();
 
                         const payload = {
                             editedInputs,
