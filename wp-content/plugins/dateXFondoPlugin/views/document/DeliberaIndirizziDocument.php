@@ -75,6 +75,8 @@ class DeliberaIndirizziDocument
                   crossorigin="anonymous" referrerpolicy="no-referrer"/>
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
             <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+            <link rel="stylesheet" href="<?= DateXFondoCommon::get_base_url() ?>/assets/styles/main.css">
+            <link rel="stylesheet" href="<?= DateXFondoCommon::get_base_url() ?>/assets/styles/templateheader.css">
             <script>
                 let data = {};
                 //Todo sistemare il remove per la select
@@ -164,17 +166,23 @@ class DeliberaIndirizziDocument
         <body>
         <div class="container-fluid">
             <div class="row">
-                <?php
-                \DeliberaDocumentHeader::render();
-                ?>
-            </div>
+                <div class="col-8">
+                    <?php
+                    \DeliberaDocumentHeader::render();
+                    ?>
+                </div>
+                <div class="col">
+                    <button class="btn btn-secondary btn-save-edit "> Salva modifica</button>
+                    <button class="btn btn-outline-secondary btn-export" onclick="exportHTML();">Esporta in word
+                    </button>
+                </div>
 
+            </div>
         </div>
 
-        <h2><?php self::getInput('var1', $infos[0]['valore'], 'red'); ?><?php self::getInput('var2', $infos[1]['valore'], 'orange'); ?> </h2>
-        <button class="btn btn-outline-secondary btn-save-edit" style="width:10%">Salva modifica</button>
 
         <div id="DeliberaIndirizziDocument">
+            <h2><?php self::getInput('var1', $infos[0]['valore'], 'red'); ?><?php self::getInput('var2', $infos[1]['valore'], 'orange'); ?> </h2>
             <h3>OGGETTO: PERSONALE NON DIRIGENTE. FONDO RISORSE DECENTRATE PER
                 L’ANNO <?php self::getInput('var3', $infos[2]['valore'], 'orange'); ?>. INDIRIZZI PER LA COSTITUZIONE PARTE
                 VARIABILE.
@@ -615,9 +623,7 @@ class DeliberaIndirizziDocument
             Di rendere il presente atto immediatamente eseguibile.
 
         </div>
-        <button id="btn btn-outline-secondary btn-export" onclick="exportHTML();">Export to
-            word doc
-        </button>
+       
         </body>
 
 
