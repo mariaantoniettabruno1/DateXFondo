@@ -6,8 +6,8 @@ class MasterModelloRegioniDocument
 {
 public static function render(){
     $data = new RegioniDocumentRepository();
-    $results_articoli_costituzione = $data->getCostituzioneArticoli('Emanuele Lesca');
-    $results_articoli_destinazione = $data->getDestinazioneArticoli('Emanuele Lesca');
+    $results_articoli_costituzione = $data->getCostituzioneArticoli($_GET['editor_name']);
+    $results_articoli_destinazione = $data->getDestinazioneArticoli($_GET['editor_name']);
 
 
     ?>  <!DOCTYPE html>

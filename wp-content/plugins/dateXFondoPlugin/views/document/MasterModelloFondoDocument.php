@@ -12,9 +12,9 @@ class MasterModelloFondoDocument
     public static function render()
     {
         $data = new DocumentRepository();
-        $results_articoli = $data->getArticoli('Emanuele Lesca');
-        $results_articoli_utilizzo = $data->getArticoliUtilizzo('Emanuele Lesca');
-        $results_articoli_dati_utili = $data->getArticoliDatiUtili('Emanuele Lesca');
+        $results_articoli = $data->getArticoli($_GET['editor_name']);
+        $results_articoli_utilizzo = $data->getArticoliUtilizzo($_GET['editor_name']);
+        $results_articoli_dati_utili = $data->getArticoliDatiUtili($_GET['editor_name']);
         ?>
         <!DOCTYPE html>
 

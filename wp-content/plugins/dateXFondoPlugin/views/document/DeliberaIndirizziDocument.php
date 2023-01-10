@@ -6,11 +6,25 @@ use DocumentRepository;
 
 class DeliberaIndirizziDocument
 {
+    private $infos = [];
+    private $formule = [];
+    private $values = array();
 
+    public function __construct()
+    {
+        $data = new DocumentRepository();
+        $this->formule = $data->getFormulas($_GET['editor_name']) + $data->getIdsArticoli($_GET['editor_name']);
+        $delibera_data = new DeliberaDocumentRepository();
+        $this->infos = $delibera_data->getAllValues($_GET['document_name'], $_GET['editor_name']);
+        foreach ($this->infos as $row) {
+            $this->values[$row['chiave']] = $row['valore'];
+        }
+    }
 
-    public static function getInput($key, $value, $color)
+    private function getInput($key, $default, $color)
     {
 
+        $value = isset($this->values[$key]) ? $this->values[$key] : $default;
         ?>
         <span class="editable-input" data-active="false">
             <span class="variable-span-text" style="color:<?= $color ?>"><?= $value ?></span>
@@ -21,8 +35,10 @@ class DeliberaIndirizziDocument
         <?php
     }
 
-    public static function getTextArea($key, $value, $color)
+    private function getTextArea($key, $default, $color)
     {
+        $value = isset($this->values[$key]) ? $this->values[$key] : $default;
+
         ?>
         <span class="editable-area" data-active="false">
         <span class="variable-span-area" style="color:<?= $color ?>"><?= $value ?></span>
@@ -33,18 +49,18 @@ class DeliberaIndirizziDocument
     }
 
 
-    public static function getFormula($key)
+    private function getSelect($key, $default = '')
     {
-        $data_document = new DocumentRepository();
-        $formulas = $data_document->getFormulas('Emanuele Lesca');
-        $ids_articolo = $data_document->getIdsArticoli('Emanuele Lesca');
-        $array = $formulas + $ids_articolo;
+        $value = isset($this->values[$key]) ? $this->values[$key] : $default;
+
+
         ?>
         <select class="editable-select form-control form-control-sm" data-key="<?= $key ?>">
+            <option><?= $default ?></option>
             <?php
-            foreach ($array as $val) {
+            foreach ($this->formule as $val) {
                 ?>
-                <option value="<?= $val[0] ?>"><?= $val[0] ?></option>
+                <option value="<?= $val[0] ?>" <?= $val[0] == $value ? 'selected' : '' ?> ><?= $val[0] ?></option>
                 <?php
             }
             ?>
@@ -52,10 +68,10 @@ class DeliberaIndirizziDocument
         <?php
     }
 
-    public static function render()
+
+    public  function render()
     {
-        $data = new DeliberaDocumentRepository();
-        $infos = $data->getAllValues('Delibera Indirizzi', 'Emanuele Lesca');
+
         ?>
         <!DOCTYPE html>
 
@@ -86,9 +102,11 @@ class DeliberaIndirizziDocument
                         "xmlns='http://www.w3.org/TR/REC-html40'>" +
                         "<head><meta charset='utf-8'><title>Export HTML to Word Document with JavaScript</title></head><body>";
                     var footer = "</body></html>";
-                    const bodyHTML = $("#DeliberaIndirizziDocument").clone(true);
-                    bodyHTML.find('input,textarea').remove();
+                    const bodyHTML = $("#relazioneIllustrativaDocument").clone(true);
+                    bodyHTML.remove('input');
+
                     var sourceHTML = header + bodyHTML.html() + footer;
+
                     var source = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(sourceHTML);
                     var fileDownload = document.createElement("a");
                     document.body.appendChild(fileDownload);
@@ -98,7 +116,7 @@ class DeliberaIndirizziDocument
                     document.body.removeChild(fileDownload);
                 }
                 $(document).ready(function () {
-                    data = JSON.parse((`<?=json_encode($infos);?>`));
+                    data = JSON.parse((`<?=json_encode($this->infos);?>`));
                     const editedInputs = {};
                     $('.editable-input >span').click(function () {
                         $(this).next().show();
@@ -182,28 +200,28 @@ class DeliberaIndirizziDocument
 
 
         <div id="DeliberaIndirizziDocument">
-            <h2><?php self::getInput('var1', $infos[0]['valore'], 'red'); ?><?php self::getInput('var2', $infos[1]['valore'], 'orange'); ?> </h2>
+            <h2><?php self::getInput('var1', 'var1', 'red'); ?><?php self::getInput('var2','var2', 'orange'); ?> </h2>
             <h3>OGGETTO: PERSONALE NON DIRIGENTE. FONDO RISORSE DECENTRATE PER
-                L’ANNO <?php self::getInput('var3', $infos[2]['valore'], 'orange'); ?>. INDIRIZZI PER LA COSTITUZIONE PARTE
+                L’ANNO <?php self::getInput('var3', 'var3', 'orange'); ?>. INDIRIZZI PER LA COSTITUZIONE PARTE
                 VARIABILE.
                 DIRETTIVE PER LA CONTRATTAZIONE DECENTRATA INTEGRATIVA.</h3>
             Visti:
             <br>
             - la deliberazione
-            di <?php self::getInput('var4', $infos[3]['valore'], 'red'); ?>   <?php self::getInput('var5', $infos[4]['valore'], 'red'); ?>
-            n. <?php self::getInput('var6', $infos[5]['valore'], 'orange'); ?> del
-            <?php self::getInput('var7', $infos[6]['valore'], 'orange'); ?>, esecutiva, relativa a:
-            “Bilancio di previsione <?php self::getInput('var8', $infos[7]['valore'], 'orange'); ?>, bilancio
+            di <?php self::getInput('var4','var4', 'red'); ?>   <?php self::getInput('var5', 'var5', 'red'); ?>
+            n. <?php self::getInput('var6', 'var6', 'orange'); ?> del
+            <?php self::getInput('var7', 'var7', 'orange'); ?>, esecutiva, relativa a:
+            “Bilancio di previsione <?php self::getInput('var8', 'var8', 'orange'); ?>, bilancio
             pluriennale
-            e <?php self::getInput('var9', $infos[8]['valore'], 'red'); ?><?php self::getInput('var10', $infos[9]['valore'], 'red'); ?>
+            e <?php self::getInput('var9', 'var9', 'red'); ?><?php self::getInput('var10', 'var10', 'red'); ?>
             ,
             piano di investimenti – approvazione”;
             <br>
             -la
-            deliberazione <?php self::getInput('var11', $infos[10]['valore'], 'red'); ?>  <?php self::getInput('var12', $infos[11]['valore'], 'blue'); ?>
-            n.<?php self::getInput('var13', $infos[12]['valore'], 'orange'); ?> del
+            deliberazione <?php self::getInput('var11', 'var11', 'red'); ?>  <?php self::getInput('var12', 'var12', 'blue'); ?>
+            n.<?php self::getInput('var13','var13', 'orange'); ?> del
             , esecutiva, relativa all’approvazione del Piano esecutivo di
-            Gestione <?php self::getInput('var14', $infos[13]['valore'], 'orange'); ?>
+            Gestione <?php self::getInput('var14', 'var14', 'orange'); ?>
             unitamente al Piano della Performance;
             <br>
             -i successivi atti di variazione del bilancio del comune e del P.E.G./Piano Performance;
@@ -211,9 +229,9 @@ class DeliberaIndirizziDocument
             -il vigente Regolamento di Organizzazione degli Uffici e dei Servizi;
             <br>
             -la
-            deliberazione <?php self::getInput('var15', $infos[14]['valore'], 'red'); ?> <?php self::getInput('var16', $infos[15]['valore'], 'blue'); ?>
-            n.<?php self::getInput('var17', $infos[16]['valore'], 'orange'); ?>
-            del <?php self::getInput('var18', $infos[17]['valore'], 'orange'); ?> di
+            deliberazione <?php self::getInput('var15', 'var15', 'red'); ?> <?php self::getInput('var16', 'var16', 'blue'); ?>
+            n.<?php self::getInput('var17','var17', 'orange'); ?>
+            del <?php self::getInput('var18','var18', 'orange'); ?> di
             nomina della delegazione trattante di parte pubblica abilitata alla contrattazione collettiva decentrata
             integrativa per il personale dipendente;
             <br>
@@ -306,25 +324,25 @@ class DeliberaIndirizziDocument
             11.12.2019, e che prevede che a partire dall’anno 2020 il limite del salario accessorio debba essere
             adeguato in aumento rispetto al valore medio pro-capite del 2018,
             <br>
-            Vista la Determinazione dell’Area <?php self::getInput('var19', $infos[18]['valore'], 'red'); ?> di
+            Vista la Determinazione dell’Area <?php self::getInput('var19', 'var19', 'red'); ?> di
             costituzione della
             parte stabile del Fondo risorse decentrate per
-            l'anno <?php self::getInput('var20', $infos[19]['valore'], 'red'); ?>
+            l'anno <?php self::getInput('var20', 'var20', 'red'); ?>
             <br>
-            <?php self::getInput('var21', $infos[20]['valore'], 'red'); ?>
+            <?php self::getInput('var21', 'var21', 'red'); ?>
             <br>
-            Tenuto conto che nel periodo 2011-2014 <?php self::getFormula($infos[21]['valore']); ?> risultano
+            Tenuto conto che nel periodo 2011-2014<?php self::getSelect('formula1', 'formula1'); ?> risultano
             decurtazioni
             rispetto ai vincoli sul fondo 2010 e
-            pertanto <?php self::getFormula($infos[22]['valore']); ?> deve essere applicata la riduzione del fondo pari
+            pertanto <?php self::getSelect('formula2', 'formula2'); ?> deve essere applicata la riduzione del fondo pari
             a
-            € <?php self::getFormula($infos[23]['valore']); ?>;
+            €<?php self::getSelect('formula3', 'formula3'); ?>;
             <br>
             Richiamato l’importo totale del fondo anno 2016, per le risorse soggette al limite (con esclusione dei
             compensi destinati all'avvocatura, ISTAT, art. 15 comma 1 lett. k CCNL 1.4.1999, gli importi di cui alla
             lettera d) dell’art. 15 ove tale attività non risulti ordinariamente resa dall’Amministrazione
             precedentemente l’entrata in vigore del D. Lgs. 75/2017, le economie del fondo dell’anno 2015 e delle
-            economie del fondo straordinari anno 2015), pari ad € <?php self::getFormula($infos[24]['valore']); ?>.
+            economie del fondo straordinari anno 2015), pari ad € <?php self::getSelect('formula4', 'formula4'); ?>.
             <br>
             Dato atto che le ultime disposizioni individuano controlli più puntuali e stringenti sulla contrattazione
             integrativa;
@@ -340,19 +358,19 @@ class DeliberaIndirizziDocument
             mediante il graduale riassorbimento delle stesse, con quote annuali e per un numero massimo di annualita'
             corrispondente a quelle in cui si e' verificato il superamento di tali vincoli”.
             <br>
-            <?php self::getTextArea('area1', $infos[25]['valore'], 'red'); ?>
+            <?php self::getTextArea('area1', 'area1', 'red'); ?>
 
             <br>
-            <?php self::getTextArea('area2', $infos[26]['valore'], 'red'); ?>
+            <?php self::getTextArea('area2', 'area2', 'red'); ?>
             <br>
             Premesso che:
             <br>
-            il/la <?php self::getInput('var22', $infos[27]['valore'], 'orange'); ?> ha rispettato i vincoli previsti
+            il/la <?php self::getInput('var22', 'var22', 'orange'); ?> ha rispettato i vincoli previsti
             dalle
             regole del cosiddetto “Equilibrio di Bilancio” e il
             principio del tetto della spesa del personale sostenuta rispetto alla media del triennio 2011-2013;
             <br>
-            il/la <?php self::getInput('var23', $infos[28]['valore'], 'orange'); ?> ha rispettato i vincoli previsti
+            il/la <?php self::getInput('var23','var23', 'orange'); ?> ha rispettato i vincoli previsti
             dalle
             regole del cosiddetto “Equilibrio di Bilancio” e il
             principio del tetto della spesa del personale sostenuta rispetto all'anno 2008;
@@ -362,25 +380,25 @@ class DeliberaIndirizziDocument
             regole del cosiddetto “Equilibrio di Bilancio” e il
             principio del tetto della spesa del personale sostenuta rispetto criterio riduzione spesa mancante;
             <br>
-            il numero di dipendenti in servizio nel <?php self::getInput('var25', $infos[30]['valore'], 'blue'); ?>,
+            il numero di dipendenti in servizio nel <?php self::getInput('var25','var25', 'blue'); ?>,
             calcolato in
             base alle modalità fornite dalla Ragioneria dello
-            Stato da ultimo con nota Prot. 12454 del 15.1.2021, pari a <?php self::getFormula($infos[31]['valore']); ?>
+            Stato da ultimo con nota Prot. 12454 del 15.1.2021, pari a <?php self::getSelect('formula5', 'formula5'); ?>
             è
             superiore al numero dei dipendenti in
-            servizio al 31.12.2018 pari a <?php self::getFormula($infos[32]['valore']); ?>, pertanto, in attuazione
+            servizio al 31.12.2018 pari a <?php self::getSelect('formula6', 'formula6'); ?>, pertanto, in attuazione
             dell’art. 33
             c. 2 D.L. 34/2019 convertito nella
             L. 58/2019, il fondo e il limite di cui all’art. 23 c. 2 bis D.Lgs. 75/2017 devono essere adeguati in
             aumento al fine di garantire il valore medio pro-capite riferito al 2018;
             <br>
-            il numero di dipendenti in servizio nel <?php self::getInput('var26', $infos[33]['valore'], 'blue'); ?>,
+            il numero di dipendenti in servizio nel <?php self::getInput('var26', 'var26', 'blue'); ?>,
             calcolato in
             base alle modalità fornite dalla Ragioneria dello
-            Stato da ultimo con nota Prot. 12454 del 15.1.2021, pari a <?php self::getFormula($infos[34]['valore']); ?>
+            Stato da ultimo con nota Prot. 12454 del 15.1.2021, pari a<?php self::getSelect('formula7', 'formula7'); ?>
             è
             inferiore o uguale al numero dei
-            dipendenti in servizio al 31.12.2018 pari a <?php self::getFormula($infos[35]['valore']); ?>, pertanto, in
+            dipendenti in servizio al 31.12.2018 pari a<?php self::getSelect('formula8', 'formula8'); ?>, pertanto, in
             attuazione
             dell’art. 33 c. 2 D.L. 34/2019
             convertito nella L. 58/2019, il fondo e il limite di cui all’art. 23 c. 2 bis D.Lgs. 75/2017 non devono
@@ -414,8 +432,8 @@ class DeliberaIndirizziDocument
             economiche complessive derivanti dal calcolo fino ad un massimo dell'1,2% del monte salari (esclusa la quota
             riferita alla dirigenza) stabilito per l'anno 1997, sempre rispettando il limite dell’anno 2016,
             destinandoli
-            a <?php self::getTextArea('area2', $infos[36]['valore'], 'orange'); ?>.
-            L’importo previsto è pari ad € <?php self::getFormula($infos[37]['valore']); ?>.
+            a <?php self::getTextArea('area2', 'area2', 'orange'); ?>.
+            L’importo previsto è pari ad €<?php self::getSelect('formula9', 'formula9'); ?>.
             <br>
             Si precisa che gli importi, qualora non interamente distribuiti, non daranno luogo ad economie di fondo ma
             ritorneranno nella disponibilità del bilancio dell’Ente.
@@ -425,18 +443,18 @@ class DeliberaIndirizziDocument
             obiettivi di potenziamento dei servizi di controllo finalizzati alla sicurezza urbana e stradale Art. 56
             quater CCNL 2018, definiti nel piano della performance o in altri analoghi strumenti di programmazione della
             gestione, al fine di sostenere i correlati oneri dei trattamenti accessori del personale, per un importo
-            pari a € <?php self::getFormula($infos[38]['valore']); ?>;
+            pari a € <?php self::getSelect('formula10', 'formula10'); ?>;
             <br>
             In particolare tali obiettivi sono contenuti nel Piano esecutivo di
-            Gestione <?php self::getInput('var27', $infos[39]['valore'], 'orange'); ?> unitamente al Piano della
+            Gestione <?php self::getInput('var27','var27', 'orange'); ?> unitamente al Piano della
             Performance approvata con Delibera
-            della/del <?php self::getInput('var28', $infos[40]['valore'], 'blue'); ?>
-            n. <?php self::getInput('var29', $infos[41]['valore'], 'orange'); ?>
-            del <?php self::getInput('var30', $infos[42]['valore'], 'orange'); ?> e ne vengono qui di
+            della/del <?php self::getInput('var28', 'var28', 'blue'); ?>
+            n. <?php self::getInput('var29','var29', 'orange'); ?>
+            del <?php self::getInput('var30', 'var30', 'orange'); ?> e ne vengono qui di
             seguito elencati i titoli:
-            – <?php self::getInput('var31', $infos[43]['valore'], 'red'); ?>
+            – <?php self::getInput('var31', 'var31', 'red'); ?>
             <br>
-            <?php self::getTextArea('area3', $infos[44]['valore'], 'red'); ?>.
+            <?php self::getTextArea('area3','area3', 'red'); ?>.
             <br>
             Si precisa che i suddetti importi, qualora non interamente distribuiti, non daranno luogo ad economie di
             fondo ma ritorneranno nella disponibilità del bilancio dell’Ente;
@@ -445,78 +463,78 @@ class DeliberaIndirizziDocument
             21.5.2018 delle somme derivanti da contratti di sponsorizzazione, accordi di collaborazione, convenzioni con
             soggetti pubblici o privati e contributi dell'utenza per servizi pubblici non essenziali, secondo la
             disciplina dettata dall'art. 43 della Legge 449/1997, e soggette al limite 2015, per
-            € <?php self::getFormula($infos[45]['valore']); ?>, rispettivamente
-            per <?php self::getTextArea('area4', $infos[46]['valore'], 'red'); ?>
+            €<?php self::getSelect('formula11', 'formula11'); ?>, rispettivamente
+            per <?php self::getTextArea('area4', 'area4', 'red'); ?>
             <br>
             autorizzazione all’iscrizione, fra le risorse variabili, ai sensi dell’art. 67 comma 3 lett. c) del CCNL
             21.5.2018 delle somme destinate alle attività di recupero ICI da distribuire ai sensi del regolamento
             vigente in materia e nel rispetto della normativa vigente in materia per
-            € <?php self::getFormula($infos[47]['valore']); ?>;
+            €<?php self::getSelect('formula12', 'formula12'); ?>;
             <br>
             autorizzazione all’iscrizione, fra le risorse variabili, ai sensi dell’art. 67 comma 3 lett. c) del CCNL
             21.5.2018 delle somme destinate all’attuazione della specifica Legge
-            Regionale <?php self::getTextArea('area5', $infos[48]['valore'], 'red'); ?> da distribuire ai sensi del
+            Regionale <?php self::getTextArea('area5', 'area5', 'red'); ?> da distribuire ai sensi del
             regolamento vigente in
             materia e nel rispetto della normativa vigente in materia per
-            € <?php self::getFormula($infos[49]['valore']); ?>;
+            €<?php self::getSelect('formula13', 'formula13'); ?>;
             <br>
             autorizzazione all'iscrizione, fra le risorse variabili, ai sensi dell’art. 67 comma 3 lett. f) CCNL
             21.5.2018 della quota parte del rimborso spese per ogni notificazione di atti per
-            € <?php self::getFormula($infos[50]['valore']); ?>;
+            € <?php self::getSelect('formula14', 'formula14'); ?>;
             <br>
             autorizzazione all’iscrizione, fra le risorse variabili, ai sensi dell’art. 67 comma 3 lett. e) CCNL
             21.5.2018, delle somme derivanti dai risparmi del Fondo lavoro straordinario anno precedente, pari ad
-            € <?php self::getFormula($infos[51]['valore']); ?>;
+            € <?php self::getSelect('formula15', 'formula15'); ?>;
             <br>
             autorizzazione all’iscrizione, fra le risorse variabili, ai sensi dell’art. 68 comma 1 CCNL 21.5.2018, delle
             risorse derivanti dai risparmi di parte stabile del Fondo risorse decentrate degli anni precedenti, pari ad
-            € <?php self::getFormula($infos[52]['valore']); ?>;
+            €<?php self::getSelect('formula16', 'formula16'); ?>;
             <br>
             autorizzazione all’iscrizione fra le risorse variabili, ai sensi dell’art. 67 comma 3 lett. a) del CCNL
             21.5.2018 delle somme derivanti da contratti di sponsorizzazione, accordi di collaborazione, convenzioni con
             soggetti pubblici o privati e contributi dell'utenza per servizi pubblici non essenziali, secondo la
-            disciplina dettata dall'art. 43 della Legge 449/1997 per € <?php self::getFormula($infos[53]['valore']); ?>,
+            disciplina dettata dall'art. 43 della Legge 449/1997 per € <?php self::getSelect('formula17', 'formula17'); ?>,
             rispettivamente
-            per<?php self::getTextArea('area6', $infos[54]['valore'], 'red'); ?>;
+            per<?php self::getTextArea('area6', 'area6', 'red'); ?>;
             <br>
             autorizzazione all’iscrizione, fra le risorse variabili, ai sensi dell’art. 67 comma 3 let. c) del CCNL
             21.5.2018 delle somme destinate agli incentivi per funzioni tecniche art. 113 comma 2 e 3 D.Lgs. n. 50/2016
             e ss.mm.ii da distribuire ai sensi del regolamento vigente in materia e nel rispetto della normativa vigente
-            in materia per € <?php self::getFormula($infos[55]['valore']); ?>;
+            in materia per € <?php self::getSelect('formula18', 'formula18'); ?>;
             <br>
             autorizzazione all’iscrizione, fra le risorse variabili, ai sensi dell’art. 67 comma 3 let. c) del CCNL
             21.5.2018 delle somme destinate alle attività svolte per conto dell’ISTAT da distribuire ai sensi dei
             regolamenti vigenti in materia e nel rispetto della normativa vigente in materia per
-            € <?php self::getFormula($infos[56]['valore']); ?>;
+            € <?php self::getSelect('formula19', 'formula19'); ?>;
             <br>
             autorizzazione all’iscrizione, fra le risorse variabili, ai sensi dell’ 67 comma 3 let. c) del CCNL
             21.5.2018 delle somme destinate alla “avvocatura” da distribuire ai sensi del regolamento vigente in materia
-            e nel rispetto della normativa vigente in materia per € <?php self::getFormula($infos[57]['valore']); ?>;
+            e nel rispetto della normativa vigente in materia per € <?php self::getSelect('formula20', 'formula20'); ?>;
             <br>
             autorizzazione all’iscrizione, fra le risorse variabili, ai sensi dell’art. 67 comma 3 let. c) del CCNL
             21.5.2018 delle somme finanziate da fondi di derivazione dell'Unione Europea da distribuire ai sensi dei
             regolamenti vigenti in materia e nel rispetto della normativa vigente in materia per
-            € <?php self::getFormula($infos[58]['valore']); ?>;
+            €<?php self::getSelect('formula21', 'formula21'); ?>;
             <br>
             autorizzazione all’iscrizione, fra le risorse variabili, ai sensi dell’art. 67 comma 3 let. c) del CCNL
             21.5.2018 delle somme destinate alle attività di recupero IMU e TARI in riferimento all'art. 1 comma 1091
             della L. 145 del 31.12.2018 (Legge di Bilancio 2019) da distribuire ai sensi del regolamento vigente in
             materia e nel rispetto della normativa vigente in materia per
-            € <?php self::getFormula($infos[59]['valore']); ?>;
+            €<?php self::getSelect('formula22', 'formula22'); ?>;
             <br>
             autorizzazione all’iscrizione, fra le risorse variabili, ai sensi dell’art. 67 comma 3 let. c) del CCNL
             21.5.2018 delle somme destinate alle
-            attività <?php self::getTextArea('area7', $infos[60]['valore'], 'red'); ?> da distribuire
+            attività <?php self::getTextArea('area7', 'area7', 'red'); ?> da distribuire
             ai sensi del regolamento vigente in materia e nel rispetto della normativa vigente in materia per
-            € <?php self::getFormula($infos[61]['valore']); ?>;
+            € <?php self::getSelect('formula23', 'formula23'); ?>;
             <br>
-            vista la Delibera della/del <?php self::getInput('var32', $infos[62]['valore'], 'blue'); ?>
-            n.<?php self::getInput('var33', $infos[63]['valore'], 'orange'); ?>
+            vista la Delibera della/del <?php self::getInput('var32','var32', 'blue'); ?>
+            n.<?php self::getInput('var33', 'var33', 'orange'); ?>
             del
-            <?php self::getInput('var34', $infos[64]['valore'], 'orange'); ?>di approvazione del Piano di
+            <?php self::getInput('var34', 'var34', 'orange'); ?>di approvazione del Piano di
             razionalizzazione anno ai sensi dell’art. 16
             comma 5 della Legge 111/2011 e dell’art. 67 comma 3 lett. B del CCNL 21.5.2018, autorizzazione
-            all’iscrizione tra le risorse variabili di € <?php self::getFormula($infos[65]['valore']); ?>, che dovranno
+            all’iscrizione tra le risorse variabili di €<?php self::getSelect('formula24', 'formula24'); ?>, che dovranno
             essere
             distribuite nel rigoroso rispetto dei
             principi introdotti dalla norma vigente e solo se a consuntivo verrà espresso parere favorevole da parte
@@ -526,23 +544,23 @@ class DeliberaIndirizziDocument
             maggior incasso rispetto all’anno precedente a seguito di obiettivi di potenziamento dei servizi di
             controllo finalizzati alla sicurezza urbana e stradale Art. 56 quater CCNL 2018, come risorsa NON soggetta
             al limite secondo dalla Corte dei Conti Sezione delle Autonomie con delibera n. 5 del 2019, per un importo
-            pari a € <?php self::getFormula($infos[66]['valore']); ?>;
+            pari a € <?php self::getSelect('formula25', 'formula25'); ?>;
             <br>
             autorizzazione all’iscrizione, ai sensi dell’art. 67 c.7 e Art.15 c.7 CCNL 2018 della quota di incremento
             del Fondo trattamento accessorio per riduzione delle risorse destinate alla retribuzione di posizione e di
             risultato delle PO rispetto al tetto complessivo del salario accessorio art. 23 c. 2 D.Lgs 75/2017, per un
-            importo pari a € <?php self::getFormula($infos[67]['valore']); ?>.
+            importo pari a € <?php self::getSelect('formula26', 'formula26'); ?>.
             <br>
             b) In merito all’utilizzo del fondo, fornisce i seguenti indirizzi alla delegazione trattante di parte
             pubblica
             <br>
             Dare attuazione al contratto decentrato normativo vigente nell’Ente per il
-            triennio <?php self::getInput('var35', $infos[68]['valore'], 'red'); ?> siglato in
-            data <?php self::getInput('var36', $infos[69]['valore'], 'red'); ?> per la ripartizione economica dell’anno
+            triennio <?php self::getInput('var35','var35', 'red'); ?> siglato in
+            data <?php self::getInput('var36','var36', 'red'); ?> per la ripartizione economica dell’anno
             e
             riconoscere le indennità previste, nel rispetto
             delle condizioni previste dai CCNL e
-            CDIA <?php self::getTextArea('area8', $infos[70]['valore'], 'red'); ?>
+            CDIA <?php self::getTextArea('area8', 'area8', 'red'); ?>
             <br>
             Gli importi destinati alla performance dovranno essere distribuiti in relazione agli obiettivi coerenti col
             DUP e contenuti all’interno del Piano della Performance anno. Tali obiettivi dovranno avere i requisiti di
@@ -566,7 +584,7 @@ class DeliberaIndirizziDocument
             personale;
             <br>
             le spese di cui al presente provvedimento non alterano il rispetto del limite delle spese di personale
-            rispetto <?php self::getInput('var37', $infos[71]['valore'], 'orange'); ?> e ribadito che le
+            rispetto <?php self::getInput('var37','var37', 'orange'); ?> e ribadito che le
             risorse variabili verranno distribuite solo se
             sarà rispettato l’“Equilibrio di Bilancio” dell’anno corrente e solo se non saranno superati i limiti in
             materia di spesa di personale;
@@ -584,23 +602,23 @@ class DeliberaIndirizziDocument
             <br>
             1. di esprimere gli indirizzi per la costituzione variabile del fondo delle risorse decentrate di cui
             all’art. 67 del CCNL 21.5.2018 del Comparto Regioni ed Autonomie Locali relativi
-            all’anno <?php self::getInput('var38', $infos[72]['valore'], 'orange'); ?> e di
+            all’anno <?php self::getInput('var38','var38', 'orange'); ?> e di
             autorizzare l'inserimento delle risorse variabili nei modi e nei termini riportati in premessa;
             <br>
 
             2. di esprimere le direttive alle quali dovrà attenersi la Delegazione Trattante di Parte Pubblica, nel
             contrattare con la Delegazione Sindacale un’ipotesi di contratto collettivo decentrato integrativo per il
             personale non dirigente, che dovrà essere sottoposta a
-            questa <?php self::getInput('var39', $infos[73]['valore'], 'blue'); ?> e all’organo di
+            questa <?php self::getInput('var39', 'var39', 'blue'); ?> e all’organo di
             revisione contabile per l’autorizzazione e la definitiva stipula, unitamente alla relazione illustrativa e
             tecnico-finanziaria prevista ai sensi del D.Lgs. 150/2009 nei termini riportati in premessa;
 
             <br>
-            3. di inviare il presente provvedimento al <?php self::getInput('var40', $infos[74]['valore'], 'orange'); ?>
+            3. di inviare il presente provvedimento al <?php self::getInput('var40', 'var40', 'orange'); ?>
             per
             l’adozione degli atti di competenza e per
             l’assunzione dei conseguenti impegni di spesa, dando atto che gli stanziamenti della spesa del personale
-            attualmente previsti nel bilancio <?php self::getInput('var41', $infos[75]['valore'], 'orange'); ?>
+            attualmente previsti nel bilancio <?php self::getInput('var41', 'var41', 'orange'); ?>
             presentano la
             necessaria disponibilità.
             <br>
@@ -609,7 +627,7 @@ class DeliberaIndirizziDocument
 
             Successivamente,
             <br>
-            <?php self::getInput('var42', $infos[76]['valore'], 'orange'); ?>
+            <?php self::getInput('var42','var42', 'orange'); ?>
 
             <br>
             Stante l’urgenza di provvedere
