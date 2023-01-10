@@ -156,7 +156,10 @@ class DeterminaCostituzioneDocument
                     })
 
                 });
-
+                window.onbeforeunload = confirmExit;
+                function confirmExit() {
+                    return "You have attempted to leave this page. Are you sure?";
+                }
 
             </script>
         </head>
@@ -169,9 +172,9 @@ class DeterminaCostituzioneDocument
                     ?>
                 </div>
                 <div class="col">
-                    <button class="btn btn-secondary btn-save-edit "> Salva modifica</button>
                     <button class="btn btn-outline-secondary btn-export" onclick="exportHTML();">Esporta in word
                     </button>
+                    <button class="btn btn-secondary btn-save-edit "> Salva modifica</button>
                 </div>
 
             </div>
@@ -643,6 +646,18 @@ class DeterminaCostituzioneDocument
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-8">
+                </div>
+                <div class="col">
+                    <button class="btn btn-outline-secondary btn-export" onclick="exportHTML();">Esporta in word
+                    </button>
+                    <button class="btn btn-secondary btn-save-edit "> Salva modifica</button>
+                </div>
+
+            </div>
         </div>
         </html lang="en">
 
