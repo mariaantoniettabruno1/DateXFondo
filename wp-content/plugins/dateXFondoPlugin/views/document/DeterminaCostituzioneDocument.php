@@ -175,6 +175,7 @@ class DeterminaCostituzioneDocument
                     <button class="btn btn-outline-secondary btn-export" onclick="exportHTML();">Esporta in word
                     </button>
                     <button class="btn btn-secondary btn-save-edit "> Salva modifica</button>
+                    <small id="warningSaveEdit" class="form-text text-dark" ><i class="fa-solid fa-triangle-exclamation text-warning"></i> Ricordati di salvare prima di uscire</small>
                 </div>
 
             </div>
@@ -655,6 +656,7 @@ class DeterminaCostituzioneDocument
                     <button class="btn btn-outline-secondary btn-export" onclick="exportHTML();">Esporta in word
                     </button>
                     <button class="btn btn-secondary btn-save-edit "> Salva modifica</button>
+                    <small id="warningSaveEdit" class="form-text text-dark" ><i class="fa-solid fa-triangle-exclamation text-warning"></i> Ricordati di salvare prima di uscire</small>
                 </div>
 
             </div>
