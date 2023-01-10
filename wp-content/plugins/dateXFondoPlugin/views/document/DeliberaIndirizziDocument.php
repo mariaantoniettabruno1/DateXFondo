@@ -103,8 +103,8 @@ class DeliberaIndirizziDocument
                         "<head><meta charset='utf-8'><title>Export HTML to Word Document with JavaScript</title></head><body>";
                     var footer = "</body></html>";
                     const bodyHTML = $("#relazioneIllustrativaDocument").clone(true);
-                    bodyHTML.remove('input');
-
+                    bodyHTML.find('input,textarea').remove();
+                    bodyHTML.find('select').replaceWith('option');
                     var sourceHTML = header + bodyHTML.html() + footer;
 
                     var source = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(sourceHTML);

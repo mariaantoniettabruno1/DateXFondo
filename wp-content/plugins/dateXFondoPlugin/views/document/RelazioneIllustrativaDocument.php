@@ -104,7 +104,7 @@ class RelazioneIllustrativaDocument
                         "<head><meta charset='utf-8'><title>Export HTML to Word Document with JavaScript</title></head><body>";
                     var footer = "</body></html>";
                     const bodyHTML = $("#relazioneIllustrativaDocument").clone(true);
-                    bodyHTML.remove('input');
+                    bodyHTML.find('input,textarea').remove();
 
                     var sourceHTML = header + bodyHTML.html() + footer;
 
