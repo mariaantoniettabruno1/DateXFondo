@@ -80,7 +80,13 @@ class MasterModelloFondoCostituzione
                 XLSX.utils.book_append_sheet(new_workbook, worksheet_costituzione, "Costituzione")
                 XLSX.utils.book_append_sheet(new_workbook, worksheet_utilizzo, "Utilizzo")
                 XLSX.utils.book_append_sheet(new_workbook, worksheet_dati_utili, "Dati Utili")
-                XLSX.writeFile(new_workbook, ('xlsx' + 'Dasein1.xlsx'))
+                var currentdate = new Date();
+                XLSX.writeFile(new_workbook, ('xlsx' + ('ModelloFondo' + "_" + currentdate.getDate() + "-"
+                    + (currentdate.getMonth() + 1) + "-"
+                    + currentdate.getFullYear() + '-' + 'h' +
+                    +currentdate.getHours() + '-'
+                    + currentdate.getMinutes() + '-'
+                    + currentdate.getSeconds() + '.xlsx')));
             }
 
             function renderEditArticle() {

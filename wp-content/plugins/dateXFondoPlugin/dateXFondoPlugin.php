@@ -181,7 +181,8 @@ function regioni_autonomie_locali_template()
 
 function delibera_template()
 {
-    \dateXFondoPlugin\DeliberaIndirizziDocument::render();
+    $document = new \dateXFondoPlugin\DeliberaIndirizziDocument();
+    $document->render();
 
 }
 function determina_costituzione_template()

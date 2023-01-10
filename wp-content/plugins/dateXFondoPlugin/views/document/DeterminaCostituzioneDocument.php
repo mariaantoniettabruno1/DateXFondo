@@ -84,7 +84,13 @@ class DeterminaCostituzioneDocument
                     var fileDownload = document.createElement("a");
                     document.body.appendChild(fileDownload);
                     fileDownload.href = source;
-                    fileDownload.download = 'document.doc';
+                    var currentdate = new Date();
+                    fileDownload.download = 'determinaCostituzione'+ "_" + currentdate.getDate() + "-"
+                        + (currentdate.getMonth()+1)  + "-"
+                        + currentdate.getFullYear() + '-' + 'h'+
+                        + currentdate.getHours() + '-'
+                        + currentdate.getMinutes() + '-'
+                        + currentdate.getSeconds() + '.doc' ;
                     fileDownload.click();
                     document.body.removeChild(fileDownload);
                 }
