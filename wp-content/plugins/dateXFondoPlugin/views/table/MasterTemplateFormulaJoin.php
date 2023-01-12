@@ -72,6 +72,7 @@ class MasterTemplateFormulaJoin
                         sezioni[a.sezione].push(a.sottosezione);
                     }
                 });
+                console.log(joined_record);
             </script>
         </head>
 

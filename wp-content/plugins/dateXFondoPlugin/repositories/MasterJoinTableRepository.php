@@ -8,8 +8,7 @@ class MasterJoinTableRepository
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = "SELECT id,fondo,anno,descrizione_fondo,ordinamento,sezione,sottosezione,id_articolo,nome_articolo,sottotitolo_articolo,nota,link,editable,version,row_type,heredity
-                FROM DATE_template_fondo  WHERE attivo =1 AND template_name=?";
+        $sql = "SELECT * FROM DATE_template_fondo  WHERE attivo =1 AND template_name=?";
         $stmt = $mysqli->prepare($sql);
         $stmt->bind_param("s", $template_name);
         $res = $stmt->execute();

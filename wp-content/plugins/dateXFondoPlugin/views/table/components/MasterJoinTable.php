@@ -12,6 +12,7 @@ class MasterJoinTable
 
             let id = 0;
             let filteredRecord = joined_record;
+
             function renderDataTable(section, subsection) {
                 let index = Object.keys(sezioni).indexOf(section);
                 $('#dataTemplateTableBody' + index).html('');
@@ -57,7 +58,7 @@ class MasterJoinTable
                     sottotitolo = art.sottotitolo_articolo ?? "";
                     link = art.link ?? "";
                     nome_articolo = art.nome_articolo ?? "";
-                    descrizione = art.descrizione ?? ""
+                    descrizione = art.descrizione_articolo ?? ""
                     nota = art.nota ?? ""
                     if (art.formula !== undefined) {
                         if (Number(art.condizione) === 1) {
@@ -70,19 +71,21 @@ class MasterJoinTable
                         id_articolo = art.nome ?? "";
 
                         if (art.text_type === '10') {
-                            nome_articolo = '<span class="span-bold">' + art.nome + '</span>';
+                            id_articolo = '<span class="span-bold">' + art.nome + '</span>';
                         } else if (art.text_type === '01') {
-                            nome_articolo = '<span class="span-higher">' + art.nome + '</span>';
+                            id_articolo = '<span class="span-higher">' + art.nome + '</span>';
 
                         } else if (art.text_type === '11') {
-                            nome_articolo = '<span class="span-bold-higher">' + art.nome + '</span>';
+                            id_articolo = '<span class="span-bold-higher">' + art.nome + '</span>';
 
-                        } else if(art.text_type === '00'){
-                            nome_articolo = '<span>' + art.nome + '</span>';
+                        } else if (art.text_type === '00') {
+                            id_articolo = '<span>' + art.nome + '</span>';
 
+                        } else {
+                            id_articolo = '';
                         }
-                        else{
-                            nome_articolo = '';
+                        if (art.descrizione !== undefined) {
+                            sottotitolo = art.descrizione;
                         }
                     }
 
@@ -126,120 +129,131 @@ class MasterJoinTable
                            <td>${id_articolo}</td>
                            <td>${nome_articolo}</td>
                            <td>${sottotitolo}</td>
-                           <td>${descrizione}</td>
+                            <td>
+                                           <span style='display:none' class="descrizioneFull">${descrizione}</span>
+                                           <span style="display:block" class='descrizioneCut'>${descrizione.substr(0, 50).concat('...')}</span>
+                                        </td>
                            <td>${nota}</td>
                            <td>${link}</td>
                            <td>${heredity}</td>
                          </tr>
                              `);
                 });
-
-                $('.btn-edit-ord').click(function () {
-                    const targetId = $(this).attr('data-target');
-                    $(this).hide();
-                    $(this).next().show();
-                    $(targetId).attr('readonly', false);
+                $('.descrizioneCut').click(function () {
+                    $(this).attr("style", "display:none");
+                    $(this).prev().attr("style", "display:block");
+                });
+                $('.descrizioneFull').click(function () {
+                    $(this).attr("style", "display:none");
+                    $(this).next().attr("style", "display:block");
                 });
 
-                $('.btn-save').click(function () {
-                    const targetId = $(this).attr('data-target');
-                    $(this).hide();
-                    $(this).prev().show();
-                    const target = $(targetId)
-                    target.attr('readonly', true);
-                    const joinId = target.attr("data-join-id");
-                    const joinKey = target.attr("data-join-key");
-                    const type = target.attr("data-record-type");
-                    const external_id = target.attr("data-record-id");
-                    let ordinamento = target.val();
-                    if (isNaN(Number(ordinamento))) {
-                        ordinamento = -1
-                    }
-                    if (joinId > 0) {
-                        // Handle update
-                        $.ajax({
-                            url: '<?= DateXFondoCommon::get_website_url() ?>/wp-json/datexfondoplugin/v1/join-table',
-                            data: {
-                                id: joinId,
-                                ordinamento
-                            },
-                            type: "POST",
-                            success: function (response) {
-                                console.log(response);
-                                joinedIndexes[joinKey].ordinamento = ordinamento;
-                                renderDataTable(current_section, current_subsection);
-                                $(".alert-ordinamento-success").show();
-                                $(".alert-ordinamento-success").fadeTo(2000, 500).slideUp(500, function () {
-                                    $(".alert-ordinamento-success").slideUp(500);
-                                });
-                            },
-                            error: function (response) {
-                                console.error(response);
-                                $(".alert-ordinamento-fail").show();
-                                $(".alert-ordinamento-fail").fadeTo(2000, 500).slideUp(500, function () {
-                                    $(".alert-ordinamento-fail").slideUp(500);
-                                });
-                            }
-                        })
-                    } else {
-                        // Handle insert
-                        $.ajax({
-                            url: '<?= DateXFondoCommon::get_website_url() ?>/wp-json/datexfondoplugin/v1/join-table',
-                            data: {
-                                external_id,
-                                type,
-                                ordinamento
-                            },
-                            type: "POST",
-                            success: function (response) {
-                                console.log(response);
-                                joinedIndexes[joinKey] = {id: response["id"], type, ordinamento, external_id};
-                                renderDataTable(current_section, current_subsection);
-                            },
-                            error: function (response) {
-                                console.error(response);
-                            }
-                        })
-                    }
-
-                });
-
-            }
-
-
-            function resetSubsection() {
-                let subsection = $('.class-template-sottosezione').val();
-                if (subsection !== 'Seleziona Sottosezione') {
-                    $('.class-template-sottosezione').val('Seleziona Sottosezione');
-                }
-            }
-
-            let current_section;
-            let current_subsection;
-
-            $(document).ready(function () {
-
-                renderDataTable();
-                resetSubsection();
-
-                $('.class-accordion-button').click(function () {
-                    let section = $(this).attr('data-section');
-                    current_section = section;
-
-                    renderDataTable(section);
-                    $('.class-template-sottosezione').change(function () {
-                        let subsection = $(this).val();
-                        if (subsection !== 'Seleziona Sottosezione') {
-                            current_subsection = subsection;
-                            renderDataTable(section, subsection);
-                        } else {
-                            current_subsection = null;
-                            renderDataTable(section);
-                        }
+                    $('.btn-edit-ord').click(function () {
+                        const targetId = $(this).attr('data-target');
+                        $(this).hide();
+                        $(this).next().show();
+                        $(targetId).attr('readonly', false);
                     });
-                });
 
-            });
+                    $('.btn-save').click(function () {
+                        const targetId = $(this).attr('data-target');
+                        $(this).hide();
+                        $(this).prev().show();
+                        const target = $(targetId)
+                        target.attr('readonly', true);
+                        const joinId = target.attr("data-join-id");
+                        const joinKey = target.attr("data-join-key");
+                        const type = target.attr("data-record-type");
+                        const external_id = target.attr("data-record-id");
+                        let ordinamento = target.val();
+                        if (isNaN(Number(ordinamento))) {
+                            ordinamento = -1
+                        }
+                        if (joinId > 0) {
+                            // Handle update
+                            $.ajax({
+                                url: '<?= DateXFondoCommon::get_website_url() ?>/wp-json/datexfondoplugin/v1/join-table',
+                                data: {
+                                    id: joinId,
+                                    ordinamento
+                                },
+                                type: "POST",
+                                success: function (response) {
+                                    console.log(response);
+                                    joinedIndexes[joinKey].ordinamento = ordinamento;
+                                    renderDataTable(current_section, current_subsection);
+                                    $(".alert-ordinamento-success").show();
+                                    $(".alert-ordinamento-success").fadeTo(2000, 500).slideUp(500, function () {
+                                        $(".alert-ordinamento-success").slideUp(500);
+                                    });
+                                },
+                                error: function (response) {
+                                    console.error(response);
+                                    $(".alert-ordinamento-fail").show();
+                                    $(".alert-ordinamento-fail").fadeTo(2000, 500).slideUp(500, function () {
+                                        $(".alert-ordinamento-fail").slideUp(500);
+                                    });
+                                }
+                            })
+                        } else {
+                            // Handle insert
+                            $.ajax({
+                                url: '<?= DateXFondoCommon::get_website_url() ?>/wp-json/datexfondoplugin/v1/join-table',
+                                data: {
+                                    external_id,
+                                    type,
+                                    ordinamento
+                                },
+                                type: "POST",
+                                success: function (response) {
+                                    console.log(response);
+                                    joinedIndexes[joinKey] = {id: response["id"], type, ordinamento, external_id};
+                                    renderDataTable(current_section, current_subsection);
+                                },
+                                error: function (response) {
+                                    console.error(response);
+                                }
+                            })
+                        }
+
+                    });
+
+                }
+
+
+                function resetSubsection() {
+                    let subsection = $('.class-template-sottosezione').val();
+                    if (subsection !== 'Seleziona Sottosezione') {
+                        $('.class-template-sottosezione').val('Seleziona Sottosezione');
+                    }
+                }
+
+                let current_section;
+                let current_subsection;
+
+                $(document).ready(function () {
+
+                    renderDataTable();
+                    resetSubsection();
+
+                    $('.class-accordion-button').click(function () {
+                        let section = $(this).attr('data-section');
+                        current_section = section;
+
+                        renderDataTable(section);
+                        $('.class-template-sottosezione').change(function () {
+                            let subsection = $(this).val();
+                            if (subsection !== 'Seleziona Sottosezione') {
+                                current_subsection = subsection;
+                                renderDataTable(section, subsection);
+                            } else {
+                                current_subsection = null;
+                                renderDataTable(section);
+                            }
+                        });
+                    });
+
+                });
         </script>
         <?php
     }
