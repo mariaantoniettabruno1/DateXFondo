@@ -14,7 +14,7 @@ class FormulaSidebar
             function renderDataTable(section, subsection, owner) {
                 $('#dataTableBody').html('');
                 let filteredArticoli = articoli;
-                console.log(articoli);
+                console.log(formule);
 
                 filteredArticoli = filteredArticoli.filter(art => art.template_name === owner)
 

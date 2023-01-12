@@ -172,6 +172,7 @@ class FormulaCard
                 })
 
                 $('#insertFormula').click(function () {
+                    $("#errorNameFormula").attr('style', 'display:none');
                     let sezione = $('#inputSelectSezioneFormula').val();
                     let sottosezione = $('#inputSelectSottosezioneFormula').val();
                     let nome = $('#inputNomeFormula').val();
@@ -191,60 +192,65 @@ class FormulaCard
                         sottosezione = null;
                     }
                     let condizione = 0;
-
-                    const payload = {
-                        id: formulaId,
-                        sezione,
-                        sottosezione,
-                        nome,
-                        descrizione,
-                        formula,
-                        visibile,
-                        condizione,
-                        text_type,
-                        formula_template_name
-                    }
-                    if (!validateArticoliFormula(formula)) {
-                        $(".alert-validate-wrong").show();
-                        $(".alert-validate-wrong").fadeTo(2000, 500).slideUp(500, function () {
-                            $(".alert-validate-wrong").slideUp(500);
-                        });
-                    } else {
-                        $.ajax({
-                            url: '<?= DateXFondoCommon::get_website_url() ?>/wp-json/datexfondoplugin/v1/formula',
-                            data: payload,
-                            type: "POST",
-                            success: function (response) {
-                                console.log(response);
-                                if (!response.updated) {
-                                    if (response["id"]) {
+                    if (formule.find(form => form.nome === nome) === undefined){
+                        const payload = {
+                            id: formulaId,
+                            sezione,
+                            sottosezione,
+                            nome,
+                            descrizione,
+                            formula,
+                            visibile,
+                            condizione,
+                            text_type,
+                            formula_template_name
+                        }
+                        if (!validateArticoliFormula(formula)) {
+                            $(".alert-validate-wrong").show();
+                            $(".alert-validate-wrong").fadeTo(2000, 500).slideUp(500, function () {
+                                $(".alert-validate-wrong").slideUp(500);
+                            });
+                        } else {
+                            $.ajax({
+                                url: '<?= DateXFondoCommon::get_website_url() ?>/wp-json/datexfondoplugin/v1/formula',
+                                data: payload,
+                                type: "POST",
+                                success: function (response) {
+                                    console.log(response);
+                                    if (!response.updated) {
+                                        if (response["id"]) {
+                                            formule.push({...payload, id: response["id"]});
+                                        }
+                                        $(".alert-formula-success").show();
+                                        $(".alert-formula-success").fadeTo(2000, 500).slideUp(500, function () {
+                                            $(".alert-formula-success").slideUp(500);
+                                        });
+                                    } else {
+                                        formule = formule.filter(f => Number(f.id) !== Number(formulaId));
                                         formule.push({...payload, id: response["id"]});
+                                        $(".alert-formula-update-success").show();
+                                        $(".alert-formula-update-success").fadeTo(2000, 500).slideUp(500, function () {
+                                            $(".alert-formula-update-success").slideUp(500);
+                                        });
                                     }
-                                    $(".alert-formula-success").show();
-                                    $(".alert-formula-success").fadeTo(2000, 500).slideUp(500, function () {
-                                        $(".alert-formula-success").slideUp(500);
-                                    });
-                                } else {
-                                    formule = formule.filter(f => Number(f.id) !== Number(formulaId));
-                                    formule.push({...payload, id: response["id"]});
-                                    $(".alert-formula-update-success").show();
-                                    $(".alert-formula-update-success").fadeTo(2000, 500).slideUp(500, function () {
-                                        $(".alert-formula-update-success").slideUp(500);
+                                    formulaId = 0;
+                                    handleFilter();
+                                    clearInputFormula();
+                                },
+                                error: function (response) {
+                                    console.error(response);
+                                    $(".alert-formula-wrong").show();
+                                    $(".alert-formula-wrong").fadeTo(2000, 500).slideUp(500, function () {
+                                        $(".alert-formula-wrong").slideUp(500);
                                     });
                                 }
-                                formulaId = 0;
-                                handleFilter();
-                                clearInputFormula();
-                            },
-                            error: function (response) {
-                                console.error(response);
-                                $(".alert-formula-wrong").show();
-                                $(".alert-formula-wrong").fadeTo(2000, 500).slideUp(500, function () {
-                                    $(".alert-formula-wrong").slideUp(500);
-                                });
-                            }
-                        })
+                            })
+                        }
                     }
+                    else{
+                        $("#errorNameFormula").attr('style', 'display:block');
+                    }
+
 
 
                 });
@@ -332,6 +338,7 @@ class FormulaCard
                         <input type="text" class="form-control" id="inputNomeFormula"
                                placeholder="Inserisci nome"
                                aria-label="NomeFormula" aria-describedby="basic-addon1">
+                        <small id="errorNameFormula" class="form-text text-danger" style="display: none">Nome formula già presente</small>
                     </div>
                     <div class="col-8">
                         <input type="text" class="form-control" id="inputDescrizioneFormula"
