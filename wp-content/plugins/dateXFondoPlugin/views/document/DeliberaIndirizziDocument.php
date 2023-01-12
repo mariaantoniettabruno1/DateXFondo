@@ -98,21 +98,22 @@ class DeliberaIndirizziDocument
 
                 //Todo sistemare il remove per la select
                 function exportHTML() {
-                    var header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' " +
+                    const header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' " +
                         "xmlns:w='urn:schemas-microsoft-com:office:word' " +
                         "xmlns='http://www.w3.org/TR/REC-html40'>" +
                         "<head><meta charset='utf-8'><title>Export HTML to Word Document with JavaScript</title></head><body>";
-                    var footer = "</body></html>";
+                    const footer = "</body></html>";
                     const bodyHTML = $("#DeliberaIndirizziDocument").clone(true);
                     bodyHTML.find('input,textarea').remove();
-                    bodyHTML.find('select').replaceWith('select').val();
-                    var sourceHTML = header + bodyHTML.html() + footer;
+                    let formula_value = bodyHTML.find('select').val();
+                    bodyHTML.find('select').replaceWith(formula_value);
 
-                    var source = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(sourceHTML);
-                    var fileDownload = document.createElement("a");
+                    const sourceHTML = header + bodyHTML.html() + footer;
+                    const source = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(sourceHTML);
+                    const fileDownload = document.createElement("a");
                     document.body.appendChild(fileDownload);
                     fileDownload.href = source;
-                    var currentdate = new Date();
+                    const currentdate = new Date();
                     fileDownload.download = 'deliberaIndirizzi' + "_" + currentdate.getDate() + "-"
                         + (currentdate.getMonth() + 1) + "-"
                         + currentdate.getFullYear() + '-' + 'h' +
@@ -226,7 +227,7 @@ class DeliberaIndirizziDocument
             di <?php self::getInput('var4', 'della/del', 'orange'); ?>   <?php self::getInput('var5', 'Consiglio Comunale/Assemblea', 'orange'); ?>
             n. <?php self::getInput('var6', 'numero_delibera_approvazione_bilancio', 'orange'); ?> del
             <?php self::getInput('var7', 'data_delibera_approvazione_bilancio', 'orange'); ?>, esecutiva, relativa a:
-            <?php self::getInput('var8', '“Bilancio di previsione anno, bilancio pluriennale e DUP/PEG anno, piano di investimenti – approvazione”', 'orange'); ?>
+            "<?php self::getInput('var8', 'Bilancio di previsione anno, bilancio pluriennale e DUP/PEG anno, piano di investimenti – approvazione”', 'orange'); ?>"
             ;
             <br>
             la
@@ -504,7 +505,8 @@ class DeliberaIndirizziDocument
             <br>
             • autorizzazione all’iscrizione, fra le risorse variabili, ai sensi dell’art. 67 comma 3 lett. c) del CCNL
             21.5.2018 delle somme destinate all’attuazione della specifica Legge
-            Regionale <?php self::getTextArea('area7', 'INSERIRE IL TITOLO TESTO LIBERO es. L.R. SARDEGNA n. 19 del 1997)', 'red'); ?> da distribuire ai sensi del
+            Regionale <?php self::getTextArea('area7', 'INSERIRE IL TITOLO TESTO LIBERO es. L.R. SARDEGNA n. 19 del 1997)', 'red'); ?>
+            da distribuire ai sensi del
             regolamento vigente in
             materia e nel rispetto della normativa vigente in materia per
             €<?php self::getSelect('formula13', 'formula13'); ?>;
@@ -520,7 +522,8 @@ class DeliberaIndirizziDocument
             € <?php self::getSelect('formula15', 'formula15'); ?>;
             <br>
             <br>
-            • autorizzazione all’iscrizione, fra le risorse variabili, ai sensi dell’art. 68 comma 1 CCNL 21.5.2018, delle
+            • autorizzazione all’iscrizione, fra le risorse variabili, ai sensi dell’art. 68 comma 1 CCNL 21.5.2018,
+            delle
             risorse derivanti dai risparmi di parte stabile del Fondo risorse decentrate degli anni precedenti, pari ad
             €<?php self::getSelect('formula16', 'formula16'); ?>;
             <br>
@@ -540,7 +543,7 @@ class DeliberaIndirizziDocument
             in materia per € <?php self::getSelect('formula18', 'formula18'); ?>;
             <br>
             <br>
-            •  autorizzazione all’iscrizione, fra le risorse variabili, ai sensi dell’art. 67 comma 3 let. c) del CCNL
+            • autorizzazione all’iscrizione, fra le risorse variabili, ai sensi dell’art. 67 comma 3 let. c) del CCNL
             21.5.2018 delle somme destinate alle attività svolte per conto dell’ISTAT da distribuire ai sensi dei
             regolamenti vigenti in materia e nel rispetto della normativa vigente in materia per
             € <?php self::getSelect('formula19', 'formula19'); ?>;
@@ -586,7 +589,8 @@ class DeliberaIndirizziDocument
             dell'Organo di Revisione;
             <br>
             <br>
-            • autorizzazione all’iscrizione, ai sensi dell’art. 67 comma 5 lett. b) del CCNL 21.5.2018 della sola quota di
+            • autorizzazione all’iscrizione, ai sensi dell’art. 67 comma 5 lett. b) del CCNL 21.5.2018 della sola quota
+            di
             maggior incasso rispetto all’anno precedente a seguito di obiettivi di potenziamento dei servizi di
             controllo finalizzati alla sicurezza urbana e stradale Art. 56 quater CCNL 2018, come risorsa NON soggetta
             al limite secondo dalla Corte dei Conti Sezione delle Autonomie con delibera n. 5 del 2019, per un importo
@@ -612,8 +616,10 @@ class DeliberaIndirizziDocument
             CDIA <?php self::getTextArea('area9', '(Compilazione a cura dell’Ente TESTO LIBERO)', 'red'); ?>
             <br>
             <br>
-            • Gli importi destinati alla performance dovranno essere distribuiti in relazione agli obiettivi coerenti col
-            DUP e contenuti all’interno del Piano della Performance <?php self::getInput('var37', 'anno', 'orange'); ?>. Tali obiettivi dovranno avere i requisiti di
+            • Gli importi destinati alla performance dovranno essere distribuiti in relazione agli obiettivi coerenti
+            col
+            DUP e contenuti all’interno del Piano della Performance <?php self::getInput('var37', 'anno', 'orange'); ?>.
+            Tali obiettivi dovranno avere i requisiti di
             misurabilità ed essere incrementali rispetto all’ordinaria attività lavorativa. Inoltre, le risorse
             destinate a finanziare le performance dovranno essere distribuite sulla base della valutazione da effettuare
             a consuntivo ai sensi del sistema di valutazione vigente nell’Ente e adeguato al D.Lgs. 150/2009;
@@ -623,9 +629,9 @@ class DeliberaIndirizziDocument
             opportune;
             <br>
             <br>
-           <b>Appurato che:</b>
+            <b>Appurato che:</b>
             <br>
-            •  le spese di cui al presente provvedimento non alterano il rispetto del limite delle spese di personale
+            • le spese di cui al presente provvedimento non alterano il rispetto del limite delle spese di personale
             rispetto alla media del triennio 2011-2013; e ribadito che le risorse variabili verranno distribuite solo se
             sarà rispettato l’“Equilibrio di Bilancio” dell’anno corrente e solo se non saranno superati i limiti in
             materia di spesa di personale;
@@ -653,7 +659,7 @@ class DeliberaIndirizziDocument
             <br>
             <br>
 
-           <b>DELIBERA</b>
+            <b>DELIBERA</b>
             <br>
             <br>
             1. di esprimere gli indirizzi per la costituzione variabile del fondo delle risorse decentrate di cui
@@ -681,7 +687,8 @@ class DeliberaIndirizziDocument
             necessaria disponibilità.
             <br>
             <br>
-            4. <p style="color: red">Di inviare il presente provvedimento al Revisore dei Conti per la certificazione di competenza</p>
+            4. <p style="color: red">Di inviare il presente provvedimento al Revisore dei Conti per la certificazione di
+                competenza</p>
             <br>
             <br>
 
@@ -702,7 +709,7 @@ class DeliberaIndirizziDocument
             Con voti favorevoli unanimi resi in forma palese
             <br>
             <br>
-           <b> D E L I B E R A</b>
+            <b> D E L I B E R A</b>
             <br>
             <br>
             Di rendere il presente atto immediatamente eseguibile.
