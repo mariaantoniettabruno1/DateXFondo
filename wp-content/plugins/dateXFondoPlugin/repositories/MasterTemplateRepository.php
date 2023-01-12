@@ -80,7 +80,8 @@ class MasterTemplateRepository
         $conn = new Connection();
         $mysqli = $conn->connect();
 
-        $sql = "UPDATE DATE_template_fondo SET id_articolo=?,
+        $sql = "UPDATE DATE_template_fondo SET ordinamento=?,
+                               id_articolo=?,
                                nome_articolo=?,
                                descrizione_articolo=?,
                                sottotitolo_articolo=?,
@@ -89,7 +90,8 @@ class MasterTemplateRepository
                                heredity=?
 WHERE id=?";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("ssssssii",
+        $stmt->bind_param("sssssssii",
+            $request['ordinamento'],
             $request['id_articolo'],
             $request['nome_articolo'],
             $request['descrizione_articolo'],

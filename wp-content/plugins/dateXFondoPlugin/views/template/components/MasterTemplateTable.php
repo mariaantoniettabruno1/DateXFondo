@@ -116,6 +116,7 @@ class MasterTemplateTable
                     id = $(this).attr('data-id');
                     const articolo = articoli.find(art => Number(art.id) === Number(id))
                     if (!articolo) return;
+                    $('#idOrdinamento').val(articolo.ordinamento)
                     $('#idArticolo').val(articolo.id_articolo)
                     $('#idNomeArticolo').val(articolo.nome_articolo)
                     $('#idSottotitoloArticolo').val(articolo.sottotitolo_articolo)
@@ -135,6 +136,7 @@ class MasterTemplateTable
                     id = $(this).attr('data-id');
                     const articolo = articoli.find(art => Number(art.id) === Number(id))
                     $('#idDecArticolo').val(articolo.id_articolo)
+                    $('#idDecOrdinamento').val(articolo.ordinamento)
                     $('#decRowDescrizioneArticolo').val(articolo.descrizione_articolo)
                     $('#decRowNotaArticolo').val(articolo.nota)
                     if (articolo.link === '%') {
@@ -168,6 +170,7 @@ class MasterTemplateTable
             function renderEditArticle() {
 
                 const updateArticolo = articoli.find(art => art.id === Number(id));
+                updateArticolo.ordinamento = $('#idOrdinamento').val();
                 updateArticolo.id_articolo = $('#idArticolo').val();
                 updateArticolo.nome_articolo = $('#idNomeArticolo').val();
                 updateArticolo.sottotitolo_articolo = $('#idSottotitoloArticolo').val();
@@ -198,6 +201,7 @@ class MasterTemplateTable
 
                 $('#editRowButton').click(function () {
                     let id_articolo = $('#idArticolo').val();
+                    let ordinamento = $('#idOrdinamento').val();
                     let nome_articolo = $('#idNomeArticolo').val();
                     let descrizione_articolo = $('#idDescrizioneArticolo').val();
                     let sottotitolo_articolo = $('#idSottotitoloArticolo').val();
@@ -207,6 +211,7 @@ class MasterTemplateTable
 
                     const payload = {
                         id,
+                        ordinamento,
                         id_articolo,
                         nome_articolo,
                         descrizione_articolo,
@@ -407,6 +412,8 @@ class MasterTemplateTable
                     </div>
 
                     <div class="modal-body">
+                        <label>Ordinamento</label>
+                        <input type="number" class="form-control" id="idOrdinamento">
                         <label>Id Articolo</label>
                         <input type="text" class="form-control" id="idArticolo">
 
@@ -479,6 +486,8 @@ class MasterTemplateTable
                     </div>
 
                     <div class="modal-body">
+                        <label>Ordinamento</label>
+                        <input type="number" class="form-control" id="idDecOrdinamento">
                         <label>Id Decurtazione</label>
                         <input type="text" class="form-control" id="idDecArticolo">
 
