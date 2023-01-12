@@ -1029,7 +1029,7 @@ class DeterminaCostituzioneDocument
             un importo pari ad € <?php self::getInput('var155', 'f254', 'orange'); ?>;
             <br>
             4. di prendere atto che la somma totale risulta stanziata così come segue:
-            <?php self::getTextArea('area9', ' per €. XXX Cap. XXX;
+            <?php self::getTextArea('area10', ' per €. XXX Cap. XXX;
             per € xxx al Cap. XX “Fondo miglioramento efficienza” competenza XXXX- impegno XXX/0X;
             etc….', 'orange'); ?>
             <br>
