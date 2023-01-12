@@ -385,7 +385,7 @@ class DeliberaIndirizziDocument
             regole del cosiddetto “Equilibrio di Bilancio” e il
             principio del tetto della spesa del personale sostenuta rispetto all'anno 2008;
             <br>
-            il/la <?php self::getInput('var24', $infos[29]['valore'], 'orange'); ?> ha rispettato i vincoli previsti
+            il/la <?php self::getInput('var24', 'var24', 'orange'); ?> ha rispettato i vincoli previsti
             dalle
             regole del cosiddetto “Equilibrio di Bilancio” e il
             principio del tetto della spesa del personale sostenuta rispetto criterio riduzione spesa mancante;
