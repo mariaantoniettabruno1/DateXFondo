@@ -4,7 +4,7 @@ namespace dateXFondoPlugin;
 
 use AllDocumentTable;
 
-class AllDocument
+class DocumentHistory
 {
     private $documents = [];
     private $allDocuments;
@@ -17,19 +17,19 @@ class AllDocument
             array_map(function ($doc) {
                 $doc['page'] = 'documento-modello-fondo';
                 return $doc;
-            }, $document_repository->getDataDocument('DATE_documento_modello_fondo')),
+            }, $document_repository->getDataDocument('DATE_documento_modello_fondo_storico')),
             array_map(function ($doc) {
-                $doc['page'] = 'regioni-ed-autonomie-locali-documento';
+                $doc['page'] = 'regioni_autonomie_locali_storico';
 
                 return $doc;
-            }, $document_repository->getDataDocument('DATE_documento_regioni_autonomie_locali')),
-
-            $document_repository->getDataOdtDocument('DATE_documenti_odt')
+            }, $document_repository->getDataDocument('DATE_documento_regioni_autonomie_locali_storico')),
+            $document_repository->getDataOdtDocument('DATE_documenti_odt_storico')
         );
 
         $this->allDocuments = new AllDocumentTable($this->documents);
 
     }
+
 
     public function render()
     {

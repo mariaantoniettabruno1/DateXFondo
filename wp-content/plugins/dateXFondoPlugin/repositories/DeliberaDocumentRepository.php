@@ -17,6 +17,19 @@ class DeliberaDocumentRepository
         mysqli_close($mysqli);
         return $rows;
     }
+    public static function getAllHistoryValues($document_name, $editor_name,$version)
+    {
+        $conn = new Connection();
+        $mysqli = $conn->connect();
+        $sql = "SELECT chiave, valore,document_name, editor_name, anno, editable FROM DATE_documenti_odt_storico WHERE document_name=? AND editor_name=? AND version=?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("ssi", $document_name, $editor_name,$version);
+        $res = $stmt->execute();
+        $res = $stmt->get_result();
+        $rows = $res->fetch_all(MYSQLI_ASSOC);
+        mysqli_close($mysqli);
+        return $rows;
+    }
 
     public static function edit_delibera_document($request)
     {
