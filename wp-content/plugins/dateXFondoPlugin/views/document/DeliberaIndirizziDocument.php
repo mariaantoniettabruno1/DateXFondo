@@ -358,15 +358,15 @@ class DeliberaIndirizziDocument
             parte stabile del Fondo risorse decentrate per
             l'anno <?php self::getInput('var20', 'anno', 'orange'); ?>
             <br>
-            <?php self::getTextArea('areai', 'SCRIVERE QUALCOSA SE PER CASO È STATA ADOTTATA PRECEDENTEMENTE LA DETERMINA DI PARTE STABILE', 'red'); ?>
+            <?php self::getTextArea('area1', 'SCRIVERE QUALCOSA SE PER CASO È STATA ADOTTATA PRECEDENTEMENTE LA DETERMINA DI PARTE STABILE', 'red'); ?>
             <br>
             <br>
-            <b>Tenuto conto</b> che nel periodo 2011-2014<?php self::getSelect('formula1', 'formula1'); ?> risultano
+            <b>Tenuto conto</b> che nel periodo 2011-2014 <?php self::getInput('var44', 'f273', 'orange'); ?> risultano
             decurtazioni
             rispetto ai vincoli sul fondo 2010 e
-            pertanto <?php self::getSelect('formula2', 'formula2'); ?> deve essere applicata la riduzione del fondo pari
+            pertanto <?php self::getInput('var45', 'f273', 'orange'); ?> deve essere applicata la riduzione del fondo pari
             a
-            <b>€</b><?php self::getSelect('formula3', 'formula3'); ?>;
+            <b>€</b><?php self::getInput('var46', 'f263', 'orange'); ?>;
             <br>
             <br>
             <b>Richiamato</b> l’importo totale del fondo anno 2016, per le risorse soggette al limite (con esclusione
@@ -375,7 +375,7 @@ class DeliberaIndirizziDocument
             lettera d) dell’art. 15 ove tale attività non risulti ordinariamente resa dall’Amministrazione
             precedentemente l’entrata in vigore del D. Lgs. 75/2017, le economie del fondo dell’anno 2015 e delle
             economie del fondo straordinari anno 2015), pari ad
-            <b>€</b> <?php self::getSelect('formula4', 'formula4'); ?>.
+            <b>€</b> <?php self::getInput('var47', 'f331', 'orange'); ?>.
             <br>
             <br>
             Dato atto che le ultime disposizioni individuano controlli più puntuali e stringenti sulla contrattazione
@@ -420,9 +420,9 @@ class DeliberaIndirizziDocument
             il numero di dipendenti in servizio nell'anno,
             calcolato in
             base alle modalità fornite dalla Ragioneria dello
-            Stato da ultimo con nota Prot. 12454 del 15.1.2021, pari a <?php self::getSelect('formula5', 'formula5'); ?>
+            Stato da ultimo con nota Prot. 12454 del 15.1.2021, pari a <?php self::getInput('var48', 'R162', 'orange'); ?>
             è<?php self::getInput('var25', 'superiore /inferiore o uguale', 'orange'); ?> al numero dei dipendenti in
-            servizio al 31.12.2018 pari a <?php self::getSelect('formula6', 'formula6'); ?>, pertanto, in attuazione
+            servizio al 31.12.2018 pari a <?php self::getInput('var49', 'R161', 'orange'); ?>, pertanto, in attuazione
             dell’art. 33
             c. 2 D.L. 34/2019 convertito nella
             L. 58/2019, il fondo e il limite di cui all’art. 23 c. 2 bis D.Lgs. 75/2017 devono essere adeguati in
@@ -460,7 +460,7 @@ class DeliberaIndirizziDocument
             riferita alla dirigenza) stabilito per l'anno 1997, sempre rispettando il limite dell’anno 2016,
             destinandoli
             a <?php self::getTextArea('area4', ' (INSERIRE IL TITOLO o allegare i file TESTO LIBERO)', 'red'); ?>.
-            L’importo previsto è pari ad €<?php self::getSelect('formula9', 'formula9'); ?>.
+            L’importo previsto è pari ad €<?php self::getInput('var51', 'R33', 'orange'); ?>.
             <br>
             Si precisa che gli importi, qualora non interamente distribuiti, non daranno luogo ad economie di fondo ma
             ritorneranno nella disponibilità del bilancio dell’Ente.
@@ -471,7 +471,7 @@ class DeliberaIndirizziDocument
             obiettivi di potenziamento dei servizi di controllo finalizzati alla sicurezza urbana e stradale Art. 56
             quater CCNL 2018, definiti nel piano della performance o in altri analoghi strumenti di programmazione della
             gestione, al fine di sostenere i correlati oneri dei trattamenti accessori del personale, per un importo
-            pari a € <?php self::getSelect('formula10', 'formula10'); ?>;
+            pari a € <?php self::getInput('var52', 'R34', 'orange'); ?>;
             <br>
             In particolare tali obiettivi sono contenuti nel Piano esecutivo di
             Gestione anno unitamente al Piano della Performance approvata con Delibera
@@ -493,14 +493,14 @@ class DeliberaIndirizziDocument
             21.5.2018 delle somme derivanti da contratti di sponsorizzazione, accordi di collaborazione, convenzioni con
             soggetti pubblici o privati e contributi dell'utenza per servizi pubblici non essenziali, secondo la
             disciplina dettata dall'art. 43 della Legge 449/1997, e soggette al limite 2015, per
-            €<?php self::getSelect('formula11', 'formula11'); ?>, rispettivamente
+            €<?php self::getInput('var53', 'R29', 'orange'); ?>, rispettivamente
             per <?php self::getTextArea('area6', '(INSERIRE IL TITOLO o allegare i file TESTO LIBERO);', 'red'); ?>
             <br>
             <br>
             • autorizzazione all’iscrizione, fra le risorse variabili, ai sensi dell’art. 67 comma 3 lett. c) del CCNL
             21.5.2018 delle somme destinate alle attività di recupero ICI da distribuire ai sensi del regolamento
             vigente in materia e nel rispetto della normativa vigente in materia per
-            €<?php self::getSelect('formula12', 'formula12'); ?>;
+            €<?php self::getInput('var54', 'R30', 'orange'); ?>;
             <br>
             <br>
             • autorizzazione all’iscrizione, fra le risorse variabili, ai sensi dell’art. 67 comma 3 lett. c) del CCNL
@@ -509,30 +509,30 @@ class DeliberaIndirizziDocument
             da distribuire ai sensi del
             regolamento vigente in
             materia e nel rispetto della normativa vigente in materia per
-            €<?php self::getSelect('formula13', 'formula13'); ?>;
+            €<?php self::getInput('var55', 'R30', 'orange'); ?>;
             <br>
             <br>
             • autorizzazione all'iscrizione, fra le risorse variabili, ai sensi dell’art. 67 comma 3 lett. f) CCNL
             21.5.2018 della quota parte del rimborso spese per ogni notificazione di atti per
-            € <?php self::getSelect('formula14', 'formula14'); ?>;
+            € <?php self::getInput('var56', 'R31', 'orange'); ?>;
             <br>
             <br>
             • autorizzazione all’iscrizione, fra le risorse variabili, ai sensi dell’art. 67 comma 3 lett. e) CCNL
             21.5.2018, delle somme derivanti dai risparmi del Fondo lavoro straordinario anno precedente, pari ad
-            € <?php self::getSelect('formula15', 'formula15'); ?>;
+            € <?php self::getInput('var57', 'R32', 'orange'); ?>;
             <br>
             <br>
             • autorizzazione all’iscrizione, fra le risorse variabili, ai sensi dell’art. 68 comma 1 CCNL 21.5.2018,
             delle
             risorse derivanti dai risparmi di parte stabile del Fondo risorse decentrate degli anni precedenti, pari ad
-            €<?php self::getSelect('formula16', 'formula16'); ?>;
+            €<?php self::getInput('var58', 'R45', 'orange'); ?>;
             <br>
             <br>
             • autorizzazione all’iscrizione fra le risorse variabili, ai sensi dell’art. 67 comma 3 lett. a) del CCNL
             21.5.2018 delle somme derivanti da contratti di sponsorizzazione, accordi di collaborazione, convenzioni con
             soggetti pubblici o privati e contributi dell'utenza per servizi pubblici non essenziali, secondo la
             disciplina dettata dall'art. 43 della Legge 449/1997 per
-            € <?php self::getSelect('formula17', 'formula17'); ?>,
+            € <?php self::getInput('var59', 'R42', 'orange'); ?>,
             rispettivamente
             per<?php self::getTextArea('area7', 'INSERIRE IL TITOLO o allegare i file TESTO LIBERO)', 'red'); ?>;
             <br>
@@ -540,38 +540,38 @@ class DeliberaIndirizziDocument
             • autorizzazione all’iscrizione, fra le risorse variabili, ai sensi dell’art. 67 comma 3 let. c) del CCNL
             21.5.2018 delle somme destinate agli incentivi per funzioni tecniche art. 113 comma 2 e 3 D.Lgs. n. 50/2016
             e ss.mm.ii da distribuire ai sensi del regolamento vigente in materia e nel rispetto della normativa vigente
-            in materia per € <?php self::getSelect('formula18', 'formula18'); ?>;
+            in materia per € <?php self::getInput('var60', 'R122', 'orange'); ?>;
             <br>
             <br>
             • autorizzazione all’iscrizione, fra le risorse variabili, ai sensi dell’art. 67 comma 3 let. c) del CCNL
             21.5.2018 delle somme destinate alle attività svolte per conto dell’ISTAT da distribuire ai sensi dei
             regolamenti vigenti in materia e nel rispetto della normativa vigente in materia per
-            € <?php self::getSelect('formula19', 'formula19'); ?>;
+            € <?php self::getInput('var61', 'R39', 'orange'); ?>;
             <br>
             <br>
             • autorizzazione all’iscrizione, fra le risorse variabili, ai sensi dell’ 67 comma 3 let. c) del CCNL
             21.5.2018 delle somme destinate alla “avvocatura” da distribuire ai sensi del regolamento vigente in materia
-            e nel rispetto della normativa vigente in materia per € <?php self::getSelect('formula20', 'formula20'); ?>;
+            e nel rispetto della normativa vigente in materia per €<?php self::getInput('var62', 'R40', 'orange'); ?>;
             <br>
             <br>
             autorizzazione all’iscrizione, fra le risorse variabili, ai sensi dell’art. 67 comma 3 let. c) del CCNL
             21.5.2018 delle somme finanziate da fondi di derivazione dell'Unione Europea da distribuire ai sensi dei
             regolamenti vigenti in materia e nel rispetto della normativa vigente in materia per
-            €<?php self::getSelect('formula21', 'formula21'); ?>;
+            €<?php self::getInput('var63', 'R41', 'orange'); ?>;
             <br>
             <br>
             • autorizzazione all’iscrizione, fra le risorse variabili, ai sensi dell’art. 67 comma 3 let. c) del CCNL
             21.5.2018 delle somme destinate alle attività di recupero IMU e TARI in riferimento all'art. 1 comma 1091
             della L. 145 del 31.12.2018 (Legge di Bilancio 2019) da distribuire ai sensi del regolamento vigente in
             materia e nel rispetto della normativa vigente in materia per
-            €<?php self::getSelect('formula22', 'formula22'); ?>;
+            €<?php self::getInput('var64', 'R147', 'orange'); ?>;
             <br>
             <br>
             • autorizzazione all’iscrizione, fra le risorse variabili, ai sensi dell’art. 67 comma 3 let. c) del CCNL
             21.5.2018 delle somme destinate alle
             attività <?php self::getTextArea('area8', '(INSERIRE IL TITOLO TESTO LIBERO)', 'red'); ?> da distribuire
             ai sensi del regolamento vigente in materia e nel rispetto della normativa vigente in materia per
-            € <?php self::getSelect('formula23', 'formula23'); ?>;
+            € <?php self::getInput('var65', 'R111', 'orange'); ?>;
             <br>
             <br>
             vista la Delibera <?php self::getInput('var31', 'della/del', 'orange'); ?>
@@ -581,7 +581,7 @@ class DeliberaIndirizziDocument
             <?php self::getInput('var34', 'data_delibera_approvazione_piano', 'orange'); ?>di approvazione del Piano di
             razionalizzazione anno ai sensi dell’art. 16
             comma 5 della Legge 111/2011 e dell’art. 67 comma 3 lett. B del CCNL 21.5.2018, autorizzazione
-            all’iscrizione tra le risorse variabili di €<?php self::getSelect('formula24', 'formula24'); ?>, che
+            all’iscrizione tra le risorse variabili di €<?php self::getInput('var66', 'R47', 'orange'); ?>, che
             dovranno
             essere
             distribuite nel rigoroso rispetto dei
@@ -594,13 +594,13 @@ class DeliberaIndirizziDocument
             maggior incasso rispetto all’anno precedente a seguito di obiettivi di potenziamento dei servizi di
             controllo finalizzati alla sicurezza urbana e stradale Art. 56 quater CCNL 2018, come risorsa NON soggetta
             al limite secondo dalla Corte dei Conti Sezione delle Autonomie con delibera n. 5 del 2019, per un importo
-            pari a € <?php self::getSelect('formula25', 'formula25'); ?>;
+            pari a € <?php self::getInput('var67', 'R152', 'orange'); ?>;
             <br>
             <br>
             • autorizzazione all’iscrizione, ai sensi dell’art. 67 c.7 e Art.15 c.7 CCNL 2018 della quota di incremento
             del Fondo trattamento accessorio per riduzione delle risorse destinate alla retribuzione di posizione e di
             risultato delle PO rispetto al tetto complessivo del salario accessorio art. 23 c. 2 D.Lgs 75/2017, per un
-            importo pari a € <?php self::getSelect('formula26', 'formula26'); ?>.
+            importo pari a € <?php self::getInput('var68', 'R155', 'orange'); ?>.
             <br>
             <br>
             a) In merito all’utilizzo del fondo, fornisce i seguenti indirizzi alla delegazione trattante di parte
