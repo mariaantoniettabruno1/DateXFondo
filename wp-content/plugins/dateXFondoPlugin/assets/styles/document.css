@@ -1,0 +1,37 @@
+.class-accordion-button {
+    color: #26282f;
+}
+
+.class-accordion-button:hover {
+    color: #26282f;
+}
+
+.btn-delete-row, .btn-delete-row:hover {
+    color: #870e12;
+}
+
+.btn-edit-row, .btn-edit-row:hover {
+    color: #26282f;
+}
+
+#editRowButton, #deleteRowButton {
+
+    border-color: #26282f;
+    background-color: #26282f;
+}
+
+#editRowButton:hover, #deleteRowButton:hover {
+    border-color: #870e12;
+    background-color: #870e12;
+}
+
+#editInputButton {
+    color: #26282f;
+}
+
+#saveInputButton {
+    color: #26282f;
+}
+#deleteEditButton{
+    color: #26282f;
+}

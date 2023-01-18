@@ -14,6 +14,12 @@ class AllDocumentTable
     public function render_scripts()
     {
         ?>
+            <style>
+                .btn-vis-templ, .btn-vis-templ:hover {
+                    color: #26282f;
+                }
+
+            </style>
         <script>
             let documents = JSON.parse((`<?= json_encode($this->documents); ?>`));
 

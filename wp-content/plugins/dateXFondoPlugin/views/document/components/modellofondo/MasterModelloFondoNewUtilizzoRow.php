@@ -7,6 +7,32 @@ class MasterModelloFondoNewUtilizzoRow
     public static function render_scripts()
     {
         ?>
+        <style>
+            #idAddUtilizzoRow {
+                border-color: #26282f;
+                color: #26282f;
+            }
+
+            #idAddUtilizzoRow:hover {
+                border-color: #870e12;
+                color: #870e12;
+                background-color: white;
+            }
+
+            #addNewUtilizzoRowButton {
+
+                border-color: #26282f;
+                background-color: #26282f;
+
+            }
+
+            #addNewUtilizzoRowButton:hover {
+                border-color: #870e12;
+                background-color: #870e12;
+            }
+        </style>
+
+
         <script>
 
 

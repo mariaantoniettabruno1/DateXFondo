@@ -1,12 +1,50 @@
 <?php
 
 use dateXFondoPlugin\DateXFondoCommon;
-use dateXFondoPlugin\MasterTemplateStopEditingButton;
 class MasterModelloFondoCostituzione
 {
     public static function render_scripts()
     {
         ?>
+            <style>
+                .class-accordion-button {
+                    color: #26282f;
+                }
+
+                .class-accordion-button:hover {
+                    color: #26282f;
+                }
+
+                .btn-delete-row, .btn-delete-row:hover {
+                    color: #870e12;
+                }
+
+                .btn-edit-row, .btn-edit-row:hover {
+                    color: #26282f;
+                }
+
+                #editRowButton, #deleteRowButton{
+
+                    border-color: #26282f;
+                    background-color: #26282f;
+                }
+
+                #editRowButton:hover, #deleteRowButton:hover  {
+                    border-color: #870e12;
+                    background-color: #870e12;
+                }
+                 .btn-excel {
+                    border-color: #26282f;
+                    color: #26282f;
+                }
+
+                .btn-excel:hover{
+                    border-color: #870e12;
+                    color: #870e12;
+                    background-color: white;
+                }
+
+            </style>
         <script>
             let id = 0;
 
@@ -231,7 +269,7 @@ class MasterModelloFondoCostituzione
         <div class="container">
             <div class="row d-flex flex-row-reverse ">
                     <div class="p-2">
-                        <button class="btn btn-outline-primary" onclick="ExportExcel(<?= $section_index ?>)">Genera Foglio
+                        <button class="btn btn-outline-primary btn-excel" onclick="ExportExcel(<?= $section_index ?>)">Genera Foglio
                             Excel
                         </button>
                     </div>

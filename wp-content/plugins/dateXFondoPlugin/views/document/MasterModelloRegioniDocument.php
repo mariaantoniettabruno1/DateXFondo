@@ -4,16 +4,18 @@ namespace dateXFondoPlugin;
 
 class MasterModelloRegioniDocument
 {
-public static function render(){
+public static function render()
+{
     $data = new RegioniDocumentRepository();
-    if(isset($_GET['version'])){
-        //$results_articoli_costituzione = $data->getHistoryCostituzioneArticoli($_GET['editor_name'],$_GET['version']);
-        //$results_articoli_destinazione = $data->getHistoryDestinazioneArticoli($_GET['editor_name'],$_GET['version']);
-    }
-    else{
-        $results_articoli_costituzione = $data->getCostituzioneArticoli($_GET['editor_name']);
-        $results_articoli_destinazione = $data->getDestinazioneArticoli($_GET['editor_name']);
-    }
+//    if(isset($_GET['version'])){
+//        //$results_articoli_costituzione = $data->getHistoryCostituzioneArticoli($_GET['editor_name'],$_GET['version']);
+//        //$results_articoli_destinazione = $data->getHistoryDestinazioneArticoli($_GET['editor_name'],$_GET['version']);
+//    }
+//    else{
+//
+//    }
+    $results_articoli_costituzione = $data->getCostituzioneArticoli($_GET['editor_name']);
+    $results_articoli_destinazione = $data->getDestinazioneArticoli($_GET['editor_name']);
 
 
 

@@ -6,7 +6,46 @@ class MasterModelloFondoNewCostituzioneRow
 {
 public static function render_scripts(){
     ?>
-    <script>
+    <style>
+        #idAddCostRow {
+            border-color: #26282f;
+            color: #26282f;
+        }
+
+        #idAddCostRow:hover {
+            border-color: #870e12;
+            color: #870e12;
+            background-color: white;
+        }
+
+        #addNewCostRowButton {
+
+            border-color: #26282f;
+            background-color: #26282f;
+
+        }
+
+        #addNewCostRowButton:hover {
+            border-color: #870e12;
+            background-color: #870e12;
+        }
+
+        .subsectionButtonGroup1, .subsectionButtonGroup2 {
+            border-color: #26282f;
+            color: #26282f;
+            background-color: white;
+
+        }
+
+        .subsectionButtonGroup1:active, .subsectionButtonGroup2:active, .subsectionButtonGroup1:hover, .subsectionButtonGroup2:hover {
+            border-color: #26282f;
+            color: #26282f;
+            background-color: white;
+        }
+    </style>
+
+
+        <script>
 
 
             function renderCostituzioneSectionFilterRow() {

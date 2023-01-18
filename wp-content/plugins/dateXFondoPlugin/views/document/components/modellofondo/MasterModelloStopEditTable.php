@@ -7,6 +7,19 @@ class MasterModelloStopEditTable
     public static function render_scripts()
     {
 ?>
+        <style>
+            #stopEditDocumentButton {
+                color: #26282f;
+            }
+            #stopEditTemplateButton{
+                border-color: #26282f;
+                background-color: #26282f;
+            }
+            #stopEditTemplateButton:hover{
+                border-color:#870e12 ;
+                background-color: #870e12;
+            }
+        </style>
         <script>
             $(document).ready(function (){
                 $('#stopEditTemplateButton').click(function () {

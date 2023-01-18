@@ -7,6 +7,25 @@ class MasterModelloFondoDatiUtili
     public static function render_scripts()
     {
         ?>
+        <style>
+            .class-accordion-button {
+                color: #26282f;
+            }
+
+            .class-accordion-button:hover {
+                color: #26282f;
+            }
+
+            .btn-delete-row, .btn-delete-row:hover {
+                color: #870e12;
+            }
+
+            .btn-edit-row, .btn-edit-row:hover {
+                color: #26282f;
+            }
+
+
+        </style>
         <script>
             let id_dati_utili = 0;
 

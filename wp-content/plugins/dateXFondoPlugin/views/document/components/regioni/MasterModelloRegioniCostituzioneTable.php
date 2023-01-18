@@ -7,6 +7,36 @@ class MasterModelloRegioniCostituzioneTable
     public static function render_scripts()
     {
         ?>
+        <style>
+            .class-accordion-button {
+                color: #26282f;
+            }
+
+            .class-accordion-button:hover {
+                color: #26282f;
+            }
+
+            .btn-delete-row, .btn-delete-row:hover {
+                color: #870e12;
+            }
+
+            .btn-edit-row, .btn-edit-row:hover {
+                color: #26282f;
+            }
+
+            #editRegioniRowButton, #deleteRegioniRowButton{
+
+                border-color: #26282f;
+                background-color: #26282f;
+            }
+
+            #editRegioniRowButton:hover, #deleteRegioniRowButton:hover  {
+                border-color: #870e12;
+                background-color: #870e12;
+            }
+
+
+        </style>
         <script>
             let id = 0;
             let filteredArticoli = articoli_costituzione;

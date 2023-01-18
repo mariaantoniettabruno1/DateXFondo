@@ -7,6 +7,7 @@ class MasterModelloFondoUtilizzo
     public static function render_scripts()
     {
         ?>
+
         <script>
             let id_utilizzo = 0;
 
