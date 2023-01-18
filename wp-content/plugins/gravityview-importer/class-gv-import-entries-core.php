@@ -152,7 +152,8 @@ class Core {
 				'args'                => array(
 					'batch_id'        => array(
 						'description' => 'The Batch ID to process. If not given, all batches are processed.',
-						'type'        => 'number'
+						'type'        => 'number',
+
 					)
 				),
 			),

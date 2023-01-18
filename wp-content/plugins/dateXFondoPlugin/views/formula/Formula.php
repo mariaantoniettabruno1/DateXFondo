@@ -21,7 +21,7 @@ class Formula
         }
         foreach ($result_articoli as $key => $value){
             $result_articoli[$key]["sottotitolo_articolo"] = str_replace('"','\"' ,$value["sottotitolo_articolo"]);
-            $result_articoli[$key]["descrizione"] = str_replace('"','\"' ,$value["descrizione"]);
+            //$result_articoli[$key]["descrizione"] = str_replace('"','\"' ,$value["descrizione"]);
         }
         ?>
 

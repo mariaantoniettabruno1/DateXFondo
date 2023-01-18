@@ -107,7 +107,6 @@ function shortcodes_init()
     add_shortcode('post_visualize_slave_formula_template', 'visualize_slave_formula_template');
     add_shortcode('post_document_template', 'document_template');
     add_shortcode('post_document_table_template', 'document_table_template');
-    add_shortcode('post_document_history_table_template', 'document_history_table_template');
     add_shortcode('post_regioni_autonomie_locali_template', 'regioni_autonomie_locali_template');
     add_shortcode('post_delibera_template', 'delibera_template');
     add_shortcode('post_determina_costituzione_template', 'determina_costituzione_template');
@@ -193,119 +192,110 @@ function document_table_template()
     $document = new \dateXFondoPlugin\AllDocument();
     $document->render();
 
-
 }
-function document_history_table_template()
-{
-    $document = new \dateXFondoPlugin\DocumentHistory();
-    $document->render();
-
-
-}
-
 
 
 //route ed endpoint per far funzionare la modifica campi della table contenente i dati dell'anno corrente per il master
-function create_endpoint_datefondo()
-{
-
-    register_rest_route('datexfondoplugin/v1', 'table/edit', array(
-        'methods' => 'POST',
-        'callback' => 'esegui_modifica_campi'
-    ));
-
-
-}
-
-function esegui_modifica_campi($params)
-{
-    \dateXFondoPlugin\modifica_campi($params);
-    $data = ['params' => $params, 'message' => 'Endpoint di edit'];
-    $response = new WP_REST_Response($data);
-    $response->set_status(200);
-    return $response;
-}
-
-add_action('rest_api_init', 'create_endpoint_datefondo');
-
-//route ed endpoint per far funzionare la modifica campi della table contenente i dati dell'anno corrente per lo svale
-function create_endpoint_datefondo_slave()
-{
-
-    register_rest_route('datexfondoplugin/v1', 'table/editslave', array(
-        'methods' => 'POST',
-        'callback' => 'esegui_modifica_campi_slave'
-    ));
-
-
-}
-
-function esegui_modifica_campi_slave($params)
-{
-    \dateXFondoPlugin\modifica_campi_slave($params);
-    $data = ['params' => $params, 'message' => 'Endpoint di edit per lo slave'];
-    $response = new WP_REST_Response($data);
-    $response->set_status(200);
-    return $response;
-}
-
-add_action('rest_api_init', 'create_endpoint_datefondo_slave');
-
-//route ed endpoint per far funzionare la modifica campi del table template che viene duplicato in fase di creazione di un nuovo fondo
-function create_endpoint_datefondo_nuovo()
-{
-
-    register_rest_route('datexfondoplugin/v1', 'table/editnewfondo', array(
-        'methods' => 'POST',
-        'callback' => 'esegui_modifica_campi_nuovo_template'
-    ));
-
-
-}
-
-function esegui_modifica_campi_nuovo_template($params)
-{
-    return \dateXFondoPlugin\modifica_campi_nuovo_template($params);
-}
-
-add_action('rest_api_init', 'create_endpoint_datefondo_nuovo');
-
-
-function create_endpoint_datefondo_attiva_riga()
-{
-
-    register_rest_route('datexfondoplugin/v1', 'table/enablerow', array(
-        'methods' => 'POST',
-        'callback' => 'esegui_abilitazione_riga'
-    ));
-
-
-}
-
-function esegui_abilitazione_riga($params)
-{
-    return \dateXFondoPlugin\abilita_riga($params);
-}
-
-add_action('rest_api_init', 'create_endpoint_datefondo_attiva_riga');
-
-function create_endpoint_datefondo_ereditarieta_nota_valore()
-{
-
-    register_rest_route('datexfondoplugin/v1', 'table/heredity', array(
-        'methods' => 'POST',
-        'callback' => 'esegui_eredita_nota_valore'
-    ));
-
-
-}
-
-function esegui_eredita_nota_valore($params)
-{
-    return \dateXFondoPlugin\eredita_nome_valore($params);
-}
-
-add_action('rest_api_init', 'create_endpoint_datefondo_ereditarieta_nota_valore');
+//function create_endpoint_datefondo()
+//{
+//
+//    register_rest_route('datexfondoplugin/v1', 'table/edit', array(
+//        'methods' => 'POST',
+//        'callback' => 'esegui_modifica_campi'
+//    ));
+//
+//
+//}
+//
+//function esegui_modifica_campi($params)
+//{
+//    \dateXFondoPlugin\modifica_campi($params);
+//    $data = ['params' => $params, 'message' => 'Endpoint di edit'];
+//    $response = new WP_REST_Response($data);
+//    $response->set_status(200);
+//    return $response;
+//}
+//
+//add_action('rest_api_init', 'create_endpoint_datefondo');
+//
+////route ed endpoint per far funzionare la modifica campi della table contenente i dati dell'anno corrente per lo svale
+//function create_endpoint_datefondo_slave()
+//{
+//
+//    register_rest_route('datexfondoplugin/v1', 'table/editslave', array(
+//        'methods' => 'POST',
+//        'callback' => 'esegui_modifica_campi_slave'
+//    ));
+//
+//
+//}
+//
+//function esegui_modifica_campi_slave($params)
+//{
+//    \dateXFondoPlugin\modifica_campi_slave($params);
+//    $data = ['params' => $params, 'message' => 'Endpoint di edit per lo slave'];
+//    $response = new WP_REST_Response($data);
+//    $response->set_status(200);
+//    return $response;
+//}
+//
+//add_action('rest_api_init', 'create_endpoint_datefondo_slave');
+//
+////route ed endpoint per far funzionare la modifica campi del table template che viene duplicato in fase di creazione di un nuovo fondo
+//function create_endpoint_datefondo_nuovo()
+//{
+//
+//    register_rest_route('datexfondoplugin/v1', 'table/editnewfondo', array(
+//        'methods' => 'POST',
+//        'callback' => 'esegui_modifica_campi_nuovo_template'
+//    ));
+//
+//
+//}
+//
+//function esegui_modifica_campi_nuovo_template($params)
+//{
+//    return \dateXFondoPlugin\modifica_campi_nuovo_template($params);
+//}
+//
+//add_action('rest_api_init', 'create_endpoint_datefondo_nuovo');
+//
+//
+//function create_endpoint_datefondo_attiva_riga()
+//{
+//
+//    register_rest_route('datexfondoplugin/v1', 'table/enablerow', array(
+//        'methods' => 'POST',
+//        'callback' => 'esegui_abilitazione_riga'
+//    ));
+//
+//
+//}
+//
+//function esegui_abilitazione_riga($params)
+//{
+//    return \dateXFondoPlugin\abilita_riga($params);
+//}
+//
+//add_action('rest_api_init', 'create_endpoint_datefondo_attiva_riga');
+//
+//function create_endpoint_datefondo_ereditarieta_nota_valore()
+//{
+//
+//    register_rest_route('datexfondoplugin/v1', 'table/heredity', array(
+//        'methods' => 'POST',
+//        'callback' => 'esegui_eredita_nota_valore'
+//    ));
+//
+//
+//}
+//
+//function esegui_eredita_nota_valore($params)
+//{
+//    return \dateXFondoPlugin\eredita_nome_valore($params);
+//}
+//
+//add_action('rest_api_init', 'create_endpoint_datefondo_ereditarieta_nota_valore');
 
 
 
