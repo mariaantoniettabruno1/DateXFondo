@@ -12,15 +12,17 @@ class MasterTemplate
     {
 
         $data = new MasterTemplateRepository();
+        $results_articoli = [];
         if (isset($_GET['fondo']) && isset($_GET['anno']) && isset($_GET['descrizione']) && isset($_GET['version']) && isset($_GET['template_name'])) {
             $results_articoli = $data->visualize_template($_GET['fondo'], $_GET['anno'], $_GET['descrizione'], $_GET['version'], $_GET['template_name']);
 
         } else {
-            $results_articoli = $data->getArticoli($_GET['template_name']);
+            if (isset($_GET['template_name']))
+                $results_articoli = $data->getArticoli($_GET['template_name']);
         }
-        foreach ($results_articoli as $key => $value){
-            $results_articoli[$key]["sottotitolo_articolo"] = str_replace('"','\"' ,$value["sottotitolo_articolo"]);
-            $results_articoli[$key]["descrizione_articolo"] = str_replace('"','\"' ,$value["descrizione_articolo"]);
+        foreach ($results_articoli as $key => $value) {
+            $results_articoli[$key]["sottotitolo_articolo"] = str_replace('"', '\"', $value["sottotitolo_articolo"]);
+            $results_articoli[$key]["descrizione_articolo"] = str_replace('"', '\"', $value["descrizione_articolo"]);
         }
 
         ?>
