@@ -2,8 +2,8 @@
 
 namespace dateXFondoPlugin;
 
-use dateXFondoPlugin\DeliberaDocumentRepository;
 use DocumentRepository;
+use \dateXFondoPlugin\DeliberaDocumentRepository;
 
 class RelazioneIllustrativaDocument
 {
@@ -11,22 +11,17 @@ class RelazioneIllustrativaDocument
     private $infos = [];
     private $values = array();
 
-public function __construct()
-{
-    $data = new DocumentRepository();
-    $this->formule = $data->getFormulas($_GET['editor_name']) + $data->getIdsArticoli($_GET['editor_name']);
-    $delibera_data = new DeliberaDocumentRepository();
-    if (isset($_GET['version'])) {
 
-        $this->infos = $delibera_data->getAllHistoryValues($_GET['document_name'], $_GET['editor_name'], $_GET['version']);
-    } else {
+    public function __construct()
+    {
+        $data = new DocumentRepository();
+        $this->formule = $data->getFormulas($_GET['editor_name']) + $data->getIdsArticoli($_GET['editor_name']);
+        $delibera_data = new DeliberaDocumentRepository();
         $this->infos = $delibera_data->getAllValues($_GET['document_name'], $_GET['editor_name']);
+        foreach ($this->infos as $row) {
+            $this->values[$row['chiave']] = $row['valore'];
+        }
     }
-
-    foreach ($this->infos as $row) {
-        $this->values[$row['chiave']] = $row['valore'];
-    }
-}
 
 
     private function getInput($key, $default, $color)
@@ -3846,8 +3841,7 @@ Dal prospetto relativo alla spesa, a consuntivo, le risorse non risultano utiliz
             dalla contrattazione
             decentrata trova copertura sulla disponibilità delle pertinenti risorse previste nel bilancio di
             previsione <?php self::getInput('var440', 'anno', 'orange'); ?>, approvato con
-            deliberazione consiliare
-            n. <?php self::getInput('var441', 'numero_delibera_approvazione_bilancio', 'orange'); ?> del
+            deliberazione consiliare n. <?php self::getInput('var441', 'numero_delibera_approvazione_bilancio', 'orange'); ?> del
             <?php self::getInput('var442', 'data_delibera_approvazione_bilancio', 'orange'); ?> esecutiva.
             <br>
             <br>
@@ -3875,7 +3869,7 @@ Dal prospetto relativo alla spesa, a consuntivo, le risorse non risultano utiliz
             <br>
             <br>
             - <?php self::getTextArea('area43', 'nel caso (prevalente) in cui il fondo ed il relativo capitolo di spesa (o voce di costo del conto economico) siano stati costituiti al netto degli oneri riflessi, la relazione tecnica, dovrà dare conto della capienza delle voci di bilancio che finanziano detti oneri (contributi previdenziali ed assistenziali ed IRAP);', 'red'); ?>
-            <br>
+<br>
             - <?php self::getTextArea('area44', 'nel caso di utilizzo di personale con tipologia di lavoro flessibile e/o di personale comandato, le risorse da destinare a tale personale, a titolo di retribuzioni accessorie finanziate dalla contrattazione integrativa, debbono trovare capienza nel medesimo fondo unico; SPECIFICARE SE CI SONO O MENO ALTRE TIPOLOGIE DI PERSONALE E DOVE ATTINGONO EVENTUALMENTE LE RISORSE DESTINATE AL TRATTAMENTO ACCESSORIO, SE NON VI SONO RISORSE O PERSONALE CANCELLARE O SPECIFICARE CHE NON SONO DISTRIBUITE ALTRE RISORSE A TITOLO ACCESSORIO;', 'red'); ?>
             <br>
             <br>

@@ -42,7 +42,6 @@ require_once(plugin_dir_path(__FILE__) . 'views/template/ShortCodeDisabledTempla
 require_once(plugin_dir_path(__FILE__) . 'views/formula/Formula.php');
 require_once(plugin_dir_path(__FILE__) . 'views/formula/SlaveShortCodeFormulaTable.php');
 require_once(plugin_dir_path(__FILE__) . 'views/document/AllDocument.php');
-require_once(plugin_dir_path(__FILE__) . 'views/document/DocumentHistory.php');
 require_once(plugin_dir_path(__FILE__) . 'views/document/components/AllDocumentTable.php');
 require_once(plugin_dir_path(__FILE__) . 'views/document/MasterModelloRegioniDocument.php');
 require_once(plugin_dir_path(__FILE__) . 'views/document/components/regioni/MasterModelloRegioniHeader.php');
@@ -98,7 +97,9 @@ add_action('init', 'shortcodes_init');
 
 function shortcodes_init()
 {
+    add_shortcode('post_custom_table', 'call_custom_table');
     add_shortcode('post_join_table', 'visualize_join_table');
+    add_shortcode('post_create_fondo', 'create_new_fondo');
     add_shortcode('post_visualize_master_template', 'visualize_master_template');
     add_shortcode('post_visualize_master_all_template', 'visualize_master_all_template');
     add_shortcode('post_visualize_history_template', 'visualize_history_template');
@@ -107,7 +108,6 @@ function shortcodes_init()
     add_shortcode('post_visualize_slave_formula_template', 'visualize_slave_formula_template');
     add_shortcode('post_document_template', 'document_template');
     add_shortcode('post_document_table_template', 'document_table_template');
-    add_shortcode('post_document_history_table_template', 'document_history_table_template');
     add_shortcode('post_regioni_autonomie_locali_template', 'regioni_autonomie_locali_template');
     add_shortcode('post_delibera_template', 'delibera_template');
     add_shortcode('post_determina_costituzione_template', 'determina_costituzione_template');
@@ -115,13 +115,22 @@ function shortcodes_init()
 }
 
 
+function call_custom_table()
+{
+    \dateXFondoPlugin\ShortCodeCustomTable::visualize_custom_table();
+
+}
 
 function visualize_join_table()
 {
     \dateXFondoPlugin\MasterTemplateFormulaJoin::render();
 }
 
+function create_new_fondo()
+{
+    \dateXFondoPlugin\ShortCodeCreateFondo::create_fondo();
 
+}
 
 function visualize_master_all_template()
 {
@@ -191,13 +200,6 @@ function relazione_illustrativa_template()
 function document_table_template()
 {
     $document = new \dateXFondoPlugin\AllDocument();
-    $document->render();
-
-
-}
-function document_history_table_template()
-{
-    $document = new \dateXFondoPlugin\DocumentHistory();
     $document->render();
 
 

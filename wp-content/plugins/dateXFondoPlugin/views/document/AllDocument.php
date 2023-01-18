@@ -19,12 +19,11 @@ class AllDocument
                 return $doc;
             }, $document_repository->getDataDocument('DATE_documento_modello_fondo')),
             array_map(function ($doc) {
-                $doc['page'] = 'regioni-ed-autonomie-locali-documento';
+                $doc['page'] = 'determina-costituzione-fondo';
 
                 return $doc;
             }, $document_repository->getDataDocument('DATE_documento_regioni_autonomie_locali')),
-
-            $document_repository->getDataOdtDocument('DATE_documenti_odt')
+            $document_repository->getDataOdtDocument()
         );
 
         $this->allDocuments = new AllDocumentTable($this->documents);

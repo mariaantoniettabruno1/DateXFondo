@@ -11,14 +11,7 @@ class DeterminaCostituzioneDocument
     public function __construct()
     {
         $delibera_data = new DeliberaDocumentRepository();
-        if(isset($_GET['version'])){
-            $this->infos = $delibera_data->getAllHistoryValues($_GET['document_name'], $_GET['editor_name'],$_GET['version']);
-
-        }
-        else{
-            $this->infos = $delibera_data->getAllValues($_GET['document_name'], $_GET['editor_name']);
-
-        }
+        $this->infos = $delibera_data->getAllValues($_GET['document_name'], $_GET['editor_name']);
         foreach ($this->infos as $row) {
             $this->values[$row['chiave']] = $row['valore'];
         }
