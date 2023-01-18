@@ -8,7 +8,7 @@ class DocumentRepository
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = 'SELECT DISTINCT document_name, editor_name, anno FROM ' . $table_name;
+        $sql = 'SELECT DISTINCT document_name, editor_name, anno, version FROM ' . $table_name;
         $stmt = $mysqli->prepare($sql);
         $res = $stmt->execute();
         if ($res = $stmt->get_result()) {
@@ -20,11 +20,11 @@ class DocumentRepository
 
     }
 
-    public static function getDataOdtDocument()
+    public static function getDataOdtDocument($table_name)
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = 'SELECT DISTINCT document_name, editor_name, anno,page FROM DATE_documenti_odt';
+        $sql = 'SELECT DISTINCT document_name, editor_name, anno,page,version FROM ' . $table_name;
         $stmt = $mysqli->prepare($sql);
         $res = $stmt->execute();
         if ($res = $stmt->get_result()) {
@@ -51,6 +51,21 @@ class DocumentRepository
         mysqli_close($mysqli);
         return $rows;
     }
+    public static function getHistoryArticoli($editor_name, $version)
+    {
+        $conn = new Connection();
+        $mysqli = $conn->connect();
+        $sql = "SELECT * FROM DATE_documento_modello_fondo_storico WHERE  attivo=1 and editor_name=? AND version=? ORDER BY ordinamento ASC";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("si", $editor_name,$version);
+        $res = $stmt->execute();
+        if ($res = $stmt->get_result()) {
+            $rows = $res->fetch_all(MYSQLI_ASSOC);
+        } else
+            $rows = [];
+        mysqli_close($mysqli);
+        return $rows;
+    }
 
     public static function getArticoliUtilizzo($editor_name)
     {
@@ -68,6 +83,21 @@ class DocumentRepository
         return $rows;
     }
 
+    public static function getHistoryArticoliUtilizzo($editor_name,$version)
+    {
+        $conn = new Connection();
+        $mysqli = $conn->connect();
+        $sql = "SELECT * FROM DATE_documento_modello_fondo_utilizzo_storico WHERE  attivo=1 and editor_name=? AND version=? ORDER BY ordinamento ASC";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("si", $editor_name,$version);
+        $res = $stmt->execute();
+        if ($res = $stmt->get_result()) {
+            $rows = $res->fetch_all(MYSQLI_ASSOC);
+        } else
+            $rows = [];
+        mysqli_close($mysqli);
+        return $rows;
+    }
     public static function getArticoliDatiUtili($editor_name)
     {
         $conn = new Connection();
@@ -83,7 +113,21 @@ class DocumentRepository
         mysqli_close($mysqli);
         return $rows;
     }
-
+    public static function getHistoryArticoliDatiUtili($editor_name,$version)
+    {
+        $conn = new Connection();
+        $mysqli = $conn->connect();
+        $sql = "SELECT * FROM DATE_documento_modello_fondo_dati_utili WHERE  attivo=1 and editor_name=? AND version=? ORDER BY ordinamento ASC";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("si", $editor_name,$version);
+        $res = $stmt->execute();
+        if ($res = $stmt->get_result()) {
+            $rows = $res->fetch_all(MYSQLI_ASSOC);
+        } else
+            $rows = [];
+        mysqli_close($mysqli);
+        return $rows;
+    }
     public static function getIdsArticoli($editor_name)
     {
         $conn = new Connection();
