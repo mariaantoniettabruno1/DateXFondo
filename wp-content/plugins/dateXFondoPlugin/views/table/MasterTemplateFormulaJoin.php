@@ -65,7 +65,7 @@ class MasterTemplateFormulaJoin
                         joinedIndexes["F" + r.external_id] = r
                     }
                 })
-                console.log(joined_record, joinedIndexes)
+
 
                 const sezioni = {}
                 articoli.forEach(a => {
@@ -76,7 +76,16 @@ class MasterTemplateFormulaJoin
                         sezioni[a.sezione].push(a.sottosezione);
                     }
                 });
-                console.log(joined_record);
+                formulas.forEach( f =>{
+                        if(!sezioni[f.sezione]){
+                            sezioni[f.sezione] = [];
+                        }
+                        if(!sezioni[f.sezione].includes(f.sottosezione)){
+                            sezioni[f.sezione].push(f.sottosezione);
+                        }
+                    }
+                );
+                console.log(sezioni)
             </script>
         </head>
 

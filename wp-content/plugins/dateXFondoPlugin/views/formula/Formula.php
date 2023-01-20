@@ -63,6 +63,17 @@ class Formula
                        owners.push(a.template_name)
                    }
                 })
+
+                formule.forEach( f =>{
+                    if(!sezioni[f.sezione]){
+                        sezioni[f.sezione] = [];
+                    }
+                    if(!sezioni[f.sezione].includes(f.sottosezione)){
+                        sezioni[f.sezione].push(f.sottosezione);
+                    }
+                    }
+                );
+                console.log(formule);
             </script>
         </head>
 
