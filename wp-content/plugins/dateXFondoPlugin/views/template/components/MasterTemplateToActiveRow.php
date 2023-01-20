@@ -126,7 +126,7 @@ class MasterTemplateToActiveRow
 
             </thead>
             <?php $data = new MasterTemplateRepository();
-            $results_articoli = $data->getStoredArticoli();
+            $results_articoli = $data->getDisabledArticoli();
             $arrLength = count($results_articoli);
             for ($results_articoli = 0; $results_articoli <= $arrLength; $results_articoli++) { ?>
                 <tbody id="dataTemplateTableBody">
