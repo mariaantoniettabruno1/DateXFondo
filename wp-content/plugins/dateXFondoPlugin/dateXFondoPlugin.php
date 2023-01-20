@@ -40,9 +40,7 @@ require_once(plugin_dir_path(__FILE__) . 'views/template/components/MasterTempla
 require_once(plugin_dir_path(__FILE__) . 'views/template/components/MasterTemplateToActiveRow.php');
 require_once(plugin_dir_path(__FILE__) . 'views/template/ShortCodeDisabledTemplateRow.php');
 require_once(plugin_dir_path(__FILE__) . 'views/formula/Formula.php');
-require_once(plugin_dir_path(__FILE__) . 'views/formula/SlaveShortCodeFormulaTable.php');
 require_once(plugin_dir_path(__FILE__) . 'views/document/AllDocument.php');
-require_once(plugin_dir_path(__FILE__) . 'views/document/DocumentHistory.php');
 require_once(plugin_dir_path(__FILE__) . 'views/document/components/AllDocumentTable.php');
 require_once(plugin_dir_path(__FILE__) . 'views/document/MasterModelloRegioniDocument.php');
 require_once(plugin_dir_path(__FILE__) . 'views/document/components/regioni/MasterModelloRegioniHeader.php');
@@ -104,7 +102,7 @@ function shortcodes_init()
     add_shortcode('post_visualize_history_template', 'visualize_history_template');
     add_shortcode('post_visualize_disabled_template_row', 'visualize_disabled_template_row');
     add_shortcode('post_visualize_formula_template', 'visualize_formula_template');
-    add_shortcode('post_visualize_slave_formula_template', 'visualize_slave_formula_template');
+   // add_shortcode('post_visualize_slave_formula_template', 'visualize_slave_formula_template');
     add_shortcode('post_document_template', 'document_template');
     add_shortcode('post_document_table_template', 'document_table_template');
     add_shortcode('post_regioni_autonomie_locali_template', 'regioni_autonomie_locali_template');

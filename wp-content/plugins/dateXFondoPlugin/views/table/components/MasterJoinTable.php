@@ -85,7 +85,7 @@ class MasterJoinTable
                             id_articolo = '';
                         }
                         if (art.descrizione !== undefined) {
-                            sottotitolo = art.descrizione;
+                            nome_articolo = art.descrizione;
                         }
                     }
 

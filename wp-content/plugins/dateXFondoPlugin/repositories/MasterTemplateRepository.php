@@ -41,6 +41,7 @@ class MasterTemplateRepository
         mysqli_close($mysqli);
         return $row;
     }
+
     public static function getAllTemplate()
     {
         $conn = new Connection();
@@ -51,6 +52,7 @@ class MasterTemplateRepository
         mysqli_close($mysqli);
         return $row;
     }
+
     public static function getAllArticles()
     {
         $conn = new Connection();
@@ -119,11 +121,22 @@ WHERE id=?";
                      nome_articolo,descrizione_articolo,sottotitolo_articolo,valore,valore_anno_precedente,nota,link,attivo,version,row_type,editable,heredity,template_name 
 FROM DATE_template_fondo WHERE template_name=? AND version=?";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("si", $request['template_name'],$request['version']);
+        $stmt->bind_param("si", $request['template_name'], $request['version']);
         $res = $stmt->execute();
+        $delete_result = self::deleteTemplateFondo($request['template_name']);
+        mysqli_close($mysqli);
+        if ($delete_result == true)
+            return $res;
+        else return false;
+    }
+
+    public static function deleteTemplateFondo($template_name)
+    {
+        $conn = new Connection();
+        $mysqli = $conn->connect();
         $sql = "DELETE FROM DATE_template_fondo WHERE template_name=?";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("s", $request['template_name']);
+        $stmt->bind_param("s", $template_name);
         $res = $stmt->execute();
         mysqli_close($mysqli);
         return $res;
@@ -169,14 +182,14 @@ FROM DATE_storico_template_fondo WHERE fondo=? AND anno=? AND descrizione_fondo=
         foreach ($rows as $entry) {
             $stmt->bind_param("sisissssssiissiisis", $entry['fondo'], $entry['anno'], $entry['descrizione_fondo'], $entry['ordinamento'], $entry['id_articolo'],
                 $entry['sezione'], $entry['sottosezione'], $entry['nome_articolo'], $entry['descrizione_articolo'], $entry['sottotitolo_articolo'], $entry['valore'],
-                $entry['valore_anno_precedente'], $entry['nota'], $entry['link'], $entry['attivo'], $version, $entry['row_type'], $entry['heredity'],$entry['template_name']);
+                $entry['valore_anno_precedente'], $entry['nota'], $entry['link'], $entry['attivo'], $version, $entry['row_type'], $entry['heredity'], $entry['template_name']);
             $res = $stmt->execute();
         }
         mysqli_close($mysqli);
         return $res;
     }
 
-    public static function visualize_template($fondo, $anno, $descrizione, $version,$template_name)
+    public static function visualize_template($fondo, $anno, $descrizione, $version, $template_name)
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
@@ -184,7 +197,7 @@ FROM DATE_storico_template_fondo WHERE fondo=? AND anno=? AND descrizione_fondo=
                      nome_articolo,sottotitolo_articolo,descrizione_articolo,valore,valore_anno_precedente,nota,link,attivo,version,row_type,editable,heredity,template_name
 FROM DATE_storico_template_fondo WHERE fondo=? AND anno=? AND descrizione_fondo=? AND version=? AND template_name=?";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("sisis", $fondo, $anno, $descrizione, $version,$template_name);
+        $stmt->bind_param("sisis", $fondo, $anno, $descrizione, $version, $template_name);
         $res = $stmt->execute();
         if ($res = $stmt->get_result()) {
             $rows = $res->fetch_all(MYSQLI_ASSOC);

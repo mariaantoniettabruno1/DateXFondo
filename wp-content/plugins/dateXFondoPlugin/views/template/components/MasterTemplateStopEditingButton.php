@@ -17,6 +17,7 @@ class MasterTemplateStopEditingButton
                     $("#btnSpecialRow").attr("disabled", true);
                     $("#btnDecurtazione").attr("disabled", true);
 
+
                     let fondo = $('#inputFondo').val();
                     let anno = $('#inputAnno').val();
                     let descrizione_fondo = $('#inputDescrizioneFondo').val();
@@ -37,14 +38,16 @@ class MasterTemplateStopEditingButton
                        type: "POST",
                        success: function (response) {
                            console.log(response);
-                           location.href = '<?= DateXFondoCommon::get_website_url() ?>/visualizza-template-fondo/';
+                           $("#stopEditTemplateButton").attr("disabled", true);
+                           location.href = '<?= DateXFondoCommon::get_website_url() ?>/all-template-table';
                        },
                        error: function (response) {
                            console.error(response);
-                           $(".alert-block-wrong").show();
-                           $(".alert-block-wrong").fadeTo(2000, 500).slideUp(500, function(){
-                               $(".alert-block-wrong").slideUp(500);
-                           });
+                            $(".alert-block-wrong").show();
+                            $(".alert-block-wrong").fadeTo(2000, 500).slideUp(500, function(){
+                                $(".alert-block-wrong").slideUp(500);
+                            });
+                          // location.href = '<?= DateXFondoCommon::get_website_url() ?>/visualizza-template-fondo/?template_name=' + template_name;
                        }
                    });
                 });

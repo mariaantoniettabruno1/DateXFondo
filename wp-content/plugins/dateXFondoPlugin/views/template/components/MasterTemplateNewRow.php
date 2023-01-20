@@ -60,9 +60,9 @@ class MasterTemplateNewRow
                     {
                         $("#errorIDArticolo").attr('style', 'display:none');
                         let id_articolo = $('#newRowIdArticolo').val();
-                        let nome_articolo = $('#newRowNomeArticolo').val();
-                        let sottotitolo_articolo = $('#newRowSottotitoloArticolo').val();
-                        let descrizione_articolo = $('#newRowDescrizioneArticolo').val();
+                        let nome_articolo = $('#newRowNomeArticolo').val().replaceAll("[^a-zA-Z0-9]+","");
+                        let sottotitolo_articolo = $('#newRowSottotitoloArticolo').val().replaceAll("[^a-zA-Z0-9]+","");
+                        let descrizione_articolo = $('#newRowDescrizioneArticolo').val().replaceAll("[^a-zA-Z0-9]+","");
                         let sezione = '';
                         if (sezione !== 'Seleziona Sezione') {
                             sezione = $('#selectNewRowSezione').val();
@@ -73,7 +73,7 @@ class MasterTemplateNewRow
                         } else if ($('#newRowSottosezione').val() != null) {
                             sottosezione = $('#newRowSottosezione').val();
                         }
-                        let nota = $('#newRowNota').val();
+                        let nota = $('#newRowNota').val().replaceAll("[^a-zA-Z0-9]+","");
                         let link = $('#newRowLink').val();
                         let fondo = $('#inputFondo').val();
                         let anno = $('#inputAnno').val();

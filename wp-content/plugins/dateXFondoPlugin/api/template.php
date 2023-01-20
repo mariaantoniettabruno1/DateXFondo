@@ -58,11 +58,18 @@ function create_endpoint_datefondo_not_editable_template()
 
 function esegui_blocca_modifica_template($params)
 {
-    $bool_res = \dateXFondoPlugin\MasterTemplateRepository::set_template_not_editable($params);
-    $data = ['update' => $bool_res, 'message' => 'Blocco modifica template andato a buon fine'];
-    $response = new WP_REST_Response($data);
-    $response->set_status(201);
-    return $response;
+    $success = \dateXFondoPlugin\MasterTemplateRepository::set_template_not_editable($params);
+    if($success){
+        $data = [ 'message' => 'Blocco modifica template andato a buon fine'];
+        $response = new WP_REST_Response($data);
+        $response->set_status(200);
+        return $response;
+    } else {
+        $data = [ 'message' => 'Blocco modifica template non andato a buon fine'];
+        $response = new WP_REST_Response($data);
+        $response->set_status(400);
+        return $response;
+    }
 }
 
 add_action('rest_api_init', 'create_endpoint_datefondo_not_editable_template');

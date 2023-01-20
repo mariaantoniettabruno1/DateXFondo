@@ -95,10 +95,10 @@ class MasterModelloFondoDocument
                     sezioniDatiUtiliList[a.sezione].push(a.sottosezione);
                 }
             });
-            window.onbeforeunload = confirmExit;
-            function confirmExit() {
-                return "You have attempted to leave this page. Are you sure?";
-            }
+            // window.onbeforeunload = confirmExit;
+            // function confirmExit() {
+            //     return "You have attempted to leave this page. Are you sure?";
+            // }
         </script>
         <body>
         <div class="container-fluid">

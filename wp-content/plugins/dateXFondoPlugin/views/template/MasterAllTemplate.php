@@ -11,6 +11,7 @@ class MasterAllTemplate
 
             $results_articoli = $data->getAllTemplate();
 
+
             ?>
 
             <!DOCTYPE html>
@@ -34,6 +35,7 @@ class MasterAllTemplate
 
                 <script>
                     let articoli = JSON.parse((`<?=json_encode($results_articoli);?>`));
+                    console.log(articoli);
                 </script>
             </head>
 

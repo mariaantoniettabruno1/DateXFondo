@@ -80,10 +80,10 @@ class MasterTemplateNewSpecialRow
                             $("#errorSubsectionSp").attr('style', 'display:block');
                             return;
                         }
-                        let nome_articolo = $('#newRowSpNomeArticolo').val();
-                        let sottotitolo_articolo = $('#newRowSpSottotitoloArticolo').val();
-                        let descrizione_articolo = $('#newRowSpDescrizioneArticolo').val();
-                        let nota = $('#newRowSpNota').val();
+                        let nome_articolo = $('#newRowSpNomeArticolo').val().replaceAll("[^a-zA-Z0-9]+","");
+                        let sottotitolo_articolo = $('#newRowSpSottotitoloArticolo').val().replaceAll("[^a-zA-Z0-9]+","");
+                        let descrizione_articolo = $('#newRowSpDescrizioneArticolo').val().replaceAll("[^a-zA-Z0-9]+","");
+                        let nota = $('#newRowSpNota').val().replaceAll("[^a-zA-Z0-9]+","");
                         let link = $('#newRowSpLink').val();
                         let fondo = $('#inputFondo').val();
                         let anno = $('#inputAnno').val();
