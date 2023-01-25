@@ -149,7 +149,14 @@ class MasterTemplateNewRow
         } else {
             $results_articoli = $data->getArticoli($_GET['template_name']);
         }
-        if ($results_articoli[0]['editable'] == '1') {
+        $res = false;
+        foreach ($results_articoli as $articolo){
+            if($articolo['editable'] == 1){
+                $res = true;
+                break;
+            }
+        }
+        if ($res) {
             ?>
             <button class="btn btn-outline-primary" data-toggle="modal"
                     data-target="#addRowModal" id="idAddRow">Aggiungi riga

@@ -104,7 +104,14 @@ class MasterTemplateHeader
         </div>
         <div class="col-2 pl-0">
             <?php
-            if ($results_articoli[0]['editable'] == '1') {
+            $res = false;
+            foreach ($results_articoli as $articolo){
+                if($articolo['editable'] == 1){
+                    $res = true;
+                    break;
+                }
+            }
+            if ($res) {
                 ?>
                 <button class="btn btn-link" id="editInputButton"><i class="fa-solid fa-pen"></i></button>
                 <button class="btn btn-link" id="saveInputButton" style="display: none"><i
