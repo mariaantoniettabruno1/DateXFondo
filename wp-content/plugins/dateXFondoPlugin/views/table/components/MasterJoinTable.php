@@ -58,7 +58,7 @@ class MasterJoinTable
                     sottotitolo = art.sottotitolo_articolo ?? "";
                     link = art.link ?? "";
                     nome_articolo = art.nome_articolo ?? "";
-                    descrizione = art.descrizione_articolo ?? ""
+                    descrizione = art.descrizione_articolo ?? "";
                     nota = art.nota ?? ""
                     if (art.formula !== undefined) {
                         if (Number(art.condizione) === 1) {
@@ -66,7 +66,7 @@ class MasterJoinTable
                             const [v, f] = vf.split(":");
                             descrizione = "Se " + cond + " allora " + v + " altrimenti " + f
                         } else {
-                            descrizione = art.formula;
+                            descrizione = art.formula ?? "";
                         }
                         id_articolo = art.nome ?? "";
 
@@ -85,7 +85,7 @@ class MasterJoinTable
                             id_articolo = '';
                         }
                         if (art.descrizione !== undefined) {
-                            nome_articolo = art.descrizione;
+                            nome_articolo = art.descrizione ?? "";
                         }
                     }
 

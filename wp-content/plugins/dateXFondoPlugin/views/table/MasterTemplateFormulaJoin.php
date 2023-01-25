@@ -21,11 +21,26 @@ class MasterTemplateFormulaJoin
             $results_formula = $data->getJoinedFormulas($_GET['template_name']);
         $results_joined = $data->getJoinedRecords();
         foreach ($results_formula as $key => $value) {
-            $results_formula[$key]["formula"] = str_replace('"', '\"', $value["formula"]);
+            $results_formula[$key]["formula"] = preg_replace('"', '\"', $value["formula"]);
         }
         foreach ($results_articoli as $key => $value) {
-            $results_articoli[$key]["sottotitolo_articolo"] = str_replace('"', '\"', $value["sottotitolo_articolo"]);
-            //  $results_articoli[$key]["descrizione"] = str_replace('"','\"' ,$value["descrizione"]);
+            $results_articoli[$key]["sottotitolo_articolo"] =  preg_replace('"', '\"', $value["sottotitolo_articolo"]);
+
+            $results_articoli[$key]["descrizione_articolo"] =  preg_replace('"', '\"', $value["descrizione_articolo"]);
+
+            $results_articoli[$key]["nome_articolo"] =  preg_replace('"', '\"', $value["nome_articolo"]);
+
+            $results_articoli[$key]["sottotitolo_articolo"] =  preg_replace("'", '\"', $value["sottotitolo_articolo"]);
+
+            $results_articoli[$key]["descrizione_articolo"] =  preg_replace("'", '\"', $value["descrizione_articolo"]);
+
+            $results_articoli[$key]["nome_articolo"] =  preg_replace("'", '\"', $value["nome_articolo"]);
+
+            $results_articoli[$key]["sottotitolo_articolo"] =  preg_replace('`', '\"', $value["sottotitolo_articolo"]);
+
+            $results_articoli[$key]["descrizione_articolo"] =  preg_replace('`', '\"', $value["descrizione_articolo"]);
+
+            $results_articoli[$key]["nome_articolo"] =  preg_replace('`','\"', $value["nome_articolo"]);
         }
 
         ?>
