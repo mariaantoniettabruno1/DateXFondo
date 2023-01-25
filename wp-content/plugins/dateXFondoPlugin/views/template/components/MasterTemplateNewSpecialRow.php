@@ -72,11 +72,11 @@ class MasterTemplateNewSpecialRow
                             $("#errorIDArticoloSp").attr('style', 'display:block');
                             return;
                         }
-                        if (sezione !== 'Seleziona Sezione') {
+                        if (sezione === 'Seleziona Sezione') {
                             $("#errorSectionSp").attr('style', 'display:block');
                             return;
                         }
-                        if (sottosezione !== 'Seleziona Sottosezione') {
+                        if (sottosezione === 'Seleziona Sottosezione') {
                             $("#errorSubsectionSp").attr('style', 'display:block');
                             return;
                         }
