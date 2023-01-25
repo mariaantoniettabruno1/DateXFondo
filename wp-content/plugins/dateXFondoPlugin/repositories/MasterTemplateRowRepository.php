@@ -41,17 +41,20 @@ class MasterTemplateRowRepository
                                  anno,
                                  sezione,
                                  sottosezione,
-                                 id_articolo,
-                                 descrizione_fondo,nota,link,row_type,template_name) VALUES(?,?,?,?,?,?,?,?,?,?)";
+                                 id_articolo,nome_articolo,sottotitolo_articolo,
+                                 descrizione_fondo,descrizione_articolo,nota,link,row_type,template_name) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("sissssssss",
+        $stmt->bind_param("sisssssssssss",
             $request['fondo'],
             $request['anno'],
             $request["sezione"],
             $request["sottosezione"],
             $request["id_articolo"],
+            $request["nome_articolo"],
+            $request["sottotitolo_articolo"],
             $request['descrizione_fondo'],
-            $request['nome_articolo'],
+            $request['descrizione_articolo'],
+            $request['nota'],
             $request["link"],
             $request["row_type"],
             $request['template_name']);

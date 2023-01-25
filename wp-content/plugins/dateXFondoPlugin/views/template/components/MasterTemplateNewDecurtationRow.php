@@ -98,19 +98,20 @@ class MasterTemplateNewDecurtationRow
                                 data: payload,
                                 type: "POST",
                                 success: function (response) {
-                                    console.log(response);
-                                    $("#addRowDecModal").modal('hide');
+
                                     if (response["id"]) {
                                         articoli.push({...payload, id: response['id']});
                                         renderDataTable(sezione);
                                     }
-                                    $(".alert-add-dec-success").show();
+                                    console.log(response);
+                                    $(".alert-new-dec-success").show();
                                     $(".alert-add-dec-success").fadeTo(2000, 500).slideUp(500, function () {
                                         $(".alert-add-dec-success").slideUp(500);
                                     });
                                     clearInputDec();
                                 },
                                 error: function (response) {
+                                    $("#addRowDecModal").modal('hide');
                                     console.error(response);
                                     $(".alert-add-dec-wrong").show();
                                     $(".alert-add-dec-wrong").fadeTo(2000, 500).slideUp(500, function () {
