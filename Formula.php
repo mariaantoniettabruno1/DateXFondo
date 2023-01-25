@@ -91,7 +91,7 @@ class Formula
 
             <script>
 
-                console.log((`<?=json_encode($result_formule);?>`));
+                
 
 
 
@@ -123,8 +123,18 @@ class Formula
 
                    }
 
-                })
+                });
 
+                formule.forEach( f =>{
+                    if(!sezioni[f.sezione]){
+                        sezioni[f.sezione] = [];
+                    }
+                    if(!sezioni[f.sezione].includes(f.sottosezione)){
+                        sezioni[f.sezione].push(f.sottosezione);
+                    }
+                    }
+                );
+                console.log(sezioni);
             </script>
 
         </head>

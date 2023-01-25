@@ -134,7 +134,7 @@ class MasterTemplateFormulaJoin
 
                 })
 
-                console.log(joined_record, joinedIndexes)
+                
 
 
 
@@ -156,7 +156,15 @@ class MasterTemplateFormulaJoin
 
                 });
 
-                console.log(joined_record);
+                formulas.forEach( f =>{
+                    if(!sezioni[f.sezione]){
+                        sezioni[f.sezione] = [];
+                    }
+                    if(!sezioni[f.sezione].includes(f.sottosezione)){
+                        sezioni[f.sezione].push(f.sottosezione);
+                    }
+                    }
+                );
 
             </script>
 

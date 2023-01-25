@@ -20,7 +20,6 @@ require_once(plugin_dir_path(__FILE__) . 'repositories/DocumentRepository.php');
 require_once(plugin_dir_path(__FILE__) . 'repositories/DeliberaDocumentRepository.php');
 require_once(plugin_dir_path(__FILE__) . 'repositories/FormulaRepository.php');
 require_once(plugin_dir_path(__FILE__) . 'repositories/RegioniDocumentRepository.php');
-require_once(plugin_dir_path(__FILE__) . 'repositories/SlaveFormulaTable.php');
 require_once(plugin_dir_path(__FILE__) . 'repositories/MasterJoinTableRepository.php');
 require_once(plugin_dir_path(__FILE__) . 'views/table/live_edit.php');
 require_once(plugin_dir_path(__FILE__) . 'views/table/MasterTemplateFormulaJoin.php');
@@ -149,11 +148,7 @@ function visualize_formula_template()
     \dateXFondoPlugin\Formula::render();
 }
 
-function visualize_slave_formula_template()
-{
-    \dateXFondoPlugin\SlaveShortCodeFormulaTable::visualize_slave_formula_template();
 
-}
 
 function document_template()
 {
