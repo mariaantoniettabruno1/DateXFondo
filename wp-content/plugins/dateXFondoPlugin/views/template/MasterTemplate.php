@@ -21,23 +21,12 @@ class MasterTemplate
                 $results_articoli = $data->getArticoli($_GET['template_name']);
         }
         foreach ($results_articoli as $key => $value) {
-            $results_articoli[$key]["sottotitolo_articolo"] =  preg_replace('"', '\"', $value["sottotitolo_articolo"]);
+            $results_articoli[$key]["sottotitolo_articolo"] =  preg_replace('/"/', '\"', $value["sottotitolo_articolo"]);
 
-            $results_articoli[$key]["descrizione_articolo"] =  preg_replace('"', '\"', $value["descrizione_articolo"]);
+            $results_articoli[$key]["descrizione_articolo"] =  preg_replace('/"/', '\"', $value["descrizione_articolo"]);
 
-            $results_articoli[$key]["nome_articolo"] =  preg_replace('"', '\"', $value["nome_articolo"]);
+            $results_articoli[$key]["nome_articolo"] =  preg_replace('/"/', '\"', $value["nome_articolo"]);
 
-            $results_articoli[$key]["sottotitolo_articolo"] =  preg_replace("'", '\"', $value["sottotitolo_articolo"]);
-
-            $results_articoli[$key]["descrizione_articolo"] =  preg_replace("'", '\"', $value["descrizione_articolo"]);
-
-            $results_articoli[$key]["nome_articolo"] =  preg_replace("'", '\"', $value["nome_articolo"]);
-
-            $results_articoli[$key]["sottotitolo_articolo"] =  preg_replace('`', '\"', $value["sottotitolo_articolo"]);
-
-            $results_articoli[$key]["descrizione_articolo"] =  preg_replace('`', '\"', $value["descrizione_articolo"]);
-
-            $results_articoli[$key]["nome_articolo"] =  preg_replace('`','\"', $value["nome_articolo"]);
         }
 
         ?>
