@@ -23,8 +23,6 @@ class Formula
             $result_articoli[$key]["sottotitolo_articolo"] = str_replace('"','\"' ,$value["sottotitolo_articolo"]);
             $result_articoli[$key]["descrizione_articolo"] = str_replace('"','\"' ,$value["descrizione_articolo"]);
             $result_articoli[$key]["nome_articolo"] = str_replace('"','\"' ,$value["nome_articolo"]);
-            $result_articoli[$key]["sezione"] = str_replace('"','\"' ,$value["sezione"]);
-            $result_articoli[$key]["sottosezione"] = str_replace('"','\"' ,$value["sottosezione"]);
         }
         ?>
 
@@ -46,7 +44,7 @@ class Formula
             <link rel="stylesheet" href="<?= DateXFondoCommon::get_base_url() ?>/assets/styles/formulasidebar.css">
 
             <script>
-                console.log((`<?=json_encode($result_formule);?>`));
+
 
                 let articoli = JSON.parse((`<?=json_encode($result_articoli);?>`));
                 let formule = JSON.parse((`<?=json_encode($result_formule);?>`));
@@ -73,7 +71,7 @@ class Formula
                     }
                     }
                 );
-                console.log(formule);
+
             </script>
         </head>
 

@@ -45,7 +45,7 @@ class FormulaRepository
             $request['formula_template_name'],
             $request['text_type']);
         $stmt->execute();
-        mysqli_close($mysqli);
+        $mysqli->close();
         return $stmt->insert_id;
     }
 
@@ -53,7 +53,7 @@ class FormulaRepository
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = "UPDATE DATE_formula SET sezione = ?, sottosezione = ?, nome = ?, descrizione = ?, condizione = ?, formula = ?, visibile = ?, formula_template_name=? WHERE ID = ?;";
+        $sql = "UPDATE DATE_formula SET sezione = ?, sottosezione = ?, nome = ?, descrizione = ?, condizione = ?, formula = ?, visibile = ?, formula_template_name=? WHERE id = ?;";
         $stmt = $mysqli->prepare($sql);
         $stmt->bind_param("ssssisisi",
             $request['sezione'],

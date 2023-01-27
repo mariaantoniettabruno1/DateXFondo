@@ -35,7 +35,7 @@ class MasterTemplateRowRepository
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        //TODO aggiungere descrizione articolo
+
 
         $sql = "INSERT INTO DATE_template_fondo (fondo,
                                  anno,
