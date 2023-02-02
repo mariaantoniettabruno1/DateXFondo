@@ -15,7 +15,7 @@ class AllDocumentTable
     {
         ?>
             <style>
-                .btn-vis-templ, .btn-vis-templ:hover {
+                .btn-vis-templ, .btn-vis-templ:hover,.btn-dup-templ, .btn-dup-templ:hover {
                     color: #26282f;
                 }
 
@@ -24,7 +24,22 @@ class AllDocumentTable
             let documents = JSON.parse((`<?= json_encode($this->documents); ?>`));
 
             function renderDataTable() {
+                let current_url = '<?=
+                    (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS']
+                    === 'on' ? "https" : "http") .
+                    "://" . $_SERVER['HTTP_HOST'] .
+                    $_SERVER['REQUEST_URI'];?>';
+                let dup_button = "";
+
                 documents.forEach(doc => {
+                    if(current_url.includes('storico')){
+                        dup_button = ` <button class="btn btn-link btn-dup-templ" data-document='${doc.document_name}' data-editor='${doc.editor_name}' data-page = '${doc.page}' data-version ='${doc.version}' data-target="#duplicateModal" data-toggle="tooltip" title="Duplica Documento"><i class="fa-regular fa-copy"></i></button>`;
+
+                    }
+                    else{
+                        dup_button =   `<button class="btn btn-link btn-dup-templ" style="display:none" data-document='${doc.document_name}' data-editor='${doc.editor_name}' data-page = '${doc.page}' data-version ='${doc.version}' data-target="#duplicateModal" data-toggle="tooltip" title="Duplica Documento"><i class="fa-regular fa-copy"></i></button>`;
+
+                    }
                     $('#dataDocumentTableBody').append(`
                                  <tr>
                                        <td>${doc.document_name}</td>
@@ -34,8 +49,10 @@ class AllDocumentTable
 
 
                      <td><div class="row pr-3">
-               <button class="btn btn-link btn-vis-templ" data-document='${doc.document_name}' data-editor='${doc.editor_name}' data-page = '${doc.page}' data-version ='${doc.version}' data-toggle="tooltip" title="Visualizza e modifica documento"><i class="fa-solid fa-eye"></i></button>
-                                    </td>
+                      <div class="col-3">
+               <button class="btn btn-link btn-vis-templ" data-document='${doc.document_name}' data-editor='${doc.editor_name}' data-page = '${doc.page}' data-version ='${doc.version}' data-toggle="tooltip" title="Visualizza e modifica documento"><i class="fa-solid fa-eye"></i></button></div>
+                                 <div class="col-3">  ${dup_button}</div>
+                                 </div>   </td>
                                  </tr>
                              `);
                 });
