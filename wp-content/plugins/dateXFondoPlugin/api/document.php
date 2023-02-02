@@ -241,3 +241,24 @@ function esegui_creazione_riga_dati_utili($params)
 }
 
 add_action('rest_api_init', 'create_endpoint_datefondo_creazione_riga_dati_utili');
+function create_endpoint_datefondo_duplicate_document()
+{
+
+    register_rest_route('datexfondoplugin/v1', 'duplicatedocument', array(
+        'methods' => 'POST',
+        'callback' => 'esegui_duplicazione_documento'
+    ));
+
+
+}
+
+function esegui_duplicazione_documento($params)
+{
+    $insert_id = DocumentRepository::duplicate_document($params);
+    $data = [ 'message' => 'Duplicazione documento eseguita con successo'];
+    $response = new WP_REST_Response($data);
+    $response->set_status(201);
+    return $response;
+}
+
+add_action('rest_api_init', 'create_endpoint_datefondo_duplicate_document');
