@@ -24,6 +24,7 @@ class MasterModelloFondoDocument
             $results_articoli_dati_utili = $data->getArticoliDatiUtili($_GET['editor_name']);
         }
 
+
         ?>
         <!DOCTYPE html>
 

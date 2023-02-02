@@ -254,8 +254,8 @@ function create_endpoint_datefondo_duplicate_document()
 
 function esegui_duplicazione_documento($params)
 {
-     DocumentRepository::duplicate_document($params);
-    $data = [ 'message' => 'Duplicazione documento eseguita con successo'];
+    $res =  DocumentRepository::duplicate_document($params);
+    $data = [$res, 'message' => 'Duplicazione documento eseguita con successo'];
     $response = new WP_REST_Response($data);
     $response->set_status(201);
     return $response;

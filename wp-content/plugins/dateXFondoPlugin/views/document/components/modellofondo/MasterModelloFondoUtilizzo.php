@@ -177,7 +177,12 @@ class MasterModelloFondoUtilizzo
     public static function render()
     {
         $data = new DocumentRepository();
-            $tot_sezioni = $data->getSezioniUtilizzo($_GET['editor_name'], $_GET['version']);
+        if($_GET['version']){
+            $tot_sezioni = $data->getSezioniHistoryUtilizzo($_GET['editor_name'], $_GET['version']);
+        }
+        else{
+            $tot_sezioni = $data->getSezioniUtilizzo($_GET['editor_name']);
+        }
 
         $formulas = $data->getFormulas($_GET['editor_name']);
         $ids_articolo = $data->getIdsArticoli($_GET['editor_name']);
