@@ -26,9 +26,7 @@ class DocumentHistory
             $document_repository->getDataOdtDocument('DATE_documenti_odt_storico')
         );
 
-        echo '<pre>';
-        print_r($document_repository->getDataDocument('DATE_documento_regioni_autonomie_locali_storico'));
-        echo '</pre>';
+      
         $this->allDocuments = new AllDocumentTable($this->documents);
 
     }
