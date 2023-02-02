@@ -26,7 +26,7 @@ class DocumentHistory
             $document_repository->getDataOdtDocument('DATE_documenti_odt_storico')
         );
 
-      
+
         $this->allDocuments = new AllDocumentTable($this->documents);
 
     }

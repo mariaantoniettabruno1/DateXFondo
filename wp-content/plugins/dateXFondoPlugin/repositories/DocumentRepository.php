@@ -499,9 +499,21 @@ FROM DATE_documento_modello_fondo_dati_utili WHERE editor_name=?";
             $stmt = $mysqli->prepare($sql);
             $version = $rows[0]['version'] + 1;
             foreach ($rows as $entry) {
-                $stmt->bind_param("issssssssiissii", $entry['ordinamento'], $entry['document_name'], $entry['titolo_tabella'], $entry['sezione'], $entry['sottosezione'],
-                    $entry['nome_articolo'], $entry['codice'], $entry['importo'], $entry['nota'], $entry['attivo'], $entry['editable'],
-                    $entry['editor_name'], $entry['nota'], $entry['anno'], $version);
+                $stmt->bind_param("issssssssiisii",
+                    $entry['ordinamento'],
+                    $entry['document_name'],
+                    $entry['titolo_tabella'],
+                    $entry['sezione'],
+                    $entry['sottosezione'],
+                    $entry['nome_articolo'],
+                    $entry['codice'],
+                    $entry['importo'],
+                    $entry['nota'],
+                    $entry['attivo'],
+                    $entry['editable'],
+                    $entry['editor_name'],
+                    $entry['anno'],
+                    $version);
                 $res = $stmt->execute();
             }
 

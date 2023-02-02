@@ -26,6 +26,7 @@ class AllDocumentTable
             let editor_name = '';
             let anno = ' ';
             let version = '';
+            let page = '';
 
             function renderDataTable() {
                 let current_url = '<?=
@@ -62,8 +63,9 @@ class AllDocumentTable
                 $('.btn-dup-templ').click(function () {
                     document_name = $(this).attr('data-document');
                    editor_name = $(this).attr('data-editor');
-                    version = $(this).attr(' data-version');
-                    anno = $(this).attr(' data-anno');
+                    version = $(this).attr('data-version');
+                    anno = $(this).attr('data-anno');
+                     page = $(this).attr('data-page');
 
                 });
 
@@ -92,7 +94,7 @@ class AllDocumentTable
                     }
                 });
                 $('#duplicateDocumentButton').click(function () {
-                    let page = $(this).attr('data-page');
+
                     const payload = {
                         document_name,
                         editor_name,
