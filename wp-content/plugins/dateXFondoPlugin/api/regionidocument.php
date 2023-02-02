@@ -71,9 +71,9 @@ add_action('rest_api_init', 'create_endpoint_datefondo_edit_regioni_document');
 function create_endpoint_datefondo_not_editable_regioni_document()
 {
 
-    register_rest_route('datexfondoplugin/v1', 'disabledeeditregioni', array(
+    register_rest_route('datexfondoplugin/v1', 'disabledregionidocument', array(
         'methods' => 'POST',
-        'callback' => 'esegui_blocca_modifica_modello_document'
+        'callback' => 'esegui_blocca_modifica_regioni_document'
     ));
 
 
