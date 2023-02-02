@@ -221,7 +221,7 @@ class MasterModelloFondoCostituzione
     {
 
         $data = new DocumentRepository();
-        $tot_sezioni = $data->getSezioni($_GET['editor_name']);
+        $tot_sezioni = $data->getSezioni($_GET['editor_name'],$_GET['version']);
         $formulas = $data->getFormulas($_GET['editor_name']);
         $ids_articolo = $data->getIdsArticoli($_GET['editor_name']);
         $array = $formulas + $ids_articolo;

@@ -51,13 +51,14 @@ class DocumentRepository
         mysqli_close($mysqli);
         return $rows;
     }
+
     public static function getHistoryArticoli($editor_name, $version)
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = "SELECT * FROM DATE_documento_modello_fondo_storico WHERE  attivo=1 and editor_name=? AND version=? ORDER BY ordinamento ASC";
+        $sql = "SELECT * FROM DATE_documento_modello_fondo_storico WHERE attivo=1 and editor_name=? AND version=? ORDER BY ordinamento ASC";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("si", $editor_name,$version);
+        $stmt->bind_param("si", $editor_name, $version);
         $res = $stmt->execute();
         if ($res = $stmt->get_result()) {
             $rows = $res->fetch_all(MYSQLI_ASSOC);
@@ -83,13 +84,13 @@ class DocumentRepository
         return $rows;
     }
 
-    public static function getHistoryArticoliUtilizzo($editor_name,$version)
+    public static function getHistoryArticoliUtilizzo($editor_name, $version)
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
         $sql = "SELECT * FROM DATE_documento_modello_fondo_utilizzo_storico WHERE  attivo=1 and editor_name=? AND version=? ORDER BY ordinamento ASC";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("si", $editor_name,$version);
+        $stmt->bind_param("si", $editor_name, $version);
         $res = $stmt->execute();
         if ($res = $stmt->get_result()) {
             $rows = $res->fetch_all(MYSQLI_ASSOC);
@@ -98,6 +99,7 @@ class DocumentRepository
         mysqli_close($mysqli);
         return $rows;
     }
+
     public static function getArticoliDatiUtili($editor_name)
     {
         $conn = new Connection();
@@ -113,13 +115,14 @@ class DocumentRepository
         mysqli_close($mysqli);
         return $rows;
     }
-    public static function getHistoryArticoliDatiUtili($editor_name,$version)
+
+    public static function getHistoryArticoliDatiUtili($editor_name, $version)
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = "SELECT * FROM DATE_documento_modello_fondo_dati_utili WHERE  attivo=1 and editor_name=? AND version=? ORDER BY ordinamento ASC";
+        $sql = "SELECT * FROM DATE_documento_modello_fondo_dati_utili_storico WHERE  attivo=1 and editor_name=? AND version=? ORDER BY ordinamento ASC";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("si", $editor_name,$version);
+        $stmt->bind_param("si", $editor_name, $version);
         $res = $stmt->execute();
         if ($res = $stmt->get_result()) {
             $rows = $res->fetch_all(MYSQLI_ASSOC);
@@ -128,6 +131,7 @@ class DocumentRepository
         mysqli_close($mysqli);
         return $rows;
     }
+
     public static function getIdsArticoli($editor_name)
     {
         $conn = new Connection();
@@ -144,42 +148,66 @@ class DocumentRepository
         return $rows;
     }
 
-    public static function getSezioni($editor_name)
+    public static function getSezioni($editor_name, $version)
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = "SELECT DISTINCT sezione FROM DATE_documento_modello_fondo WHERE editor_name=?";
-        $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("s", $editor_name);
-        $res = $stmt->execute();
+        if (isset($version)) {
+            $sql = "SELECT DISTINCT sezione FROM DATE_documento_modello_fondo_storico WHERE editor_name=? AND version=?";
+            $stmt = $mysqli->prepare($sql);
+            $stmt->bind_param("si", $editor_name, $version);
+            $res = $stmt->execute();
+        } else {
+            $sql = "SELECT DISTINCT sezione FROM DATE_documento_modello_fondo WHERE editor_name=?";
+            $stmt = $mysqli->prepare($sql);
+            $stmt->bind_param("s", $editor_name);
+            $res = $stmt->execute();
+        }
+
         $res = $stmt->get_result();
         $rows = $res->fetch_all(MYSQLI_ASSOC);
         mysqli_close($mysqli);
         return $rows;
     }
 
-    public static function getSezioniUtilizzo($template_name)
+    public static function getSezioniUtilizzo($template_name, $version)
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = "SELECT DISTINCT sezione FROM DATE_documento_modello_fondo_utilizzo WHERE editor_name=?";
-        $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("s", $template_name);
-        $res = $stmt->execute();
+        if (isset($version)) {
+            $sql = "SELECT DISTINCT sezione FROM DATE_documento_modello_fondo_utilizzo_storico WHERE editor_name=? AND version=?";
+            $stmt = $mysqli->prepare($sql);
+            $stmt->bind_param("si", $template_name, $version);
+            $res = $stmt->execute();
+        } else {
+            $sql = "SELECT DISTINCT sezione FROM DATE_documento_modello_fondo_utilizzo WHERE editor_name=?";
+            $stmt = $mysqli->prepare($sql);
+            $stmt->bind_param("s", $template_name);
+            $res = $stmt->execute();
+        }
+
         $res = $stmt->get_result();
         $rows = $res->fetch_all(MYSQLI_ASSOC);
         mysqli_close($mysqli);
         return $rows;
     }
 
-    public static function getSezioniDatiUtili($template_name)
+    public static function getSezioniDatiUtili($template_name, $version)
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = "SELECT DISTINCT sezione FROM DATE_documento_modello_fondo_dati_utili WHERE editor_name=?";
-        $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("s", $template_name);
-        $res = $stmt->execute();
+        if (isset($version)) {
+            $sql = "SELECT DISTINCT sezione FROM DATE_documento_modello_fondo_dati_utili_storico WHERE editor_name=? AND version=?";
+            $stmt = $mysqli->prepare($sql);
+            $stmt->bind_param("si", $template_name, $version);
+            $res = $stmt->execute();
+        } else {
+            $sql = "SELECT DISTINCT sezione FROM DATE_documento_modello_fondo_dati_utili WHERE editor_name=?";
+            $stmt = $mysqli->prepare($sql);
+            $stmt->bind_param("s", $template_name);
+            $res = $stmt->execute();
+        }
+
         $res = $stmt->get_result();
         $rows = $res->fetch_all(MYSQLI_ASSOC);
         mysqli_close($mysqli);
@@ -321,13 +349,13 @@ WHERE id=?";
                      attivo,editable)
                         SELECT  ordinamento,sezione,sottosezione,nome_articolo,preventivo,document_name,anno,
                      attivo,editable
-FROM DATE_documento_modello_fondo WHERE document_name=?";
+FROM DATE_documento_modello_fondo WHERE editor_name=?";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("s", $request['document_name']);
+        $stmt->bind_param("s", $request['editor_name']);
         $res = $stmt->execute();
-        $sql = "DELETE FROM DATE_documento_modello_fondo WHERE document_name=?";
+        $sql = "DELETE FROM DATE_documento_modello_fondo WHERE editor_name=?";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("s", $request['document_name']);
+        $stmt->bind_param("s", $request['editor_name']);
         $res = $stmt->execute();
 
         //per tabella documento fondo utilizzo
@@ -335,34 +363,34 @@ FROM DATE_documento_modello_fondo WHERE document_name=?";
         $stmt = $mysqli->prepare($sql);
         $res = $stmt->execute();
         $sql = "INSERT INTO DATE_documento_modello_fondo_utilizzo_storico 
-                    (ordinamento,sezione,nome_articolo,preventivo,consuntivo,document_name,anno,
-                     attivo,editable)
-                        SELECT  ordinamento,sezione,nome_articolo,preventivo,consuntivo,document_name,anno,
-                     attivo,editable
-FROM DATE_documento_modello_fondo_utilizzo WHERE document_name=?";
+                    (ordinamento,sezione,nome_articolo,preventivo,consuntivo,attivo,document_name,editor_name,editable,anno,
+                     version)
+                        SELECT  ordinamento,sezione,nome_articolo,preventivo,consuntivo,attivo,document_name,editor_name,editable,anno,
+                     version
+FROM DATE_documento_modello_fondo_utilizzo WHERE editor_name=?";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("s", $request['document_name']);
+        $stmt->bind_param("s", $request['editor_name']);
         $res = $stmt->execute();
-        $sql = "DELETE FROM DATE_documento_modello_fondo_utilizzo WHERE document_name=?";
+        $sql = "DELETE FROM DATE_documento_modello_fondo_utilizzo WHERE editor_name=?";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("s", $request['document_name']);
+        $stmt->bind_param("s", $request['editor_name']);
         $res = $stmt->execute();
         // per tabella documento dati utili
         $sql = "UPDATE DATE_documento_modello_fondo_dati_utili SET editable=0";
         $stmt = $mysqli->prepare($sql);
         $res = $stmt->execute();
         $sql = "INSERT INTO DATE_documento_modello_fondo_dati_utili_storico 
-                    (ordinamento,sezione,sottosezione,nome_articolo,formula,document_name,anno,
-                     attivo,editable)
-                        SELECT  ordinamento,sezione,sottosezione,nome_articolo,formula,document_name,anno,
-                     attivo,editable
-FROM DATE_documento_modello_fondo_dati_utili WHERE document_name=?";
+                    (ordinamento,sezione,sottosezione,nome_articolo,formula,nota,document_name,editor_name,anno,
+                     attivo,editable,version)
+                        SELECT  ordinamento,sezione,sottosezione,nome_articolo,formula,nota,document_name,editor_name,anno,
+                     attivo,editable,version
+FROM DATE_documento_modello_fondo_dati_utili WHERE editor_name=?";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("s", $request['document_name']);
+        $stmt->bind_param("s", $request['editor_name']);
         $res = $stmt->execute();
-        $sql = "DELETE FROM DATE_documento_modello_fondo_dati_utili WHERE document_name=?";
+        $sql = "DELETE FROM DATE_documento_modello_fondo_dati_utili WHERE editor_name=?";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("s", $request['document_name']);
+        $stmt->bind_param("s", $request['editor_name']);
         $res = $stmt->execute();
         mysqli_close($mysqli);
         return $res;

@@ -50,26 +50,26 @@ class MasterModelloFondoUtilizzo
                     filteredUtilizzoArticoli = articoli_utilizzo;
                 }
 
-                 $('.btn-delete-row').click(function () {
-                     id_utilizzo = $(this).attr('data-id');
-                 });
-                 $('.btn-edit-row').click(function () {
-                     id_utilizzo = $(this).attr('data-id');
-                     const articolo = articoli_utilizzo.find(art => Number(art.id) === Number(id_utilizzo))
-                     if (!articolo) return;
-                     $('#idUtilizzoOrdinamento').val(articolo.ordinamento)
-                     $('#idUtilizzoNomeArticolo').val(articolo.nome_articolo)
-                     $('#idUtilizzoPreventivo').val(articolo.preventivo)
-                     $('#idUtilizzoConsuntivo').val(articolo.consuntivo)
+                $('.btn-delete-row').click(function () {
+                    id_utilizzo = $(this).attr('data-id');
+                });
+                $('.btn-edit-row').click(function () {
+                    id_utilizzo = $(this).attr('data-id');
+                    const articolo = articoli_utilizzo.find(art => Number(art.id) === Number(id_utilizzo))
+                    if (!articolo) return;
+                    $('#idUtilizzoOrdinamento').val(articolo.ordinamento)
+                    $('#idUtilizzoNomeArticolo').val(articolo.nome_articolo)
+                    $('#idUtilizzoPreventivo').val(articolo.preventivo)
+                    $('#idUtilizzoConsuntivo').val(articolo.consuntivo)
 
-                 });
+                });
 
 
             }
 
             function ExportUtilizzoSheetOnExcel() {
 
-                let worksheet_tmp1, a, sectionTable,worksheet;
+                let worksheet_tmp1, a, sectionTable, worksheet;
                 let temp = [''];
                 let index = sezioni_utilizzo.length;
                 for (let i = 0; i < index; i++) {
@@ -79,17 +79,17 @@ class MasterModelloFondoUtilizzo
                     temp = temp.concat(['']).concat(a)
                 }
 
-                worksheet  = XLSX.utils.json_to_sheet(temp, {skipHeader: true})
+                worksheet = XLSX.utils.json_to_sheet(temp, {skipHeader: true})
                 return worksheet;
             }
 
-             function renderEditArticle() {
-                 const updateArticolo = articoli_utilizzo.find(art => art.id === Number(id_utilizzo));
-                 updateArticolo.nome_articolo = $('#idUtilizzoNomeArticolo').val();
-                 updateArticolo.ordinamento = $('#idUtilizzoOrdinamento').val();
-                 updateArticolo.preventivo = $('#idUtilizzoPreventivo').val();
-                 updateArticolo.consuntivo = $('#idUtilizzoConsuntivo').val();
-             }
+            function renderEditArticle() {
+                const updateArticolo = articoli_utilizzo.find(art => art.id === Number(id_utilizzo));
+                updateArticolo.nome_articolo = $('#idUtilizzoNomeArticolo').val();
+                updateArticolo.ordinamento = $('#idUtilizzoOrdinamento').val();
+                updateArticolo.preventivo = $('#idUtilizzoPreventivo').val();
+                updateArticolo.consuntivo = $('#idUtilizzoConsuntivo').val();
+            }
 
 
             $(document).ready(function () {
@@ -177,7 +177,8 @@ class MasterModelloFondoUtilizzo
     public static function render()
     {
         $data = new DocumentRepository();
-        $tot_sezioni = $data->getSezioniUtilizzo($_GET['editor_name']);
+            $tot_sezioni = $data->getSezioniUtilizzo($_GET['editor_name'], $_GET['version']);
+
         $formulas = $data->getFormulas($_GET['editor_name']);
         $ids_articolo = $data->getIdsArticoli($_GET['editor_name']);
         $array = $formulas + $ids_articolo;
@@ -222,7 +223,8 @@ class MasterModelloFondoUtilizzo
             }
             ?>
         </div>
-        <div class="modal fade" id="deleteUtilizzoModal" tabindex="-1" role="dialog" aria-labelledby="deleteUtilizzoModalLabel"
+        <div class="modal fade" id="deleteUtilizzoModal" tabindex="-1" role="dialog"
+             aria-labelledby="deleteUtilizzoModalLabel"
              aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">

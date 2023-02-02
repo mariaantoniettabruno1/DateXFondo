@@ -788,7 +788,7 @@ public function __construct()
             <br><br>
 
             8. Indennità di servizio esterno (Art. 68 comma 2 lett. f. CCNL 21.5.2018 e art. 56 quinquies CCNL
-            21.5.2018) (Vigilanza) € R134. (Opzionale)
+            21.5.2018) (Vigilanza) € <?php self::getInput('var043', 'R134', 'orange'); ?>.
             <br><br>
 
             Viene ripreso il testo del contratto siglato per l’anno <?php self::getInput('var43', '202x', 'orange'); ?>
