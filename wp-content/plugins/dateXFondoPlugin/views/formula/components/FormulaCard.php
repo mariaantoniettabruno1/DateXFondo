@@ -334,6 +334,7 @@ class FormulaCard
                         sottosezione = null;
                     }
                     let condizione = 1;
+                    id = formulaId;
 
                     if (id && id > 0) {
                         const payload = {
