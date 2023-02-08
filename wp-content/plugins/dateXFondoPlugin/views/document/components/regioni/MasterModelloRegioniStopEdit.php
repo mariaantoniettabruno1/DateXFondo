@@ -26,14 +26,14 @@ public static function render_scripts(){
             $('#stopEditRegioniDocumentButton').click(function () {
 
                 $("#idAddRegioniRow").attr("disabled", true);
-                let document_name = $('#inputDocumentName').val();
+                let editor_name = $('#inputEditorName').val();
 
                 const payload = {
-                    document_name
+                    editor_name
                 }
                 console.log(payload)
                 $.ajax({
-                    url: '<?= DateXFondoCommon::get_website_url() ?>/wp-json/datexfondoplugin/v1/disabledeeditregioni',
+                    url: '<?= DateXFondoCommon::get_website_url() ?>/wp-json/datexfondoplugin/v1/disabledregionidocument',
                     data: payload,
                     type: "POST",
                     success: function (response) {

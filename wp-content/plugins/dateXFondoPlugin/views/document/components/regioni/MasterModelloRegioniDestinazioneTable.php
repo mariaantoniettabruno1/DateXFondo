@@ -10,7 +10,8 @@ class MasterModelloRegioniDestinazioneTable
         <script>
             let id_destinazione = 0;
             let filteredDestinazioneArticoli = articoli_destinazione;
-            function renderRegioniDestinazioneDataTable(section,subsection){
+
+            function renderRegioniDestinazioneDataTable(section, subsection) {
                 let index = Object.keys(sezioni_destinazione).indexOf(section);
                 $('#dataRegioniDestinazioneTableBody' + index).html('');
                 filteredDestinazioneArticoli = articoli_destinazione;
@@ -38,7 +39,6 @@ class MasterModelloRegioniDestinazioneTable
                         button = ` <button class="btn btn-link btn-edit-row" data-id='${art.id}' data-toggle="modal" data-target="#editRegioniDestinazioneModal"><i class="fa-solid fa-pen"></i></button>`;
                         delete_button = ` <button class="btn btn-link btn-delete-row" data-id='${art.id}' data-toggle="modal" data-target="#deleteRegioniDestinazioneModal"><i class="fa-solid fa-trash"></i></button>`;
                     }
-
 
 
                     $('#dataRegioniDestinazioneTableBody' + index).append(`
@@ -83,12 +83,14 @@ class MasterModelloRegioniDestinazioneTable
                     $('#idRegioniDestinazioneNota').val(articolo.nota)
                 });
             }
+
             function resetRegioniSubsection() {
                 let subsection = $('.class-template-sottosezione').val();
                 if (subsection !== 'Seleziona Sottosezione') {
                     $('.class-template-sottosezione').val('Seleziona Sottosezione');
                 }
             }
+
             function renderEditRegioniArticle() {
 
                 const updateArticolo = articoli_destinazione.find(art => art.id === Number(id_destinazione));
@@ -99,9 +101,10 @@ class MasterModelloRegioniDestinazioneTable
                 updateArticolo.nota = $('#idRegioniDestinazioneNota').val();
 
             }
+
             function ExportDestinazioneToExcel() {
 
-                let worksheet_tmp1, a, sectionTable,worksheet;
+                let worksheet_tmp1, a, sectionTable, worksheet;
                 let temp = [''];
                 let index = Object.keys(sezioni_destinazione).length;
                 for (let i = 0; i < index; i++) {
@@ -111,9 +114,10 @@ class MasterModelloRegioniDestinazioneTable
                     temp = temp.concat(['']).concat(a)
                 }
 
-                worksheet  = XLSX.utils.json_to_sheet(temp, {skipHeader: true})
+                worksheet = XLSX.utils.json_to_sheet(temp, {skipHeader: true})
                 return worksheet;
             }
+
             $(document).ready(function () {
                 renderRegioniDestinazioneDataTable();
                 resetRegioniSubsection();
@@ -215,7 +219,12 @@ class MasterModelloRegioniDestinazioneTable
     {
         $data = new \dateXFondoPlugin\RegioniDocumentRepository();
         $data_document = new DocumentRepository();
-        $results_articoli = $data->getDestinazioneArticoli($_GET['editor_name']);
+        if (isset($_GET['version']) && isset($_GET['anno'])) {
+            $results_articoli = $data->getHistoryDestinazioneArticoli($_GET['editor_name'], $_GET['version'], $_GET['anno']);
+        } else {
+            $results_articoli = $data->getDestinazioneArticoli($_GET['editor_name']);
+        }
+
         $formulas = $data_document->getFormulas($_GET['editor_name']);
         $ids_articolo = $data_document->getIdsArticoli($_GET['editor_name']);
         $array = $formulas + $ids_articolo;
@@ -291,7 +300,8 @@ class MasterModelloRegioniDestinazioneTable
             }
             ?>
         </div>
-        <div class="modal fade" id="deleteRegioniDestinazioneModal" tabindex="-1" role="dialog" aria-labelledby="deleteRegioniDestinazioneModalLabel"
+        <div class="modal fade" id="deleteRegioniDestinazioneModal" tabindex="-1" role="dialog"
+             aria-labelledby="deleteRegioniDestinazioneModalLabel"
              aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -306,7 +316,8 @@ class MasterModelloRegioniDestinazioneTable
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
-                        <button type="button" class="btn btn-primary" id="deleteRegioniDestinazioneRowButton">Cancella</button>
+                        <button type="button" class="btn btn-primary" id="deleteRegioniDestinazioneRowButton">Cancella
+                        </button>
                     </div>
                 </div>
             </div>

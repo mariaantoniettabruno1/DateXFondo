@@ -19,12 +19,13 @@ class DocumentHistory
                 return $doc;
             }, $document_repository->getDataDocument('DATE_documento_modello_fondo_storico')),
             array_map(function ($doc) {
-                $doc['page'] = 'regioni_autonomie_locali_storico';
+                $doc['page'] = 'regioni-ed-autonomie-locali-documento';
 
                 return $doc;
             }, $document_repository->getDataDocument('DATE_documento_regioni_autonomie_locali_storico')),
             $document_repository->getDataOdtDocument('DATE_documenti_odt_storico')
         );
+
 
         $this->allDocuments = new AllDocumentTable($this->documents);
 

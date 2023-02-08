@@ -19,6 +19,22 @@ class RegioniDocumentRepository
         mysqli_close($mysqli);
         return $rows;
     }
+    public static function getHistoryCostituzioneArticoli($template_name,$version,$anno)
+    {
+        $conn = new Connection();
+        $mysqli = $conn->connect();
+        $sql = "SELECT * FROM DATE_documento_regioni_autonomie_locali_storico WHERE titolo_tabella='Costituzione fondi per il trattamento accessorio' AND attivo=1 and editor_name=? and version=? and anno=?  ORDER BY ordinamento ASC";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("sii", $template_name,$version,$anno);
+        $res = $stmt->execute();
+        if ($res = $stmt->get_result()) {
+            $rows = $res->fetch_all(MYSQLI_ASSOC);
+        } else
+            $rows = [];
+        mysqli_close($mysqli);
+        return $rows;
+    }
+
 
     public static function getDestinazioneArticoli($template_name)
     {
@@ -35,6 +51,22 @@ class RegioniDocumentRepository
         mysqli_close($mysqli);
         return $rows;
     }
+    public static function getHistoryDestinazioneArticoli($template_name,$version,$anno)
+    {
+        $conn = new Connection();
+        $mysqli = $conn->connect();
+        $sql = "SELECT * FROM DATE_documento_regioni_autonomie_locali_storico WHERE titolo_tabella='Destinazione fondi per il trattamento accessorio'AND attivo=1 and editor_name=? and version=? and anno=? ORDER BY ordinamento ASC";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("sii", $template_name,$version,$anno);
+        $res = $stmt->execute();
+        if ($res = $stmt->get_result()) {
+            $rows = $res->fetch_all(MYSQLI_ASSOC);
+        } else
+            $rows = [];
+        mysqli_close($mysqli);
+        return $rows;
+    }
+
 
     public static function edit_regioni_document_header($request)
     {
@@ -113,17 +145,17 @@ WHERE id=?";
         $stmt = $mysqli->prepare($sql);
         $res = $stmt->execute();
         $sql = "INSERT INTO DATE_documento_regioni_autonomie_locali_storico 
-                    (ordinamento,titolo_documento,titolo_tabella,sezione,sottosezione,nome_articolo,codice,importo,nota,document_name,anno,
-                     attivo,editable)
-                        SELECT  ordinamento,titolo_documento,titolo_tabella,sezione,sottosezione,nome_articolo,codice,importo,nota,document_name,anno,
-                     attivo,editable
-FROM DATE_documento_regioni_autonomie_locali WHERE document_name=?";
+                    (ordinamento,document_name,titolo_tabella,sezione,sottosezione,nome_articolo,codice,importo,nota,attivo,editable,editor_name,anno,
+                     version)
+                        SELECT  ordinamento,document_name,titolo_tabella,sezione,sottosezione,nome_articolo,codice,importo,nota,attivo,editable,editor_name,anno,
+                     version
+FROM DATE_documento_regioni_autonomie_locali WHERE editor_name=?";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("s", $request['document_name']);
+        $stmt->bind_param("s", $request['editor_name']);
         $res = $stmt->execute();
-        $sql = "DELETE FROM DATE_documento_regioni_autonomie_locali WHERE document_name=?";
+        $sql = "DELETE FROM DATE_documento_regioni_autonomie_locali WHERE editor_name=?";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("s", $request['document_name']);
+        $stmt->bind_param("s", $request['editor_name']);
         $res = $stmt->execute();
         $mysqli->close();
         return $res;

@@ -18,10 +18,12 @@ class MasterModelloFondoDocument
             $results_articoli_dati_utili = $data->getHistoryArticoliDatiUtili($_GET['editor_name'],$_GET['version']);
         }
         else{
+
             $results_articoli = $data->getArticoli($_GET['editor_name']);
             $results_articoli_utilizzo = $data->getArticoliUtilizzo($_GET['editor_name']);
             $results_articoli_dati_utili = $data->getArticoliDatiUtili($_GET['editor_name']);
         }
+
 
         ?>
         <!DOCTYPE html>
@@ -95,10 +97,10 @@ class MasterModelloFondoDocument
                     sezioniDatiUtiliList[a.sezione].push(a.sottosezione);
                 }
             });
-            // window.onbeforeunload = confirmExit;
-            // function confirmExit() {
-            //     return "You have attempted to leave this page. Are you sure?";
-            // }
+            window.onbeforeunload = confirmExit;
+            function confirmExit() {
+                return "You have attempted to leave this page. Are you sure?";
+            }
         </script>
         <body>
         <div class="container-fluid">

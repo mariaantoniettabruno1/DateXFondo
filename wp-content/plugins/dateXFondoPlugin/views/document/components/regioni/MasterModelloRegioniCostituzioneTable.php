@@ -248,7 +248,12 @@ class MasterModelloRegioniCostituzioneTable
     {
         $data = new \dateXFondoPlugin\RegioniDocumentRepository();
         $data_document = new DocumentRepository();
-        $results_articoli = $data->getCostituzioneArticoli($_GET['editor_name']);
+        if(isset($_GET['version']) && isset($_GET['anno'])){
+            $results_articoli = $data->getHistoryCostituzioneArticoli($_GET['editor_name'],$_GET['version'],$_GET['anno']);
+        }
+        else{ $results_articoli = $data->getCostituzioneArticoli($_GET['editor_name']);}
+
+
         $formulas = $data_document->getFormulas($_GET['editor_name']);
         $ids_articolo = $data_document->getIdsArticoli($_GET['editor_name']);
         $array = $formulas + $ids_articolo;

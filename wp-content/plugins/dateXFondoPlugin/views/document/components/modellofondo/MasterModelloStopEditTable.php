@@ -27,10 +27,10 @@ class MasterModelloStopEditTable
                     $("#idAddUtilizzoRow").attr("disabled", true);
                     $("#idAddDatiUtiliRow").attr("disabled", true);
 
-                    let document_name = $('#inputDocumentName').val();
+                    let editor_name = $('#inputEditorName').val();
 
                     const payload = {
-                        document_name
+                        editor_name
                     }
                     console.log(payload)
                     $.ajax({

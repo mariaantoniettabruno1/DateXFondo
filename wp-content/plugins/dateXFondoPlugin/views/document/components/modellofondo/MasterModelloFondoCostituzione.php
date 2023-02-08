@@ -1,50 +1,52 @@
 <?php
 
 use dateXFondoPlugin\DateXFondoCommon;
+
 class MasterModelloFondoCostituzione
 {
     public static function render_scripts()
     {
         ?>
-            <style>
-                .class-accordion-button {
-                    color: #26282f;
-                }
+        <style>
+            .class-accordion-button {
+                color: #26282f;
+            }
 
-                .class-accordion-button:hover {
-                    color: #26282f;
-                }
+            .class-accordion-button:hover {
+                color: #26282f;
+            }
 
-                .btn-delete-row, .btn-delete-row:hover {
-                    color: #870e12;
-                }
+            .btn-delete-row, .btn-delete-row:hover {
+                color: #870e12;
+            }
 
-                .btn-edit-row, .btn-edit-row:hover {
-                    color: #26282f;
-                }
+            .btn-edit-row, .btn-edit-row:hover {
+                color: #26282f;
+            }
 
-                #editRowButton, #deleteRowButton{
+            #editRowButton, #deleteRowButton {
 
-                    border-color: #26282f;
-                    background-color: #26282f;
-                }
+                border-color: #26282f;
+                background-color: #26282f;
+            }
 
-                #editRowButton:hover, #deleteRowButton:hover  {
-                    border-color: #870e12;
-                    background-color: #870e12;
-                }
-                 .btn-excel {
-                    border-color: #26282f;
-                    color: #26282f;
-                }
+            #editRowButton:hover, #deleteRowButton:hover {
+                border-color: #870e12;
+                background-color: #870e12;
+            }
 
-                .btn-excel:hover{
-                    border-color: #870e12;
-                    color: #870e12;
-                    background-color: white;
-                }
+            .btn-excel {
+                border-color: #26282f;
+                color: #26282f;
+            }
 
-            </style>
+            .btn-excel:hover {
+                border-color: #870e12;
+                color: #870e12;
+                background-color: white;
+            }
+
+        </style>
         <script>
             let id = 0;
 
@@ -221,7 +223,12 @@ class MasterModelloFondoCostituzione
     {
 
         $data = new DocumentRepository();
-        $tot_sezioni = $data->getSezioni($_GET['editor_name']);
+        if (isset($_GET['version'])) {
+            $tot_sezioni = $data->getHistorySezioni($_GET['editor_name'], $_GET['version']);
+        } else {
+            $tot_sezioni = $data->getSezioni($_GET['editor_name']);
+        }
+
         $formulas = $data->getFormulas($_GET['editor_name']);
         $ids_articolo = $data->getIdsArticoli($_GET['editor_name']);
         $array = $formulas + $ids_articolo;
@@ -245,7 +252,8 @@ class MasterModelloFondoCostituzione
                          aria-labelledby="headingCostituzioneDocument<?= $section_index ?>"
                          data-parent="#accordionCostituzioneDocumentTable">
                         <div class="card-body ">
-                            <table class="table datatable_costituzione" id="exportableTableCostituzione<?= $section_index ?>">
+                            <table class="table datatable_costituzione"
+                                   id="exportableTableCostituzione<?= $section_index ?>">
                                 <thead>
                                 <tr>
                                     <th>Ordinamento</th>
@@ -268,13 +276,14 @@ class MasterModelloFondoCostituzione
         </div>
         <div class="container">
             <div class="row d-flex flex-row-reverse ">
-                    <div class="p-2">
-                        <button class="btn btn-outline-primary btn-excel" onclick="ExportExcel(<?= $section_index ?>)">Genera Foglio
-                            Excel
-                        </button>
-                    </div>
+                <div class="p-2">
+                    <button class="btn btn-outline-primary btn-excel" onclick="ExportExcel(<?= $section_index ?>)">
+                        Genera Foglio
+                        Excel
+                    </button>
                 </div>
             </div>
+        </div>
 
         <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
              aria-hidden="true">
