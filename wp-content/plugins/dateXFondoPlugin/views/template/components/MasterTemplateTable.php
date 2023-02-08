@@ -58,6 +58,7 @@ class MasterTemplateTable
                         } else {
                             button = ` <button class="btn btn-link btn-edit-row" data-id='${art.id}' data-toggle="modal" data-target="#editModal"><i class="fa-solid fa-pen"></i></button>`;
                             delete_button = ` <button class="btn btn-link btn-delete-row" data-id='${art.id}' data-toggle="modal" data-target="#deleteModal"><i class="fa-solid fa-trash"></i></button>`;
+
                         }
                     }
                     if (Number(art.heredity) === 0) {
@@ -82,7 +83,13 @@ class MasterTemplateTable
                                            <span style="display:block" class='descrizioneCut'>${descrizione.substr(0, 50).concat('...')}</span>
                                         </td>
                                        <td>${nota}</td>
-                                       <td>${link}</td>
+                                       <td>
+                                       <div class="row pr-3">
+                                       <div class="col-8">${link}</div>
+                                       <div class="col-2">
+<button class="btn btn-link btn-art-link" data-link='${art.link}'><i class="fa-solid fa-arrow-up-right-from-square"></i></button></div>
+</div>
+</td>
                                        <td>${heredity}</td>
                                        <td><div class="row pr-3">
                 <div class="col-3">${button}</div>
@@ -155,7 +162,10 @@ class MasterTemplateTable
                 $('.btn-none').click(function () {
                     heredity = $('input[name="heredityButton"]:checked').val();
                 });
-
+                $('.btn-art-link').click(function () {
+                    var url =  '<?= DateXFondoCommon::get_website_url() ?>/date-doc/articoli/' + $(this).attr('data-link');
+                    window.open(url, '_blank');
+                });
 
             }
 
@@ -359,7 +369,7 @@ class MasterTemplateTable
                                     <th style="width: 170px">Sottotitolo Articolo</th>
                                     <th style="width: 175px">Descrizione Articolo</th>
                                     <th>Nota</th>
-                                    <th>Link</th>
+                                    <th style="width: 170px">Link</th>
                                     <th>Ereditarietà</th>
                                     <th>Azioni</th>
                                 </tr>

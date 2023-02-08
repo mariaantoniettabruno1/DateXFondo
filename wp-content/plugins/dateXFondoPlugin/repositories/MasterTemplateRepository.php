@@ -2,6 +2,8 @@
 
 namespace dateXFondoPlugin;
 
+use mysqli;
+
 class MasterTemplateRepository
 {
     public static function getArticoli($template_name)
@@ -55,9 +57,12 @@ class MasterTemplateRepository
 
     public static function getAllArticles()
     {
-        $conn = new Connection();
-        $mysqli = $conn->connect();
-        $sql = "SELECT post_title FROM wp_posts WHERE post_type='post' ";
+        $url = DB_HOST . ":" . DB_PORT . "/";
+        $username = DB_USER;
+        $password = DB_PASSWORD;
+        $dbname = 'c1date_doc';
+        $mysqli = new mysqli($url, $username, $password, $dbname);
+        $sql = "SELECT post_name FROM wp_posts WHERE post_type='post' ";
         $result = $mysqli->query($sql);
         $row = $result->fetch_all();
         mysqli_close($mysqli);

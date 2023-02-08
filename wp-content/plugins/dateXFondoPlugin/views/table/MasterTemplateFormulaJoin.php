@@ -20,9 +20,11 @@ class MasterTemplateFormulaJoin
         if (isset($_GET['template_name']))
             $results_formula = $data->getJoinedFormulas($_GET['template_name']);
         $results_joined = $data->getJoinedRecords();
-        foreach ($results_formula as $key => $value) {
-            $results_formula[$key]["formula"] = preg_replace('"', '\"', $value["formula"]);
-        }
+
+//        foreach ($results_formula as $key => $value) {
+//
+//            $results_formula[$key]["descrizione"] = preg_replace('"', '\"', $value["descrizione"]);
+//        }
         foreach ($results_articoli as $key => $value) {
             $results_articoli[$key]["sottotitolo_articolo"] =  preg_replace('/"/', '\"', $value["sottotitolo_articolo"]);
 
