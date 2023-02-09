@@ -31,6 +31,7 @@ class MasterTemplateTable
                 let sottotitolo = '';
                 let link = '';
                 let nome_articolo = '';
+                let link_button = '';
 
 
                 filteredArticoli.forEach(art => {
@@ -68,6 +69,12 @@ class MasterTemplateTable
                     } else if (Number(art.heredity) === 2) {
                         heredity = "Nota e valore ereditati";
                     }
+                    if (art.link !== null) {
+                        link_button = ` <button class="btn btn-link btn-art-link" data-link='${art.link}'><i class="fa-solid fa-arrow-up-right-from-square"></i></button>`;
+                    }
+                    else{
+                        link_button='';
+                    }
 
                     $('#dataTemplateTableBody' + index).append(`
                                  <tr>
@@ -87,7 +94,7 @@ class MasterTemplateTable
                                        <div class="row pr-3">
                                        <div class="col-8">${link}</div>
                                        <div class="col-2">
-<button class="btn btn-link btn-art-link" data-link='${art.link}'><i class="fa-solid fa-arrow-up-right-from-square"></i></button></div>
+${link_button}</div>
 </div>
 </td>
                                        <td>${heredity}</td>
