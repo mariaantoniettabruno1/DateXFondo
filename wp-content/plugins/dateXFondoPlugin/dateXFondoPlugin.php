@@ -21,7 +21,9 @@ require_once(plugin_dir_path(__FILE__) . 'repositories/DeliberaDocumentRepositor
 require_once(plugin_dir_path(__FILE__) . 'repositories/FormulaRepository.php');
 require_once(plugin_dir_path(__FILE__) . 'repositories/RegioniDocumentRepository.php');
 require_once(plugin_dir_path(__FILE__) . 'repositories/MasterJoinTableRepository.php');
-require_once(plugin_dir_path(__FILE__) . 'views/table/live_edit.php');
+require_once(plugin_dir_path(__FILE__) . 'repositories/ExportDataRepository.php');
+require_once(plugin_dir_path(__FILE__) . 'views/exportdata/ExportData.php');
+require_once(plugin_dir_path(__FILE__) . 'views/exportdata/components/ExportDataWizard.php');
 require_once(plugin_dir_path(__FILE__) . 'views/table/MasterTemplateFormulaJoin.php');
 require_once(plugin_dir_path(__FILE__) . 'views/table/components/MasterJoinTable.php');
 require_once(plugin_dir_path(__FILE__) . 'views/template/MasterTemplate.php');
@@ -109,6 +111,7 @@ function shortcodes_init()
     add_shortcode('post_delibera_template', 'delibera_template');
     add_shortcode('post_determina_costituzione_template', 'determina_costituzione_template');
     add_shortcode('post_relazione_illustrativa_template', 'relazione_illustrativa_template');
+    add_shortcode('post_export_data_template', 'export_data_template');
 }
 
 
@@ -191,6 +194,11 @@ function document_history()
 {
     $document = new \dateXFondoPlugin\DocumentHistory();
     $document->render();
+
+}
+function export_data_template()
+{
+    \dateXFondoPlugin\ExportData::render();
 
 }
 
