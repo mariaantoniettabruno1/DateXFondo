@@ -7,11 +7,11 @@ class ExportDataWizard
     public static function render_scripts()
     {
         ?>
-            <style>
-                .btn-select-data{
-                    width: 105px;
-                }
-            </style>
+        <style>
+            .btn-select-data {
+                width: 105px;
+            }
+        </style>
         <script>
             let fondo = '';
             let anno = 0;
@@ -44,11 +44,6 @@ class ExportDataWizard
                     anno = $(this).attr('data-anno');
                     template_name = $(this).attr('data-template_name');
                     version = $(this).attr('data-version');
-                    console.log(fondo)
-                    console.log(anno)
-                    console.log(template_name)
-                    console.log(version)
-
 
                 })
 
@@ -62,10 +57,42 @@ class ExportDataWizard
             $(document).ready(function () {
                 renderDataTable();
                 const cities = [];
-                $("input:checked").map(function(){
+                $("input:checked").map(function () {
                     cities.push($(this).val());
                 }).get();
-        
+                $('#exportDataButton').click(function () {
+                    const payload = {
+                        fondo,
+                        anno,
+                        template_name,
+                        version,
+                        cities
+                    }
+                    console.log(payload)
+
+                    $.ajax({
+                        url: '<?= DateXFondoCommon::get_website_url() ?>/wp-json/datexfondoplugin/v1/exportdata',
+                        data: payload,
+                        type: "POST",
+                        success: function (response) {
+                            console.log(response);
+                            $("#exportModal").modal('hide');
+                            $(".alert-export-success").show();
+                            $(".alert-export-success").fadeTo(2000, 500).slideUp(500, function () {
+                                $(".alert-export-success").slideUp(500);
+                            });
+                        },
+                        error: function (response) {
+                            console.error(response);
+                            $("#exportModal").modal('hide');
+                            $(".alert-export-wrong").show();
+                            $(".alert-export-wrong").fadeTo(2000, 500).slideUp(500, function () {
+                                $(".alert-export-wrong").slideUp(500);
+                            });
+                        }
+                    });
+                })
+
 
             });
         </script>
@@ -75,58 +102,95 @@ class ExportDataWizard
     public static function render()
     {
         ?>
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-5">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Seleziona i comuni:</h5>
-                                <div class="form-check" id="citiesCheckbox">
-                                    <input class="form-check-input" type="checkbox" name="cities" value="Torino" id="defaultCheck1">
-                                    <label class="form-check-label" for="defaultCheck1">
-                                        Torino
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="cities" value="Ivrea" id="defaultCheck2">
-                                    <label class="form-check-label" for="defaultCheck2">
-                                       Ivrea
-                                    </label>
-                                </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-5">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Seleziona i comuni:</h5>
+                            <div class="form-check" id="citiesCheckbox">
+                                <input class="form-check-input" type="checkbox" name="cities" value="Torino"
+                                       id="defaultCheck1">
+                                <label class="form-check-label" for="defaultCheck1">
+                                    Torino
+                                </label>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-7">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Seleziona i template:</h5>
-                                <small id="warningSaveEdit" class="form-text text-dark pb-2"><i
-                                            class="fa-solid fa-triangle-exclamation text-warning"></i>Ricordati di selezionare solo un template</small>
-                                <table class="table">
-                                    <thead>
-                                    <tr>
-
-                                        <th style="width: 200px">Fondo</th>
-                                        <th style="width: 100px">Anno</th>
-                                        <th>Descrizione fondo</th>
-                                        <th style="width: 100px">Versione</th>
-                                        <th style="width: 100px">Template Name</th>
-                                        <th style="width: 200px"></th>
-                                    </tr>
-
-                                    </thead>
-                                    <tbody id="dataTemplateTableBody">
-                                    </tbody>
-                                </table>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="cities" value="Ivrea"
+                                       id="defaultCheck2">
+                                <label class="form-check-label" for="defaultCheck2">
+                                    Ivrea
+                                </label>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="row pt-3">
-                    <button class="btn btn-primary">Esporta</button>
+                <div class="col-sm-7">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Seleziona i template:</h5>
+                            <small id="warningSaveEdit" class="form-text text-dark pb-2"><i
+                                        class="fa-solid fa-triangle-exclamation text-warning"></i>Ricordati di
+                                selezionare solo un template</small>
+                            <table class="table">
+                                <thead>
+                                <tr>
+
+                                    <th style="width: 200px">Fondo</th>
+                                    <th style="width: 100px">Anno</th>
+                                    <th>Descrizione fondo</th>
+                                    <th style="width: 100px">Versione</th>
+                                    <th style="width: 100px">Template Name</th>
+                                    <th style="width: 200px"></th>
+                                </tr>
+
+                                </thead>
+                                <tbody id="dataTemplateTableBody">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
-
+            <div class="row pt-3">
+                <button class="btn btn-primary btn-export " data-toggle="modal" data-target="#exportModal">Esporta
+                </button>
+            </div>
+        </div>
+        <div class="modal fade" id="exportModal" tabindex="-1" role="dialog" aria-labelledby="exportModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exportModalLabel">Esporta dati </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Vuoi esportare i dati selezionati?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
+                        <button type="button" class="btn btn-primary" id="exportDataButton">Esporta</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="alert alert-success alert-export-success" role="alert"
+             style="position:fixed; top: <?= is_admin_bar_showing() ? 47 : 15 ?>px; right: 15px; display:none">
+            Esportazione dati andata a buon fine!
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="alert alert-danger alert-export-wrong" role="alert"
+             style="position:fixed; top: <?= is_admin_bar_showing() ? 47 : 15 ?>px; right: 15px; display:none">
+            Esportazione dati non riuscita.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
         <?php
         self::render_scripts();
     }
