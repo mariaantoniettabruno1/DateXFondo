@@ -7,7 +7,7 @@ use DocumentRepository;
 class DeliberaIndirizziDocument
 {
     private $infos = [];
-    private $formule = [];
+
     private $values = array();
 
     public function __construct()
@@ -55,24 +55,6 @@ class DeliberaIndirizziDocument
     }
 
 
-    private function getSelect($key, $default = '')
-    {
-        $value = isset($this->values[$key]) ? $this->values[$key] : $default;
-
-
-        ?>
-        <select class="editable-select form-control form-control-sm" data-key="<?= $key ?>" style=" width: 100px">
-            <option><?= $default ?></option>
-            <?php
-            foreach ($this->formule as $val) {
-                ?>
-                <option value="<?= $val[0] ?>" <?= $val[0] == $value ? 'selected' : '' ?> ><?= $val[0] ?></option>
-                <?php
-            }
-            ?>
-        </select>
-        <?php
-    }
 
 
     public function render()
@@ -102,7 +84,7 @@ class DeliberaIndirizziDocument
             <script>
                 let data = {};
 
-                //Todo sistemare il remove per la select
+
                 function exportHTML() {
                     const header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' " +
                         "xmlns:w='urn:schemas-microsoft-com:office:word' " +
@@ -111,8 +93,6 @@ class DeliberaIndirizziDocument
                     const footer = "</body></html>";
                     const bodyHTML = $("#DeliberaIndirizziDocument").clone(true);
                     bodyHTML.find('input,textarea').remove();
-                    let formula_value = bodyHTML.find('select').val();
-                    bodyHTML.find('select').replaceWith(formula_value);
 
                     const sourceHTML = header + bodyHTML.html() + footer;
                     const source = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(sourceHTML);
@@ -161,13 +141,13 @@ class DeliberaIndirizziDocument
                     $('.btn-save-edit').click(function () {
                         let document_name = $('#inputDocumentName').val();
                         let editor_name = $('#inputEditorName').val();
-                        let year = $('#inputYear').val();
+                        let anno = $('#inputAnno').val();
 
                         const payload = {
                             editedInputs,
                             document_name,
                             editor_name,
-                            year
+                            anno
                         }
                         console.log(payload)
                         $.ajax({
@@ -191,11 +171,11 @@ class DeliberaIndirizziDocument
                     })
 
                 });
-                // window.onbeforeunload = confirmExit;
-                //
-                // function confirmExit() {
-                //     return "You have attempted to leave this page. Are you sure?";
-                // }
+                window.onbeforeunload = confirmExit;
+
+                function confirmExit() {
+                    return "You have attempted to leave this page. Are you sure?";
+                }
 
             </script>
         </head>
