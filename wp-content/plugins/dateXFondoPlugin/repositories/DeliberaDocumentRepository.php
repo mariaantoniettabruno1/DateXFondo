@@ -80,6 +80,30 @@ class DeliberaDocumentRepository
 
         return $stmt->affected_rows;
     }
+ public static function edit_relazione_document($request)
+    {
+        $conn = new Connection();
+        $mysqli = $conn->connect();
+        $page = 'schema-di-relazione-illustrativa';
+      $sql = "UPDATE DATE_documenti_odt SET valore=? WHERE chiave=? AND document_name=? AND editor_name=? AND anno=? AND page=?";
+      $stmt = $mysqli->prepare($sql);
+      foreach ($request['editedInputs'] as $key => $value) {
+          $stmt->bind_param("ssssis", $value, $key, $request['document_name'], $request['editor_name'], $request['anno'],$page);
+          $stmt->execute();
+      }
+
+
+//       $sql = "INSERT INTO DATE_documenti_odt (valore,chiave,document_name,editor_name,anno,page) VALUES(?,?,?,?,?,?)";
+//       $stmt = $mysqli->prepare($sql);
+//       foreach ($request['editedInputs'] as $key => $value) {
+//           $stmt->bind_param("ssssis", $value, $key, $request['document_name'], $request['editor_name'], $request['anno'], $page);
+//           $stmt->execute();
+//
+//       }
+        mysqli_close($mysqli);
+
+        return $stmt->affected_rows;
+    }
 
 
 
