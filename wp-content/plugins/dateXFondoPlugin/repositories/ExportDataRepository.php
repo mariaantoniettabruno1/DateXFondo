@@ -95,6 +95,55 @@ FROM DATE_template_fondo WHERE template_name=? AND version=?";
             $res = $stmt->execute();
         }
         mysqli_close($mysqli);
+        $this->exportDataFondoCompleto($request);
         return $template_data;
+    }
+    public function exportDataFondoCompleto($request){
+        $conn = new Connection();
+        $mysqli = $conn->connect();
+        $sql = "SELECT * FROM DATE_formula WHERE formula_template_name=?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("s",  $request['template_name']);
+        $res = $stmt->execute();
+        $res = $stmt->get_result();
+        $formulas = $res->fetch_all(MYSQLI_ASSOC);
+        $sql = "SELECT * FROM DATE_template_formula WHERE id_articolo IS NOT NULL AND attivo=1";
+        $result = $mysqli->query($sql);
+        $template_formula = $result->fetch_all(MYSQLI_ASSOC);
+        mysqli_close($mysqli);
+        $url = DB_HOST . ":" . DB_PORT . "/";
+        $username = DB_USER;
+        $password = DB_PASSWORD;
+        $dbname = 'c1date_slave';
+        $mysqli = new mysqli($url, $username, $password, $dbname);
+        $sql = "INSERT INTO DATE_storico_formula 
+                    (sezione,sottosezione,nome,descrizione,condizione,formula,text_type,formula_template_name,visibile,attivo)
+                        SELECT sezione,sottosezione,nome,descrizione,condizione,formula,text_type,formula_template_name,visibile,attivo
+FROM DATE_formula WHERE formula_template_name=?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("s", $request['template_name']);
+        $res = $stmt->execute();
+
+        $sql = "INSERT INTO DATE_formula 
+                    (sezione,sottosezione,nome,descrizione,condizione,formula,text_type,formula_template_name,visibile,attivo) 
+                     VALUES (?,?,?,?,?,?,?,?,?,?)";
+        $stmt = $mysqli->prepare($sql);
+        foreach ($formulas as $entry) {
+            $stmt->bind_param("ssssssisii", $entry['sezione'], $entry['sottosezione'], $entry['nome'], $entry['condizione'], $entry['formula'],
+                $entry['text_type'], $entry['formula_template_name'], $entry['visibile'], $entry['attivo']);
+            $res = $stmt->execute();
+        }
+        $sql = "DELETE FROM DATE_template_formula";
+        $result = $mysqli->prepare($sql);
+        $result->execute();
+        $sql = "INSERT INTO DATE_template_formula 
+                    (external_id,type,ordinamento) 
+                     VALUES (?,?,?)";
+        $stmt = $mysqli->prepare($sql);
+        foreach ($template_formula as $entry) {
+            $stmt->bind_param("iii", $entry['external_id'], $entry['type'], $entry['ordinamento']);
+            $res = $stmt->execute();
+        }
+        mysqli_close($mysqli);
     }
 }
