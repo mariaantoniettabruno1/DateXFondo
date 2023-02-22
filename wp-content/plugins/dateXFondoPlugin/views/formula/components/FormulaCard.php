@@ -97,10 +97,12 @@ class FormulaCard
                     $('#inputFormula').val(formula.formula);
                 } else {
                     const [cond, vf] = formula.formula.split("?");
-                    const [v, f] = vf.split(":");
+                    var i = vf.indexOf(':');
+                    const [v, f] = [vf.slice(0,i), vf.slice(i+1)];
                     $('#inputCondizione').val(cond);
                     $('#inputVero').val(v);
                     $('#inputFalso').val(f);
+
                 }
 
             }
