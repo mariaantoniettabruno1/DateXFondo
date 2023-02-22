@@ -247,7 +247,7 @@ class DocumentRepository
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = "SELECT nome FROM DATE_formula WHERE formula_template_name=?";
+        $sql = "SELECT nome FROM DATE_formula WHERE formula_template_name=? AND attivo=1 and visibile=0";
         $stmt = $mysqli->prepare($sql);
         $stmt->bind_param("s", $document_name);
         $res = $stmt->execute();
