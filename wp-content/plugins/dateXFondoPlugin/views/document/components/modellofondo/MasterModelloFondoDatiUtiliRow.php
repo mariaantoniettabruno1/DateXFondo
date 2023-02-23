@@ -108,6 +108,7 @@ class MasterModelloFondoDatiUtiliRow
 
                         let document_name = $('#inputDocumentName').val();
                         let anno = $('#inputYear').val();
+                        let editor_name = $('#inputEditorName').val();
 
                         if (articoli_dati_utili.find(art => art.nome_articolo === nome_articolo) === undefined && sezione !== 'Seleziona Sezione' && sottosezione!=='Seleziona Sottosezione') {
                             const payload = {
@@ -118,6 +119,7 @@ class MasterModelloFondoDatiUtiliRow
                                 sezione,
                                 sottosezione,
                                 document_name,
+                                editor_name,
                                 anno
                             }
                             console.log(payload)

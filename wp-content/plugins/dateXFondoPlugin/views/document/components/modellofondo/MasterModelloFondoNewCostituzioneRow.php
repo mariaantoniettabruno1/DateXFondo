@@ -108,6 +108,7 @@ public static function render_scripts(){
 
                         let document_name = $('#inputDocumentName').val();
                         let anno = $('#inputYear').val();
+                        let editor_name = $('#inputEditorName').val();
 
                         if (articoli.find(art => art.nome_articolo === nome_articolo) === undefined && sezione !== 'Seleziona Sezione' && sottosezione!=='Seleziona Sottosezione') {
                         const payload = {
@@ -117,6 +118,7 @@ public static function render_scripts(){
                             sezione,
                             sottosezione,
                             document_name,
+                            editor_name,
                             anno
                             }
                             console.log(payload)

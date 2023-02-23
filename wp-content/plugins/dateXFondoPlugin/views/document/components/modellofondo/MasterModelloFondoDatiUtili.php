@@ -205,7 +205,8 @@ class MasterModelloFondoDatiUtili
 
         $formulas = $data->getFormulas($_GET['editor_name']);
         $ids_articolo = $data->getIdsArticoli($_GET['editor_name']);
-        $array = $formulas + $ids_articolo;
+        $array = array_merge($ids_articolo,$formulas);
+
 
         ?>
         <div class="accordion mt-2 col" id="accordionDatiUtiliDocumentTable">

@@ -83,7 +83,7 @@ class MasterModelloFondoUtilizzo
                 return worksheet;
             }
 
-            function renderEditArticle() {
+            function renderUtilizzoDataTableUtilizzo() {
                 const updateArticolo = articoli_utilizzo.find(art => art.id === Number(id_utilizzo));
                 updateArticolo.nome_articolo = $('#idUtilizzoNomeArticolo').val();
                 updateArticolo.ordinamento = $('#idUtilizzoOrdinamento').val();
@@ -150,7 +150,7 @@ class MasterModelloFondoUtilizzo
                         success: function (response) {
                             console.log(response);
                             $("#editUtilizzoModal").modal('hide');
-                            renderEditArticle();
+                            renderUtilizzoDataTableUtilizzo();
                             renderUtilizzoDataTable();
                             $(".alert-edit-success").show();
                             $(".alert-edit-success").fadeTo(2000, 500).slideUp(500, function () {
@@ -186,7 +186,8 @@ class MasterModelloFondoUtilizzo
 
         $formulas = $data->getFormulas($_GET['editor_name']);
         $ids_articolo = $data->getIdsArticoli($_GET['editor_name']);
-        $array = $formulas + $ids_articolo;
+        $array = array_merge($ids_articolo,$formulas);
+
 
         ?>
         <div class="accordion mt-2 col" id="accordionUtilizzoDocumentTable">

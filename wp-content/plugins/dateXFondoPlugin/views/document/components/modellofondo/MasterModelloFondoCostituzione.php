@@ -55,7 +55,6 @@ class MasterModelloFondoCostituzione
                 let preventivo = '';
                 let edit_button = '';
                 let delete_button = '';
-                console.log(sezioni)
                 for (let i = 0; i < sezioni.length; i++) {
                     $('#dataCostituzioneDocumentTableBody' + i).html('');
                     filteredDocArticoli = filteredDocArticoli.filter(art => art.sezione === sezioni[i])
@@ -102,7 +101,13 @@ class MasterModelloFondoCostituzione
                 });
 
             }
+            function renderEditArticleCostituzione() {
 
+                let updateArticolo = articoli.find(art => art.id === Number(id));
+                updateArticolo.nome_articolo = $('#idNomeArticolo').val();
+                updateArticolo.ordinamento = $('#idOrdinamento').val();
+                updateArticolo.preventivo = $('#idPreventivo').val();
+            }
             function ExportExcel(index) {
                 let worksheet_tmp1, a, sectionTable;
                 let temp = [''];
@@ -129,12 +134,7 @@ class MasterModelloFondoCostituzione
                     + currentdate.getSeconds() + '.xlsx')));
             }
 
-            function renderEditArticle() {
-                const updateArticolo = articoli.find(art => art.id === Number(id));
-                updateArticolo.nome_articolo = $('#idNomeArticolo').val();
-                updateArticolo.ordinamento = $('#idOrdinamento').val();
-                updateArticolo.preventivo = $('#idPreventivo').val();
-            }
+
 
 
             $(document).ready(function () {
@@ -172,7 +172,9 @@ class MasterModelloFondoCostituzione
                         }
                     });
                 });
+
                 $('#editRowButton').click(function () {
+
                     let nome_articolo = $('#idNomeArticolo').val();
                     let ordinamento = $('#idOrdinamento').val();
                     let preventivo = $('#idPreventivo').val();
@@ -194,12 +196,15 @@ class MasterModelloFondoCostituzione
                         success: function (response) {
                             console.log(response);
                             $("#editModal").modal('hide');
-                            renderEditArticle();
+                            renderEditArticleCostituzione();
                             renderDataTable();
+
                             $(".alert-edit-success").show();
                             $(".alert-edit-success").fadeTo(2000, 500).slideUp(500, function () {
                                 $(".alert-edit-success").slideUp(500);
                             });
+
+
                         },
                         error: function (response) {
                             console.error(response);
@@ -231,7 +236,9 @@ class MasterModelloFondoCostituzione
 
         $formulas = $data->getFormulas($_GET['editor_name']);
         $ids_articolo = $data->getIdsArticoli($_GET['editor_name']);
-        $array = $formulas + $ids_articolo;
+        $array = array_merge($ids_articolo,$formulas);
+
+
 
         ?>
         <div class="accordion mt-2 col" id="accordionCostituzioneDocumentTable">
@@ -332,7 +339,6 @@ class MasterModelloFondoCostituzione
                             <?php
                             foreach ($array as $item) {
                                 ?>
-                                <option value="GFG_2" selected="selected">
                                 <option><?= $item[0] ?></option>
                             <?php }
                             ?>

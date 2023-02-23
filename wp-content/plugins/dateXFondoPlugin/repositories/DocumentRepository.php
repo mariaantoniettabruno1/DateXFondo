@@ -449,12 +449,13 @@ FROM DATE_documento_modello_fondo_dati_utili WHERE editor_name=?";
         $conn = new Connection();
         $mysqli = $conn->connect();
         $sql = "INSERT INTO DATE_documento_modello_fondo 
-                    (ordinamento,sezione,sottosezione,nome_articolo,preventivo,document_name,anno) VALUES(?,?,?,?,?,?,?)";
+                    (ordinamento,sezione,sottosezione,nome_articolo,preventivo,document_name,anno,editor_name) VALUES(?,?,?,?,?,?,?,?)";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("isssssi", $request['ordinamento'], $request['sezione'], $request['sottosezione'], $request['nome_articolo'],
-            $request['preventivo'], $request['document_name'], $request['anno']);
+        $stmt->bind_param("isssssis", $request['ordinamento'], $request['sezione'], $request['sottosezione'], $request['nome_articolo'],
+            $request['preventivo'], $request['document_name'], $request['anno'], $request['editor_name']);
         $stmt->execute();
         $mysqli->close();
+        return $stmt->insert_id;
 
     }
 
@@ -463,10 +464,10 @@ FROM DATE_documento_modello_fondo_dati_utili WHERE editor_name=?";
         $conn = new Connection();
         $mysqli = $conn->connect();
         $sql = "INSERT INTO DATE_documento_modello_fondo_utilizzo 
-                    (ordinamento,sezione,nome_articolo,preventivo,consuntivo,document_name,anno) VALUES(?,?,?,?,?,?,?)";
+                    (ordinamento,sezione,nome_articolo,preventivo,consuntivo,document_name,anno,editor_name) VALUES(?,?,?,?,?,?,?,?)";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("isssssi", $request['ordinamento'], $request['sezione'], $request['nome_articolo'],
-            $request['preventivo'], $request['consuntivo'], $request['document_name'], $request['anno']);
+        $stmt->bind_param("isssssis", $request['ordinamento'], $request['sezione'], $request['nome_articolo'],
+            $request['preventivo'], $request['consuntivo'], $request['document_name'], $request['anno'],$request['editor_name']);
         $stmt->execute();
         $mysqli->close();
 
@@ -477,10 +478,10 @@ FROM DATE_documento_modello_fondo_dati_utili WHERE editor_name=?";
         $conn = new Connection();
         $mysqli = $conn->connect();
         $sql = "INSERT INTO DATE_documento_modello_fondo_dati_utili
-                    (ordinamento,sezione,sottosezione,nome_articolo,formula,nota,document_name,anno) VALUES(?,?,?,?,?,?,?,?)";
+                    (ordinamento,sezione,sottosezione,nome_articolo,formula,nota,document_name,anno,editor_name) VALUES(?,?,?,?,?,?,?,?,?)";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("issssssi", $request['ordinamento'], $request['sezione'], $request['sottosezione'], $request['nome_articolo'],
-            $request['formula'], $request['nota'], $request['document_name'], $request['anno']);
+        $stmt->bind_param("issssssis", $request['ordinamento'], $request['sezione'], $request['sottosezione'], $request['nome_articolo'],
+            $request['formula'], $request['nota'], $request['document_name'], $request['anno'],$request['editor_name']);
         $stmt->execute();
         $mysqli->close();
 
