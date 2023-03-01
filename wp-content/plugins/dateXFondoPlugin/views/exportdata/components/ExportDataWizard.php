@@ -11,6 +11,32 @@ class ExportDataWizard
             .btn-select-data {
                 width: 105px;
             }
+            .btn-export, #exportDataButton, .btn-selected-data{
+                border-color: #26282f;
+                background-color: #26282f;
+            }
+            .btn-export:hover {
+                border-color:#870e12 ;
+                background-color: #870e12;
+            }
+            .btn-selected-data:hover {
+                border-color:#870e12 ;
+                background-color: #870e12;
+            }
+            #exportDataButton:hover {
+                border-color:#870e12 ;
+                background-color: #870e12;
+            }
+            .btn-select-data {
+                border-color: #26282f;
+                color: #26282f;
+            }
+
+            .btn-select-data:hover, .btn-select-data:active {
+                border-color: #870e12;
+                color: #870e12;
+                background-color: white;
+            }
         </style>
         <script>
             let fondo = '';
@@ -153,7 +179,7 @@ class ExportDataWizard
                 </div>
             </div>
             <div class="row pt-3">
-                <button class="btn btn-primary btn-export " data-toggle="modal" data-target="#exportModal">Esporta
+                <button class="btn btn-primary btn-export" data-toggle="modal" data-target="#exportModal">Esporta
                 </button>
             </div>
         </div>
