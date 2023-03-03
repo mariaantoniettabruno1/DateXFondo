@@ -82,11 +82,14 @@ class ExportDataWizard
 
             $(document).ready(function () {
                 renderDataTable();
-                const cities = [];
-                $("input:checked").map(function () {
-                    cities.push($(this).val());
-                }).get();
+
                 $('#exportDataButton').click(function () {
+
+                    const cities = [];
+                    $("input:checked").map(function () {
+                        cities.push($(this).val());
+                    }).get();
+
                     const payload = {
                         fondo,
                         anno,
@@ -135,17 +138,24 @@ class ExportDataWizard
                         <div class="card-body">
                             <h5 class="card-title">Seleziona i comuni:</h5>
                             <div class="form-check" id="citiesCheckbox">
-                                <input class="form-check-input" type="checkbox" name="cities" value="Torino"
+                                <input class="form-check-input" type="checkbox" name="cities" value="rubiana"
                                        id="defaultCheck1">
                                 <label class="form-check-label" for="defaultCheck1">
-                                    Torino
+                                    Rubiana
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="cities" value="Ivrea"
+                                <input class="form-check-input" type="checkbox" name="cities" value="spotorno"
                                        id="defaultCheck2">
                                 <label class="form-check-label" for="defaultCheck2">
-                                    Ivrea
+                                    Spotorno
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="cities" value="robassomero"
+                                       id="defaultCheck3">
+                                <label class="form-check-label" for="defaultCheck3">
+                                    Robassomero
                                 </label>
                             </div>
                         </div>
