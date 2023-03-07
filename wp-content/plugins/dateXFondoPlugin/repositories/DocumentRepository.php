@@ -470,6 +470,7 @@ FROM DATE_documento_modello_fondo_dati_utili WHERE editor_name=?";
             $request['preventivo'], $request['consuntivo'], $request['document_name'], $request['anno'],$request['editor_name']);
         $stmt->execute();
         $mysqli->close();
+        return  $stmt->insert_id;
 
     }
 
@@ -484,6 +485,7 @@ FROM DATE_documento_modello_fondo_dati_utili WHERE editor_name=?";
             $request['formula'], $request['nota'], $request['document_name'], $request['anno'],$request['editor_name']);
         $stmt->execute();
         $mysqli->close();
+        return  $stmt->insert_id;
 
     }
 

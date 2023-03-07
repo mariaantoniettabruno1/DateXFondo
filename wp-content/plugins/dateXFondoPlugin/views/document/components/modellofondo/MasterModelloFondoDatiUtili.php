@@ -23,6 +23,17 @@ class MasterModelloFondoDatiUtili
             .btn-edit-row, .btn-edit-row:hover {
                 color: #26282f;
             }
+            #editDatiUtiliRowButton, #deleteDatiUtiliRowButton {
+
+                border-color: #26282f;
+                background-color: #26282f;
+            }
+
+            #editDatiUtiliRowButton:hover, #deleteDatiUtiliRowButton:hover {
+                border-color: #870e12;
+                background-color: #870e12;
+            }
+
 
 
         </style>

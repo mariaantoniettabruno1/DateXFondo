@@ -20,15 +20,15 @@
 
 // ** Impostazioni MySQL - È possibile ottenere queste informazioni dal proprio fornitore di hosting ** //
 /** Il nome del database di WordPress */
-define( 'DB_NAME', "c5datexfondo" );
+define( 'DB_NAME', "c1DATEXFONDO" );
 
 
 /** Nome utente del database MySQL */
-define( 'DB_USER', "c5date" );
+define( 'DB_USER', "c1demomg3" );
 
 
 /** Password del database MySQL */
-define( 'DB_PASSWORD', "AHh9e!Uuu9uN" );
+define( 'DB_PASSWORD', "mxnCouMD!6M8" );
 
 
 /** Hostname MySQL  */
@@ -99,7 +99,7 @@ define( 'WP_DEBUG', false );
 /* Finito, interrompere le modifiche! Buon blogging. */
 
 /** Path assoluto alla directory di WordPress. */
-define( 'WP_SITEURL', 'http://datexfondo.online/' );
+define( 'WP_SITEURL', 'https://demo.mg3.srl/date/' );
 if ( !defined('ABSPATH') )
 	define('ABSPATH', dirname(__FILE__) . '/');
 

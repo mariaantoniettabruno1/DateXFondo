@@ -7,6 +7,18 @@ class MasterModelloFondoUtilizzo
     public static function render_scripts()
     {
         ?>
+            <style>
+                #editUtilizzoRowButton, #deleteUtilizzoRowButton {
+
+                    border-color: #26282f;
+                    background-color: #26282f;
+                }
+
+                #editUtilizzoRowButton:hover, #deleteUtilizzoRowButton:hover {
+                    border-color: #870e12;
+                    background-color: #870e12;
+                }
+            </style>
 
         <script>
             let id_utilizzo = 0;

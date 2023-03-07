@@ -57,16 +57,16 @@ class MasterTemplateRepository
 
     public static function getAllArticles()
     {
-        $url = DB_HOST . ":" . DB_PORT . "/";
-        $username = DB_USER;
-        $password = DB_PASSWORD;
-        $dbname = 'c1date_doc';
-        $mysqli = new mysqli($url, $username, $password, $dbname);
-        $sql = "SELECT post_name FROM wp_posts WHERE post_type='post' ";
-        $result = $mysqli->query($sql);
-        $row = $result->fetch_all();
-        mysqli_close($mysqli);
-        return $row;
+//        $url = DB_HOST . ":" . DB_PORT . "/";
+//        $username = DB_USER;
+//        $password = DB_PASSWORD;
+//        $dbname = 'c1date_doc';
+//        $mysqli = new mysqli($url, $username, $password, $dbname);
+//        $sql = "SELECT post_name FROM wp_posts WHERE post_type='post' ";
+//        $result = $mysqli->query($sql);
+//        $row = $result->fetch_all();
+//        mysqli_close($mysqli);
+        return 0;
     }
 
     public static function edit_header_template($request)

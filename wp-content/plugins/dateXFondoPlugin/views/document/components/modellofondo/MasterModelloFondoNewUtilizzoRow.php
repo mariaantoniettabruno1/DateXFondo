@@ -67,11 +67,11 @@ class MasterModelloFondoNewUtilizzoRow
                             sezione = $('#selectNewUtilizzoRowSezione').val();
                         }
 
-                        let document_name = $('#inputDocumentName').val();
+                        let document_name = 'Modello fondo utilizzo';
                         let anno = $('#inputYear').val();
                         let editor_name = $('#inputEditorName').val();
 
-                        if (articoli_dati_utili.find(art => art.nome_articolo === nome_articolo) === undefined && sezione !== 'Seleziona Sezione' && sottosezione !== 'Seleziona Sottosezione') {
+                        if (articoli_utilizzo.find(art => art.nome_articolo === nome_articolo) === undefined && sezione !== 'Seleziona Sezione') {
                             const payload = {
                                 nome_articolo,
                                 ordinamento,
@@ -89,7 +89,7 @@ class MasterModelloFondoNewUtilizzoRow
                                 type: "POST",
                                 success: function (response) {
                                     $("#addUtilizzoRowModal").modal('hide');
-                                    articoli_dati_utili.push({...payload, id: response['id']});
+                                    articoli_utilizzo.push({...payload, id: response['id']});
                                     renderUtilizzoSectionFilterRow();
                                     $(".alert-new-row-success").show();
                                     $(".alert-new-row-success").fadeTo(2000, 500).slideUp(500, function () {
@@ -166,7 +166,7 @@ class MasterModelloFondoNewUtilizzoRow
                             <input type="text" class="form-control" id="newUtilizzoRowOrdinamento"></div>
                         <div class="form-group">
                             <label for="inputNomeArticolo"><b>Articolo:</b> </label>
-                            <input type="text" class="form-control" id="newDatiUtiliRowNomeArticolo">
+                            <input type="text" class="form-control" id="newUtilizzoRowNomeArticolo">
                         </div>
                         <div class="form-group">
                             <label for="idFormula"><b>Preventivo: </b></label>
