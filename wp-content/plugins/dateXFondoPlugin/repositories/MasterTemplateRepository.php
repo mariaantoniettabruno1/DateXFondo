@@ -81,11 +81,27 @@ class MasterTemplateRepository
         $mysqli->close();
     }
 
-    public static function edit_row($request)
-    {
-
-        $conn = new Connection();
-        $mysqli = $conn->connect();
+ public static function edit_row($request)
+{
+    $conn = new Connection();
+    $mysqli = $conn->connect();
+    if ($request['type'] === 'dec') {
+        $sql = "UPDATE DATE_template_fondo SET ordinamento=?,
+                               id_articolo=?,
+                               descrizione_articolo=?,
+                               nota=?,
+                               link=?
+WHERE id=?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("issssi",
+            $request['ordinamento'],
+            $request['id_articolo'],
+            $request['descrizione_articolo'],
+            $request['nota'],
+            $request['link'],
+            $request['id']);
+        $res = $stmt->execute();
+    } else {
 
         $sql = "UPDATE DATE_template_fondo SET ordinamento=?,
                                id_articolo=?,
@@ -108,9 +124,12 @@ WHERE id=?";
             $request['heredity'],
             $request['id']);
         $res = $stmt->execute();
-        $mysqli->close();
-        return $res;
     }
+
+
+    $mysqli->close();
+    return $res;
+}
 
     public static function set_template_not_editable($request)
     {

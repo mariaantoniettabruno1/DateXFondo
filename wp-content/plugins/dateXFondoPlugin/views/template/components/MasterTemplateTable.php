@@ -184,17 +184,27 @@ ${link_button}</div>
                 }
             }
 
-            function renderEditArticle() {
+            function renderEditArticle(type) {
 
                 const updateArticolo = articoli.find(art => art.id === Number(id));
-                updateArticolo.ordinamento = $('#idOrdinamento').val();
-                updateArticolo.id_articolo = $('#idArticolo').val();
-                updateArticolo.nome_articolo = $('#idNomeArticolo').val();
-                updateArticolo.sottotitolo_articolo = $('#idSottotitoloArticolo').val();
-                updateArticolo.descrizione_articolo = $('#idDescrizioneArticolo').val();
-                updateArticolo.nota = $('#idNotaArticolo').val();
-                updateArticolo.link = $('#idLinkAssociato').val();
-                updateArticolo.heredity = $("input:radio[name=heredityRadioButton]:checked").val();
+                if(type === 'dec'){
+                    updateArticolo.ordinamento = $('#idDecOrdinamento').val();
+                    updateArticolo.id_articolo = $('#idDecArticolo').val();
+                    updateArticolo.descrizione_articolo = $('#decRowDescrizioneArticolo').val();
+                    updateArticolo.nota = $('#decRowNotaArticolo').val();
+                    updateArticolo.link = $("input:radio[name=typeDecEdit]:checked").val();
+                }
+                else{
+                    updateArticolo.ordinamento = $('#idOrdinamento').val();
+                    updateArticolo.id_articolo = $('#idArticolo').val();
+                    updateArticolo.nome_articolo = $('#idNomeArticolo').val();
+                    updateArticolo.sottotitolo_articolo = $('#idSottotitoloArticolo').val();
+                    updateArticolo.descrizione_articolo = $('#idDescrizioneArticolo').val();
+                    updateArticolo.nota = $('#idNotaArticolo').val();
+                    updateArticolo.link = $('#idLinkAssociato').val();
+                    updateArticolo.heredity = $("input:radio[name=heredityRadioButton]:checked").val();
+                }
+
             }
 
             $(document).ready(function () {
@@ -247,7 +257,7 @@ ${link_button}</div>
                             console.log(response);
                             $("#editModal").modal('hide');
                             $("#editDecModal").modal('hide');
-                            renderEditArticle();
+                            renderEditArticle('');
                             renderDataTable(section);
                             console.log(section);
                             $(".alert-edit-success").show();
@@ -258,6 +268,51 @@ ${link_button}</div>
                         error: function (response) {
                             console.error(response);
                             $("#editModal").modal('hide');
+                            $("#editDecModal").modal('hide');
+                            $(".alert-edit-wrong").show();
+                            $(".alert-edit-wrong").fadeTo(2000, 500).slideUp(500, function () {
+                                $(".alert-edit-wrong").slideUp(500);
+                            });
+                        }
+                    });
+                });
+                $('#editDecRowButton').click(function () {
+
+                    let id_articolo = $('#idDecArticolo').val();
+                    let ordinamento = $('#idDecOrdinamento').val();
+                    let descrizione_articolo = $('#decRowDescrizioneArticolo').val();
+                    let nota = $('#decRowNotaArticolo').val();
+                    let link = $("input:radio[name=typeDecEdit]:checked").val();
+                    const type = 'dec';
+
+                    const payload = {
+                        id,
+                        ordinamento,
+                        id_articolo,
+                        descrizione_articolo,
+                        nota,
+                        link,
+                        type
+                    }
+                    console.log(payload)
+
+                    $.ajax({
+                        url: '<?= DateXFondoCommon::get_website_url() ?>/wp-json/datexfondoplugin/v1/editrow',
+                        data: payload,
+                        type: "POST",
+                        success: function (response) {
+                            console.log(response);
+                            $("#editDecModal").modal('hide');
+                            renderEditArticle(type);
+                            renderDataTable(section);
+                            console.log(section);
+                            $(".alert-edit-success").show();
+                            $(".alert-edit-success").fadeTo(2000, 500).slideUp(500, function () {
+                                $(".alert-edit-success").slideUp(500);
+                            });
+                        },
+                        error: function (response) {
+                            console.error(response);
                             $("#editDecModal").modal('hide');
                             $(".alert-edit-wrong").show();
                             $(".alert-edit-wrong").fadeTo(2000, 500).slideUp(500, function () {
@@ -535,7 +590,7 @@ ${link_button}</div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-primary" id="editRowButton">Salva Modifica</button>
+                        <button class="btn btn-primary" id="editDecRowButton">Salva Modifica</button>
                     </div>
 
                 </div>
