@@ -153,9 +153,10 @@ ${link_button}</div>
                     $('#idDecOrdinamento').val(articolo.ordinamento)
                     $('#decRowDescrizioneArticolo').val(articolo.descrizione_articolo)
                     $('#decRowNotaArticolo').val(articolo.nota)
-                    if (articolo.link === '%') {
+                    $('#idDecLinkAssociato').val(articolo.link)
+                    if (articolo.sottotitolo === '%') {
                         $('#percentualeSelected').prop('checked', true);
-                    } else if (articolo.link === 'ValoreAssoluto') {
+                    } else if (articolo.sottotitolo === 'ValoreAssoluto') {
                         $('#valAbsSelected').prop('checked', true);
                     }
 
@@ -192,7 +193,8 @@ ${link_button}</div>
                     updateArticolo.id_articolo = $('#idDecArticolo').val();
                     updateArticolo.descrizione_articolo = $('#decRowDescrizioneArticolo').val();
                     updateArticolo.nota = $('#decRowNotaArticolo').val();
-                    updateArticolo.link = $("input:radio[name=typeDecEdit]:checked").val();
+                    updateArticolo.sottotitolo = $("input:radio[name=typeDecEdit]:checked").val();
+                    updateArticolo.link = $('#idDecLinkAssociato').val();
                 }
                 else{
                     updateArticolo.ordinamento = $('#idOrdinamento').val();
@@ -282,7 +284,8 @@ ${link_button}</div>
                     let ordinamento = $('#idDecOrdinamento').val();
                     let descrizione_articolo = $('#decRowDescrizioneArticolo').val();
                     let nota = $('#decRowNotaArticolo').val();
-                    let link = $("input:radio[name=typeDecEdit]:checked").val();
+                    let link = $('#idDecLinkAssociato').val();
+                    let sottotitolo = $("input:radio[name=typeDecEdit]:checked").val();
                     const type = 'dec';
 
                     const payload = {
@@ -290,6 +293,7 @@ ${link_button}</div>
                         ordinamento,
                         id_articolo,
                         descrizione_articolo,
+                        sottotitolo,
                         nota,
                         link,
                         type
@@ -588,6 +592,16 @@ ${link_button}</div>
                                 Valore Assoluto
                             </label>
                         </div>
+                        <label>Link associato</label>
+
+                        <select name="linkDecAssociato" id="idDecLinkAssociato">
+                            <?php
+                            foreach ($results as $res) {
+                                ?>
+                                <option><?= strlen($res[0]) < 40 ? $res[0] : substr($res[0], 0, 37) . "..." ?></option>
+                            <?php }
+                            ?>
+                        </select>
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-primary" id="editDecRowButton">Salva Modifica</button>

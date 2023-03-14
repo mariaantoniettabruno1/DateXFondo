@@ -89,14 +89,16 @@ class MasterTemplateRepository
         $sql = "UPDATE DATE_template_fondo SET ordinamento=?,
                                id_articolo=?,
                                descrizione_articolo=?,
+                               sottotitolo_articolo=?,
                                nota=?,
                                link=?
 WHERE id=?";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("issssi",
+        $stmt->bind_param("isssssi",
             $request['ordinamento'],
             $request['id_articolo'],
             $request['descrizione_articolo'],
+            $request['sottotitolo_articolo'],
             $request['nota'],
             $request['link'],
             $request['id']);

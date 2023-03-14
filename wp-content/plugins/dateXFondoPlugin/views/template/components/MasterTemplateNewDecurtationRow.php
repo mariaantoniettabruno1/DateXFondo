@@ -29,6 +29,7 @@ class MasterTemplateNewDecurtationRow
                 $('#decNewSottosezione').val('');
                 $('#decIdArticolo').val('');
                 $('#decNota').val('');
+                $('#newDecRowLink').val('');
                 $('#typeDec').attr('checked', false);
             }
 
@@ -68,8 +69,9 @@ class MasterTemplateNewDecurtationRow
                         }
                         let nota = $('#decNota').val().replaceAll("[^a-zA-Z0-9]+","");
                         let descrizione_articolo = $('#decDescrizioneArticolo').val().replaceAll("[^a-zA-Z0-9]+","");
-                        let link = $('input:radio[name=typeDec]:checked').val();
+                        let sottotitolo_articolo = $('input:radio[name=typeDec]:checked').val();
                         let fondo = $('#inputFondo').val();
+                        let link = $('#newDecRowLink').val();
                         let anno = $('#inputAnno').val();
                         let descrizione_fondo = $('#inputDescrizioneFondo').val();
                         let template_name = $('#inputNomeTemplate').val();
@@ -82,7 +84,7 @@ class MasterTemplateNewDecurtationRow
                                 descrizione_fondo,
                                 id_articolo,
                                 nome_articolo : '',
-                                sottotitolo_articolo: '',
+                                sottotitolo_articolo,
                                 sezione,
                                 sottosezione,
                                 descrizione_articolo,
@@ -140,6 +142,7 @@ class MasterTemplateNewDecurtationRow
 
     {
         $data = new MasterTemplateRepository();
+        $results = $data->getAllArticles();
         if (isset($_GET['fondo']) || isset($_GET['anno']) || isset($_GET['descrizione']) || isset($_GET['version'])) {
             $results_articoli = $data->visualize_template($_GET['fondo'], $_GET['anno'], $_GET['descrizione'], $_GET['version'], $_GET['template_name']);
 
@@ -243,6 +246,19 @@ class MasterTemplateNewDecurtationRow
                     <textarea class="form-control"
                               id="decNota"
                               name="decNota"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="idDecLinkAssociato"><b>Link associato: </b></label>
+                    <select name="newDecRowLink" id="newDecRowLink">
+                        <?php
+                        foreach ($results as $res) {
+                            ?>
+                            <option><?= $res[0] ?></option>
+
+                        <?php }
+                        ?>
+                    </select>
+
                 </div>
             </div>
             <div class="modal-footer">
