@@ -4,6 +4,7 @@ namespace dateXFondoPlugin;
 
 
 use DocumentRepository;
+use MasterModelloFondoCostituzione;
 use MasterModelloFondoDocumentTable;
 
 
@@ -114,7 +115,7 @@ class MasterModelloFondoDocument
             </div>
             <div class="row">
                 <?php
-                MasterModelloFondoDocumentTable::render();
+                MasterModelloFondoCostituzione::render();
                 ?>
             </div>
             <div class="row d-flex justify-content-between pt-3">
