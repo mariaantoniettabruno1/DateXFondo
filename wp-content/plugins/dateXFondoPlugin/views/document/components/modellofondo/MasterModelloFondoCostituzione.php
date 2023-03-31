@@ -96,8 +96,7 @@ class MasterModelloFondoCostituzione
                                        <td style="padding: 10px 6px; border: 1px solid black;"> ${art.sottosezione}</td>
                                        <td style="padding: 10px 6px; border: 1px solid black;">${art.nome_articolo}</td>
                                        <td style="padding: 10px 6px; border: 1px solid black;">${preventivo}</td>
-
-                     <td><div class="row pr-3">
+                     <td style="padding: 10px 6px; border: 1px solid black;"><div class="row pr-3">
                 <div class="col-3">${edit_button}</div>
                 <div class="col-3">${delete_button}</div>
                                     </td>
@@ -340,74 +339,64 @@ Content-Type: text/xml; charset="utf-8"
                     const tables = jQuery(id_tables);
                     let nome_precedente = '';
                     let SheetName = '';
-                    let $temp_table = '';
+                    let $table = '';
+                    let $all_table = '';
                     let one_table = 0;
                     let index;
 
                     $.each(tables, function (SheetIndex) {
-                        const $table = $(this);
-                        console.log($table);
+                        $table = $(this);
 
                         SheetName = $table.attr('data-SheetName');
                         index = SheetIndex;
+
                         if (nome_precedente === SheetName) {
                             one_table = 2;
+                            $all_table += $table[0].innerHTML
 
-                            context_WorkBook.ExcelWorksheets += format(template_ExcelWorksheet, {
-                                SheetIndex: SheetIndex
-                                , SheetName: SheetName
-                            });
-
-                            $temp_table[0].innerHTML += $table[0].innerHTML
-                            context_WorkBook.HTMLWorksheets += format(template_HTMLWorksheet, {
-                                SheetIndex: SheetIndex
-                                , SheetContent: $temp_table.html()
-                            });
-                            console.log($table.html());
-                            context_WorkBook.ListWorksheets += format(template_ListWorksheet, {
-                                SheetIndex: SheetIndex
-                            });
                         } else {
-                            if (one_table === 1) {
+                            if (one_table > 0) {
                                 context_WorkBook.ExcelWorksheets += format(template_ExcelWorksheet, {
                                     SheetIndex: SheetIndex
-                                    , SheetName: SheetName
+                                    , SheetName: nome_precedente
                                 });
-
 
                                 context_WorkBook.HTMLWorksheets += format(template_HTMLWorksheet, {
                                     SheetIndex: SheetIndex
-                                    , SheetContent: $temp_table.html()
+                                    , SheetContent: $all_table
                                 });
 
                                 context_WorkBook.ListWorksheets += format(template_ListWorksheet, {
                                     SheetIndex: SheetIndex
                                 });
                             }
+
                             one_table = 1;
+                            nome_precedente = $table.attr('data-SheetName');
+
+                            $all_table = $table[0].innerHTML;
                         }
 
-                        nome_precedente = $table.attr('data-SheetName');
-                        $temp_table = $(this);
-
                     });
-                    if (one_table === 1) {
+
+                    if (one_table > 0) {
+
                         context_WorkBook.ExcelWorksheets += format(template_ExcelWorksheet, {
                             SheetIndex: index
-                            , SheetName: SheetName
+                            , SheetName: nome_precedente
                         });
-
-
                         context_WorkBook.HTMLWorksheets += format(template_HTMLWorksheet, {
                             SheetIndex: index
-                            , SheetContent: $temp_table.html()
+                            , SheetContent: $all_table
                         });
-
+                        console.log(index)
+                        console.log($all_table)
                         context_WorkBook.ListWorksheets += format(template_ListWorksheet, {
                             SheetIndex: index
                         });
                     }
-                    var link = document.createElement("A");
+
+                    const link = document.createElement("A");
                     link.href = uri + base64(format(template_WorkBook, context_WorkBook));
                     link.download = filename || 'Workbook.xls';
                     link.target = '_blank';
@@ -693,6 +682,7 @@ Content-Type: text/xml; charset="utf-8"
                 </div>
             </nav>
             <div class="tab-content" id="nav-tabContent">
+
                 <div class="tab-pane fade show active" id="costituzione" role="tabpanel"
                      aria-labelledby="costituzione-tab" aria-selected="true">
                     <div class="accordion mt-2 col" id="accordionCostituzioneDocumentTable">
@@ -713,7 +703,7 @@ Content-Type: text/xml; charset="utf-8"
                                 <div id="collapseCostituzioneDocument<?= $section_index ?>" class="collapse"
                                      aria-labelledby="headingCostituzioneDocument<?= $section_index ?>"
                                      data-parent="#accordionCostituzioneDocumentTable">
-                                    <div class="card-body ">
+                                    <div class="card-body">
                                         <table class="content_table" id="contentTable" data-SheetName="Costituzione">
                                             <tr>
                                                 <td>
@@ -721,11 +711,21 @@ Content-Type: text/xml; charset="utf-8"
                                                            id="exportableTableCostituzione<?= $section_index ?>">
                                                         <thead style="position:relative; min-width: 100%;">
                                                         <tr style="position:relative; width: auto; padding: 10px 6px; border: 1px solid black; font-weight: 600; background-color: #457FAF; color: #FFFFFF;">
-                                                            <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600;">Ordinamento</th>
-                                                            <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600;">Sottosezione</th>
-                                                            <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600;">Nome Articolo</th>
-                                                            <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600;">Preventivo</th>
-                                                            <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600;">Azioni</th>
+                                                            <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600;">
+                                                                Ordinamento
+                                                            </th>
+                                                            <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600;">
+                                                                Sottosezione
+                                                            </th>
+                                                            <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600;">
+                                                                Nome Articolo
+                                                            </th>
+                                                            <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600;">
+                                                                Preventivo
+                                                            </th>
+                                                            <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600;">
+                                                                Azioni
+                                                            </th>
                                                         </tr>
                                                         </thead>
                                                         <tbody id="dataCostituzioneDocumentTableBody<?= $section_index ?>">
@@ -733,8 +733,18 @@ Content-Type: text/xml; charset="utf-8"
                                                     </table>
                                                 </td>
                                             </tr>
-
                                             <tr></tr>
+                                        </table>
+                                        <table id="idPippo" data-SheetName="Costituzione" style="display: none">
+                                            <tr>
+                                                <td>
+                                                    <table>
+                                                        <thead>
+                                                        <tr></tr>
+                                                        </thead>
+                                                    </table>
+                                                </td>
+                                            </tr>
                                         </table>
                                     </div>
                                 </div>
@@ -765,7 +775,7 @@ Content-Type: text/xml; charset="utf-8"
                                 <div id="collapseUtilizzoDocument<?= $section_index ?>" class="collapse"
                                      aria-labelledby="headingUtilizzoDocument<?= $section_index ?>"
                                      data-parent="#accordionUtilizzoDocumentTable">
-                                    <div class="card-body ">
+                                    <div class="card-body">
                                         <table class="content_table_utilizzo" id="contentTableUtilizzo"
                                                data-SheetName="UtilizzoFondo">
                                             <tr>
@@ -774,11 +784,21 @@ Content-Type: text/xml; charset="utf-8"
                                                            id="exportableTableUtilizzo<?= $section_index ?>">
                                                         <thead style="position:relative; min-width: 100%;">
                                                         <tr style="position:relative; width: auto; padding: 10px 6px; border: 1px solid black; font-weight: 600; background-color: #457FAF; color: #FFFFFF;">
-                                                            <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600;">Ordinamento</th>
-                                                            <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600;">Nome Articolo</th>
-                                                            <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600;">Preventivo</th>
-                                                            <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600;">Consuntivo</th>
-                                                            <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600;">Azioni</th>
+                                                            <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600;">
+                                                                Ordinamento
+                                                            </th>
+                                                            <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600;">
+                                                                Nome Articolo
+                                                            </th>
+                                                            <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600;">
+                                                                Preventivo
+                                                            </th>
+                                                            <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600;">
+                                                                Consuntivo
+                                                            </th>
+                                                            <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600;">
+                                                                Azioni
+                                                            </th>
                                                         </tr>
                                                         </thead>
                                                         <tbody id="dataUtilizzoDocumentTableBody<?= $section_index ?>">
@@ -787,6 +807,17 @@ Content-Type: text/xml; charset="utf-8"
                                                 </td>
                                             </tr>
                                             <tr></tr>
+                                        </table>
+                                        <table id="idPippo" data-SheetName="UtilizzoFondo" style="display: none">
+                                            <tr>
+                                                <td>
+                                                    <table>
+                                                        <thead>
+                                                        <tr></tr>
+                                                        </thead>
+                                                    </table>
+                                                </td>
+                                            </tr>
                                         </table>
                                     </div>
                                 </div>
@@ -797,6 +828,7 @@ Content-Type: text/xml; charset="utf-8"
                         ?>
                     </div>
                 </div>
+
                 <div class="tab-pane fade" id="dati" role="tabpanel" aria-labelledby="dati-tab" aria-selected="false">
                     <div class="accordion mt-2 col" id="accordionDatiUtiliDocumentTable">
                         <?php
@@ -816,7 +848,7 @@ Content-Type: text/xml; charset="utf-8"
                                 <div id="collapseDatiUtiliDocument<?= $section_index ?>" class="collapse"
                                      aria-labelledby="headingDatiUtiliDocument<?= $section_index ?>"
                                      data-parent="#accordionDatiUtiliDocumentTable">
-                                    <div class="card-body ">
+                                    <div class="card-body">
                                         <table class="content_table_dati" id="contentTableDati"
                                                data-SheetName="DatiUtili">
                                             <tr>
@@ -825,12 +857,24 @@ Content-Type: text/xml; charset="utf-8"
                                                            id="exportableTableDatiUtili<?= $section_index ?>">
                                                         <thead style="position:relative; min-width: 100%;">
                                                         <tr style="position:relative; width: auto; padding: 10px 6px; border: 1px solid black; font-weight: 600; background-color: #457FAF; color: #FFFFFF;">
-                                                            <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600;">Ordinamento</th>
-                                                            <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600;">Sottosezione</th>
-                                                            <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600;">Nome Articolo</th>
-                                                            <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600;">formula</th>
-                                                            <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600;">nota</th>
-                                                            <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600;">Azioni</th>
+                                                            <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600;">
+                                                                Ordinamento
+                                                            </th>
+                                                            <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600;">
+                                                                Sottosezione
+                                                            </th>
+                                                            <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600;">
+                                                                Nome Articolo
+                                                            </th>
+                                                            <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600;">
+                                                                formula
+                                                            </th>
+                                                            <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600;">
+                                                                nota
+                                                            </th>
+                                                            <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600;">
+                                                                Azioni
+                                                            </th>
                                                         </tr>
                                                         </thead>
                                                         <tbody id="dataDatiUtiliDocumentTableBody<?= $section_index ?>">
@@ -851,14 +895,27 @@ Content-Type: text/xml; charset="utf-8"
                 </div>
             </div>
         </div>
+<!--Tabella in display none aggiunta per l'export nel caso in cui ci fosse una sola tabella nell'ultimo sheet.
+Se non si aggiunge, la funzione prenderà sempre la tabella precedente e mai l'ultima perchè esce dal foreach.-->
+        <table id="idPippo" data-SheetName="DatiUtili" style="display: none">
+            <tr>
+                <td>
+                    <table>
+                        <thead>
+                        <tr></tr>
+                        </thead>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        
 
         <div class="container">
-            <div class="row d-flex flex-row-reverse ">
+            <div class="row d-flex flex-row-reverse">
                 <div class="p-2">
                     <button class="btn btn-outline-primary btn-excel"
-                            onclick="tablesToExcel('#contentTableDati,#contentTable,#contentTableUtilizzo', 'WorkSheet.xls');">
-                        Genera
-                        Foglio Excel
+                            onclick="tablesToExcel('#contentTable,#contentTableUtilizzo,#contentTableDati,#idPippo', 'ModelloFondo.xls');">
+                        Genera Foglio Excel
                     </button>
                 </div>
             </div>
