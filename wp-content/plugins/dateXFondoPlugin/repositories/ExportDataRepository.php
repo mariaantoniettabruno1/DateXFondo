@@ -171,11 +171,11 @@ FROM DATE_formula WHERE formula_template_name=?";
             $result = $mysqli->prepare($sql);
             $result->execute();
             $sql = "INSERT INTO DATE_template_formula_storico 
-                    (external_id,type,ordinamento) 
-                     VALUES (?,?,?)";
+                    (external_id,type,ordinamento,anno) 
+                     VALUES (?,?,?,?)";
             $stmt = $mysqli->prepare($sql);
             foreach ($template_formula as $entry) {
-                $stmt->bind_param("iii", $entry['external_id'], $entry['type'], $entry['ordinamento']);
+                $stmt->bind_param("iiii", $entry['external_id'], $entry['type'], $entry['ordinamento'],$entry['anno']);
                 $res = $stmt->execute();
             }
 

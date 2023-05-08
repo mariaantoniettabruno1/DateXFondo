@@ -94,9 +94,9 @@ class MasterTemplateTable
                                        <div class="row pr-3">
                                        <div class="col-8">${link}</div>
                                        <div class="col-2">
-${link_button}</div>
-</div>
-</td>
+                                        ${link_button}</div>
+                                        </div>
+                                        </td>
                                        <td>${heredity}</td>
                                        <td><div class="row pr-3">
                 <div class="col-3">${button}</div>

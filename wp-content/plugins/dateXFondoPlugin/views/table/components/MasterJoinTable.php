@@ -29,6 +29,7 @@ class MasterJoinTable
                 let descrizione = '';
                 let sottotitolo = '';
                 let link = '';
+                let link_button = '';
                 let nome_articolo = '';
 
                 filteredRecord.sort(function (a, b) {
@@ -57,6 +58,9 @@ class MasterJoinTable
                     nota = art.nota ?? ""
                     id_articolo = art.id_articolo ?? "";
                     sottotitolo = art.sottotitolo_articolo ?? "";
+                    if (art.link !== null) {
+                        link_button = ` <button class="btn btn-link btn-art-link" data-link='${art.link}'><i class="fa-solid fa-arrow-up-right-from-square"></i></button>`;
+                    }
                     link = art.link ?? "";
                     nome_articolo = art.nome_articolo ?? "";
                     descrizione = art.descrizione_articolo ?? "";
@@ -136,7 +140,13 @@ class MasterJoinTable
                                            <span style="display:block" class='descrizioneCut'>${descrizione.substr(0, 50).concat('...')}</span>
                                         </td>
                            <td>${nota}</td>
-                           <td>${link}</td>
+                          <td>
+                                       <div class="row pr-3">
+                                       <div class="col-8">${link}</div>
+                                       <div class="col-2">
+                                        ${link_button}</div>
+                                        </div>
+                                        </td>
                            <td>${heredity}</td>
                          </tr>
                              `);
@@ -152,10 +162,20 @@ class MasterJoinTable
                                            <span style="display:block" class='descrizioneCut'>${descrizione.substr(0, 50).concat('...')}</span>
                                         </td>
                            <td>${nota}</td>
-                           <td>${link}</td>
+                           <td>
+                                       <div class="row pr-3">
+                                       <div class="col-8">${link}</div>
+                                       <div class="col-2">
+                                        ${link_button}</div>
+                                        </div>
+                                        </td>
                          </tr>
                              `);
                     }
+                });
+                $('.btn-art-link').click(function () {
+                    var url =  '<?= DateXFondoCommon::get_website_url() ?>/date-doc/articoli/' + $(this).attr('data-link');
+                    window.open(url, '_blank');
                 });
                 $('.descrizioneCut').click(function () {
                     $(this).attr("style", "display:none");
