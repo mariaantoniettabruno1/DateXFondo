@@ -170,7 +170,7 @@ FROM DATE_formula WHERE formula_template_name=?";
             $sql = "DELETE FROM DATE_template_formula";
             $result = $mysqli->prepare($sql);
             $result->execute();
-            $sql = "INSERT INTO DATE_template_formula 
+            $sql = "INSERT INTO DATE_template_formula_storico 
                     (external_id,type,ordinamento) 
                      VALUES (?,?,?)";
             $stmt = $mysqli->prepare($sql);
