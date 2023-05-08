@@ -215,24 +215,7 @@ FROM DATE_storico_template_fondo WHERE fondo=? AND anno=? AND descrizione_fondo=
         return $res;
     }
 
-    public static function visualize_template($fondo, $anno, $descrizione, $version, $template_name)
-    {
-        $conn = new Connection();
-        $mysqli = $conn->connect();
-        $sql = "SELECT fondo,anno,descrizione_fondo,ordinamento,id_articolo,sezione,sottosezione,
-                     nome_articolo,sottotitolo_articolo,descrizione_articolo,valore,valore_anno_precedente,nota,link,attivo,version,row_type,editable,heredity,template_name
-FROM DATE_storico_template_fondo WHERE fondo=? AND anno=? AND descrizione_fondo=? AND version=? AND template_name=?";
-        $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("sisis", $fondo, $anno, $descrizione, $version, $template_name);
-        $res = $stmt->execute();
-        if ($res = $stmt->get_result()) {
-            $rows = $res->fetch_all(MYSQLI_ASSOC);
-        } else
-            $rows = [];
-        mysqli_close($mysqli);
-        return $rows;
 
-    }
 
 
 }

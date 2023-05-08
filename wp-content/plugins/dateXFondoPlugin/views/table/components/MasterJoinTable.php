@@ -17,6 +17,7 @@ class MasterJoinTable
                 let index = Object.keys(sezioni).indexOf(section);
                 $('#dataTemplateTableBody' + index).html('');
                 filteredRecord = joined_record;
+                console.log(joined_record)
                 filteredRecord = filteredRecord.filter(art => art.sezione === section)
                 if (subsection) {
                     filteredRecord = filteredRecord.filter(art => art.sottosezione === subsection)
@@ -112,12 +113,13 @@ class MasterJoinTable
                     const joinId = joinedIndexes[joinKey]?.id ?? -1
                     const joinOrder = joinedIndexes[joinKey]?.ordinamento ?? -1
 
-
-                    $('#dataTemplateTableBody' + index).append(`
+                    console.log(anno)
+                    if(anno === '') {
+                        $('#dataTemplateTableBody' + index).append(`
                          <tr>
                            <td>
                             <div class="row">
-                             <div class="col-5">
+                            <div class="col-5">
                               <input type="text" readonly value="${joinOrder}" style="width: 50px" id="${inputId}" data-join-id="${joinId}" data-join-key="${joinKey}" data-record-id="${art.id}" data-record-type="${type}">
                              </div>
                              <div class="col-1">
@@ -138,6 +140,22 @@ class MasterJoinTable
                            <td>${heredity}</td>
                          </tr>
                              `);
+                    }
+                    else{
+                        $('#dataTemplateTableBody' + index).append(`
+                        <tr>
+                           <td>${id_articolo}</td>
+                           <td>${nome_articolo}</td>
+                           <td>${sottotitolo}</td>
+                            <td>
+                                           <span style='display:none' class="descrizioneFull">${descrizione}</span>
+                                           <span style="display:block" class='descrizioneCut'>${descrizione.substr(0, 50).concat('...')}</span>
+                                        </td>
+                           <td>${nota}</td>
+                           <td>${link}</td>
+                         </tr>
+                             `);
+                    }
                 });
                 $('.descrizioneCut').click(function () {
                     $(this).attr("style", "display:none");
@@ -169,52 +187,56 @@ class MasterJoinTable
                         if (isNaN(Number(ordinamento))) {
                             ordinamento = -1
                         }
-                        if (joinId > 0) {
-                            // Handle update
-                            $.ajax({
-                                url: '<?= DateXFondoCommon::get_website_url() ?>/wp-json/datexfondoplugin/v1/join-table',
-                                data: {
-                                    id: joinId,
-                                    ordinamento
-                                },
-                                type: "POST",
-                                success: function (response) {
-                                    console.log(response);
-                                    joinedIndexes[joinKey].ordinamento = ordinamento;
-                                    renderDataTable(current_section, current_subsection);
-                                    $(".alert-ordinamento-success").show();
-                                    $(".alert-ordinamento-success").fadeTo(2000, 500).slideUp(500, function () {
-                                        $(".alert-ordinamento-success").slideUp(500);
-                                    });
-                                },
-                                error: function (response) {
-                                    console.error(response);
-                                    $(".alert-ordinamento-fail").show();
-                                    $(".alert-ordinamento-fail").fadeTo(2000, 500).slideUp(500, function () {
-                                        $(".alert-ordinamento-fail").slideUp(500);
-                                    });
-                                }
-                            })
-                        } else {
-                            // Handle insert
-                            $.ajax({
-                                url: '<?= DateXFondoCommon::get_website_url() ?>/wp-json/datexfondoplugin/v1/join-table',
-                                data: {
-                                    external_id,
-                                    type,
-                                    ordinamento
-                                },
-                                type: "POST",
-                                success: function (response) {
-                                    console.log(response);
-                                    joinedIndexes[joinKey] = {id: response["id"], type, ordinamento, external_id};
-                                    renderDataTable(current_section, current_subsection);
-                                },
-                                error: function (response) {
-                                    console.error(response);
-                                }
-                            })
-                        }
+
+
+                            if (joinId > 0) {
+                                // Handle update
+                                $.ajax({
+                                    url: '<?= DateXFondoCommon::get_website_url() ?>/wp-json/datexfondoplugin/v1/join-table',
+                                    data: {
+                                        id: joinId,
+                                        ordinamento
+                                    },
+                                    type: "POST",
+                                    success: function (response) {
+                                        console.log(response);
+                                        joinedIndexes[joinKey].ordinamento = ordinamento;
+                                        renderDataTable(current_section, current_subsection);
+                                        $(".alert-ordinamento-success").show();
+                                        $(".alert-ordinamento-success").fadeTo(2000, 500).slideUp(500, function () {
+                                            $(".alert-ordinamento-success").slideUp(500);
+                                        });
+                                    },
+                                    error: function (response) {
+                                        console.error(response);
+                                        $(".alert-ordinamento-fail").show();
+                                        $(".alert-ordinamento-fail").fadeTo(2000, 500).slideUp(500, function () {
+                                            $(".alert-ordinamento-fail").slideUp(500);
+                                        });
+                                    }
+                                })
+                            } else {
+                                // Handle insert
+                                $.ajax({
+                                    url: '<?= DateXFondoCommon::get_website_url() ?>/wp-json/datexfondoplugin/v1/join-table',
+                                    data: {
+                                        external_id,
+                                        type,
+                                        ordinamento
+                                    },
+                                    type: "POST",
+                                    success: function (response) {
+                                        console.log(response);
+                                        joinedIndexes[joinKey] = {id: response["id"], type, ordinamento, external_id};
+                                        renderDataTable(current_section, current_subsection);
+                                    },
+                                    error: function (response) {
+                                        console.error(response);
+                                    }
+                                })
+                            }
+
+
 
                     });
 
@@ -262,8 +284,20 @@ class MasterJoinTable
     {
         //Da ottimizzare 
         $data = new MasterJoinTableRepository();
-        $results_articoli = $data->getJoinedArticoli($_GET['template_name']);
-        $results_formula = $data->getJoinedFormulas($_GET['template_name']);
+        if (isset($_GET['fondo']) && isset($_GET['anno']) && isset($_GET['descrizione']) && isset($_GET['version']) && isset($_GET['template_name'])) {
+            $results_articoli = $data->getHistoryArticles($_GET['fondo'], $_GET['anno'], $_GET['descrizione'], $_GET['version'], $_GET['template_name']);
+            $results_formula = $data->getHistoryFormulas($_GET['fondo'], $_GET['anno']);
+
+
+
+        }
+        else{
+            if (isset($_GET['template_name']))
+                $results_articoli = $data->getJoinedArticoli($_GET['template_name']);
+            $results_formula = $data->getJoinedFormulas($_GET['template_name']);
+
+        }
+
 
         $sezioni = [];
         $tot_array = [];
@@ -331,6 +365,7 @@ class MasterJoinTable
                             <table class="table datetable">
                                 <thead>
                                 <tr>
+                                    <?php if(!isset($_GET['anno'])){ ?>
                                     <th>Ordinamento</th>
                                     <th>Id Articolo</th>
                                     <th>Nome Articolo</th>
@@ -339,6 +374,15 @@ class MasterJoinTable
                                     <th>Nota</th>
                                     <th>Link</th>
                                     <th>Ereditarietà</th>
+                                    <?php }
+                                    else {?>
+                                    <th>Id Articolo</th>
+                                    <th>Nome Articolo</th>
+                                    <th>Sottotitolo Articolo</th>
+                                    <th>Descrizione Articolo</th>
+                                    <th>Nota</th>
+                                    <th>Link</th>
+                                        <?php }?>
                                 </tr>
 
                                 </thead>

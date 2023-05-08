@@ -7,7 +7,35 @@ class MasterTemplateHistoryTable
     public static function render_scripts()
     {
         ?>
+        <style>
+            .btn-duplicate-template {
+                color: #26282f;
 
+            }
+
+            .btn-duplicate-template:hover {
+                color: #26282f;
+
+            }
+
+            .btn-all-template {
+                color: #26282f;
+            }
+
+            .btn-all-template:hover {
+                color: #26282f;
+            }
+
+            #duplicateTemplateButton {
+                border-color: #26282f;
+                background-color: #26282f;
+            }
+
+            #duplicateTemplateButton:hover {
+                border-color: #870e12;
+                background-color: #870e12;
+            }
+        </style>
         <script>
             let fondo = '';
             let anno = 0;
@@ -28,8 +56,7 @@ class MasterTemplateHistoryTable
                                        <td >${art.template_name}</td>
                                            <td>
                 <button class="btn btn-link btn-duplicate-template" data-fondo='${art.fondo}' data-anno='${art.anno}' data-desc ='${art.descrizione_fondo}' data-version='${art.version}' data-template='${art.template_name}' data-toggle="modal" data-target="#duplicateModal" data-toggle="tooltip" title="Duplica template"><i class="fa-regular fa-copy"></i></button>
-
-                <button class="btn btn-link btn-visualize-template" data-fondo='${art.fondo}' data-anno='${art.anno}' data-desc ='${art.descrizione_fondo}' data-version='${art.version}' data-template='${art.template_name}' data-toggle="tooltip" title="Visualizza template"><i class="fa-regular fa-eye"></i></button>
+                <button class="btn btn-link btn-all-template" data-fondo='${art.fondo}' data-anno='${art.anno}' data-desc ='${art.descrizione_fondo}' data-version='${art.version}' data-template='${art.template_name}'>Fondo Completo <i class="fa-solid fa-chevron-right"></i></button>
                 </td>
                 </tr>
                              `);
@@ -43,7 +70,7 @@ class MasterTemplateHistoryTable
                     template_name = $(this).attr('data-template');
 
                 });
-                $('.btn-visualize-template').click(function () {
+                $('.btn-all-template').click(function () {
                     fondo = $(this).attr('data-fondo');
                     anno = $(this).attr('data-anno');
                     descrizione = $(this).attr('data-desc');
@@ -72,7 +99,7 @@ class MasterTemplateHistoryTable
                         success: function (response) {
                             console.log(response);
                             $("#duplicateModal").modal('hide');
-                            location.href = '<?= DateXFondoCommon::get_website_url() ?>/visualizza-template-fondo/?template_name='+template_name;
+                            location.href = '<?= DateXFondoCommon::get_website_url() ?>/visualizza-template-fondo/?template_name=' + template_name;
                         },
                         error: function (response) {
                             console.error(response);
@@ -80,8 +107,8 @@ class MasterTemplateHistoryTable
                         }
                     });
                 });
-                $('.btn-visualize-template').click(function () {
-                    location.href = '<?= DateXFondoCommon::get_website_url()?>/visualizza-template-fondo/?fondo=' + fondo + '&anno=' + anno + '&descrizione=' + descrizione + '&version=' + version + '&template_name=' + template_name;
+                $('.btn-all-template').click(function () {
+                    location.href = '<?= DateXFondoCommon::get_website_url()?>/tabella-join-template-formula/?fondo=' + fondo + '&anno=' + anno + '&descrizione=' + descrizione + '&version=' + version + '&template_name=' + template_name;
                 });
             });
         </script>
@@ -99,7 +126,7 @@ class MasterTemplateHistoryTable
                 <th>Descrizione fondo</th>
                 <th style="width: 100px">Versione</th>
                 <th style="width: 100px">Template Name</th>
-                <th style="width: 12.625rem">Azioni</th>
+                <th style="width: 15rem">Azioni</th>
             </tr>
 
             </thead>

@@ -2,7 +2,7 @@
 
 namespace dateXFondoPlugin;
 
-use dateXFondoPlugin\MasterTemplateRepository;
+
 use MasterJoinTable;
 
 header('Content-Type: text/javascript');
@@ -12,25 +12,36 @@ class MasterTemplateFormulaJoin
     public static function render()
     {
         $data = new MasterJoinTableRepository();
-
         $results_articoli = [];
-        if (isset($_GET['template_name']))
-            $results_articoli = $data->getJoinedArticoli($_GET['template_name']);
         $results_formula = [];
-        if (isset($_GET['template_name']))
-            $results_formula = $data->getJoinedFormulas($_GET['template_name']);
-        $results_joined = $data->getJoinedRecords();
+        $results_joined = [];
+
+        if (isset($_GET['fondo']) && isset($_GET['anno']) && isset($_GET['descrizione']) && isset($_GET['version']) && isset($_GET['template_name'])) {
+            $results_articoli = $data->getHistoryArticles($_GET['fondo'], $_GET['anno'], $_GET['descrizione'], $_GET['version'], $_GET['template_name']);
+            $results_formula = $data->getHistoryFormulas($_GET['template_name'], $_GET['anno']);
+            $results_joined = $data->getHistoryJoinedRecords($_GET['anno']);
+
+
+        } else {
+
+            if (isset($_GET['template_name'])) {
+
+                $results_articoli = $data->getJoinedArticoli($_GET['template_name']);
+                $results_formula = $data->getJoinedFormulas($_GET['template_name']);
+                $results_joined = $data->getJoinedRecords();
+            }
+        }
 
 //        foreach ($results_formula as $key => $value) {
 //
 //            $results_formula[$key]["descrizione"] = preg_replace('"', '\"', $value["descrizione"]);
 //        }
         foreach ($results_articoli as $key => $value) {
-            $results_articoli[$key]["sottotitolo_articolo"] =  preg_replace('/"/', '\"', $value["sottotitolo_articolo"]);
+            $results_articoli[$key]["sottotitolo_articolo"] = preg_replace('/"/', '\"', $value["sottotitolo_articolo"]);
 
-            $results_articoli[$key]["descrizione_articolo"] =  preg_replace('/"/', '\"', $value["descrizione_articolo"]);
+            $results_articoli[$key]["descrizione_articolo"] = preg_replace('/"/', '\"', $value["descrizione_articolo"]);
 
-            $results_articoli[$key]["nome_articolo"] =  preg_replace('/"/', '\"', $value["nome_articolo"]);
+            $results_articoli[$key]["nome_articolo"] = preg_replace('/"/', '\"', $value["nome_articolo"]);
         }
 
         ?>
@@ -57,6 +68,12 @@ class MasterTemplateFormulaJoin
                 const articoli = JSON.parse(`<?=json_encode($results_articoli);?>`);
                 const formulas = JSON.parse(`<?=json_encode($results_formula);?>`);
                 const joined = JSON.parse(`<?=json_encode($results_joined);?>`);
+
+                let anno = '';
+                <?php if (isset($_GET['anno'])): ?>
+                anno = <?=$_GET['anno'];?>
+                <?php endif; ?>
+
                 let joined_record = [
                     ...articoli,
                     ...formulas
@@ -71,7 +88,6 @@ class MasterTemplateFormulaJoin
                     }
                 })
 
-
                 const sezioni = {}
                 articoli.forEach(a => {
                     if (!sezioni[a.sezione]) {
@@ -81,11 +97,11 @@ class MasterTemplateFormulaJoin
                         sezioni[a.sezione].push(a.sottosezione);
                     }
                 });
-                formulas.forEach( f =>{
-                        if(!sezioni[f.sezione]){
+                formulas.forEach(f => {
+                        if (!sezioni[f.sezione]) {
                             sezioni[f.sezione] = [];
                         }
-                        if(!sezioni[f.sezione].includes(f.sottosezione)){
+                        if (!sezioni[f.sezione].includes(f.sottosezione)) {
                             sezioni[f.sezione].push(f.sottosezione);
                         }
                     }
