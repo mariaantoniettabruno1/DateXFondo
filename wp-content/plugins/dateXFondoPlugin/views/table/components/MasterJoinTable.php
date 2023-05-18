@@ -29,7 +29,7 @@ class MasterJoinTable
                 let descrizione = '';
                 let sottotitolo = '';
                 let link = '';
-                let link_button = '';
+
                 let nome_articolo = '';
 
                 filteredRecord.sort(function (a, b) {

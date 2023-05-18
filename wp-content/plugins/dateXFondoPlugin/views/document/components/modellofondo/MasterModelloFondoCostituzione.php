@@ -8,13 +8,13 @@ class MasterModelloFondoCostituzione
     {
         ?>
         <style>
-            #editUtilizzoRowButton, #deleteUtilizzoRowButton {
+            #editUtilizzoRowButton, #deleteUtilizzoRowButton, #editUtilizzoNoteButton {
 
                 border-color: #26282f;
                 background-color: #26282f;
             }
 
-            #editUtilizzoRowButton:hover, #deleteUtilizzoRowButton:hover {
+            #editUtilizzoRowButton:hover, #deleteUtilizzoRowButton:hover, #editUtilizzoNoteButton:hover {
                 border-color: #870e12;
                 background-color: #870e12;
             }
@@ -31,17 +31,17 @@ class MasterModelloFondoCostituzione
                 color: #870e12;
             }
 
-            .btn-edit-row, .btn-edit-row:hover {
+            .btn-edit-row, .btn-edit-row:hover, .btn-edit-note, .btn-edit-note:hover{
                 color: #26282f;
             }
 
-            #editRowButton, #deleteRowButton {
+            #editRowButton, #deleteRowButton, #editNoteButton {
 
                 border-color: #26282f;
                 background-color: #26282f;
             }
 
-            #editRowButton:hover, #deleteRowButton:hover {
+            #editRowButton:hover, #deleteRowButton:hover,#editNoteButton:hover {
                 border-color: #870e12;
                 background-color: #870e12;
             }
@@ -76,6 +76,7 @@ class MasterModelloFondoCostituzione
                 let filteredDocArticoli = articoli;
                 let preventivo = '';
                 let edit_button = '';
+                let edit_note = '';
                 let delete_button = '';
                 for (let i = 0; i < sezioni.length; i++) {
                     $('#dataCostituzioneDocumentTableBody' + i).html('');
@@ -85,13 +86,16 @@ class MasterModelloFondoCostituzione
                             preventivo = art.preventivo;
                         if (Number(art.editable) === 0) {
                             edit_button = ` <button class="btn btn-link btn-edit-row" data-id='${art.id}' data-toggle="modal" data-target="#editModal" disabled><i class="fa-solid fa-pen"></i></button>`;
+                            edit_note = ` <button class="btn btn-link btn-edit-note" data-id='${art.id}' data-toggle="modal" data-target="#editNoteModal" disabled><i class="fa-solid fa-pen"></i></button>`;
                             delete_button = ` <button class="btn btn-link btn-delete-row" data-id='${art.id}' data-toggle="modal" data-target="#deleteModal" disabled><i class="fa-solid fa-trash"></i></button>`;
                         } else {
                             edit_button = ` <button class="btn btn-link btn-edit-row" data-id='${art.id}' data-toggle="modal" data-target="#editModal"><i class="fa-solid fa-pen"></i></button>`;
+                            edit_note = ` <button class="btn btn-link btn-edit-note" data-id='${art.id}' data-toggle="modal" data-target="#editNoteModal"><i class="fa-solid fa-pen"></i></button>`;
                             delete_button = ` <button class="btn btn-link btn-delete-row" data-id='${art.id}' data-toggle="modal" data-target="#deleteModal"><i class="fa-solid fa-trash"></i></button>`;
                         }
-                        $('#dataCostituzioneDocumentTableBody' + i).append(`
-                                 <tr style="width: auto; padding: 10px 6px; border: 1px solid black; background-color: transparent; color: #457FAF;">
+                        if (art.sezione !== 'Nota') {
+                            $('#dataCostituzioneDocumentTableBody' + i).append(`
+                                 <tr style="width: auto; padding: 10px 6px; border: 1px solid black; background-color: transparent; color: #427AA8;">
                                        <td style="padding: 10px 6px; border: 1px solid black;">${art.ordinamento}</td>
                                        <td style="padding: 10px 6px; border: 1px solid black;"> ${art.sottosezione}</td>
                                        <td style="padding: 10px 6px; border: 1px solid black;">${art.nome_articolo}</td>
@@ -102,6 +106,18 @@ class MasterModelloFondoCostituzione
                                     </td>
                                  </tr>
                              `);
+                        } else {
+                            $('#dataCostituzioneDocumentTableBody' + i).append(`
+                                 <tr style="width: auto; padding: 10px 6px; border: 1px solid black; background-color: transparent; color: #427AA8;">
+                                       <td style="padding: 10px 6px; border: 1px solid black;">${art.nome_articolo}</td>
+                     <td style="padding: 10px 6px; border: 1px solid black;"><div class="row pr-3">
+                <div class="col-3">${edit_note}</div>
+                <div class="col-3">${delete_button}</div>
+                                    </td>
+                                 </tr>
+                             `);
+                        }
+
 
                     });
                     filteredDocArticoli = articoli;
@@ -120,6 +136,13 @@ class MasterModelloFondoCostituzione
                     $('#idPreventivo').val(articolo.preventivo)
 
                 });
+                $('.btn-edit-note').click(function () {
+                    id = $(this).attr('data-id');
+                    const articolo = articoli.find(art => Number(art.id) === Number(id))
+                    if (!articolo) return;
+                    $('#idNote').val(articolo.nome_articolo)
+
+                });
 
             }
 
@@ -130,6 +153,7 @@ class MasterModelloFondoCostituzione
                 let preventivo = '';
                 let consuntivo = '';
                 let edit_button = '';
+                let edit_note = '';
                 let delete_button = '';
                 for (let i = 0; i < sezioni_utilizzo.length; i++) {
                     $('#dataUtilizzoDocumentTableBody' + i).html('');
@@ -141,24 +165,39 @@ class MasterModelloFondoCostituzione
                             consuntivo = art.consuntivo;
                         if (Number(art.editable) === 0) {
                             edit_button = ` <button class="btn btn-link btn-edit-row" data-id='${art.id}' data-toggle="modal" data-target="#editUtilizzoModal" disabled><i class="fa-solid fa-pen"></i></button>`;
+                            edit_note = ` <button class="btn btn-link btn-edit-note" data-id='${art.id}' data-toggle="modal" data-target="#editUtilizzoNoteModal" disabled><i class="fa-solid fa-pen"></i></button>`;
                             delete_button = ` <button class="btn btn-link btn-delete-row" data-id='${art.id}' data-toggle="modal" data-target="#deleteUtilizzoModal" disabled><i class="fa-solid fa-trash"></i></button>`;
                         } else {
+                            edit_note = ` <button class="btn btn-link btn-edit-note" data-id='${art.id}' data-toggle="modal" data-target="#editUtilizzoNoteModal"><i class="fa-solid fa-pen"></i></button>`;
                             edit_button = ` <button class="btn btn-link btn-edit-row" data-id='${art.id}' data-toggle="modal" data-target="#editUtilizzoModal"><i class="fa-solid fa-pen"></i></button>`;
                             delete_button = ` <button class="btn btn-link btn-delete-row" data-id='${art.id}' data-toggle="modal" data-target="#deleteUtilizzoModal"><i class="fa-solid fa-trash"></i></button>`;
                         }
-                        $('#dataUtilizzoDocumentTableBody' + i).append(`
-                                 <tr style="width: auto; padding: 10px 6px; border: 1px solid black; background-color: transparent; color: #457FAF;">
+
+                        if (art.sezione !== 'Nota') {
+                            $('#dataUtilizzoDocumentTableBody' + i).append(`
+                                 <tr style="width: auto; padding: 10px 6px; border: 1px solid black; background-color: transparent; color: #427AA8;">
                                        <td style="padding: 10px 6px; border: 1px solid black;">${art.ordinamento}</td>
                                        <td style="padding: 10px 6px; border: 1px solid black;">${art.nome_articolo}</td>
                                        <td style="padding: 10px 6px; border: 1px solid black;">${preventivo}</td>
                                        <td style="padding: 10px 6px; border: 1px solid black;">${consuntivo}</td>
 
-                     <td><div class="row pr-3">
+                     <td style="padding: 10px 6px; border: 1px solid black;"><div class="row pr-3">
                 <div class="col-3">${edit_button}</div>
                 <div class="col-3">${delete_button}</div>
                                     </td>
                                  </tr>
                              `);
+                        } else {
+                            $('#dataUtilizzoDocumentTableBody' + i).append(`
+                                 <tr style="width: auto; padding: 10px 6px; border: 1px solid black; background-color: transparent; color: #427AA8;">
+                                       <td style="padding: 10px 6px; border: 1px solid black;">${art.nome_articolo}</td>
+                     <td style="padding: 10px 6px; border: 1px solid black;"><div class="row pr-3">
+                <div class="col-3">${edit_note}</div>
+                <div class="col-3">${delete_button}</div>
+                                    </td>
+                                 </tr>
+                             `);
+                        }
 
                     });
                     filteredUtilizzoArticoli = articoli_utilizzo;
@@ -178,7 +217,13 @@ class MasterModelloFondoCostituzione
 
                 });
 
+                $('.btn-edit-note').click(function () {
+                    id_utilizzo = $(this).attr('data-id');
+                    const articolo = articoli_utilizzo.find(art => Number(art.id) === Number(id_utilizzo))
+                    if (!articolo) return;
+                    $('#idUtilizzoNote').val(articolo.nome_articolo)
 
+                });
             }
 
             let id_dati_utili = 0;
@@ -206,14 +251,14 @@ class MasterModelloFondoCostituzione
                             delete_button = ` <button class="btn btn-link btn-delete-row" data-id='${art.id}' data-toggle="modal" data-target="#deleteDatiUtiliModal"><i class="fa-solid fa-trash"></i></button>`;
                         }
                         $('#dataDatiUtiliDocumentTableBody' + i).append(`
-                                 <tr style="width: auto; padding: 10px 6px; border: 1px solid black; background-color: transparent; color: #457FAF;">
+                                 <tr style="width: auto; padding: 10px 6px; border: 1px solid black; background-color: transparent; color: #427AA8;">
                                        <td style="padding: 10px 6px; border: 1px solid black;">${art.ordinamento}</td>
                                        <td style="padding: 10px 6px; border: 1px solid black;">${art.sottosezione}</td>
                                        <td style="padding: 10px 6px; border: 1px solid black;">${art.nome_articolo}</td>
                                        <td style="padding: 10px 6px; border: 1px solid black;">${formula}</td>
                                        <td style="padding: 10px 6px; border: 1px solid black;">${nota}</td>
 
-                     <td><div class="row pr-3">
+                     <td style="padding: 10px 6px; border: 1px solid black;"><div class="row pr-3">
                 <div class="col-3">${edit_button}</div>
                 <div class="col-3">${delete_button}</div>
                                     </td>
@@ -244,14 +289,25 @@ class MasterModelloFondoCostituzione
             function renderEditArticleCostituzione() {
 
                 let updateArticolo = articoli.find(art => art.id === Number(id));
-                updateArticolo.nome_articolo = $('#idNomeArticolo').val();
+                if (updateArticolo.sezione === 'Nota') {
+                    updateArticolo.nome_articolo = $('#idNote').val();
+                } else {
+                    updateArticolo.nome_articolo = $('#idNomeArticolo').val();
+                }
+
                 updateArticolo.ordinamento = $('#idOrdinamento').val();
                 updateArticolo.preventivo = $('#idPreventivo').val();
             }
 
             function renderUtilizzoDataTableUtilizzo() {
                 const updateArticolo = articoli_utilizzo.find(art => art.id === Number(id_utilizzo));
-                updateArticolo.nome_articolo = $('#idUtilizzoNomeArticolo').val();
+                if (updateArticolo.sezione === 'Nota') {
+                    updateArticolo.nome_articolo = $('#idUtilizzoNote').val();
+                } else {
+                    updateArticolo.nome_articolo = $('#idUtilizzoNomeArticolo').val();
+                }
+
+
                 updateArticolo.ordinamento = $('#idUtilizzoOrdinamento').val();
                 updateArticolo.preventivo = $('#idUtilizzoPreventivo').val();
                 updateArticolo.consuntivo = $('#idUtilizzoConsuntivo').val();
@@ -484,6 +540,42 @@ Content-Type: text/xml; charset="utf-8"
                         }
                     });
                 });
+                $('#editUtilizzoNoteButton').click(function () {
+                    let nome_articolo = $('#idUtilizzoNote').val();
+
+
+
+                    const payload = {
+                        id_utilizzo,
+                        nome_articolo
+
+                    }
+                    console.log(payload)
+
+                    $.ajax({
+                        url: '<?= DateXFondoCommon::get_website_url() ?>/wp-json/datexfondoplugin/v1/utilizzo/document/note',
+                        data: payload,
+                        type: "POST",
+                        success: function (response) {
+                            console.log(response);
+                            $("#editUtilizzoNoteModal").modal('hide');
+                            renderUtilizzoDataTableUtilizzo();
+                            renderUtilizzoDataTable();
+                            $(".alert-edit-success").show();
+                            $(".alert-edit-success").fadeTo(2000, 500).slideUp(500, function () {
+                                $(".alert-edit-success").slideUp(500);
+                            });
+                        },
+                        error: function (response) {
+                            console.error(response);
+                            $("#editUtilizzoNoteModal").modal('hide');
+                            $(".alert-edit-wrong").show();
+                            $(".alert-edit-wrong").fadeTo(2000, 500).slideUp(500, function () {
+                                $(".alert-edit-wrong").slideUp(500);
+                            });
+                        }
+                    });
+                });
                 //Inizio callback per cancellazione e modifica righe Costituzione Fondo
                 $('#deleteRowButton').click(function () {
                     const payload = {
@@ -553,6 +645,45 @@ Content-Type: text/xml; charset="utf-8"
                         error: function (response) {
                             console.error(response);
                             $("#editModal").modal('hide');
+                            $(".alert-edit-wrong").show();
+                            $(".alert-edit-wrong").fadeTo(2000, 500).slideUp(500, function () {
+                                $(".alert-edit-wrong").slideUp(500);
+                            });
+                        }
+                    });
+                });
+                $('#editNoteButton').click(function () {
+
+                    let nome_articolo = $('#idNote').val();
+
+
+                    const payload = {
+                        id,
+                        nome_articolo
+
+                    }
+                    console.log(payload)
+
+                    $.ajax({
+                        url: '<?= DateXFondoCommon::get_website_url() ?>/wp-json/datexfondoplugin/v1/document/note',
+                        data: payload,
+                        type: "POST",
+                        success: function (response) {
+                            console.log(response);
+                            $("#editNoteModal").modal('hide');
+                            renderEditArticleCostituzione();
+                            renderDataTable();
+
+                            $(".alert-edit-success").show();
+                            $(".alert-edit-success").fadeTo(2000, 500).slideUp(500, function () {
+                                $(".alert-edit-success").slideUp(500);
+                            });
+
+
+                        },
+                        error: function (response) {
+                            console.error(response);
+                            $("#editNoteModal").modal('hide');
                             $(".alert-edit-wrong").show();
                             $(".alert-edit-wrong").fadeTo(2000, 500).slideUp(500, function () {
                                 $(".alert-edit-wrong").slideUp(500);
@@ -709,25 +840,39 @@ Content-Type: text/xml; charset="utf-8"
                                                 <td>
                                                     <table class="table datatable_costituzione"
                                                            id="exportableTableCostituzione<?= $section_index ?>">
-                                                        <thead style="position:relative; min-width: 100%;">
-                                                        <tr style="position:relative; width: auto; padding: 10px 6px; border: 1px solid black; font-weight: 600; background-color: #457FAF; color: #FFFFFF;">
-                                                            <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600;">
-                                                                Ordinamento
-                                                            </th>
-                                                            <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600;">
-                                                                Sottosezione
-                                                            </th>
-                                                            <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600;">
-                                                                Nome Articolo
-                                                            </th>
-                                                            <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600;">
-                                                                Preventivo
-                                                            </th>
-                                                            <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600;">
-                                                                Azioni
-                                                            </th>
-                                                        </tr>
-                                                        </thead>
+
+                                                        <?php if ($sezione['sezione'] === 'Nota') { ?>
+                                                            <thead style="position:relative; min-width: 100%;">
+                                                            <tr style="position:relative; width: auto; padding: 10px 6px; border: 1px solid black; font-weight: 600; background-color: #427AA8; color: #FFFFFF;">
+                                                                <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600;">
+                                                                    Nota
+                                                                </th>
+                                                                <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600; width:12rem">
+                                                                    Azioni
+                                                                </th>
+                                                            </tr>
+                                                            </thead>
+                                                        <?php } else { ?>
+                                                            <thead style="position:relative; min-width: 100%;">
+                                                            <tr style="position:relative; width: auto; padding: 10px 6px; border: 1px solid black; font-weight: 600; background-color: #427AA8; color: #FFFFFF;">
+                                                                <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600;">
+                                                                    Ordinamento
+                                                                </th>
+                                                                <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600;">
+                                                                    Sottosezione
+                                                                </th>
+                                                                <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600;">
+                                                                    Nome Articolo
+                                                                </th>
+                                                                <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600;">
+                                                                    Preventivo
+                                                                </th>
+                                                                <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600;">
+                                                                    Azioni
+                                                                </th>
+                                                            </tr>
+                                                            </thead>
+                                                        <?php } ?>
                                                         <tbody id="dataCostituzioneDocumentTableBody<?= $section_index ?>">
                                                         </tbody>
                                                     </table>
@@ -782,25 +927,38 @@ Content-Type: text/xml; charset="utf-8"
                                                 <td>
                                                     <table class="table datatable_utilizzo"
                                                            id="exportableTableUtilizzo<?= $section_index ?>">
-                                                        <thead style="position:relative; min-width: 100%;">
-                                                        <tr style="position:relative; width: auto; padding: 10px 6px; border: 1px solid black; font-weight: 600; background-color: #457FAF; color: #FFFFFF;">
-                                                            <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600;">
-                                                                Ordinamento
-                                                            </th>
-                                                            <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600;">
-                                                                Nome Articolo
-                                                            </th>
-                                                            <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600;">
-                                                                Preventivo
-                                                            </th>
-                                                            <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600;">
-                                                                Consuntivo
-                                                            </th>
-                                                            <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600;">
-                                                                Azioni
-                                                            </th>
-                                                        </tr>
-                                                        </thead>
+                                                        <?php if ($sezione['sezione'] === 'Nota') { ?>
+                                                            <thead style="position:relative; min-width: 100%;">
+                                                            <tr style="position:relative; width: auto; padding: 10px 6px; border: 1px solid black; font-weight: 600; background-color: #427AA8; color: #FFFFFF;">
+                                                                <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600;">
+                                                                    Nota
+                                                                </th>
+                                                                <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600; width:15rem">
+                                                                    Azioni
+                                                                </th>
+                                                            </tr>
+                                                            </thead>
+                                                        <?php } else { ?>
+                                                            <thead style="position:relative; min-width: 100%;">
+                                                            <tr style="position:relative; width: auto; padding: 10px 6px; border: 1px solid black; font-weight: 600; background-color: #427AA8; color: #FFFFFF;">
+                                                                <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600;">
+                                                                    Ordinamento
+                                                                </th>
+                                                                <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600;">
+                                                                    Nome Articolo
+                                                                </th>
+                                                                <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600;">
+                                                                    Preventivo
+                                                                </th>
+                                                                <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600;">
+                                                                    Consuntivo
+                                                                </th>
+                                                                <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600;">
+                                                                    Azioni
+                                                                </th>
+                                                            </tr>
+                                                            </thead>
+                                                        <?php } ?>
                                                         <tbody id="dataUtilizzoDocumentTableBody<?= $section_index ?>">
                                                         </tbody>
                                                     </table>
@@ -856,7 +1014,7 @@ Content-Type: text/xml; charset="utf-8"
                                                     <table class="table datatable_dati_utili"
                                                            id="exportableTableDatiUtili<?= $section_index ?>">
                                                         <thead style="position:relative; min-width: 100%;">
-                                                        <tr style="position:relative; width: auto; padding: 10px 6px; border: 1px solid black; font-weight: 600; background-color: #457FAF; color: #FFFFFF;">
+                                                        <tr style="position:relative; width: auto; padding: 10px 6px; border: 1px solid black; font-weight: 600; background-color: #427AA8; color: #FFFFFF;">
                                                             <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600;">
                                                                 Ordinamento
                                                             </th>
@@ -870,9 +1028,9 @@ Content-Type: text/xml; charset="utf-8"
                                                                 formula
                                                             </th>
                                                             <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600;">
-                                                                nota
+                                                                Nota
                                                             </th>
-                                                            <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600;">
+                                                            <th style="position:relative; padding: 10px 6px; border: 1px solid black; font-weight: 600; ">
                                                                 Azioni
                                                             </th>
                                                         </tr>
@@ -895,8 +1053,8 @@ Content-Type: text/xml; charset="utf-8"
                 </div>
             </div>
         </div>
-<!--Tabella in display none aggiunta per l'export nel caso in cui ci fosse una sola tabella nell'ultimo sheet.
-Se non si aggiunge, la funzione prenderà sempre la tabella precedente e mai l'ultima perchè esce dal foreach.-->
+        <!--Tabella in display none aggiunta per l'export nel caso in cui ci fosse una sola tabella nell'ultimo sheet.
+        Se non si aggiunge, la funzione prenderà sempre la tabella precedente e mai l'ultima perchè esce dal foreach.-->
         <table id="idPippo" data-SheetName="DatiUtili" style="display: none">
             <tr>
                 <td>
@@ -908,7 +1066,7 @@ Se non si aggiunge, la funzione prenderà sempre la tabella precedente e mai l'u
                 </td>
             </tr>
         </table>
-        
+
 
         <div class="container">
             <div class="row d-flex flex-row-reverse">
@@ -976,6 +1134,29 @@ Se non si aggiunge, la funzione prenderà sempre la tabella precedente e mai l'u
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-primary" id="editRowButton">Salva Modifica</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="editNoteModal" tabindex="-1"
+             role="dialog"
+             aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Modifica riga del documento:</h5>
+                        <button type="button" class="close" data-dismiss="modal"
+                                aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <label>Nome Articolo</label>
+                        <input type="text" class="form-control" id="idNote">
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" id="editNoteButton">Salva Modifica</button>
                     </div>
                 </div>
             </div>
@@ -1072,6 +1253,29 @@ Se non si aggiunge, la funzione prenderà sempre la tabella precedente e mai l'u
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="editUtilizzoNoteModal" tabindex="-1"
+             role="dialog"
+             aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Modifica riga del documento:</h5>
+                        <button type="button" class="close" data-dismiss="modal"
+                                aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <label>Nome Articolo</label>
+                        <input type="text" class="form-control" id="idUtilizzoNote">
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" id="editUtilizzoNoteButton">Salva Modifica</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="alert alert-success alert-edit-success" role="alert"
              style="position:fixed; top: <?= is_admin_bar_showing() ? 47 : 15 ?>px; right: 15px; display:none">
             Modifica andata a buon fine!
@@ -1117,7 +1321,8 @@ Se non si aggiunge, la funzione prenderà sempre la tabella precedente e mai l'u
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
-                        <button type="button" class="btn btn-primary" id="deleteDatiUtiliRowButton">Cancella</button>
+                        <button type="button" class="btn btn-primary" id="deleteDatiUtiliRowButton">Cancella
+                        </button>
                     </div>
                 </div>
             </div>

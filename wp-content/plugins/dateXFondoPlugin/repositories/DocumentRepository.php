@@ -280,7 +280,24 @@ WHERE id=?";
         return $res;
 
     }
+    public static function edit_document_note($request)
+    {
 
+        $conn = new Connection();
+        $mysqli = $conn->connect();
+
+        $sql = "UPDATE DATE_documento_modello_fondo SET 
+                               nome_articolo=?                              
+WHERE id=?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("si",
+            $request['nome_articolo'],
+            $request['id']);
+        $res = $stmt->execute();
+        $mysqli->close();
+        return $res;
+
+    }
     public static function edit_utilizzo_document_row($request)
     {
 
@@ -306,7 +323,25 @@ WHERE id=?";
         return $res;
 
     }
+    public static function edit_utilizzo_document_note($request)
+    {
 
+        $conn = new Connection();
+        $mysqli = $conn->connect();
+
+        $sql = "UPDATE DATE_documento_modello_fondo_utilizzo SET 
+                               nome_articolo=?
+                               
+WHERE id=?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("si",
+            $request['nome_articolo'],
+            $request['id_utilizzo']);
+        $res = $stmt->execute();
+        $mysqli->close();
+        return $res;
+
+    }
     public static function edit_dati_utili_document_row($request)
     {
 
@@ -628,7 +663,7 @@ FROM DATE_documento_modello_fondo_dati_utili_storico WHERE document_name='Modell
                 $rows = $res->fetch_all(MYSQLI_ASSOC);
             } else
                 $rows = [];
-            $sql = "INSERT INTO DATE_documenti_odt (chiave, valore, document_name, editor_name, anno, active, editable, page, version) VALUES (?,?,?,?,?,?,?,?,) ";
+            $sql = "INSERT INTO DATE_documenti_odt (chiave, valore, document_name, editor_name, anno, active, editable, page, version) VALUES (?,?,?,?,?,?,?,?,?) ";
             $stmt = $mysqli->prepare($sql);
             $version = $rows[0]['version'] + 1;
             foreach ($rows as $entry) {
