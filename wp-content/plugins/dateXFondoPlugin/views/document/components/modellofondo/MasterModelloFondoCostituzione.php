@@ -78,9 +78,11 @@ class MasterModelloFondoCostituzione
                 let edit_button = '';
                 let edit_note = '';
                 let delete_button = '';
+                let style = '';
                 for (let i = 0; i < sezioni.length; i++) {
                     $('#dataCostituzioneDocumentTableBody' + i).html('');
                     filteredDocArticoli = filteredDocArticoli.filter(art => art.sezione === sezioni[i])
+
                     filteredDocArticoli.forEach(art => {
                         if (art.preventivo !== undefined)
                             preventivo = art.preventivo;
@@ -93,9 +95,16 @@ class MasterModelloFondoCostituzione
                             edit_note = ` <button class="btn btn-link btn-edit-note" data-id='${art.id}' data-toggle="modal" data-target="#editNoteModal"><i class="fa-solid fa-pen"></i></button>`;
                             delete_button = ` <button class="btn btn-link btn-delete-row" data-id='${art.id}' data-toggle="modal" data-target="#deleteModal"><i class="fa-solid fa-trash"></i></button>`;
                         }
+                        if(filteredDocArticoli[filteredDocArticoli.length-1] === art) {
+                            style = `"width: auto; padding: 10px 6px; border: 1px solid black; background-color: #ADD4C5; color: black;"`;
+                        }
+                        else{
+                            style = `"width: auto; padding: 10px 6px; border: 1px solid black; background-color: transparent; color: #427AA8;"`;
+                        }
+
                         if (art.sezione !== 'Nota') {
                             $('#dataCostituzioneDocumentTableBody' + i).append(`
-                                 <tr style="width: auto; padding: 10px 6px; border: 1px solid black; background-color: transparent; color: #427AA8;">
+                                 <tr style= ${style}>
                                        <td style="padding: 10px 6px; border: 1px solid black;">${art.ordinamento}</td>
                                        <td style="padding: 10px 6px; border: 1px solid black;"> ${art.sottosezione}</td>
                                        <td style="padding: 10px 6px; border: 1px solid black;">${art.nome_articolo}</td>
@@ -120,11 +129,11 @@ class MasterModelloFondoCostituzione
 
 
                     });
+                    console.log(filteredDocArticoli.length)
                     filteredDocArticoli = articoli;
                 }
                 $('.btn-delete-row').click(function () {
                     id = $(this).attr('data-id');
-                    console.log(id)
 
                 });
                 $('.btn-edit-row').click(function () {
@@ -155,6 +164,7 @@ class MasterModelloFondoCostituzione
                 let edit_button = '';
                 let edit_note = '';
                 let delete_button = '';
+                let style = '';
                 for (let i = 0; i < sezioni_utilizzo.length; i++) {
                     $('#dataUtilizzoDocumentTableBody' + i).html('');
                     filteredUtilizzoArticoli = filteredUtilizzoArticoli.filter(art => art.sezione === sezioni_utilizzo[i])
@@ -163,6 +173,12 @@ class MasterModelloFondoCostituzione
                             preventivo = art.preventivo;
                         if (art.consuntivo !== undefined)
                             consuntivo = art.consuntivo;
+                        if(filteredUtilizzoArticoli[filteredUtilizzoArticoli.length-1] === art) {
+                            style = `"width: auto; padding: 10px 6px; border: 1px solid black; background-color: #ADD4C5; color: black;"`;
+                        }
+                        else{
+                            style = `"width: auto; padding: 10px 6px; border: 1px solid black; background-color: transparent; color: #427AA8;"`;
+                        }
                         if (Number(art.editable) === 0) {
                             edit_button = ` <button class="btn btn-link btn-edit-row" data-id='${art.id}' data-toggle="modal" data-target="#editUtilizzoModal" disabled><i class="fa-solid fa-pen"></i></button>`;
                             edit_note = ` <button class="btn btn-link btn-edit-note" data-id='${art.id}' data-toggle="modal" data-target="#editUtilizzoNoteModal" disabled><i class="fa-solid fa-pen"></i></button>`;
@@ -175,7 +191,7 @@ class MasterModelloFondoCostituzione
 
                         if (art.sezione !== 'Nota') {
                             $('#dataUtilizzoDocumentTableBody' + i).append(`
-                                 <tr style="width: auto; padding: 10px 6px; border: 1px solid black; background-color: transparent; color: #427AA8;">
+                                 <tr style=${style}>
                                        <td style="padding: 10px 6px; border: 1px solid black;">${art.ordinamento}</td>
                                        <td style="padding: 10px 6px; border: 1px solid black;">${art.nome_articolo}</td>
                                        <td style="padding: 10px 6px; border: 1px solid black;">${preventivo}</td>
@@ -235,6 +251,7 @@ class MasterModelloFondoCostituzione
                 formula = '';
                 let edit_button = '';
                 let delete_button = '';
+                let style = '';
                 for (let i = 0; i < sezioni_dati_utili.length; i++) {
                     $('#dataDatiUtiliDocumentTableBody' + i).html('');
                     filteredDatiUtiliArticoli = filteredDatiUtiliArticoli.filter(art => art.sezione === sezioni_dati_utili[i])
@@ -243,6 +260,12 @@ class MasterModelloFondoCostituzione
                             formula = art.formula;
                         if (art.nota !== undefined)
                             nota = art.nota;
+                        if(filteredDatiUtiliArticoli[filteredDatiUtiliArticoli.length-1] === art) {
+                            style = `"width: auto; padding: 10px 6px; border: 1px solid black; background-color: #ADD4C5; color: black;"`;
+                        }
+                        else{
+                            style = `"width: auto; padding: 10px 6px; border: 1px solid black; background-color: transparent; color: #427AA8;"`;
+                        }
                         if (Number(art.editable) === 0) {
                             edit_button = ` <button class="btn btn-link btn-edit-row" data-id='${art.id}' data-toggle="modal" data-target="#editDatiUtiliModal" disabled><i class="fa-solid fa-pen"></i></button>`;
                             delete_button = ` <button class="btn btn-link btn-delete-row" data-id='${art.id}' data-toggle="modal" data-target="#deleteDatiUtiliModal" disabled><i class="fa-solid fa-trash"></i></button>`;
@@ -251,14 +274,14 @@ class MasterModelloFondoCostituzione
                             delete_button = ` <button class="btn btn-link btn-delete-row" data-id='${art.id}' data-toggle="modal" data-target="#deleteDatiUtiliModal"><i class="fa-solid fa-trash"></i></button>`;
                         }
                         $('#dataDatiUtiliDocumentTableBody' + i).append(`
-                                 <tr style="width: auto; padding: 10px 6px; border: 1px solid black; background-color: transparent; color: #427AA8;">
+                                 <tr style=${style}>
                                        <td style="padding: 10px 6px; border: 1px solid black;">${art.ordinamento}</td>
                                        <td style="padding: 10px 6px; border: 1px solid black;">${art.sottosezione}</td>
                                        <td style="padding: 10px 6px; border: 1px solid black;">${art.nome_articolo}</td>
                                        <td style="padding: 10px 6px; border: 1px solid black;">${formula}</td>
                                        <td style="padding: 10px 6px; border: 1px solid black;">${nota}</td>
 
-                     <td style="padding: 10px 6px; border: 1px solid black;"><div class="row pr-3">
+                     <td style=${style}>
                 <div class="col-3">${edit_button}</div>
                 <div class="col-3">${delete_button}</div>
                                     </td>
@@ -445,8 +468,6 @@ Content-Type: text/xml; charset="utf-8"
                             SheetIndex: index
                             , SheetContent: $all_table
                         });
-                        console.log(index)
-                        console.log($all_table)
                         context_WorkBook.ListWorksheets += format(template_ListWorksheet, {
                             SheetIndex: index
                         });
