@@ -13,8 +13,8 @@ class MasterJoinTable
             let id = 0;
             let filteredRecord = joined_record;
 
-            function renderDataTable(section, subsection) {
-                let index = Object.keys(sezioni).indexOf(section);
+            function sezioniJoin(section, subsection) {
+                let index = Object.keys(sezioniJoin).indexOf(section);
                 $('#dataTemplateTableBody' + index).html('');
                 filteredRecord = joined_record;
                 console.log(joined_record)
@@ -346,7 +346,6 @@ class MasterJoinTable
                 }
             }
         }
-
         ?>
         <div class="accordion mt-2 col" id="accordionTemplateTable">
             <?php

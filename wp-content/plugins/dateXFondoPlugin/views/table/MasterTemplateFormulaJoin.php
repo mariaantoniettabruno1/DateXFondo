@@ -88,25 +88,25 @@ class MasterTemplateFormulaJoin
                     }
                 })
 
-                const sezioni = {}
+                const sezioniJoin = {}
                 articoli.forEach(a => {
-                    if (!sezioni[a.sezione]) {
-                        sezioni[a.sezione] = [];
+                    if (!sezioniJoin[a.sezione]) {
+                        sezioniJoin[a.sezione] = [];
                     }
-                    if (!sezioni[a.sezione].includes(a.sottosezione)) {
-                        sezioni[a.sezione].push(a.sottosezione);
+                    if (!sezioniJoin[a.sezione].includes(a.sottosezione)) {
+                        sezioniJoin[a.sezione].push(a.sottosezione);
                     }
                 });
                 formulas.forEach(f => {
-                        if (!sezioni[f.sezione]) {
-                            sezioni[f.sezione] = [];
+                        if (!sezioniJoin[f.sezione]) {
+                            sezioniJoin[f.sezione] = [];
                         }
-                        if (!sezioni[f.sezione].includes(f.sottosezione)) {
-                            sezioni[f.sezione].push(f.sottosezione);
+                        if (!sezioniJoin[f.sezione].includes(f.sottosezione)) {
+                            sezioniJoin[f.sezione].push(f.sottosezione);
                         }
                     }
                 );
-                console.log(sezioni)
+                console.log(sezioniJoin)
             </script>
         </head>
 
