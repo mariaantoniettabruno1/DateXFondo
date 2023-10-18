@@ -151,8 +151,9 @@ FROM DATE_template_fondo WHERE template_name=? AND version=?";
         $res = $stmt->execute();
         $delete_result = self::deleteTemplateFondo($request['template_name']);
         $formula_result = self::setFormulasIntoHistoryFormulas($request['template_name']);
+        $delete_formula_result = self::deleteAllFormulas($request['template_name']);
         mysqli_close($mysqli);
-        if ($delete_result == true || $formula_result == true)
+        if ($delete_result == true && $formula_result == true && $delete_formula_result == true)
             return $res;
         else return false;
     }
@@ -176,6 +177,17 @@ FROM DATE_formula WHERE formula_template_name=?";
         $conn = new Connection();
         $mysqli = $conn->connect();
         $sql = "DELETE FROM DATE_template_fondo WHERE template_name=?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("s", $template_name);
+        $res = $stmt->execute();
+        mysqli_close($mysqli);
+        return $res;
+    }
+    public static function deleteAllFormulas($template_name)
+    {
+        $conn = new Connection();
+        $mysqli = $conn->connect();
+        $sql = "DELETE FROM formula WHERE template_name=?";
         $stmt = $mysqli->prepare($sql);
         $stmt->bind_param("s", $template_name);
         $res = $stmt->execute();
@@ -206,9 +218,9 @@ FROM DATE_formula WHERE formula_template_name=?";
         $mysqli = $conn->connect();
         $sql = "SELECT fondo,anno,descrizione_fondo,ordinamento,id_articolo,sezione,sottosezione,
                      nome_articolo,descrizione_articolo,sottotitolo_articolo,valore,valore_anno_precedente,nota,link,attivo,version,row_type,heredity,template_name
-FROM DATE_storico_template_fondo WHERE fondo=? AND anno=? AND descrizione_fondo=? AND version=? AND id_articolo IS NOT NULL AND attivo=1";
+FROM DATE_storico_template_fondo WHERE fondo=? AND anno=? AND descrizione_fondo=? AND version=? AND template_name=? AND id_articolo IS NOT NULL AND attivo=1";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("sisi", $request['fondo'], $request['anno'], $request['descrizione'], $request['version']);
+        $stmt->bind_param("sisis", $request['fondo'], $request['anno'], $request['descrizione'], $request['version'], $request['template_name']);
         $res = $stmt->execute();
         if ($res = $stmt->get_result()) {
             $rows = $res->fetch_all(MYSQLI_ASSOC);
@@ -226,6 +238,22 @@ FROM DATE_storico_template_fondo WHERE fondo=? AND anno=? AND descrizione_fondo=
                 $entry['valore_anno_precedente'], $entry['nota'], $entry['link'], $entry['attivo'], $version, $entry['row_type'], $entry['heredity'], $entry['template_name']);
             $res = $stmt->execute();
         }
+        mysqli_close($mysqli);
+        self::getFormulasFromHistoryFormulas($request['template_name'],$request['anno']);
+        return $res;
+    }
+
+    public static function getFormulasFromHistoryFormulas($template_name, $year){
+
+        $conn = new Connection();
+        $mysqli = $conn->connect();
+        $sql = "INSERT INTO DATE_formula 
+                    (sezione,sottosezione,nome,descrizione,condizione,formula,visibile,formula_template_name,text_type,anno)
+                        SELECT  sezione,sottosezione,nome,descrizione,condizione,formula,visibile,formula_template_name,text_type,anno 
+FROM DATE_storico_formula WHERE formula_template_name=? AND anno=?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("si", $template_name,$year);
+        $res = $stmt->execute();
         mysqli_close($mysqli);
         return $res;
     }
