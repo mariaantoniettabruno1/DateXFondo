@@ -69,10 +69,7 @@ class MasterTemplateFormulaJoin
                 const formulas = JSON.parse(`<?=json_encode($results_formula);?>`);
                 const joined = JSON.parse(`<?=json_encode($results_joined);?>`);
 
-                let anno = '';
-                <?php if (isset($_GET['anno'])): ?>
-                anno = <?=$_GET['anno'];?>
-                <?php endif; ?>
+
 
                 let joined_record = [
                     ...articoli,

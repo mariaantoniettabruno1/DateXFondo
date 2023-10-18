@@ -12,12 +12,15 @@ class MasterJoinTable
 
             let id = 0;
             let filteredRecord = joined_record;
+            let anno = '';
+            <?php if (isset($_GET['anno'])): ?>
+            anno = <?=$_GET['anno'];?>
+            <?php endif; ?>
 
-            function sezioniJoin(section, subsection) {
+            function renderDataTable(section, subsection) {
                 let index = Object.keys(sezioniJoin).indexOf(section);
                 $('#dataTemplateTableBody' + index).html('');
                 filteredRecord = joined_record;
-                console.log(joined_record)
                 filteredRecord = filteredRecord.filter(art => art.sezione === section)
                 if (subsection) {
                     filteredRecord = filteredRecord.filter(art => art.sottosezione === subsection)
@@ -64,7 +67,7 @@ class MasterJoinTable
                     link = art.link ?? "";
                     nome_articolo = art.nome_articolo ?? "";
                     descrizione = art.descrizione_articolo ?? "";
-                    nota = art.nota ?? ""
+                    nota = art.nota ?? "";
                     if (art.formula !== undefined) {
                         if (Number(art.condizione) === 1) {
                             const [cond, vf] = art.formula.split("?");
@@ -116,8 +119,6 @@ class MasterJoinTable
                     }
                     const joinId = joinedIndexes[joinKey]?.id ?? -1
                     const joinOrder = joinedIndexes[joinKey]?.ordinamento ?? -1
-
-                    console.log(anno)
                     if (anno === '') {
                         $('#dataTemplateTableBody' + index).append(`
                          <tr>
@@ -304,7 +305,7 @@ class MasterJoinTable
         $data = new MasterJoinTableRepository();
         if (isset($_GET['fondo']) && isset($_GET['anno']) && isset($_GET['descrizione']) && isset($_GET['version']) && isset($_GET['template_name'])) {
             $results_articoli = $data->getHistoryArticles($_GET['fondo'], $_GET['anno'], $_GET['descrizione'], $_GET['version'], $_GET['template_name']);
-            $results_formula = $data->getHistoryFormulas($_GET['fondo'], $_GET['anno']);
+            $results_formula = $data->getHistoryFormulas($_GET['template_name'], $_GET['anno']);
 
 
         } else {
@@ -319,14 +320,18 @@ class MasterJoinTable
         $tot_array = [];
         foreach ($results_articoli as $articolo) {
             if (!in_array($articolo['sezione'], $sezioni)) {
-                array_push($sezioni, $articolo['sezione']);
-                $tot_array = array_fill_keys($sezioni, []);
+                if ($articolo['sezione'] != '') {
+                    array_push($sezioni, $articolo['sezione']);
+                    $tot_array = array_fill_keys($sezioni, []);
+                }
             }
         }
         foreach ($results_formula as $formula) {
             if (!in_array($formula['sezione'], $sezioni)) {
-                array_push($sezioni, $formula['sezione']);
-                $tot_array = array_fill_keys($sezioni, []);
+                if ($formula['sezione'] != '') {
+                    array_push($sezioni, $formula['sezione']);
+                    $tot_array = array_fill_keys($sezioni, []);
+                }
             }
         }
 
