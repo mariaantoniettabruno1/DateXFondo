@@ -150,10 +150,25 @@ FROM DATE_template_fondo WHERE template_name=? AND version=?";
         $stmt->bind_param("si", $request['template_name'], $request['version']);
         $res = $stmt->execute();
         $delete_result = self::deleteTemplateFondo($request['template_name']);
+        $formula_result = self::setFormulasIntoHistoryFormulas($request['template_name']);
         mysqli_close($mysqli);
-        if ($delete_result == true)
+        if ($delete_result == true || $formula_result == true)
             return $res;
         else return false;
+    }
+    public static function setFormulasIntoHistoryFormulas($template_name): bool
+    {
+        $conn = new Connection();
+        $mysqli = $conn->connect();
+        $sql = "INSERT INTO DATE_storico_formula 
+                    (sezione,sottosezione,nome,descrizione,condizione,formula,visibile,formula_template_name,text_type,anno)
+                        SELECT  sezione,sottosezione,nome,descrizione,condizione,formula,visibile,formula_template_name,text_type,anno 
+FROM DATE_formula WHERE formula_template_name=?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("s", $template_name);
+        $res = $stmt->execute();
+        mysqli_close($mysqli);
+        return $res;
     }
 
     public static function deleteTemplateFondo($template_name)
