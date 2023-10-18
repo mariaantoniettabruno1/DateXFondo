@@ -74,38 +74,46 @@ class MasterTemplateRepository
 
         $conn = new Connection();
         $mysqli = $conn->connect();
+
         $sql = "UPDATE DATE_template_fondo SET fondo=?,anno=?,descrizione_fondo=?,template_name=? WHERE template_name=?";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("sssss", $request['fondo'], $request['anno'], $request['descrizione_fondo'], $request['template_name'], $request['old_template_name']);
+        $stmt->bind_param("sisss", $request['fondo'], $request['anno'], $request['descrizione_fondo'], $request['template_name'], $request['old_template_name']);
         $stmt->execute();
+
+        $sql = "UPDATE DATE_formula SET formula_template_name=? WHERE formula_template_name=? AND anno=?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("ssi",  $request['template_name'], $request['old_template_name'], $request['anno']);
+        $stmt->execute();
+
         $mysqli->close();
     }
 
- public static function edit_row($request)
-{
-    $conn = new Connection();
-    $mysqli = $conn->connect();
-    if ($request['type'] === 'dec') {
-        $sql = "UPDATE DATE_template_fondo SET ordinamento=?,
+
+    public static function edit_row($request)
+    {
+        $conn = new Connection();
+        $mysqli = $conn->connect();
+        if ($request['type'] === 'dec') {
+            $sql = "UPDATE DATE_template_fondo SET ordinamento=?,
                                id_articolo=?,
                                descrizione_articolo=?,
                                sottotitolo_articolo=?,
                                nota=?,
                                link=?
 WHERE id=?";
-        $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("isssssi",
-            $request['ordinamento'],
-            $request['id_articolo'],
-            $request['descrizione_articolo'],
-            $request['sottotitolo_articolo'],
-            $request['nota'],
-            $request['link'],
-            $request['id']);
-        $res = $stmt->execute();
-    } else {
+            $stmt = $mysqli->prepare($sql);
+            $stmt->bind_param("isssssi",
+                $request['ordinamento'],
+                $request['id_articolo'],
+                $request['descrizione_articolo'],
+                $request['sottotitolo_articolo'],
+                $request['nota'],
+                $request['link'],
+                $request['id']);
+            $res = $stmt->execute();
+        } else {
 
-        $sql = "UPDATE DATE_template_fondo SET ordinamento=?,
+            $sql = "UPDATE DATE_template_fondo SET ordinamento=?,
                                id_articolo=?,
                                nome_articolo=?,
                                descrizione_articolo=?,
@@ -114,24 +122,24 @@ WHERE id=?";
                                link=?,
                                heredity=?
 WHERE id=?";
-        $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("sssssssii",
-            $request['ordinamento'],
-            $request['id_articolo'],
-            $request['nome_articolo'],
-            $request['descrizione_articolo'],
-            $request['sottotitolo_articolo'],
-            $request['nota'],
-            $request['link'],
-            $request['heredity'],
-            $request['id']);
-        $res = $stmt->execute();
+            $stmt = $mysqli->prepare($sql);
+            $stmt->bind_param("sssssssii",
+                $request['ordinamento'],
+                $request['id_articolo'],
+                $request['nome_articolo'],
+                $request['descrizione_articolo'],
+                $request['sottotitolo_articolo'],
+                $request['nota'],
+                $request['link'],
+                $request['heredity'],
+                $request['id']);
+            $res = $stmt->execute();
+        }
+
+
+        $mysqli->close();
+        return $res;
     }
-
-
-    $mysqli->close();
-    return $res;
-}
 
     public static function set_template_not_editable($request)
     {
@@ -157,6 +165,7 @@ FROM DATE_template_fondo WHERE template_name=? AND version=?";
             return $res;
         else return false;
     }
+
     public static function setFormulasIntoHistoryFormulas($template_name): bool
     {
         $conn = new Connection();
@@ -183,6 +192,7 @@ FROM DATE_formula WHERE formula_template_name=?";
         mysqli_close($mysqli);
         return $res;
     }
+
     public static function deleteAllFormulas($template_name)
     {
         $conn = new Connection();
@@ -239,11 +249,12 @@ FROM DATE_storico_template_fondo WHERE fondo=? AND anno=? AND descrizione_fondo=
             $res = $stmt->execute();
         }
         mysqli_close($mysqli);
-        self::getFormulasFromHistoryFormulas($request['template_name'],$request['anno']);
+        self::getFormulasFromHistoryFormulas($request['template_name'], $request['anno']);
         return $res;
     }
 
-    public static function getFormulasFromHistoryFormulas($template_name, $year){
+    public static function getFormulasFromHistoryFormulas($template_name, $year)
+    {
 
         $conn = new Connection();
         $mysqli = $conn->connect();
@@ -252,13 +263,11 @@ FROM DATE_storico_template_fondo WHERE fondo=? AND anno=? AND descrizione_fondo=
                         SELECT  sezione,sottosezione,nome,descrizione,condizione,formula,visibile,formula_template_name,text_type,anno 
 FROM DATE_storico_formula WHERE formula_template_name=? AND anno=?";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("si", $template_name,$year);
+        $stmt->bind_param("si", $template_name, $year);
         $res = $stmt->execute();
         mysqli_close($mysqli);
         return $res;
     }
-
-
 
 
 }
