@@ -32,9 +32,9 @@ class FormulaRepository
     {
         $conn = new Connection();
         $mysqli = $conn->connect();
-        $sql = "INSERT INTO DATE_formula (sezione,sottosezione,nome,descrizione,condizione,formula,visibile,formula_template_name,text_type) VALUES (?,?,?,?,?,?,?,?,?) ";
+        $sql = "INSERT INTO DATE_formula (sezione,sottosezione,nome,descrizione,condizione,formula,visibile,formula_template_name,text_type,anno) VALUES (?,?,?,?,?,?,?,?,?,?) ";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("ssssisiss",
+        $stmt->bind_param("ssssisissi",
             $request['sezione'],
             $request['sottosezione'],
             $request['nome'],
@@ -43,7 +43,8 @@ class FormulaRepository
             $request['formula'],
             $request['visibile'],
             $request['formula_template_name'],
-            $request['text_type']);
+            $request['text_type'],
+        $request['anno']);
         $stmt->execute();
         $mysqli->close();
         return $stmt->insert_id;

@@ -186,6 +186,7 @@ class FormulaCard
                     let highText = $('#higherTextCheck').prop('checked') ? 1 : 0;
                     let text_type = '';
                     text_type = text_type + bold + highText;
+                    let anno = year;
 
                     if (sezione === 'Seleziona Sezione') {
                         sezione = null;
@@ -213,7 +214,8 @@ class FormulaCard
                                 visibile,
                                 condizione,
                                 text_type,
-                                formula_template_name
+                                formula_template_name,
+                                anno
                             }
                             if (!validateArticoliFormula(formula)) {
                                 $(".alert-validate-wrong").show();
@@ -267,7 +269,8 @@ class FormulaCard
                                 visibile,
                                 condizione,
                                 text_type,
-                                formula_template_name
+                                formula_template_name,
+                                anno
                             }
                             console.log(payload)
                             if (!validateArticoliFormula(formula)) {
@@ -334,6 +337,7 @@ class FormulaCard
                     let bold = $('#boldCheck').prop('checked') ? 1 : 0;
                     let highText = $('#higherTextCheck').prop('checked') ? 1 : 0;
                     let text_type = '';
+                    let anno = year;
                     text_type = text_type + bold + highText;
 
                     if (sezione === 'Seleziona Sezione') {
@@ -361,7 +365,8 @@ class FormulaCard
                                 visibile,
                                 condizione,
                                 formula_template_name,
-                                text_type
+                                text_type,
+                                anno
                             }
                             $.ajax({
                                 url: '<?= DateXFondoCommon::get_website_url() ?>/wp-json/datexfondoplugin/v1/formula',
@@ -404,7 +409,8 @@ class FormulaCard
                                 visibile,
                                 condizione,
                                 formula_template_name,
-                                text_type
+                                text_type,
+                                anno
                             }
                             $.ajax({
                                 url: '<?= DateXFondoCommon::get_website_url() ?>/wp-json/datexfondoplugin/v1/formula',

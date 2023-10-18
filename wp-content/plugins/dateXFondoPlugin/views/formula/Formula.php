@@ -50,6 +50,7 @@ class Formula
                 let formule = JSON.parse((`<?=json_encode($result_formule);?>`));
                 let sezioni = {}
                 let owners = []
+                let year = '';
                 articoli.forEach(a => {
                     if(!sezioni[a.sezione]){
                         sezioni[a.sezione] = [];
@@ -59,9 +60,9 @@ class Formula
                     }
                    if(!owners.includes(a.template_name)){
                        owners.push(a.template_name)
+                       year = parseInt(a.anno);
                    }
                 })
-
                 formule.forEach( f =>{
                     if(!sezioni[f.sezione]){
                         sezioni[f.sezione] = [];
