@@ -151,31 +151,31 @@ FROM DATE_template_fondo WHERE template_name=? AND version=?";
                 $res = $stmt->execute();
             }
             $sql = "INSERT INTO DATE_storico_formula 
-                    (sezione,sottosezione,nome,descrizione,condizione,formula,text_type,formula_template_name,visibile,attivo,anno)
-                        SELECT sezione,sottosezione,nome,descrizione,condizione,formula,text_type,formula_template_name,visibile,attivo,anno
+                    (sezione,sottosezione,nome,descrizione,condizione,formula,text_type,formula_template_name,visibile,attivo)
+                        SELECT sezione,sottosezione,nome,descrizione,condizione,formula,text_type,formula_template_name,visibile,attivo
 FROM DATE_formula WHERE formula_template_name=?";
             $stmt = $mysqli->prepare($sql);
             $stmt->bind_param("s", $request['template_name']);
             $res = $stmt->execute();
-            $anno = $request['anno'] +1;
+
             $sql = "INSERT INTO DATE_formula 
-                    (sezione,sottosezione,nome,descrizione,condizione,formula,text_type,formula_template_name,visibile,attivo,NNO) 
-                     VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+                    (sezione,sottosezione,nome,descrizione,condizione,formula,text_type,formula_template_name,visibile,attivo) 
+                     VALUES (?,?,?,?,?,?,?,?,?,?)";
             $stmt = $mysqli->prepare($sql);
             foreach ($formulas as $entry) {
-                $stmt->bind_param("ssssssisiiI", $entry['sezione'], $entry['sottosezione'], $entry['nome'],  $entry['descrizione'],$entry['condizione'], $entry['formula'],
-                    $entry['text_type'], $entry['formula_template_name'], $entry['visibile'], $entry['attivo'],$anno);
+                $stmt->bind_param("ssssssisii", $entry['sezione'], $entry['sottosezione'], $entry['nome'],  $entry['descrizione'],$entry['condizione'], $entry['formula'],
+                    $entry['text_type'], $entry['formula_template_name'], $entry['visibile'], $entry['attivo']);
                 $res = $stmt->execute();
             }
             $sql = "DELETE FROM DATE_template_formula";
             $result = $mysqli->prepare($sql);
             $result->execute();
-            $sql = "INSERT INTO DATE_template_formula_storico 
-                    (external_id,type,ordinamento,anno) 
-                     VALUES (?,?,?,?)";
+            $sql = "INSERT INTO DATE_template_formula 
+                    (external_id,type,ordinamento) 
+                     VALUES (?,?,?)";
             $stmt = $mysqli->prepare($sql);
             foreach ($template_formula as $entry) {
-                $stmt->bind_param("iiii", $entry['external_id'], $entry['type'], $entry['ordinamento'],$entry['anno']);
+                $stmt->bind_param("iii", $entry['external_id'], $entry['type'], $entry['ordinamento']);
                 $res = $stmt->execute();
             }
 
