@@ -151,20 +151,20 @@ FROM DATE_template_fondo WHERE template_name=? AND version=?";
                 $res = $stmt->execute();
             }
             $sql = "INSERT INTO DATE_storico_formula 
-                    (sezione,sottosezione,nome,descrizione,condizione,formula,text_type,formula_template_name,visibile,attivo)
-                        SELECT sezione,sottosezione,nome,descrizione,condizione,formula,text_type,formula_template_name,visibile,attivo
+                    (sezione,sottosezione,nome,descrizione,condizione,formula,text_type,formula_template_name,visibile,attivo,anno)
+                        SELECT sezione,sottosezione,nome,descrizione,condizione,formula,text_type,formula_template_name,visibile,attivo,anno
 FROM DATE_formula WHERE formula_template_name=?";
             $stmt = $mysqli->prepare($sql);
             $stmt->bind_param("s", $request['template_name']);
             $res = $stmt->execute();
-
+            $anno = $request['anno'] +1;
             $sql = "INSERT INTO DATE_formula 
-                    (sezione,sottosezione,nome,descrizione,condizione,formula,text_type,formula_template_name,visibile,attivo) 
-                     VALUES (?,?,?,?,?,?,?,?,?,?)";
+                    (sezione,sottosezione,nome,descrizione,condizione,formula,text_type,formula_template_name,visibile,attivo,NNO) 
+                     VALUES (?,?,?,?,?,?,?,?,?,?,?)";
             $stmt = $mysqli->prepare($sql);
             foreach ($formulas as $entry) {
-                $stmt->bind_param("ssssssisii", $entry['sezione'], $entry['sottosezione'], $entry['nome'],  $entry['descrizione'],$entry['condizione'], $entry['formula'],
-                    $entry['text_type'], $entry['formula_template_name'], $entry['visibile'], $entry['attivo']);
+                $stmt->bind_param("ssssssisiiI", $entry['sezione'], $entry['sottosezione'], $entry['nome'],  $entry['descrizione'],$entry['condizione'], $entry['formula'],
+                    $entry['text_type'], $entry['formula_template_name'], $entry['visibile'], $entry['attivo'],$anno);
                 $res = $stmt->execute();
             }
             $sql = "DELETE FROM DATE_template_formula";
