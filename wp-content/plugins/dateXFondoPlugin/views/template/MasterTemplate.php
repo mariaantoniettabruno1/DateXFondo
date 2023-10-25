@@ -25,7 +25,6 @@ class MasterTemplate
             $results_articoli[$key]["nome_articolo"] =  preg_replace('/"/', '\"', $value["nome_articolo"]);
 
         }
-
         ?>
 
         <!DOCTYPE html>

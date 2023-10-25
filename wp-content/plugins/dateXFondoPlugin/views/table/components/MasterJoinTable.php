@@ -89,9 +89,8 @@ class MasterJoinTable
                         } else if (art.text_type === '00') {
                             id_articolo = '<span>' + art.nome + '</span>';
 
-                        } else {
-                            id_articolo = '';
                         }
+
                         if (art.descrizione !== undefined) {
                             nome_articolo = art.descrizione ?? "";
                         }
@@ -119,9 +118,32 @@ class MasterJoinTable
                     }
                     const joinId = joinedIndexes[joinKey]?.id ?? -1
                     const joinOrder = joinedIndexes[joinKey]?.ordinamento ?? -1
-                    if (anno === '') {
+                    if (anno !== '') {
+
                         $('#dataTemplateTableBody' + index).append(`
-                         <tr>
+                       <tr>
+                           <td>${id_articolo}</td>
+                           <td>${nome_articolo}</td>
+                           <td>${sottotitolo}</td>
+                            <td>
+                                           <span style='display:none' class="descrizioneFull">${descrizione}</span>
+                                           <span style="display:block" class='descrizioneCut'>${descrizione.substr(0, 50).concat('...')}</span>
+                                        </td>
+                           <td>${nota}</td>
+                           <td>
+                                       <div class="row pr-3">
+                                       <div class="col-8">${link}</div>
+                                       <div class="col-2">
+                                        ${link_button}</div>
+                                       <div class="col-8"></div>
+                                       <div class="col-2"></div>
+                                        </div>
+                                        </td>
+                         </tr>
+                             `);
+                    } else {
+                        $('#dataTemplateTableBody' + index).append(`
+   <tr>
                            <td>
                             <div class="row">
                             <div class="col-5">
@@ -149,26 +171,6 @@ class MasterJoinTable
                                         </div>
                                         </td>
                            <td>${heredity}</td>
-                         </tr>
-                             `);
-                    } else {
-                        $('#dataTemplateTableBody' + index).append(`
-                        <tr>
-                           <td>${id_articolo}</td>
-                           <td>${nome_articolo}</td>
-                           <td>${sottotitolo}</td>
-                            <td>
-                                           <span style='display:none' class="descrizioneFull">${descrizione}</span>
-                                           <span style="display:block" class='descrizioneCut'>${descrizione.substr(0, 50).concat('...')}</span>
-                                        </td>
-                           <td>${nota}</td>
-                           <td>
-                                       <div class="row pr-3">
-                                       <div class="col-8">${link}</div>
-                                       <div class="col-2">
-                                        ${link_button}</div>
-                                        </div>
-                                        </td>
                          </tr>
                              `);
                     }
@@ -353,6 +355,7 @@ class MasterJoinTable
         <div class="accordion mt-2 col" id="accordionTemplateTable">
             <?php
             $section_index = 0;
+
             foreach ($tot_array as $sezione => $sottosezioni) {
                 ?>
                 <div class="card" id="templateCard">

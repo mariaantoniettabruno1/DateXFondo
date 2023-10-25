@@ -14,7 +14,6 @@ class MasterTemplateTable
             let filteredArticoli = articoli;
             let heredity = null;
 
-
             function renderDataTable(section, subsection) {
                 let index = Object.keys(sezioni).indexOf(section);
                 $('#dataTemplateTableBody' + index).html('');
@@ -368,7 +367,7 @@ class MasterTemplateTable
     {
         $data = new MasterTemplateRepository();
 
-            $results_articoli = $data->getArticoli($_GET['template_name']);
+        $results_articoli = $data->getArticoli($_GET['template_name']);
 
         $sezioni = [];
         $tot_array = [];

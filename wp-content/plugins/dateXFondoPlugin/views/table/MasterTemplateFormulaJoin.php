@@ -70,7 +70,6 @@ class MasterTemplateFormulaJoin
                 const joined = JSON.parse(`<?=json_encode($results_joined);?>`);
 
 
-
                 let joined_record = [
                     ...articoli,
                     ...formulas
@@ -87,7 +86,7 @@ class MasterTemplateFormulaJoin
 
                 const sezioniJoin = {}
                 articoli.forEach(a => {
-                    if (!sezioniJoin[a.sezione]) {
+                    if (!sezioniJoin[a.sezione] && a.sezione !== '') {
                         sezioniJoin[a.sezione] = [];
                     }
                     if (!sezioniJoin[a.sezione].includes(a.sottosezione)) {
@@ -95,15 +94,15 @@ class MasterTemplateFormulaJoin
                     }
                 });
                 formulas.forEach(f => {
-                        if (!sezioniJoin[f.sezione]) {
+                        if (!sezioniJoin[f.sezione] && f.sezione !== '') {
                             sezioniJoin[f.sezione] = [];
+                            if (!sezioniJoin[f.sezione].includes(f.sottosezione)) {
+                                sezioniJoin[f.sezione].push(f.sottosezione);
+                            }
                         }
-                        if (!sezioniJoin[f.sezione].includes(f.sottosezione)) {
-                            sezioniJoin[f.sezione].push(f.sottosezione);
-                        }
+
                     }
                 );
-                console.log(sezioniJoin)
             </script>
         </head>
 
