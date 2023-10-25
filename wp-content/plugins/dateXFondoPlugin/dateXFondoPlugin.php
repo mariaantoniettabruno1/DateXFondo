@@ -37,7 +37,6 @@ require_once(plugin_dir_path(__FILE__) . 'views/template/components/MasterTempla
 require_once(plugin_dir_path(__FILE__) . 'views/template/components/MasterTemplateNewSpecialRow.php');
 require_once(plugin_dir_path(__FILE__) . 'views/template/components/MasterTemplateStopEditingButton.php');
 require_once(plugin_dir_path(__FILE__) . 'views/template/components/MasterTemplateToActiveRow.php');
-require_once(plugin_dir_path(__FILE__) . 'views/template/ShortCodeDisabledTemplateRow.php');
 require_once(plugin_dir_path(__FILE__) . 'views/formula/Formula.php');
 require_once(plugin_dir_path(__FILE__) . 'views/document/AllDocument.php');
 require_once(plugin_dir_path(__FILE__) . 'views/document/DocumentHistory.php');
