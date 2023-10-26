@@ -242,14 +242,15 @@ FROM DATE_storico_template_fondo WHERE fondo=? AND anno=? AND descrizione_fondo=
                      VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         $stmt = $mysqli->prepare($sql);
         $version = $rows[0]['version'] + 1;
+        $template_name = $rows[0]['template_name']. ' - duplicato';
         foreach ($rows as $entry) {
             $stmt->bind_param("sisissssssiissiisis", $entry['fondo'], $entry['anno'], $entry['descrizione_fondo'], $entry['ordinamento'], $entry['id_articolo'],
                 $entry['sezione'], $entry['sottosezione'], $entry['nome_articolo'], $entry['descrizione_articolo'], $entry['sottotitolo_articolo'], $entry['valore'],
-                $entry['valore_anno_precedente'], $entry['nota'], $entry['link'], $entry['attivo'], $version, $entry['row_type'], $entry['heredity'], $entry['template_name']);
+                $entry['valore_anno_precedente'], $entry['nota'], $entry['link'], $entry['attivo'], $version, $entry['row_type'], $entry['heredity'], $template_name);
             $res = $stmt->execute();
         }
         mysqli_close($mysqli);
-        self::getFormulasFromHistoryFormulas($request['template_name'], $request['anno']);
+        self::getFormulasFromHistoryFormulas($template_name, $request['anno']);
         return $res;
     }
 

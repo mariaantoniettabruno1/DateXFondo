@@ -44,7 +44,7 @@ class MasterAllTemplateTable
                     template_name = $(this).attr('data-name');
                 });
                 $('.btn-visualize-complete-template').click(function () {
-                    template_name = $(this).attr('data-name');
+                    template_name = $(this).attr('data-name') ;
                 });
             }
 

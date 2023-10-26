@@ -99,7 +99,7 @@ class MasterTemplateHistoryTable
                         success: function (response) {
                             console.log(response);
                             $("#duplicateModal").modal('hide');
-                            location.href = '<?= DateXFondoCommon::get_website_url() ?>/visualizza-template-fondo/?template_name=' + template_name;
+                            location.href = '<?= DateXFondoCommon::get_website_url() ?>/visualizza-template-fondo/?template_name=' + template_name + ' - duplicato';
                         },
                         error: function (response) {
                             console.error(response);
