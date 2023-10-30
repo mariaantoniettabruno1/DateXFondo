@@ -223,7 +223,6 @@ FROM DATE_formula WHERE formula_template_name=?";
 
     public static function duplicate_template($request)
     {
-
         $conn = new Connection();
         $mysqli = $conn->connect();
         $sql = "SELECT fondo,anno,descrizione_fondo,ordinamento,id_articolo,sezione,sottosezione,
