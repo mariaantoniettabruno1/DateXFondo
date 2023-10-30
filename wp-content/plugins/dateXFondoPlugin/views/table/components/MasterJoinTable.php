@@ -18,7 +18,7 @@ class MasterJoinTable
             <?php endif; ?>
 
             function renderDataTable(section, subsection) {
-                let index = Object.keys(sezioniJoin).indexOf(section);
+                let index = Object.keys(sortedSections).indexOf(section);
                 $('#dataTemplateTableBody' + index).html('');
                 filteredRecord = joined_record;
                 filteredRecord = filteredRecord.filter(art => art.sezione === section)

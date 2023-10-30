@@ -103,6 +103,34 @@ class MasterTemplateFormulaJoin
 
                     }
                 );
+                // Definisci l'ordine personalizzato
+                const customOrder = [
+                    'Risorse fisse aventi carattere di certezza e stabilità',
+                    'Risorse variabili',
+                    'Decurtazioni rispetto anni precedenti',
+                    'Informazioni utili per calcolare le decurtazioni',
+                    'Totale salario accessorio per rispetto tetto art. 23 c. 2 del D.Lgs 75/2017',
+                    'Utilizzo del fondo',
+                    'Fondo Straordinario'
+                ];
+                // Crea un nuovo oggetto per l'ordinamento
+                const sortedSections = {};
+
+                // Ordina l'oggetto in base all'ordine personalizzato
+                customOrder.forEach((key) => {
+                    if (sezioniJoin.hasOwnProperty(key)) {
+                        sortedSections[key] = sezioniJoin[key];
+                    }
+                });
+
+                // Aggiungi chiavi mancanti nell'oggetto originale
+                for (const key in sezioniJoin) {
+                    if (sezioniJoin.hasOwnProperty(key) && !sortedSections.hasOwnProperty(key)) {
+                        sortedSections[key] = sezioniJoin[key];
+                    }
+                }
+                console.log(sortedSections)
+
             </script>
         </head>
 
