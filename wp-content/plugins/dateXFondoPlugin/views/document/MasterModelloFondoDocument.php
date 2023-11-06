@@ -13,7 +13,7 @@ class MasterModelloFondoDocument
     public static function render()
     {
         $data = new DocumentRepository();
-        if (isset($_GET['version'])) {
+        if (isset($_GET['anno']) && isset($_GET['version'])) {
             $results_articoli = $data->getHistoryArticoli($_GET['editor_name'], $_GET['version']);
             $results_articoli_utilizzo = $data->getHistoryArticoliUtilizzo($_GET['editor_name'], $_GET['version']);
             $results_articoli_dati_utili = $data->getHistoryArticoliDatiUtili($_GET['editor_name'], $_GET['version']);

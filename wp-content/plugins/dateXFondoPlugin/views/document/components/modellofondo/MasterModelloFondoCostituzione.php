@@ -31,7 +31,7 @@ class MasterModelloFondoCostituzione
                 color: #870e12;
             }
 
-            .btn-edit-row, .btn-edit-row:hover, .btn-edit-note, .btn-edit-note:hover{
+            .btn-edit-row, .btn-edit-row:hover, .btn-edit-note, .btn-edit-note:hover {
                 color: #26282f;
             }
 
@@ -41,7 +41,7 @@ class MasterModelloFondoCostituzione
                 background-color: #26282f;
             }
 
-            #editRowButton:hover, #deleteRowButton:hover,#editNoteButton:hover {
+            #editRowButton:hover, #deleteRowButton:hover, #editNoteButton:hover {
                 border-color: #870e12;
                 background-color: #870e12;
             }
@@ -84,8 +84,11 @@ class MasterModelloFondoCostituzione
                     filteredDocArticoli = filteredDocArticoli.filter(art => art.sezione === sezioni[i])
 
                     filteredDocArticoli.forEach(art => {
-                        if (art.preventivo !== undefined)
+                        if (art.preventivo !== undefined) {
                             preventivo = art.preventivo;
+                            console.log(art.preventivo)
+                        }
+
                         if (Number(art.editable) === 0) {
                             edit_button = ` <button class="btn btn-link btn-edit-row" data-id='${art.id}' data-toggle="modal" data-target="#editModal" disabled><i class="fa-solid fa-pen"></i></button>`;
                             edit_note = ` <button class="btn btn-link btn-edit-note" data-id='${art.id}' data-toggle="modal" data-target="#editNoteModal" disabled><i class="fa-solid fa-pen"></i></button>`;
@@ -95,10 +98,9 @@ class MasterModelloFondoCostituzione
                             edit_note = ` <button class="btn btn-link btn-edit-note" data-id='${art.id}' data-toggle="modal" data-target="#editNoteModal"><i class="fa-solid fa-pen"></i></button>`;
                             delete_button = ` <button class="btn btn-link btn-delete-row" data-id='${art.id}' data-toggle="modal" data-target="#deleteModal"><i class="fa-solid fa-trash"></i></button>`;
                         }
-                        if(filteredDocArticoli[filteredDocArticoli.length-1] === art) {
+                        if (filteredDocArticoli[filteredDocArticoli.length - 1] === art) {
                             style = `"width: auto; padding: 10px 6px; border: 1px solid black; background-color: #ADD4C5; color: black;"`;
-                        }
-                        else{
+                        } else {
                             style = `"width: auto; padding: 10px 6px; border: 1px solid black; background-color: transparent; color: #427AA8;"`;
                         }
 
@@ -173,10 +175,9 @@ class MasterModelloFondoCostituzione
                             preventivo = art.preventivo;
                         if (art.consuntivo !== undefined)
                             consuntivo = art.consuntivo;
-                        if(filteredUtilizzoArticoli[filteredUtilizzoArticoli.length-1] === art) {
+                        if (filteredUtilizzoArticoli[filteredUtilizzoArticoli.length - 1] === art) {
                             style = `"width: auto; padding: 10px 6px; border: 1px solid black; background-color: #ADD4C5; color: black;"`;
-                        }
-                        else{
+                        } else {
                             style = `"width: auto; padding: 10px 6px; border: 1px solid black; background-color: transparent; color: #427AA8;"`;
                         }
                         if (Number(art.editable) === 0) {
@@ -260,10 +261,9 @@ class MasterModelloFondoCostituzione
                             formula = art.formula;
                         if (art.nota !== undefined)
                             nota = art.nota;
-                        if(filteredDatiUtiliArticoli[filteredDatiUtiliArticoli.length-1] === art) {
+                        if (filteredDatiUtiliArticoli[filteredDatiUtiliArticoli.length - 1] === art) {
                             style = `"width: auto; padding: 10px 6px; border: 1px solid black; background-color: #ADD4C5; color: black;"`;
-                        }
-                        else{
+                        } else {
                             style = `"width: auto; padding: 10px 6px; border: 1px solid black; background-color: transparent; color: #427AA8;"`;
                         }
                         if (Number(art.editable) === 0) {
@@ -565,7 +565,6 @@ Content-Type: text/xml; charset="utf-8"
                     let nome_articolo = $('#idUtilizzoNote').val();
 
 
-
                     const payload = {
                         id_utilizzo,
                         nome_articolo
@@ -798,7 +797,7 @@ Content-Type: text/xml; charset="utf-8"
     {
 
         $data = new DocumentRepository();
-        if (isset($_GET['version'])) {
+        if (isset($_GET['anno']) && isset($_GET['version'])) {
             $tot_sezioni = $data->getHistorySezioni($_GET['editor_name'], $_GET['version']);
         } else {
             $tot_sezioni = $data->getSezioni($_GET['editor_name']);
@@ -808,13 +807,13 @@ Content-Type: text/xml; charset="utf-8"
         $ids_articolo = $data->getIdsArticoli($_GET['editor_name']);
         $array = array_merge($ids_articolo, $formulas);
 
-        if ($_GET['version']) {
+        if (isset($_GET['anno']) && isset($_GET['version'])) {
             $tot_sezioni_utilizzo = $data->getSezioniHistoryUtilizzo($_GET['editor_name'], $_GET['version']);
         } else {
             $tot_sezioni_utilizzo = $data->getSezioniUtilizzo($_GET['editor_name']);
         }
 
-        if (isset($_GET['version'])) {
+        if (isset($_GET['anno']) && isset($_GET['version'])) {
             $tot_sezioni_utili = $data->getSezioniHistoryDatiUtili($_GET['editor_name'], $_GET['version']);
         } else {
             $tot_sezioni_utili = $data->getSezioniDatiUtili($_GET['editor_name']);

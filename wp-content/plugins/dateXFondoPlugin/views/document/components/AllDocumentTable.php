@@ -89,7 +89,7 @@ class AllDocumentTable
                     if (current_url.includes('storico')) {
                         location.href = '<?= DateXFondoCommon::get_website_url()?>/' + page + '?document_name=' + document_name + '&editor_name=' + editor_name + '&version=' + version + '&anno=' + anno;
                     } else {
-                        location.href = '<?= DateXFondoCommon::get_website_url()?>/' + page + '?document_name=' + document_name + '&editor_name=' + editor_name;
+                        location.href = '<?= DateXFondoCommon::get_website_url()?>/' + page + '?document_name=' + document_name + '&editor_name=' + editor_name + '&version=' + version;
 
                     }
                 });
