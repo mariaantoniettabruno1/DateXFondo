@@ -1,6 +1,6 @@
 <?php
 
-
+//endpoint of the editing of template fondo header
 function create_endpoint_datefondo_edit_header_template()
 {
 
@@ -23,6 +23,8 @@ function esegui_modifica_header_template($params)
 
 add_action('rest_api_init', 'create_endpoint_datefondo_edit_header_template');
 
+//endpoint of the editing of template fondo row
+
 function create_endpoint_datefondo_edit_row()
 {
 
@@ -44,6 +46,8 @@ function esegui_modifica_riga($params)
 }
 
 add_action('rest_api_init', 'create_endpoint_datefondo_edit_row');
+
+//endpoint of the freeze of template fondo (disable the editing)
 
 function create_endpoint_datefondo_not_editable_template()
 {
@@ -74,6 +78,8 @@ function esegui_blocca_modifica_template($params)
 
 add_action('rest_api_init', 'create_endpoint_datefondo_not_editable_template');
 
+//endpoint of the activation of template fondo deleted row (logical deletion)
+
 function create_endpoint_datefondo_active_row()
 {
 
@@ -96,6 +102,7 @@ function esegui_attiva_riga($params)
 
 add_action('rest_api_init', 'create_endpoint_datefondo_active_row');
 
+//endpoint of the duplication of the template fondo
 function create_endpoint_datefondo_duplicate_template()
 {
 

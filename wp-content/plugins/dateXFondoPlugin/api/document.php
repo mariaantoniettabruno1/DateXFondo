@@ -1,4 +1,6 @@
 <?php
+
+//endpoint for edit modello fondo document row
 function create_endpoint_datefondo_edit_document_row()
 {
 
@@ -20,6 +22,8 @@ function modifica_riga_documento($params)
 }
 
 add_action('rest_api_init', 'create_endpoint_datefondo_edit_document_row');
+
+//endpoint for edit the note section in modello fondo document
 function create_endpoint_datefondo_edit_document_note()
 {
 
@@ -42,6 +46,7 @@ function modifica_nota_documento($params)
 
 add_action('rest_api_init', 'create_endpoint_datefondo_edit_document_note');
 
+//endpoint for edit the row of the section "Utilizzo" of Modello Fondo document
 function create_endpoint_datefondo_edit_utilizzo_document_row()
 {
 
@@ -64,6 +69,8 @@ function modifica_riga_documento_utilizzo($params)
 
 add_action('rest_api_init', 'create_endpoint_datefondo_edit_utilizzo_document_row');
 
+
+//endpoint for edit the note of the section "Utilizzo" in Modello Fondo document
 function create_endpoint_datefondo_edit_utilizzo_document_note()
 {
 
@@ -86,6 +93,7 @@ function modifica_riga_documento_note($params)
 
 add_action('rest_api_init', 'create_endpoint_datefondo_edit_utilizzo_document_note');
 
+//endpoint for edit the row of the section "Dati Utili" in Modello Fondo document
 function create_endpoint_datefondo_edit_dati_utili_document_row()
 {
 
@@ -108,6 +116,7 @@ function modifica_riga_documento_dati_utili($params)
 
 add_action('rest_api_init', 'create_endpoint_datefondo_edit_dati_utili_document_row');
 
+//endpoit for disable a row in the Modello Fondo document
 function create_endpoint_datefondo_disattiva_riga_documento()
 {
 
@@ -130,6 +139,7 @@ function esegui_cancellazione_riga_documento($params)
 
 add_action('rest_api_init', 'create_endpoint_datefondo_disattiva_riga_documento');
 
+//endpoit for disable a row in the section "Utilizzo" of the Modello Fondo document
 
 function create_endpoint_datefondo_disattiva_riga_utilizzo()
 {
@@ -153,6 +163,8 @@ function esegui_cancellazione_riga_documento_utilizzo($params)
 
 add_action('rest_api_init', 'create_endpoint_datefondo_disattiva_riga_utilizzo');
 
+//endpoit for disable a row in the section "Dati Utili" of the Modello Fondo document
+
 function create_endpoint_datefondo_disattiva_riga_dati_utili()
 {
 
@@ -174,6 +186,8 @@ function esegui_cancellazione_riga_documento_dati_utili($params)
 }
 
 add_action('rest_api_init', 'create_endpoint_datefondo_disattiva_riga_dati_utili');
+
+//endpoit for edit the header of the Modello Fondo document
 
 function create_endpoint_datefondo_edit_header_modello_document()
 {
@@ -197,6 +211,8 @@ function esegui_modifica_header_modello_document($params)
 
 add_action('rest_api_init', 'create_endpoint_datefondo_edit_header_modello_document');
 
+//endpoit for disable the editing of the Modello Fondo document
+
 function create_endpoint_datefondo_not_editable_modello_document()
 {
 
@@ -219,6 +235,7 @@ function esegui_blocca_modifica_modello_document($params)
 
 add_action('rest_api_init', 'create_endpoint_datefondo_not_editable_modello_document');
 
+//endpoint for the creation of a row for the section "Costituzione" in Modello Fondo document
 function create_endpoint_datefondo_creazione_riga_costituzione()
 {
 
@@ -240,6 +257,8 @@ function esegui_creazione_riga_costituzione($params)
 }
 
 add_action('rest_api_init', 'create_endpoint_datefondo_creazione_riga_costituzione');
+
+//endpoint for the creation of a row for the section "Utilizzo" in Modello Fondo document
 
 function create_endpoint_datefondo_creazione_riga_utilizzo()
 {
@@ -263,6 +282,8 @@ function esegui_creazione_riga_utilizzo($params)
 
 add_action('rest_api_init', 'create_endpoint_datefondo_creazione_riga_utilizzo');
 
+//endpoint for the creation of a row for the section "Dati Utili" in Modello Fondo document
+
 function create_endpoint_datefondo_creazione_riga_dati_utili()
 {
 
@@ -284,6 +305,8 @@ function esegui_creazione_riga_dati_utili($params)
 }
 
 add_action('rest_api_init', 'create_endpoint_datefondo_creazione_riga_dati_utili');
+
+//endpoint for the duplication of the document
 function create_endpoint_datefondo_duplicate_document()
 {
 

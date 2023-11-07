@@ -1,4 +1,6 @@
 <?php
+
+//endpoint for the template export to the slave
 function create_endpoint_datefondo_export_to_slave()
 {
 

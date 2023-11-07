@@ -1,5 +1,6 @@
 <?php
 
+//endpoint for editing of regioni document header
 function create_endpoint_datefondo_edit_header_regioni_document()
 {
 
@@ -22,7 +23,7 @@ function esegui_modifica_header_regioni_document($params)
 
 add_action('rest_api_init', 'create_endpoint_datefondo_edit_header_regioni_document');
 
-
+//endpoint for deletion of regioni document row
 function create_endpoint_datefondo_disattiva_riga_regioni()
 {
 
@@ -44,6 +45,8 @@ function esegui_cancellazione_riga_documento_regioni($params)
 }
 
 add_action('rest_api_init', 'create_endpoint_datefondo_disattiva_riga_regioni');
+
+//endpoint for editing of regioni document row
 
 function create_endpoint_datefondo_edit_regioni_document()
 {
@@ -67,6 +70,7 @@ function esegui_modifica_regioni_document($params)
 
 add_action('rest_api_init', 'create_endpoint_datefondo_edit_regioni_document');
 
+//endpoint for disable the editing of regioni document
 
 function create_endpoint_datefondo_not_editable_regioni_document()
 {
@@ -89,6 +93,8 @@ function esegui_blocca_modifica_regioni_document($params)
 }
 
 add_action('rest_api_init', 'create_endpoint_datefondo_not_editable_regioni_document');
+
+//endpoint for the creation of regioni document row
 
 function create_endpoint_datefondo_creazione_riga_regioni()
 {

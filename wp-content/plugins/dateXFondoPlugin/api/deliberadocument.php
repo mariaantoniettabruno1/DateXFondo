@@ -2,6 +2,7 @@
 
 use dateXFondoPlugin\DeliberaDocumentRepository;
 
+//endpoint of edit the delibera indirizzi document
 function create_endpoint_datefondo_edit_delibera_document()
 {
 
@@ -24,6 +25,7 @@ function edit_delibera_document($params)
 
 add_action('rest_api_init', 'create_endpoint_datefondo_edit_delibera_document');
 
+//endpoint of edit the determina costituzione document
 function create_endpoint_datefondo_edit_determina_document()
 {
 
@@ -46,6 +48,7 @@ function edit_determina_document($params)
 
 add_action('rest_api_init', 'create_endpoint_datefondo_edit_determina_document');
 
+//endpoint for edit the relazione illustrativa document
 function create_endpoint_datefondo_edit_relazione_document()
 {
 
@@ -68,6 +71,8 @@ function edit_relazione_document($params)
 
 add_action('rest_api_init', 'create_endpoint_datefondo_edit_relazione_document');
 
+
+//endpoint for edit the header of delibera document
 function create_endpoint_datefondo_edit_delibera_header()
 {
 

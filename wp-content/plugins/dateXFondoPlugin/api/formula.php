@@ -1,4 +1,6 @@
 <?php
+
+//endpoint for the creation or editing of a formula
 function create_endpoint_datefondo_creazione_formula()
 {
 
@@ -45,6 +47,7 @@ function esegui_creazione_formula($params)
 
 add_action('rest_api_init', 'create_endpoint_datefondo_creazione_formula');
 
+//endpoint for the deletion of a formula
 function create_endpoint_datefondo_delete_formula()
 {
 

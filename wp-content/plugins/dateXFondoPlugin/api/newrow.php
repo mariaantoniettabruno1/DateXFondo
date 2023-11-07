@@ -1,4 +1,6 @@
 <?php
+
+//endpoint for the creation of a new row of the template fondo (basic)
 function create_endpoint_datefondo_creazione_riga()
 {
 
@@ -20,6 +22,8 @@ function esegui_creazione_riga($params)
 }
 
 add_action('rest_api_init', 'create_endpoint_datefondo_creazione_riga');
+
+//endpoint for the creation of a new row of the template fondo (decurtation)
 
 function create_endpoint_datefondo_creazione_riga_decurtazione()
 {
@@ -43,6 +47,8 @@ function esegui_creazione_riga_decurtazione($params)
 
 add_action('rest_api_init', 'create_endpoint_datefondo_creazione_riga_decurtazione');
 
+//endpoint for the creation of a new row of the template fondo (speciale/altro)
+
 function create_endpoint_datefondo_creazione_riga_speciale()
 {
 
@@ -64,6 +70,9 @@ function esegui_creazione_riga_speciale($params)
 }
 
 add_action('rest_api_init', 'create_endpoint_datefondo_creazione_riga_speciale');
+
+
+//endpoint for the deletion of template fondo row
 
 function create_endpoint_datefondo_disattiva_riga()
 {

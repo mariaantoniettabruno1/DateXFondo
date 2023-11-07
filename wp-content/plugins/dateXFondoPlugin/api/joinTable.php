@@ -1,4 +1,6 @@
 <?php
+
+//endpoint for the ordering modification of the join table (fondo completo table)
 function create_endpoint_datefondo_aggiornamento_join_table()
 {
 
