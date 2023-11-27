@@ -150,6 +150,10 @@ FROM DATE_template_fondo WHERE template_name=? AND version=?";
                     $entry['valore_anno_precedente'], $entry['nota'], $entry['link'], $entry['attivo'], $entry['version'], $entry['row_type'], $entry['heredity'], $entry['template_name']);
                 $res = $stmt->execute();
             }
+            $sql="UPDATE DATE_template_fondo set attivo=0 WHERE row_type='special'";
+            $stmt = $mysqli->prepare($sql);
+            $res = $stmt->execute();
+
             $sql = "INSERT INTO DATE_storico_formula 
                     (sezione,sottosezione,nome,descrizione,condizione,formula,text_type,formula_template_name,visibile,attivo)
                         SELECT sezione,sottosezione,nome,descrizione,condizione,formula,text_type,formula_template_name,visibile,attivo
