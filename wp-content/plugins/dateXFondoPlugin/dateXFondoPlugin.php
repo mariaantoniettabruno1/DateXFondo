@@ -12,6 +12,8 @@ use dateXFondoPlugin\DateXFondoCommon;
 
 require_once(plugin_dir_path(__FILE__) . 'common.php');
 require_once(plugin_dir_path(__FILE__) . 'repositories/Connection.php');
+require_once(plugin_dir_path(__FILE__) . 'repositories/SlaveConnection.php');
+require_once(plugin_dir_path(__FILE__) . 'repositories/MasterCitiesRepository.php');
 require_once(plugin_dir_path(__FILE__) . 'repositories/MasterTemplateRepository.php');
 require_once(plugin_dir_path(__FILE__) . 'repositories/MasterTemplateRowRepository.php');
 require_once(plugin_dir_path(__FILE__) . 'repositories/DocumentRepository.php');
@@ -66,7 +68,10 @@ require_once(plugin_dir_path(__FILE__) . 'views/document/components/delibera/Del
 require_once(plugin_dir_path(__FILE__) . 'views/formula/components/FormulaCard.php');
 require_once(plugin_dir_path(__FILE__) . 'views/formula/components/FormulaSidebar.php');
 require_once(plugin_dir_path(__FILE__) . 'views/formula/components/PreviewArticolo.php');
+require_once(plugin_dir_path(__FILE__) . 'views/cities_and_user/MasterCitiesAndUserManagement.php');
+require_once(plugin_dir_path(__FILE__) . 'views/cities_and_user/components/MasterCitiesAndUserTable.php');
 require_once(plugin_dir_path(__FILE__) . 'api/formula.php');
+require_once(plugin_dir_path(__FILE__) . 'api/cities.php');
 require_once(plugin_dir_path(__FILE__) . 'api/document.php');
 require_once(plugin_dir_path(__FILE__) . 'api/regionidocument.php');
 require_once(plugin_dir_path(__FILE__) . 'api/deliberadocument.php');
@@ -110,6 +115,9 @@ function shortcodes_init()
     add_shortcode('post_determina_costituzione_template', 'determina_costituzione_template');
     add_shortcode('post_relazione_illustrativa_template', 'relazione_illustrativa_template');
     add_shortcode('post_export_data_template', 'export_data_template');
+    add_shortcode('post_export_data_template', 'export_data_template');
+    add_shortcode('post_cities_and_user', 'slave_cities_and_user');
+
 }
 
 
@@ -200,4 +208,9 @@ function export_data_template()
 
 }
 
+function slave_cities_and_user()
+{
+    $document = new \dateXFondoPlugin\MasterCitiesAndUserManagement();
+    $document->render();
+}
 
