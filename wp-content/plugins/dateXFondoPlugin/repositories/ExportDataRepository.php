@@ -2,6 +2,7 @@
 
 namespace dateXFondoPlugin;
 
+use Hoa\Exception\Exception;
 use mysqli;
 
 class ExportDataRepository
@@ -15,6 +16,39 @@ class ExportDataRepository
         $row = $result->fetch_all(MYSQLI_ASSOC);
         mysqli_close($mysqli);
         return $row;
+    }
+
+    public static function getUserCities()
+    {
+        $id_user = get_current_user_id();
+        $conn = new Connection();
+        $mysqli = $conn->connect();
+        $sql = "SELECT id_ente FROM DATE_users WHERE id_user=?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("i", $id_user);
+        $res = $stmt->execute();
+        $res = $stmt->get_result();
+        $array_enti = $res->fetch_all(MYSQLI_ASSOC);
+        mysqli_close($mysqli);
+
+        $conn = new SlaveConnection();
+        $mysqli = $conn->connect();
+
+        $sql = "SELECT nome FROM DATE_ente WHERE id=?";
+        $stmt = $mysqli->prepare($sql);
+        foreach ($array_enti as $id) {
+            $stmt->bind_param("i", $id['id_ente']);
+            $res = $stmt->execute();
+
+            $res = $stmt->get_result();
+            if ($res) {
+                $rows[] = $res->fetch_all(MYSQLI_ASSOC);
+                $res->free();
+            }
+        }
+        $mysqli->close();
+
+        return $rows;
     }
 
     public function export_data($request)
@@ -82,7 +116,7 @@ class ExportDataRepository
             $url = DB_HOST . ":" . DB_PORT . "/";
             $username = DB_USER;
             $password = DB_PASSWORD;
-            $dbname = 'c1date_' . $request['cities'][$i];
+            $dbname = strtolower('c1date_' . $request['cities'][$i]);
             $mysqli = new mysqli($url, $username, $password, $dbname);
 
             $anno = $request['anno'] - 1;

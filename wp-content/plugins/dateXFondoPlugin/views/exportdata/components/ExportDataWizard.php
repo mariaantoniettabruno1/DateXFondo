@@ -1,6 +1,8 @@
 <?php
 
 use dateXFondoPlugin\DateXFondoCommon;
+use dateXFondoPlugin\ExportDataRepository;
+use dateXFondoPlugin\MasterCitiesRepository;
 
 class ExportDataWizard
 {
@@ -80,8 +82,26 @@ class ExportDataWizard
 
             }
 
+            function selectAllCheckboxes() {
+                let itemForm = document.getElementById('itemForm');
+                let tutticheckbox = document.getElementById('selectAll');
+                let checkBoxes = itemForm.querySelectorAll('input[type="checkbox"]');
+                if (tutticheckbox.checked) {
+                    checkBoxes.forEach(value => {
+                        value.checked = true;
+                    });
+                }
+                else{
+                    checkBoxes.forEach(value => {
+                        value.checked = false;
+                    });
+                }
+
+            }
             $(document).ready(function () {
                 renderDataTable();
+                document.getElementById('selectAll').addEventListener('change', selectAllCheckboxes);
+
 
                 $('#exportDataButton').click(function () {
 
@@ -100,7 +120,7 @@ class ExportDataWizard
                     console.log(payload)
 
                     $.ajax({
-                        url: '<?= DateXFondoCommon::get_website_url() ?>/wp-json/datexfondoplugin/v1/exportdata',
+                        //url: '<?= DateXFondoCommon::get_website_url() ?>/wp-json/datexfondoplugin/v1/exportdata',
                         data: payload,
                         type: "POST",
                         success: function (response) {
@@ -130,33 +150,37 @@ class ExportDataWizard
 
     public static function render()
     {
+        $data = new ExportDataRepository();
+        $cities = $data->getUserCities();
+
+
         ?>
         <div class="container">
             <div class="row">
                 <div class="col-sm-5">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Seleziona i comuni:</h5>
-                            <div class="form-check" id="citiesCheckbox">
-                                <input class="form-check-input" type="checkbox" name="cities" value="rubiana"
-                                       id="defaultCheck1">
-                                <label class="form-check-label" for="defaultCheck1">
-                                    Rubiana
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="cities" value="spotorno"
-                                       id="defaultCheck2">
-                                <label class="form-check-label" for="defaultCheck2">
-                                    Spotorno
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="cities" value="robassomero"
-                                       id="defaultCheck3">
-                                <label class="form-check-label" for="defaultCheck3">
-                                    Robassomero
-                                </label>
+                            <h5 class="card-title">Seleziona gli enti:</h5>
+                            <div id="itemForm">
+                                <div class="item">
+                                    <li class="list-group-item">
+                                        <input type="checkbox" id="selectAll"> <label> Tutti</label>
+                                    </li>
+                                </div>
+
+                                <?php
+                                foreach ($cities as $city) {
+                                    ?>
+                                    <div class="item">
+                                        <li class="list-group-item">
+                                            <input id="id_<?= $city[0]['nome']; ?>" type="checkbox"
+                                                   value=" <?= $city[0]['nome'] ?>">
+                                            <label for=" <?= $city[0]['nome']; ?>"> <?= $city[0]['nome']; ?></label>
+                                        </li>
+                                    </div>
+                                    <?php
+                                }
+                                ?>
                             </div>
                         </div>
                     </div>
