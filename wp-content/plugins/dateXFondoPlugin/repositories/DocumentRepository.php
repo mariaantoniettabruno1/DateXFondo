@@ -9,6 +9,9 @@ use dateXFondoPlugin\Connection;
 class DocumentRepository
 
 {
+/**
+ *
+*/
 
     public static function getDataDocument($table_name)
 
