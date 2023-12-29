@@ -170,6 +170,7 @@ class ExportDataWizard
 
                                 <?php
                                 foreach ($cities as $city) {
+                                    if( $city[0]['nome'] != ''){
                                     ?>
                                     <div class="item">
                                         <li class="list-group-item">
@@ -179,6 +180,7 @@ class ExportDataWizard
                                         </li>
                                     </div>
                                     <?php
+                                    }
                                 }
                                 ?>
                             </div>
